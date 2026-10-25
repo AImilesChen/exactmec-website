@@ -1,6 +1,6 @@
 {
   "name": "exactmec-website",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,7 +16,9 @@
     "check:cloudflare": "node scripts/check-cloudflare.mjs",
     "smoke:frontend": "node scripts/smoke-frontend.mjs",
     "dev:review": "vite",
-    "build:review": "vite build && node scripts/prepare-sites-build.mjs"
+    "build:review": "vite build && node scripts/prepare-sites-build.mjs",
+    "dev:integration": "node scripts/serve-backend-local.mjs",
+    "test:backend": "node --test tests/backend-*.test.mjs tests/admin-client*.test.mjs src/admin/content-client.test.mjs"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans": "^5.3.0",
@@ -24,11 +26,13 @@
     "@fontsource/manrope": "^5.3.0",
     "@phosphor-icons/react": "^2.1.10",
     "@vitejs/plugin-react": "5.0.4",
+    "jose": "6.2.13",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "vite": "6.4.2"
   },
   "devDependencies": {
+    "miniflare": "5.20261019.2-beta",
     "wrangler": "4.152.0"
   }
 }

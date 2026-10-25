@@ -14,9 +14,9 @@ function TextLink({ href, children }) {
   return <Link href={href} className="text-link">{children}<ArrowRight size={21} aria-hidden="true" /></Link>;
 }
 
-export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '/api/inquiries', whatsappNumber = '', onEvent = () => {} }) {
+export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '/api/inquiries', whatsappNumber = '', onEvent = () => {}, initialData }) {
   const demo = reviewMode && typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('demo') : null;
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(() => ({...initialValues(),...initialData}));
   const [errors, setErrors] = useState(() => demo === 'invalid' ? validateInquiry(initialValues(), copy.groups) : {});
   const [result, setResult] = useState({ state: demo === 'loading' ? 'submitting' : 'idle' });
   const [copyStatus, setCopyStatus] = useState('');
@@ -130,6 +130,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
     <section className="section inquiry-section"><div className="container inquiry-layout"><form ref={formRef} onSubmit={submit} noValidate aria-label="Mold inquiry form" aria-busy={busy}>
       {reviewMode ? <p className="preview-note">Design preview · No information is sent.{demo && <> Preview scenario: {demo}.</>}</p> : !configured && <p className="preview-note" role="status">Online submission is not available yet. Your inquiry has not been sent.{manualContact && <> <a className="inline-link" href={manualContact} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Contact us on WhatsApp about your mold project.</a></>}</p>}
       {failureStates.includes(result.state) && <div className="error-summary" role="alert">{reviewMode && 'Design preview scenario · No information was sent. '}{statusMessage}{waitSeconds > 0 && <p>Try again in {waitSeconds} seconds.</p>}</div>}
+      <div className="rfq-honeypot" aria-hidden="true"><label>Leave this field empty<input name="website_check" value={values.website_check||''} onChange={event=>update('website_check',event.target.value)} autoComplete="off" tabIndex={-1}/></label></div>
       <p className="required-note">Fields marked <span className="required">*</span> are required.</p>
       {Object.values(errors).some(Boolean) && <div className="error-summary" role="alert">{states.validation_summary}</div>}
       {copy.groups.map((group, index) => <fieldset key={group.heading}><legend><span>{String(index + 1).padStart(2, '0')}</span>{group.heading.replace(/^\d\. /, '')}</legend><div className="field-grid">{group.fields.map(renderField)}</div></fieldset>)}

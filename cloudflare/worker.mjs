@@ -1,4 +1,8 @@
 import { resolvePublicRoute, publicPath } from '../src/seo/route-contract.mjs';
+import {createApiHandler} from '../backend/router.mjs';
+import {accessConfiguration,authenticateAccess} from '../backend/auth.mjs';
+import {cleanupRateLimits} from '../backend/business.mjs';
+const handleApi=createApiHandler();
 
 const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml']);
 const truthy = value => value === true || value === 'true';
@@ -42,12 +46,23 @@ async function notFound(env, request) {
 }
 
 export default {
-  async fetch(request, env = {}) {
+  async fetch(request, env = {}, execution = {}) {
     const url = new URL(request.url);
     const path = publicPath(url.pathname);
     const release = truthy(env.RELEASE);
     const head = request.method === 'HEAD';
     const options = { head, staging: !release };
+    if(path?.startsWith('/api/'))return handleApi(request,env,execution);
+    if(path==='/admin'||path?.startsWith('/admin/')){
+      const adminOptions={...options,staging:true};
+      if(!accessConfiguration(env))return finish(await notFound(env,request),{...adminOptions,status:404});
+      const actor=await authenticateAccess(request,env);
+      if(!actor)return finish(message('Administrator sign-in required.',403),adminOptions);
+      if(!['GET','HEAD'].includes(request.method))return finish(message('Method Not Allowed',405),adminOptions);
+      if(path==='/admin')return finish(new Response(null,{status:308,headers:{Location:'/admin/leads/'}}),adminOptions);
+      if(!/^\/admin\/leads(?:\/[A-Za-z0-9_-]{8,128})?\/?$/.test(path))return finish(await notFound(env,request),{...adminOptions,status:404});
+      return finish(await asset(env,request,'/admin/index.html'),adminOptions);
+    }
     if (path === '/api' || path?.startsWith('/api/')) {
       return finish(message('Inquiry API is not connected.', 503, { 'Retry-After': '3600', 'Cache-Control': 'no-store' }), options);
     }
@@ -65,4 +80,5 @@ export default {
     }
     return finish(await notFound(env, request), { ...options, status: 404 });
   },
+  async scheduled(_event,env,execution){if(env.DB)execution.waitUntil(cleanupRateLimits(env.DB));},
 };

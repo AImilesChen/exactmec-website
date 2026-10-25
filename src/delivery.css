@@ -14,3 +14,4 @@
 .button.primary{background:var(--action)}.button.primary:hover{background:#c7251c}
 
 html:root{scroll-behavior:auto}
+.rfq-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important;}

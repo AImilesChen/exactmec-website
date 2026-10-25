@@ -4,9 +4,7 @@ import base from './vite.config.mjs';
 import {resolvePublicRoute} from './src/seo/route-contract.mjs';
 
 // Public frontend HMR entry. The older workbench remains in dev:review.
-export default mergeConfig(base,defineConfig({
- server:{warmup:{clientFiles:['./src/entry-public.jsx']}},
- plugins:[{
+export function publicDevPlugin({entry='/src/entry-public.jsx'}={}) {return {
   name:'exactmec-public-dev-entry',
   configureServer(server){
    server.middlewares.use(async(req,res,next)=>{
@@ -17,11 +15,14 @@ export default mergeConfig(base,defineConfig({
      const route=resolvePublicRoute(pathname);
      res.setHeader('X-Robots-Tag','noindex,nofollow');res.setHeader('Cache-Control','no-store');
      if(route.redirect){res.writeHead(308,{Location:route.redirect});res.end();return;}
-     const source=await fs.readFile(new URL('./frontend.html',import.meta.url),'utf8');
+     const source=(await fs.readFile(new URL('./frontend.html',import.meta.url),'utf8')).replace('/src/entry-public.jsx',entry);
      const html=await server.transformIndexHtml(req.url,source);
      res.statusCode=route.status;res.setHeader('Content-Type','text/html; charset=utf-8');res.end(html);
     }catch(error){next(error);}
    });
   },
- }],
+ };}
+export default mergeConfig(base,defineConfig({
+ server:{warmup:{clientFiles:['./src/entry-public.jsx']}},
+ plugins:[publicDevPlugin()],
 }));

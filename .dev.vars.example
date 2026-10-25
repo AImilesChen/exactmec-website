@@ -1,0 +1,5 @@
+# Server secrets only. Copy privately into .dev.vars or platform Secrets.
+# Do not reuse the local synthetic host's credentials for production.
+RATE_LIMIT_SECRET=
+CONTACT_HASH_SECRET=
+ADMIN_CSRF_SECRET=

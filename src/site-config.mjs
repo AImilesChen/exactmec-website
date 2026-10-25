@@ -1,6 +1,7 @@
 // Public business configuration only. Never put API tokens or customer data here.
 export const business = Object.freeze({
   brand: 'EXACTMEC',
+  siteOrigin: 'https://exactmec.com',
   operator: '台州巽风贸易有限公司',
   whatsappNumber: '8615990661727',
   whatsappDisplay: '+86 159 9066 1727',
@@ -30,7 +31,7 @@ export function createSiteConfig(values = {}) {
 
 const env = import.meta.env || {};
 export const siteConfig = createSiteConfig({
-  origin: env.VITE_SITE_ORIGIN || '',
+  origin: env.VITE_SITE_ORIGIN || business.siteOrigin,
   contactEmail: env.VITE_CONTACT_EMAIL || '',
   release: env.VITE_SITE_RELEASE === 'true',
   legalApproved: env.VITE_LEGAL_APPROVED === 'true',

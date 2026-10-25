@@ -1,4 +1,5 @@
 // Only allowlisted inquiry data leaves this module. No persistence or analytics transport.
+import noticeVersions from '../data/notice-versions.json' with {type:'json'};
 export const requiredFields = ['name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets'];
 export const countries = ['United Arab Emirates', 'Saudi Arabia', 'Malaysia', 'Singapore', 'Thailand', 'Vietnam', 'Indonesia', 'Philippines', 'India', 'Oman', 'Qatar', 'Kuwait', 'Bahrain', 'United States', 'Germany', 'United Kingdom', 'China', 'Other country / region'];
 export const currencies = ['USD', 'EUR', 'GBP', 'AED', 'SAR', 'SGD', 'MYR', 'CNY', 'Other currency'];
@@ -53,10 +54,8 @@ export function buildInquiryPayload(values) {
   payload.whatsapp_messages_opt_in = values.whatsapp === true;
   payload.calls_opt_in = false;
   // These identify the exact local copy, not legal approval or a server receipt time.
-  payload.notice_version = 'inquiry-copy-2026-10-25-draft';
-  payload.privacy_version = 'privacy-policy-draft';
-  payload.privacy_processing_basis = 'purpose_limited_consent_draft';
-  payload.whatsapp_choice_text_version = 'inquiry-copy-2026-10-25-draft';
+  Object.assign(payload,noticeVersions);
+  if(text(values.website_check))payload.website_check=text(values.website_check);
   return payload;
 }
 

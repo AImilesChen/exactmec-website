@@ -1,0 +1,31 @@
+// Template only. Create the real D1 binding and approved account configuration
+// before selecting this file. Do not deploy with placeholder identifiers.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "exactmec-website",
+  "main": "cloudflare/worker.mjs",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "assets": {"directory":"./dist/public","binding":"ASSETS","html_handling":"none","not_found_handling":"none","run_worker_first":true},
+  "d1_databases": [{"binding":"DB","database_name":"exactmec-leads","database_id":"REPLACE_WITH_CREATED_D1_ID","migrations_dir":"migrations"}],
+  "vars": {
+    "SITE_ORIGIN":"https://exactmec.com",
+    "RELEASE":"false",
+    "LEGAL_APPROVED":"false",
+    "COLLECTION_ENABLED":"false",
+    "NOTIFICATIONS_ENABLED":"false",
+    "ACCESS_TEAM_DOMAIN":"",
+    "ACCESS_AUD":"",
+    "ADMIN_EMAILS":"",
+    "NOTIFY_TO":"",
+    "NOTIFY_FROM":"",
+    "NOTICE_VERSION":"",
+    "PRIVACY_VERSION":"",
+    "PROCESSING_BASIS":"",
+    "WHATSAPP_NOTICE_VERSION":""
+  }
+  // Add a restricted send_email binding only after sender domain and the
+  // internal recipient have been selected, verified and approved.
+  // A scheduled maintenance trigger may clean expired rate buckets; select
+  // and verify that schedule before enabling it in the account.
+}

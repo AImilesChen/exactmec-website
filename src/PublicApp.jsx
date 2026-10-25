@@ -33,7 +33,7 @@ export function applyMetadata(meta) {
  set('script#page-schema','textContent',meta.jsonLd);
 }
 
-export function PublicApp({initialUrl,config=siteConfig}) {
+export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults}) {
  const [url,setUrl]=useState(()=>initialUrl||(typeof window==='undefined'?'/':location.pathname+location.search+location.hash));
  const pathname=url.split(/[?#]/)[0];
  const resolution=resolvePublicRoute(pathname,{allowLegalDrafts:!config.release||config.legalApproved});
@@ -56,6 +56,6 @@ export function PublicApp({initialUrl,config=siteConfig}) {
   if(!target.includes('#')){window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{const heading=document.querySelector('main h1');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}});}
  }
  const page=pages.find(p=>p.path===path),policy=legal.find(p=>p.path===path);
- const body=resolution.status===404?<SystemPage notFound/>:path==='/request-a-quote/'?<Inquiry key={path} reviewMode={false} submitEnabled={config.inquiryEnabled} endpoint={config.inquiryEndpoint} whatsappNumber={config.whatsappNumber} onEvent={(name,payload={})=>analytics.track(name,{route:path,...payload})}/>:path==='/'?<LightHome/>:policy?<LegalPage page={policy}/>:path==='/inquiry-received/'?<SystemPage/>:page?<ContentPage page={page}/>:<SystemPage notFound/>;
+ const body=resolution.status===404?<SystemPage notFound/>:path==='/request-a-quote/'?<Inquiry key={path} reviewMode={false} initialData={inquiryDefaults} submitEnabled={config.inquiryEnabled} endpoint={config.inquiryEndpoint} whatsappNumber={config.whatsappNumber} onEvent={(name,payload={})=>analytics.track(name,{route:path,...payload})}/>:path==='/'?<LightHome/>:policy?<LegalPage page={policy}/>:path==='/inquiry-received/'?<SystemPage/>:page?<ContentPage page={page}/>:<SystemPage notFound/>;
  return <Route.Provider value={go}><a className="skip-link" href="#main-content">Skip to content</a><MegaHeader url={url}/><main id="main-content">{body}</main><SiteFooter reviewMode={false} config={config}/></Route.Provider>;
 }

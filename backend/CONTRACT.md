@@ -1,0 +1,32 @@
+# Backend integration contract · 2026-10-25
+
+Continuation authorized by the user. Confirmed origin: https://exactmec.com. Admin email, notification recipient and company address remain undecided. Implement and test locally using synthetic records only; production collection stays closed until configuration/legal review.
+
+## Ownership and modules
+
+- Core business module: `backend/business.mjs`, supporting domain/store modules, `migrations/*.sql`, core tests. Export `handleBusiness(request, env, context)` → `Response|null`.
+- Parent owns `backend/auth.mjs`, `backend/router.mjs`, `backend/notifications.mjs`, Cloudflare integration, local server, build wiring and package changes.
+- Admin UI: `src/admin/*`, `admin.html`, frontend client tests only; no changes to earlier review `Operations.jsx`.
+
+`context` is `{actor,localSynthetic:false,waitUntil,notify}`. The production router never enables `localSynthetic`. The separate localhost-only synthetic test server may explicitly enable it and supply an authenticated synthetic actor. Actor shape `{id,email}` comes from verified Access JWT, never untrusted identity headers. Protected admin business routes require actor even when called directly.
+
+`env`: D1 binding `DB`; confirmed `SITE_ORIGIN`; `COLLECTION_ENABLED`, `LEGAL_APPROVED`; `NOTICE_VERSION`, `PRIVACY_VERSION`, `PROCESSING_BASIS`, `WHATSAPP_NOTICE_VERSION`; `RATE_LIMIT_SECRET`, `CONTACT_HASH_SECRET`. Secrets must be >=32 characters, with no production defaults. Notice versions come from server configuration and must exactly match incoming versions; reject draft/test versions in production. Router separately enforces same-origin writes, JSON/body limit, authentication and CSRF.
+
+## APIs
+
+- `POST /api/inquiries`: existing `src/inquiry/CONTRACT.md` payload and Idempotency-Key. Extra honeypot `website_check` may be empty, must never be persisted. Response only 201 `{saved:true,reference}` after durable save; exact replay 200 `{saved:true,status:'duplicate',reference}`; same key/different body 409; invalid 422 `{errors:{knownField:'invalid'}}`; rate limit429; unavailable503. No PII in responses/errors/logs. No public lookup by reference. Reject live collection unless approved (except explicit localhost synthetic factory option).
+- `GET /api/admin/session`: parent router returns `{user:{email},csrfToken,localSynthetic}`.
+- `POST /api/admin/leads/search`: body `{search:'',status:'',qualification:'',priority:'',drawing_status:'',page:1,pageSize:25}`; response `{items,total,page,pageSize}`. Read-only search uses POST to keep contact search terms out of URL. Bounds: pageSize<=100, bounded search length. SQL parameters only. Each item `{reference,created_at,updated_at,revision,payload,review,notification,contact}`.
+- `GET /api/admin/leads/:reference`: `{lead:{...item,consents,history}}`.
+- `PATCH /api/admin/leads/:reference`: `{revision,review:{...},note:''}` → `{lead}`. Optimistic revision mandatory; stale409. Review fields `status,authenticity,fit,readiness,qualification,priority,owner,next_follow_up` only.
+- `POST /api/admin/leads/:reference/opt-out`: `{revision,channel:'whatsapp'|'all',reason:''}` → `{lead}`. Stop requests preserved; optional consent does not override existing suppression. Contact shape `{whatsapp_allowed,email_allowed,stopped}`.
+- `POST /api/admin/leads/:reference/retry-notification`: `{}` → `{notification}`. Call injected `context.notify(reference)` only, no recipient/project body supplied by client; absence reports disabled/pending, never sent.
+- `POST /api/admin/leads/export`: same search filters; bounded export <=1000 rows, UTF8 CSV with BOM, quoted cells and spreadsheet-formula protection including leading whitespace/tab/CR. Audit export metadata without record body. Return CSV, no attachment URL.
+- `DELETE /api/admin/leads/:reference`: `{revision,confirmation:reference}` →204. Delete lead payload/consent/notes/outbox atomically, retain minimal hashed contact suppression and a non-PII deletion audit. No automatic retention duration; document pending approved policy.
+
+Status values: New / Reviewing / Need More Information / Contacted / Quotation Sent / Won / Lost / Spam.
+Authenticity: Unreviewed / Needs Verification / Consistent / Inconsistent. Fit: Needs Review / Mold Project / Out of Scope. Readiness: Self-reported / Awaiting Drawings or Sample / Received to Review / Ready for Quotation. Qualification: Unreviewed / Need More Information / Qualified / Not Qualified. Priority: A / B / C. Owner <=120 chars, next_follow_up empty or valid YYYY-MM-DD. Default all unreviewed, priority B, owner empty. No auto-score or downgrade based on 1 mold, 2D/sample, free email, missing budget/timing or no WhatsApp.
+
+All admin responses are no-store/noindex, CORS absent. Client sends `X-CSRF-Token` on every non-GET admin API call and refreshes through session endpoint. CSRF403, auth401/403, unavailable503 and stale409 are distinct UI states; do not replace errors with demo records. No lead data in localStorage/sessionStorage/console. Admin UI only displays authenticated API records.
+
+Core storage must have atomic lead + consent receipt + pending outbox creation, concurrency-safe idempotency and review updates, short-lived HMAC IP rate buckets (no raw IP), retained suppression hashes without customer text, parameterized SQL. Notifications are an outbox: failures never undo a saved inquiry. Parent notification module will use core's exported `getNotificationJob(db,reference)`, `claimNotification(db,reference)`, `finishNotification(db,reference,{state,errorCode,attempts})`; coordinate names before finalizing. Expected job contains reference/state/attempts only, no lead body.

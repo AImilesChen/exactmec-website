@@ -2,7 +2,7 @@ import {build,loadEnv} from 'vite';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
-import {createSiteConfig,releaseBlockers} from '../src/site-config.mjs';
+import {business,createSiteConfig,releaseBlockers} from '../src/site-config.mjs';
 import {PUBLIC_ROUTES} from '../src/seo/route-contract.mjs';
 import {getPageMeta} from '../src/seo/metadata.mjs';
 
@@ -11,16 +11,21 @@ const release=process.argv.includes('--release');
 const configured=loadEnv('frontend',root,'VITE_');
 Object.assign(process.env,configured);
 process.env.VITE_SITE_RELEASE=String(release);
-const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN,contactEmail:process.env.VITE_CONTACT_EMAIL,release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true'});
+const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true'});
 const blockers=releaseBlockers(config);
 if(release&&blockers.length)throw new Error('Release is not ready:\n'+blockers.map(x=>' - '+x).join('\n'));
+if(release){
+ const notices=JSON.parse(await fs.readFile(path.join(root,'src/data/notice-versions.json'),'utf8'));
+ const policies=JSON.parse(await fs.readFile(path.join(root,'src/data/legal-drafts.json'),'utf8'));
+ if(Object.values(notices).some(value=>/draft|test|synthetic/i.test(value))||policies.some(p=>/INTERNAL DRAFT|\[[A-Z][A-Z0-9_]+\]/.test(p.markdown)))throw new Error('Release requires finalized legal copy and matching approved notice versions, not flags alone.');
+}
 const output=path.join(root,'dist/public'),serverOutput=path.join(root,'dist/server-render');
 const manifest=JSON.parse(await fs.readFile(path.join(root,'src/data/site-manifest.json'),'utf8'));
 const allCopy=JSON.parse(await fs.readFile(path.join(root,'src/data/site-content.json'),'utf8'));
 const marketingPaths=new Set(PUBLIC_ROUTES.filter(r=>!['legal','system'].includes(r.kind)).map(r=>r.path));
 const publicCopy=allCopy.filter(p=>marketingPaths.has(p.path));
 const filteredCopy=()=>({name:'exactmec-public-copy',enforce:'pre',resolveId(id){if(id.endsWith('data/site-content.json'))return '\0exactmec-public-copy';},load(id){if(id==='\0exactmec-public-copy')return 'export default '+JSON.stringify(publicCopy);}});
-await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{outDir:output,emptyOutDir:true,rollupOptions:{input:path.join(root,'frontend.html'),output:{manualChunks(id){if(/node_modules[\\/](?:react|react-dom|scheduler)[\\/]/.test(id))return 'react-vendor';}}}}});
+await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{outDir:output,emptyOutDir:true,rollupOptions:{input:{frontend:path.join(root,'frontend.html'),admin:path.join(root,'admin.html')},output:{manualChunks(id){if(/node_modules[\\/](?:react|react-dom|scheduler)[\\/]/.test(id))return 'react-vendor';}}}}});
 await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{ssr:path.join(root,'src/entry-server.jsx'),outDir:serverOutput,emptyOutDir:true,rollupOptions:{output:{entryFileNames:'entry-server.mjs'}}}});
 const {render}=await import(pathToFileURL(path.join(serverOutput,'entry-server.mjs')).href+'?build='+Date.now());
 const shell=await fs.readFile(path.join(output,'frontend.html'),'utf8');
@@ -43,6 +48,7 @@ for(const route of PUBLIC_ROUTES){
  generated.push({path:route.path,id:route.id,file:filename,kind:route.kind,robots:meta.robots,canonical:meta.canonical,status:route.id==='404'?404:200});
 }
 await fs.unlink(path.join(output,'frontend.html'));
+await fs.mkdir(path.join(output,'admin'),{recursive:true});await fs.rename(path.join(output,'admin.html'),path.join(output,'admin/index.html'));
 const publicDir=path.join(root,'public');
 const rootFiles=['favicon.svg','favicon.ico','favicon-16x16.png','favicon-32x32.png','favicon-48x48.png','apple-touch-icon.png','icon-192.png','icon-512.png','og-image.png','site.webmanifest'];
 for(const name of rootFiles)await fs.copyFile(path.join(publicDir,name),path.join(output,name));

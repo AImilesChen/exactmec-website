@@ -21,7 +21,8 @@ test('actual static build has one H1/title/robots and substantive HTML on all 24
   assert.equal((page.html.match(/<meta name="robots"/g)||[]).length,1,page.path);
   assert.match(page.html,/<meta name="robots" content="noindex,nofollow"/);
   assert.ok(page.html.split('<main id="main-content">')[1]?.split('</main>')[0].length>(page.kind==='system'?100:500),page.path);
-  assert.doesNotMatch(page.html,/<link rel="canonical"|application\/ld\+json/);
+  assert.doesNotMatch(page.html,/application\/ld\+json/);
+  if(page.kind!=='system')assert.ok(page.html.includes('href="https://exactmec.com'+page.path+'"'),page.path);
   titles.add(page.html.match(/<title>(.*?)<\/title>/)[1]);
  }
  assert.equal(titles.size,24);
