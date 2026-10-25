@@ -1,0 +1,86 @@
+[
+  {
+    "key": "home-service-process",
+    "name": "首页延展：模具服务与项目阶段",
+    "path": "home-service-process.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "home-applications-guides",
+    "name": "首页延展：应用与采购资料",
+    "path": "home-applications-guides.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "home-faq-footer",
+    "name": "首页延展：问答、询价与页脚",
+    "path": "home-faq-footer.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "mega-navigation",
+    "name": "大型导航展开",
+    "path": "mega-navigation.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "core-mold-upper",
+    "name": "核心模具页关键画面",
+    "path": "core-mold-upper.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "led-industry-upper",
+    "name": "LED行业页关键画面",
+    "path": "led-industry-upper.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "rfq-upper",
+    "name": "询价页：联系与项目资料",
+    "path": "rfq-upper.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "rfq-lower",
+    "name": "询价页：可选计划、许可与反馈",
+    "path": "rfq-lower.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "process-upper",
+    "name": "开发流程页关键画面",
+    "path": "process-upper.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "article-upper",
+    "name": "资料准备文章页关键画面",
+    "path": "article-upper.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "mobile-home",
+    "name": "首页手机关键画面",
+    "path": "mobile-home.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  },
+  {
+    "key": "mobile-rfq",
+    "name": "询价手机关键画面",
+    "path": "mobile-rfq.png",
+    "status": "selected_family_continuation",
+    "note": "Layout reference. Approved copy and business rules override generated text."
+  }
+]

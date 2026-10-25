@@ -1,0 +1,27 @@
+node_modules/
+.npm-cache/
+dist/
+*.log
+
+.env
+.env.*
+!.env.example
+.dev.vars
+.wrangler/
+dist-server/
+public/downloads/
+public/design-previews/
+public/design-previews-mobile/
+public/design-reference-v3/
+design/
+scripts/*brand*.py
+scripts/*brand*.cjs
+scripts/brand-proof.cjs
+
+# Local design production history, source raster masters and machine-specific exporters
+AGENTS.md
+design-qa.md
+public/assets/*.png
+public/assets/*.txt
+scripts/*.py
+scripts/*.cjs

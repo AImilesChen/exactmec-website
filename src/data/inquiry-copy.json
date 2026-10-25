@@ -1,0 +1,198 @@
+{
+  "groups": [
+    {
+      "heading": "1. Your Contact Details",
+      "fields": [
+        {
+          "key": "name",
+          "label": "Your name",
+          "required": true,
+          "type": "text",
+          "placeholder": "Your full name"
+        },
+        {
+          "key": "company",
+          "label": "Company or purchasing identity",
+          "required": true,
+          "type": "text",
+          "placeholder": "Company name, or individual / new business",
+          "helper": "Starting a business or buying as an individual? Please say so; you do not need to invent a company name."
+        },
+        {
+          "key": "email",
+          "label": "Email address",
+          "required": true,
+          "type": "email",
+          "placeholder": "name@example.com",
+          "helper": "Use an address where you can receive project replies. A company email is helpful but not required."
+        },
+        {
+          "key": "phone",
+          "label": "WhatsApp / phone number",
+          "required": true,
+          "type": "tel",
+          "placeholder": "Country code + number",
+          "helper": "Include your country code. Entering a number does not by itself give permission for WhatsApp messages or calls."
+        },
+        {
+          "key": "country",
+          "label": "Country / region",
+          "required": true,
+          "type": "country_select",
+          "placeholder": "Select your country or region"
+        },
+        {
+          "key": "city",
+          "label": "City",
+          "required": true,
+          "type": "text",
+          "placeholder": "City where you are based"
+        },
+        {
+          "key": "website",
+          "label": "Company website",
+          "required": false,
+          "type": "url",
+          "placeholder": "https://example.com",
+          "helper": "Optional. A public website can help us understand your business."
+        }
+      ]
+    },
+    {
+      "heading": "2. The Mold You Need",
+      "fields": [
+        {
+          "key": "component",
+          "label": "Component / product name",
+          "required": true,
+          "type": "text",
+          "placeholder": "For example, a lighting housing or motor end cover",
+          "helper": "Describe the part that the mold will produce."
+        },
+        {
+          "key": "industry",
+          "label": "Application / industry",
+          "required": false,
+          "type": "select",
+          "options": [
+            "Automotive",
+            "Motorcycle / e-mobility",
+            "LED lighting",
+            "Motors / pumps / transmission",
+            "Electronics / telecommunications",
+            "Energy / power equipment",
+            "Industrial automation",
+            "Power tools / home appliances",
+            "Other / not sure"
+          ]
+        },
+        {
+          "key": "description",
+          "label": "Project description",
+          "required": true,
+          "type": "textarea",
+          "placeholder": "What does the component do, and what mold do you need?",
+          "helper": "Include the intended use and any requirements you already know. Please do not paste sensitive drawing data into this form."
+        },
+        {
+          "key": "drawing_status",
+          "label": "What project information do you have?",
+          "required": true,
+          "type": "select",
+          "options": [
+            "Clear 2D part drawings",
+            "3D part model / drawings",
+            "Both 2D and 3D part drawings",
+            "A physical sample",
+            "Photos / concept only",
+            "Not sure yet"
+          ]
+        },
+        {
+          "key": "mold_sets",
+          "label": "Number of mold sets",
+          "required": true,
+          "type": "integer_or_unsure",
+          "placeholder": "1",
+          "helper": "One mold set is accepted. Choose Not sure if the tooling scope still needs discussion."
+        },
+        {
+          "key": "requirements",
+          "label": "Material and key requirements",
+          "required": false,
+          "type": "textarea",
+          "placeholder": "Known alloy, part dimensions, mating features or other requirements",
+          "helper": "Optional. State only what you know; project-specific requirements can be discussed later."
+        }
+      ]
+    },
+    {
+      "heading": "3. Your Purchase Plan",
+      "fields": [
+        {
+          "key": "purchase_timing",
+          "label": "When do you plan to order the mold?",
+          "required": false,
+          "type": "select",
+          "options": [
+            "As soon as the project is confirmed",
+            "Within 1–3 months",
+            "Within 3–6 months",
+            "More than 6 months from now",
+            "Early research / timing not decided",
+            "Prefer not to say"
+          ]
+        },
+        {
+          "key": "budget_status",
+          "label": "Estimated budget per mold set",
+          "required": false,
+          "type": "select",
+          "helper": "Optional. An estimate helps us discuss scope; it is not a quote or a condition for submitting your inquiry.",
+          "options": [
+            "I have an estimated budget",
+            "Please advise / not decided",
+            "Prefer not to say"
+          ]
+        },
+        {
+          "key": "budget_min",
+          "label": "Budget from",
+          "required": false,
+          "type": "decimal",
+          "placeholder": "Estimated lower amount",
+          "helper": "Shown only when you choose to provide a budget."
+        },
+        {
+          "key": "budget_max",
+          "label": "Budget to",
+          "required": false,
+          "type": "decimal",
+          "placeholder": "Estimated upper amount",
+          "helper": "Optional upper amount; leave empty for a single estimate."
+        },
+        {
+          "key": "currency",
+          "label": "Budget currency",
+          "required": false,
+          "type": "currency_select",
+          "placeholder": "Select currency",
+          "helper": "Choose the currency for your estimate. Required only if you enter an amount."
+        }
+      ]
+    }
+  ],
+  "drawing_note": "No file upload is needed to send this first inquiry. We will discuss how to share clear 2D or 3D part drawings, or how to arrange a physical sample, before preparing a formal quotation.",
+  "notice": "Your inquiry is handled by 台州巽风贸易有限公司, the operator of ExactMec. We use your contact and project details to review your mold request and follow up about this inquiry. Please see our Privacy Policy for how we handle your information. Budget and purchase timing are optional. Clear 2D or 3D part drawings, or a physical sample, are needed before a formal quotation.",
+  "processing_checkbox": {
+    "default": false,
+    "label": "I agree to 台州巽风贸易有限公司 using the information I provide to assess and respond to this mold inquiry as described in the Privacy Policy. I can withdraw my consent using the contact details in that policy."
+  },
+  "whatsapp_checkbox": {
+    "default": false,
+    "required": false,
+    "label": "Yes, 台州巽风贸易有限公司 (ExactMec) may message me on WhatsApp at the number I provide about this mold inquiry and its progress. I can ask you to stop at any time.",
+    "helper": "Optional. You can submit without choosing WhatsApp; we can respond by email. This choice does not sign you up for marketing or authorize WhatsApp calls."
+  },
+  "submit": "Send My Mold Inquiry"
+}

@@ -1,0 +1,61 @@
+{
+  "pages": [
+    {
+      "id": "inquiry-received",
+      "path": "/inquiry-received/",
+      "phase": "P0",
+      "kind": "system",
+      "indexable": false,
+      "title": "Inquiry Received | ExactMec",
+      "h1": "Your Mold Inquiry Has Been Received",
+      "intro": "Thank you for sharing your project details. We will review your information and follow up about this inquiry.",
+      "reference": "Your reference: {LEAD_ID}",
+      "body": [
+        "Keep this reference for your project conversation. If you have drawings or a sample, we will discuss how to share them before preparing a formal quotation.",
+        "You can also continue on WhatsApp and mention your reference. Your inquiry remains saved even if you do not send a WhatsApp message."
+      ],
+      "cta": {
+        "label": "Continue on WhatsApp",
+        "href": "[CONFIGURED_WHATSAPP_LINK]"
+      },
+      "secondary": {
+        "label": "Review the Mold Development Process",
+        "href": "/mold-development-process/"
+      },
+      "layout_cn": "单栏确认卡，参考编号可复制；下面可选WhatsApp，再放流程链接。无追加必填字段，无重复询价表，无倒计时。",
+      "gate_cn": "仅在服务端确认已保存且当前会话可访问reference时显示。直接访问无有效提交态，显示下面fallback；noindex，不进sitemap。",
+      "fallback": {
+        "h1": "Start a Mold Inquiry",
+        "text": "No submitted inquiry is available in this session. Tell us about your project using the inquiry form.",
+        "label": "Request a Mold Quote",
+        "href": "/request-a-quote/"
+      }
+    },
+    {
+      "id": "404",
+      "path": "/404",
+      "phase": "P0",
+      "kind": "system",
+      "indexable": false,
+      "title": "Page Not Found | ExactMec",
+      "h1": "We Could Not Find That Page",
+      "intro": "The page may have moved, or the link may be incomplete. You can explore our mold tooling or start a new inquiry.",
+      "links": [
+        {
+          "label": "Explore Mold Tooling",
+          "href": "/aluminum-die-casting-molds/"
+        },
+        {
+          "label": "Request a Mold Quote",
+          "href": "/request-a-quote/"
+        },
+        {
+          "label": "Return to Home",
+          "href": "/"
+        }
+      ],
+      "layout_cn": "简洁单栏错误页，保留导航与页脚；两个主要路径，不放虚假搜索框。",
+      "gate_cn": "这是404模板标识，实际未命中URL返回HTTP404和noindex；不得统一重定向首页或返回200。"
+    }
+  ]
+}

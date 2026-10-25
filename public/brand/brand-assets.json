@@ -1,0 +1,50 @@
+[
+  {
+    "name": "logo-icon",
+    "svg": "/brand/logo-icon.svg",
+    "png": "/brand/logo-icon.png",
+    "color": "graphite / industrial blue"
+  },
+  {
+    "name": "logo-wordmark",
+    "svg": "/brand/logo-wordmark.svg",
+    "png": "/brand/logo-wordmark.png",
+    "color": "#152B3B"
+  },
+  {
+    "name": "horizontal",
+    "svg": "/brand/horizontal.svg",
+    "png": "/brand/horizontal.png",
+    "color": "graphite / industrial blue"
+  },
+  {
+    "name": "stacked",
+    "svg": "/brand/stacked.svg",
+    "png": "/brand/stacked.png",
+    "color": "graphite / industrial blue"
+  },
+  {
+    "name": "logo-icon-reverse",
+    "svg": "/brand/logo-icon-reverse.svg",
+    "png": "/brand/logo-icon-reverse.png",
+    "color": "#FFFFFF"
+  },
+  {
+    "name": "logo-wordmark-reverse",
+    "svg": "/brand/logo-wordmark-reverse.svg",
+    "png": "/brand/logo-wordmark-reverse.png",
+    "color": "#FFFFFF"
+  },
+  {
+    "name": "horizontal-reverse",
+    "svg": "/brand/horizontal-reverse.svg",
+    "png": "/brand/horizontal-reverse.png",
+    "color": "#FFFFFF"
+  },
+  {
+    "name": "stacked-reverse",
+    "svg": "/brand/stacked-reverse.svg",
+    "png": "/brand/stacked-reverse.png",
+    "color": "#FFFFFF"
+  }
+]

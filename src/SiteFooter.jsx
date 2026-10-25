@@ -1,0 +1,12 @@
+import React from 'react';
+import { Link } from './Navigation.jsx';
+import { business, siteConfig } from './site-config.mjs';
+const QUOTE='/request-a-quote/',TOOL='/aluminum-die-casting-molds/';
+export function SiteFooter({reviewMode=true,config=siteConfig}) {
+ return <footer className="site-footer"><div className="container"><div className="footer-grid"><div className="footer-brand"><Link href="/" className="wordmark" aria-label="ExactMec home"><img className="brand-lockup" src="/brand/horizontal-web.webp?v=2" alt="" aria-hidden="true"/></Link><p>Custom aluminum die casting molds.<br/>One mold set accepted.</p><a href={config.whatsappUrl} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">WhatsApp: {business.whatsappDisplay}</a></div>{[
+ ['Mold Tooling',[['Custom Molds',TOOL],['Manufacturing','/manufacturing/'],['Development Process','/mold-development-process/']]],
+ ['Applications',[['LED Lighting','/industries/led-lighting/'],['Motors & Pumps','/industries/motor-pump-transmission/'],['All Applications','/industries/']]],
+ ['Buying Guides',[['Quotation Preparation','/resources/die-casting-mold-quotation-requirements/'],['Mold Costs','/resources/die-casting-mold-cost/'],['Project Questions','/faq/']]],
+ ['ExactMec',[['About','/about/'],['How We Work','/how-we-work/'],['Request a Mold Quote',QUOTE]]]
+ ].map(([title,links])=><div key={title}><h2>{title}</h2><nav aria-label={title+' footer'}>{links.map(([name,href])=><Link key={href} href={href}>{name}</Link>)}</nav></div>)}</div><div className="footer-bottom"><p>Website operator: {business.operator}, China.</p><div><Link href="/privacy">Privacy Policy</Link><Link href="/terms">Terms of Use</Link><Link href="/project-information">Project Information</Link><Link href="/cookies">Cookie Policy{!config.legalApproved?' · Draft':''}</Link></div></div>{reviewMode?<p className="preview-footer">Local design preview · Illustrative imagery · No real inquiries collected · Legal pages are drafts · <Link href="/design-system/">UI design kit</Link></p>:!config.release?<p className="preview-footer">Website preview · Online inquiries are not available yet. Please contact us on WhatsApp to discuss your mold project.</p>:null}</div></footer>;
+}

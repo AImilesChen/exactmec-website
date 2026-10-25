@@ -1,0 +1,3201 @@
+[
+  {
+    "id": "home",
+    "path": "/",
+    "phase": "P0",
+    "kind": "home",
+    "title": "ExactMec | Custom Aluminum Die Casting Molds",
+    "description": "Custom aluminum die casting molds from clear part drawings or a physical sample. One mold set accepted, with design confirmation and trial samples.",
+    "primary_keyword": "ExactMec aluminum die casting molds",
+    "semantic_keywords": [
+      "mold tooling",
+      "3D mold design",
+      "trial samples",
+      "mold supplier China"
+    ],
+    "target_words": [
+      600,
+      950
+    ],
+    "eyebrow": "CUSTOM TOOLING FOR ALUMINUM PARTS",
+    "h1": "Custom Die Casting Molds for Your Part",
+    "intro": "Develop the mold your component needs, from clear 2D or 3D part drawings or a physical sample. Confirm the mold design before manufacturing, then test trial samples before the mold is shipped.",
+    "goal_cn": "5秒说明只做模具、客户可提供什么、1套可接、询价留资；首页为品牌与总入口，详细交易意图交核心产品页。",
+    "hero_layout_cn": "桌面左55%标题/正文/双按钮，右45%真实模具主图；手机先文字/按钮再图片。Hero下用横向3项事实，不用客户数字。",
+    "sections": [
+      {
+        "id": "project-facts",
+        "heading": "A Clear Starting Point",
+        "paragraphs": [],
+        "layout_cn": "3列事实条，每项标题+2行文案；手机纵列，非徽章认证。",
+        "visual_cn": "",
+        "cards": [
+          {
+            "title": "One Mold Set Accepted",
+            "text": "Start with one custom mold. Your tooling request does not need to include a batch order for finished parts.",
+            "href": "/request-a-quote/"
+          },
+          {
+            "title": "Drawings or a Physical Sample",
+            "text": "Clear 2D or 3D part drawings, or an assessable physical sample, provide the basis for a formal quotation.",
+            "href": "/resources/die-casting-mold-quotation-requirements/"
+          },
+          {
+            "title": "Approval Before Manufacturing",
+            "text": "After payment, your 3D mold design is prepared for confirmation. Mold manufacturing starts after you approve it.",
+            "href": "/mold-design-review/"
+          }
+        ]
+      },
+      {
+        "id": "tooling",
+        "heading": "Tooling Built Around the Component",
+        "paragraphs": [
+          "A housing, cover, bracket or enclosure can involve a different mold layout and a different set of project questions. Tell us what the component does and what information you already have. We will discuss the tooling scope before preparing a quotation.",
+          "Your inquiry is for the mold itself. Trial castings help you evaluate that mold; they are not an offer of ongoing die casting parts production."
+        ],
+        "layout_cn": "左侧正文40%，右侧3张不同零件示意卡60%；每张标示应用身份，不能做可购买SKU。",
+        "visual_cn": "真实产品图优先；不足用壳体/端盖/支架示意并邻近标Illustrative example。",
+        "cta": {
+          "label": "Explore Our Mold Tooling",
+          "href": "/aluminum-die-casting-molds/"
+        }
+      },
+      {
+        "id": "resources",
+        "heading": "A Contact Point for Your Mold Project",
+        "paragraphs": [
+          "ExactMec coordinates mold inquiries and project communication with manufacturing partners in China. Your questions about drawings, design confirmation, trial samples and delivery stay connected through one contact point.",
+          "The process page explains the design and sample approval points. See what your team needs to review before the project moves to the next stage."
+        ],
+        "layout_cn": "实拍左60%＋短正文右40%；无授权车间图时用流程说明，隐藏照片位，不用假工厂。",
+        "visual_cn": "授权模具/装配/车间图2–3张，来源说明。",
+        "cta": {
+          "label": "View Manufacturing Resources",
+          "href": "/manufacturing/"
+        }
+      },
+      {
+        "id": "process",
+        "heading": "From Your Part Information to Mold Delivery",
+        "paragraphs": [],
+        "layout_cn": "4个阶段卡；每阶段可在详情展开，付款节点不可省略；手机纵向。",
+        "visual_cn": "",
+        "cards": [
+          {
+            "title": "1. Describe the Mold Project",
+            "text": "Submit basic contact and component details. We follow up to review your clear part drawings or arrange a physical sample.",
+            "href": "/request-a-quote/"
+          },
+          {
+            "title": "2. Confirm the Mold Design",
+            "text": "After payment, review and approve the 3D mold design before manufacturing begins.",
+            "href": "/mold-design-review/"
+          },
+          {
+            "title": "3. Manufacture and Trial",
+            "text": "The mold is made, then trial samples are produced for your assessment.",
+            "href": "/mold-development-process/"
+          },
+          {
+            "title": "4. Test Samples, Then Receive the Mold",
+            "text": "Trial samples are sent to you for testing. The mold is shipped after you confirm that the samples are acceptable.",
+            "href": "/quality-control/"
+          }
+        ],
+        "cta": {
+          "label": "See the Full Mold Process",
+          "href": "/mold-development-process/"
+        }
+      },
+      {
+        "id": "applications",
+        "heading": "Which Component Needs a Mold?",
+        "paragraphs": [
+          "Explore examples across lighting, motors, vehicle components, electronics, power equipment and other industrial products. Each application starts with the actual part and its requirements; an illustration is not a record of a delivered project."
+        ],
+        "layout_cn": "桌面3×2图卡，手机单列/双列按宽度；另有View All Applications入口。",
+        "visual_cn": "",
+        "cards": [
+          {
+            "title": "Automotive & Two-Wheelers",
+            "text": "Housings, covers and related component tooling to discuss.",
+            "href": "/industries/#industry-automotive"
+          },
+          {
+            "title": "LED Lighting",
+            "text": "Discuss tooling for lamp housings, covers and thermal features.",
+            "href": "/industries/led-lighting/"
+          },
+          {
+            "title": "Motor, Pump & Transmission",
+            "text": "Describe fit, mating features and housing requirements.",
+            "href": "/industries/motor-pump-transmission/"
+          },
+          {
+            "title": "Electronics & Communication",
+            "text": "Bring enclosure, mounting and interface requirements.",
+            "href": "/industries/#industry-electronics-telecommunications"
+          },
+          {
+            "title": "Energy & Power Equipment",
+            "text": "Share equipment housing and component requirements.",
+            "href": "/industries/#industry-energy-power"
+          },
+          {
+            "title": "Industrial Equipment",
+            "text": "Discuss covers, mounting components and automation housings.",
+            "href": "/industries/#industry-industrial-automation"
+          }
+        ],
+        "cta": {
+          "label": "View All Applications",
+          "href": "/industries/"
+        }
+      },
+      {
+        "id": "guides",
+        "heading": "Prepare for a More Useful Quotation",
+        "paragraphs": [],
+        "layout_cn": "3篇文章卡，不显示虚构作者、阅读量或发布日期。",
+        "visual_cn": "",
+        "cards": [
+          {
+            "title": "Understand Mold Cost Factors",
+            "text": "Compare the project scope behind a tooling price, rather than starting with a generic price range.",
+            "href": "/resources/die-casting-mold-cost/"
+          },
+          {
+            "title": "Prepare Your Quotation Information",
+            "text": "Know which contact, component and drawing or sample details help us assess a request.",
+            "href": "/resources/die-casting-mold-quotation-requirements/"
+          },
+          {
+            "title": "Understand the Approval Stages",
+            "text": "See where design approval, trial samples and customer testing fit in the process.",
+            "href": "/resources/die-casting-mold-development-process/"
+          }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can I order just one mold?",
+        "a": "Yes. One custom mold set can be considered; a batch order for finished parts is not required."
+      },
+      {
+        "q": "Do I need a 3D file before I contact you?",
+        "a": "No. Clear 2D part drawings or a physical sample can also provide a quotation basis. You can submit basic information first and discuss what is needed next."
+      },
+      {
+        "q": "When is the 3D mold design prepared?",
+        "a": "After payment. The mold design is sent for your confirmation, and manufacturing starts after that confirmation."
+      },
+      {
+        "q": "How long does a mold project take?",
+        "a": "The indicative period is approximately 30–40 days from payment. The project schedule needs to clarify design confirmation, trial samples, testing and logistics; this is not a guaranteed arrival date."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Mold Tooling",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How We Work",
+        "href": "/how-we-work/"
+      },
+      {
+        "label": "Quotation Information",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Tell Us About the Component",
+      "text": "Complete the short mold inquiry form. We will review your information and follow up; you can also continue on WhatsApp after submission.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "products",
+    "path": "/products/",
+    "phase": "P0",
+    "kind": "collection",
+    "title": "Die Casting Mold Tooling and Applications | ExactMec",
+    "description": "Find the right starting point for a custom aluminum die casting mold. Explore tooling, component applications and the information needed for a quote.",
+    "primary_keyword": "die casting mold tooling",
+    "semantic_keywords": [
+      "custom mold projects",
+      "aluminum component mold",
+      "mold inquiry"
+    ],
+    "target_words": [
+      350,
+      600
+    ],
+    "eyebrow": "MOLD TOOLING",
+    "h1": "Find the Starting Point for Your Mold Project",
+    "intro": "Your component defines the tooling request. Use this overview to explore the core mold service, identify a relevant application and prepare the information needed for a quotation.",
+    "goal_cn": "产品总览是选择入口：单一核心模具服务＋应用分类＋按资料状态找路径；不复制核心产品页长正文。",
+    "hero_layout_cn": "窄幅标题＋下方一张主模具卡与应用分类导航；无价格/库存/购物车。",
+    "sections": [
+      {
+        "id": "core",
+        "heading": "Custom Aluminum Die Casting Molds",
+        "paragraphs": [
+          "Request a custom mold based on clear 2D or 3D part drawings or an assessable physical sample. One mold set is accepted for consideration. The scope is mold development and delivery, with trial samples for customer testing.",
+          "The core product page explains the design confirmation, manufacturing and sample approval stages. Technical details are discussed against your actual component, rather than selected from a standard mold catalog."
+        ],
+        "layout_cn": "主卡占全宽：模具实图左、说明右；仅一条核心服务，不伪造多SKU。",
+        "visual_cn": "一张真实模具图；暂无授权图则用结构示意并标识。",
+        "cta": {
+          "label": "View Custom Mold Tooling",
+          "href": "/aluminum-die-casting-molds/"
+        }
+      },
+      {
+        "id": "families",
+        "heading": "Identify the Component Family",
+        "paragraphs": [],
+        "layout_cn": "3列应用入口，用途示例而非保证全部可制造；此处不建额外零件产品URL。",
+        "visual_cn": "",
+        "cards": [
+          {
+            "title": "Housings & Enclosures",
+            "text": "Describe the internal space, interfaces, mounting points and intended use.",
+            "href": "/industries/"
+          },
+          {
+            "title": "Covers & End Caps",
+            "text": "Share the matching component, attachment points and any important mating features.",
+            "href": "/industries/"
+          },
+          {
+            "title": "Brackets & Mounting Components",
+            "text": "Explain the assembly location, connection features and critical requirements.",
+            "href": "/industries/"
+          }
+        ]
+      },
+      {
+        "id": "information",
+        "heading": "Choose the Information Route",
+        "paragraphs": [],
+        "layout_cn": "桌面三行对照表；手机转成3张卡；不出现上传按钮。",
+        "visual_cn": "",
+        "table": {
+          "columns": [
+            "What you have",
+            "What happens next"
+          ],
+          "rows": [
+            [
+              "Clear 2D or 3D part drawings",
+              "Start an inquiry, then arrange file review with us."
+            ],
+            [
+              "A physical sample",
+              "Tell us about it and arrange sample delivery after contact."
+            ],
+            [
+              "Photos, dimensions or a concept",
+              "Describe the request first; clear drawings or a sample will still be needed before a formal quotation."
+            ]
+          ]
+        }
+      },
+      {
+        "id": "scope",
+        "heading": "What You Are Requesting",
+        "paragraphs": [
+          "The inquiry concerns a mold, not a catalog part or a continuing order for die cast components. Tell us the number of mold sets and the component you need to make. If it is a replacement tool, explain the reason for replacement and the information available.",
+          "A planned purchasing date and approximate mold budget are helpful but optional. They guide the discussion; they do not replace the drawings or physical sample used for quotation."
+        ],
+        "layout_cn": "短说明＋2个内链按钮；对应模具套数而非零件MOQ。",
+        "visual_cn": "",
+        "cta": {
+          "label": "Check Quotation Requirements",
+          "href": "/resources/die-casting-mold-quotation-requirements/"
+        }
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Are these molds standard items in stock?",
+        "a": "No. The website describes custom tooling projects. Each request is assessed against the part information and agreed requirements."
+      },
+      {
+        "q": "Can I request parts production here?",
+        "a": "No. Our current offer is for custom molds. Trial samples support validation of the mold."
+      },
+      {
+        "q": "Which application should I choose?",
+        "a": "Choose the nearest application, or describe your component under Other. The component drawing or sample determines the actual discussion."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Applications",
+        "href": "/industries/"
+      },
+      {
+        "label": "Custom Mold Details",
+        "href": "/aluminum-die-casting-molds/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Start with Your Component",
+      "text": "Tell us what needs a mold and how we can contact you. Clear part drawings or a physical sample will be reviewed before a formal quote.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "core-mold",
+    "path": "/aluminum-die-casting-molds/",
+    "phase": "P0",
+    "kind": "service",
+    "title": "Custom Aluminum Die Casting Molds | Quote with ExactMec",
+    "description": "Request a custom aluminum die casting mold from part drawings or a physical sample. One set accepted, with design approval, trial samples and mold delivery.",
+    "primary_keyword": "aluminum die casting mold",
+    "semantic_keywords": [
+      "custom aluminum mold",
+      "die cast tooling",
+      "mold design approval",
+      "trial sample approval"
+    ],
+    "target_words": [
+      650,
+      950
+    ],
+    "eyebrow": "CUSTOM ALUMINUM TOOLING",
+    "h1": "A Custom Die Casting Mold for Your Component",
+    "intro": "Bring clear 2D or 3D part drawings, or a physical sample, to discuss a mold made for your application. From one mold set, the project moves through design confirmation, manufacturing and trial samples before mold shipment.",
+    "goal_cn": "核心采购页：回答能否按我的零件做、如何报价和交付、为什么提交项目；承担主商业关键词。",
+    "hero_layout_cn": "Hero产品实图左45%、右55%文案/CTA；下方2列关键信息表；手机标题按钮优先。",
+    "sections": [
+      {
+        "id": "requirements",
+        "heading": "Begin with the Part, Not a Standard Mold",
+        "paragraphs": [
+          "Describe the component, its intended use and the requirements that matter in the finished assembly. A clear part drawing or physical sample lets the tooling discussion start from something assessable, rather than a photograph with an assumed size.",
+          "A 2D drawing can be sufficient if it clearly defines the necessary features. A 3D model can describe geometry, while supporting drawing notes identify important dimensions and requirements. We will discuss any missing information before issuing a formal quotation."
+        ],
+        "layout_cn": "左60%解释、右40%资料示意卡，旁链准备指南。",
+        "visual_cn": "无客户机密的图纸线框示意；不得伪装真实分析报告。"
+      },
+      {
+        "id": "summary",
+        "heading": "Your Mold Project at a Glance",
+        "paragraphs": [],
+        "layout_cn": "可读参数表，明确项目方式而非未证实设备精度表；手机逐项卡。",
+        "visual_cn": "",
+        "table": {
+          "columns": [
+            "Item",
+            "Project approach"
+          ],
+          "rows": [
+            [
+              "Service",
+              "Custom aluminum die casting mold development and delivery"
+            ],
+            [
+              "Order size",
+              "One mold set accepted"
+            ],
+            [
+              "Quotation basis",
+              "Clear 2D or 3D part drawings, or an assessable physical sample"
+            ],
+            [
+              "Mold design",
+              "Prepared after payment and sent for customer confirmation"
+            ],
+            [
+              "Manufacturing start",
+              "After the customer confirms the mold design"
+            ],
+            [
+              "Validation",
+              "Trial samples sent for customer testing before mold shipment"
+            ],
+            [
+              "Indicative period",
+              "Approximately 30–40 days from payment; confirm the project schedule"
+            ]
+          ]
+        }
+      },
+      {
+        "id": "components",
+        "heading": "Tooling for Housings, Covers and Other Components",
+        "paragraphs": [
+          "Lighting housings, motor covers, electronics enclosures and other industrial components provide useful application starting points. They do not all need the same mold structure, and an image alone cannot establish whether a particular design is suitable.",
+          "Tell us about mounting points, mating surfaces, internal spaces and any areas that must meet a defined requirement. The actual tooling scope is discussed against your component and the available manufacturing resources."
+        ],
+        "layout_cn": "正文上、3卡下；产品图标明应用示意，不能称已交付系列。",
+        "visual_cn": "",
+        "cards": [
+          {
+            "title": "Lighting Applications",
+            "text": "Explore lamp housing and related tooling questions.",
+            "href": "/industries/led-lighting/"
+          },
+          {
+            "title": "Motor & Transmission Applications",
+            "text": "Describe housing interfaces, fit and component requirements.",
+            "href": "/industries/motor-pump-transmission/"
+          },
+          {
+            "title": "Other Industrial Applications",
+            "text": "Find the closest application or describe your project.",
+            "href": "/industries/"
+          }
+        ]
+      },
+      {
+        "id": "design",
+        "heading": "Confirm the 3D Mold Design Before Manufacturing",
+        "paragraphs": [
+          "The mold design is prepared after payment under the agreed project arrangements. You receive the 3D mold design for confirmation before manufacturing starts. This is separate from the product drawing used to assess your quotation.",
+          "Keep the drawing revision and any agreed changes clear. If your component changes after confirmation, the effects on the mold, price and schedule need to be discussed rather than assumed to be included."
+        ],
+        "layout_cn": "左正文50%、右设计→确认→制造小流程50%；无下载免费设计按钮。",
+        "visual_cn": "",
+        "cta": {
+          "label": "Understand Design Confirmation",
+          "href": "/mold-design-review/"
+        }
+      },
+      {
+        "id": "validation",
+        "heading": "Evaluate Trial Samples Before the Mold Is Shipped",
+        "paragraphs": [
+          "Once the mold has been made, it is trialed and samples are produced. The trial samples are sent to you for testing. You can assess the relevant fit, assembly or other agreed requirements and give feedback before mold delivery.",
+          "The mold is shipped after you confirm that the samples are acceptable. Sample quantity, specific checks, feedback handling and shipping arrangements are discussed for the project. A trial sample is a validation item, not a commitment to ongoing parts production."
+        ],
+        "layout_cn": "3张顺序图：试模/寄样/客户确认，缺真实素材用带标识流程图；不编检测报告。",
+        "visual_cn": "",
+        "cta": {
+          "label": "View Trial and Quality Stages",
+          "href": "/quality-control/"
+        }
+      },
+      {
+        "id": "commercial",
+        "heading": "Discuss the Scope Behind Your Quotation",
+        "paragraphs": [
+          "Mold structure, component requirements and the agreed trial and delivery scope affect what a quotation needs to cover. We do not list a generic mold price or a fixed payment percentage on the website.",
+          "Submit the basic inquiry first. We can then discuss the drawings or physical sample, the number of mold sets, your planned purchasing time and any budget expectations. Your inquiry is retained even if you do not continue to WhatsApp."
+        ],
+        "layout_cn": "短段＋成本/资料两个链接，随后明确RFQ按钮。",
+        "visual_cn": "",
+        "cta": {
+          "label": "Understand Mold Cost Factors",
+          "href": "/resources/die-casting-mold-cost/"
+        }
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you quote from 2D drawings?",
+        "a": "Yes, if the 2D part drawings clearly provide the information needed for assessment. We will discuss any missing details before a formal quotation."
+      },
+      {
+        "q": "Can you work from a sample?",
+        "a": "Yes. An assessable physical sample can provide a quotation basis. Photos can start the conversation, but sample delivery needs to be arranged."
+      },
+      {
+        "q": "When does the 30–40 day period start?",
+        "a": "It is counted from payment. The precise schedule and the effects of design confirmation, trial, sample testing and logistics are agreed for the project."
+      },
+      {
+        "q": "Do you supply finished parts after the mold is approved?",
+        "a": "Not as an ongoing production service. Our current scope is the mold, with trial samples for customer testing before shipment."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Mold Process",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "Mold Cost Guide",
+        "href": "/resources/die-casting-mold-cost/"
+      },
+      {
+        "label": "How We Work",
+        "href": "/how-we-work/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Request a Mold Quote for Your Part",
+      "text": "Share your contact details, component and drawing or sample status. We will review the request and contact you about the next step.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industries",
+    "path": "/industries/",
+    "phase": "P0",
+    "kind": "collection",
+    "title": "Aluminum Die Casting Mold Applications | ExactMec",
+    "description": "Explore mold applications for lighting, motors, vehicles, electronics and industrial equipment. Describe your component to discuss custom tooling.",
+    "primary_keyword": "aluminum die casting mold applications",
+    "semantic_keywords": [
+      "industrial mold applications",
+      "housing mold tooling",
+      "custom component mold"
+    ],
+    "target_words": [
+      450,
+      750
+    ],
+    "eyebrow": "FIND YOUR APPLICATION",
+    "h1": "Different Components. A Clear Mold Project.",
+    "intro": "Identify the application closest to your component, then tell us what the mold needs to produce. The examples below help frame a tooling discussion; the actual design and requirements determine the project scope.",
+    "goal_cn": "8应用总览与锚点；首版只有2个详情也能提供8系列导航，不虚构每个行业既往业绩。",
+    "hero_layout_cn": "Hero短文＋右侧4类零件组合示意；下方8分类2列大卡，手机单列；卡上仅零件名/用途。",
+    "sections": [
+      {
+        "id": "application-list",
+        "heading": "Explore Component Applications",
+        "paragraphs": [],
+        "layout_cn": "桌面2列×4行，每卡图+70词内正文；8个稳定锚点用于尚未发布详情的回退。",
+        "visual_cn": "8个代表性零件；真实图或标识Illustrative example，不能显示客户Logo或伪造项目名。",
+        "cards": [
+          {
+            "title": "Automotive",
+            "text": "Housings, covers and mounting components. Describe the vehicle application and the requirements that need to be assessed.",
+            "href": "/industries/#industry-automotive",
+            "anchor": "industry-automotive"
+          },
+          {
+            "title": "Motorcycle & E-Mobility",
+            "text": "Engine-side covers, motor housings and transmission enclosures are examples to discuss, subject to the part design.",
+            "href": "/industries/#industry-motorcycle-e-mobility",
+            "anchor": "industry-motorcycle-e-mobility"
+          },
+          {
+            "title": "LED Lighting",
+            "text": "Lamp housings, covers and related thermal features. Explain the lighting assembly and any defined surface or interface requirements.",
+            "href": "/industries/led-lighting/",
+            "anchor": "industry-led-lighting"
+          },
+          {
+            "title": "Motor, Pump & Transmission",
+            "text": "Motor end covers, gearbox housings and pump-related enclosures. Share mating features and the intended operating context.",
+            "href": "/industries/motor-pump-transmission/",
+            "anchor": "industry-motor-pump-transmission"
+          },
+          {
+            "title": "Electronics & Telecommunications",
+            "text": "Instrument and communication equipment housings. Identify mounting features, connectors and assembly interfaces.",
+            "href": "/industries/#industry-electronics-telecommunications",
+            "anchor": "industry-electronics-telecommunications"
+          },
+          {
+            "title": "Energy & Power Equipment",
+            "text": "Power equipment and inverter enclosure applications. Describe mounting, interfaces and any project-specific requirements.",
+            "href": "/industries/#industry-energy-power",
+            "anchor": "industry-energy-power"
+          },
+          {
+            "title": "Industrial Equipment & Automation",
+            "text": "Sensor and actuator housings, covers and equipment mounting components. Provide the assembly context.",
+            "href": "/industries/#industry-industrial-automation",
+            "anchor": "industry-industrial-automation"
+          },
+          {
+            "title": "Power Tools & Home Appliances",
+            "text": "Tool gearbox housings, equipment covers and appliance mounting components. Explain use, handling and fit requirements.",
+            "href": "/industries/#industry-power-tools-home-appliances",
+            "anchor": "industry-power-tools-home-appliances"
+          }
+        ]
+      },
+      {
+        "id": "evaluate",
+        "heading": "Describe the Features That Matter",
+        "paragraphs": [
+          "Two housings with similar outlines can have different mounting arrangements, internal spaces and critical interfaces. Explain what the component must do in its assembly, not only the industry name.",
+          "Where a project has sealing, electrical, thermal, structural or other defined requirements, identify the applicable specification and how you expect it to be checked. These are project questions to confirm, not tests or certifications automatically included in every mold order."
+        ],
+        "layout_cn": "两列：左客户需说明，右重要区别提示；不放未核实认证图标。",
+        "visual_cn": ""
+      },
+      {
+        "id": "scope",
+        "heading": "These Are Mold Applications",
+        "paragraphs": [
+          "The current service is custom aluminum die casting molds, with one mold set accepted. The examples are not stock parts or a promise of continuing parts production.",
+          "Some component requirements may need an alternative process or a different manufacturing resource. Share clear 2D or 3D part drawings or an assessable physical sample so that the actual request can be discussed before quotation."
+        ],
+        "layout_cn": "高可读短说明区，接核心模具页内链。",
+        "visual_cn": "",
+        "cta": {
+          "label": "View the Mold Service",
+          "href": "/aluminum-die-casting-molds/"
+        }
+      },
+      {
+        "id": "prepare",
+        "heading": "Prepare a Useful Application Inquiry",
+        "paragraphs": [],
+        "layout_cn": "5项简明清单，与RFQ字段对应，不另加上传器。",
+        "visual_cn": "",
+        "bullets": [
+          "Name the component and its intended use.",
+          "State whether you have clear 2D drawings, a 3D model or a physical sample.",
+          "Tell us the mold quantity and important assembly or performance requirements.",
+          "Add your company and contact details so we can follow up.",
+          "Include a planned purchasing time or budget if known; both are optional."
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does listing an application mean every part can be made?",
+        "a": "No. The application list is a starting point. The actual geometry, requirements and manufacturing resources must be assessed for the project."
+      },
+      {
+        "q": "What if my application is not listed?",
+        "a": "Describe it in the inquiry form and choose Other if needed. Clear part information matters more than fitting a category."
+      },
+      {
+        "q": "Are the application pictures delivered project examples?",
+        "a": "Only images explicitly identified as real project material should be read that way. Illustrations and generic component examples explain applications, not past deliveries."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "LED Lighting Molds",
+        "href": "/industries/led-lighting/"
+      },
+      {
+        "label": "Motor and Transmission Molds",
+        "href": "/industries/motor-pump-transmission/"
+      },
+      {
+        "label": "Quotation Preparation",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Which Component Do You Need to Tool?",
+      "text": "Start with the component name, intended use and your current drawings or sample status. We will follow up about the tooling request.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "resources",
+    "path": "/resources/",
+    "phase": "P0",
+    "kind": "collection",
+    "title": "Die Casting Mold Guides for Buyers | ExactMec",
+    "description": "Prepare a mold inquiry with buyer guides on tooling cost, drawing and sample requirements, design confirmation and trial sample approval.",
+    "primary_keyword": "die casting mold guides",
+    "semantic_keywords": [
+      "tooling cost guide",
+      "mold quotation checklist",
+      "die casting mold process"
+    ],
+    "target_words": [
+      350,
+      650
+    ],
+    "eyebrow": "BUYER RESOURCES",
+    "h1": "Make Your Next Tooling Discussion More Useful",
+    "intro": "Understand what affects a mold quotation, what information to prepare and where your approvals fit in the project. These guides support a practical discussion about your component.",
+    "goal_cn": "资源列表不是泛知识博客，3篇首发完整内容对应价格/资料/流程采购问题，连接核心产品与RFQ。",
+    "hero_layout_cn": "短Hero；3篇主内容卡占首屏下半；每卡一句回答+Read Guide，手机纵列。",
+    "sections": [
+      {
+        "id": "start-here",
+        "heading": "Start with the Question You Need to Answer",
+        "paragraphs": [],
+        "layout_cn": "3张大文章卡，封面无虚构数据；类别用Cost/Quotation/Process，暂不建空分类页。",
+        "visual_cn": "",
+        "cards": [
+          {
+            "title": "What Determines Die Casting Mold Cost?",
+            "text": "Learn which scope differences to clarify when comparing quotations, without relying on a generic tooling price.",
+            "href": "/resources/die-casting-mold-cost/"
+          },
+          {
+            "title": "What Do I Need for a Mold Quotation?",
+            "text": "Prepare contact and component information, then arrange review of clear product drawings or a physical sample.",
+            "href": "/resources/die-casting-mold-quotation-requirements/"
+          },
+          {
+            "title": "How Does a Mold Project Move Forward?",
+            "text": "Follow the decision points from quotation and payment to design approval, trial samples, customer testing and shipment.",
+            "href": "/resources/die-casting-mold-development-process/"
+          }
+        ]
+      },
+      {
+        "id": "use",
+        "heading": "Use a Guide to Prepare, Then Discuss the Part",
+        "paragraphs": [
+          "A general explanation can help you ask better questions, but it cannot establish the mold structure, cost or acceptance requirements for an unseen component. Keep the current part revision and any important project conditions clear when you contact a supplier.",
+          "When a guide mentions a feature, test or possible requirement, treat it as something to discuss for the project. It does not mean that every inspection, report or additional service is automatically included."
+        ],
+        "layout_cn": "中间窄阅读区，两段正文＋资料指南内链。",
+        "visual_cn": ""
+      },
+      {
+        "id": "connect",
+        "heading": "Connect the Information to Your Application",
+        "paragraphs": [
+          "Lighting housings, motor covers and other industrial components raise different tooling questions. Use the application overview to identify the component context, then return to the core mold page for the service scope.",
+          "Our current offer is for molds, not an ongoing supply of die cast parts. One mold set can be considered, and trial samples are used for customer testing before mold shipment."
+        ],
+        "layout_cn": "两张横卡连Applications和Core Mold。",
+        "visual_cn": "",
+        "cta": {
+          "label": "Explore Mold Applications",
+          "href": "/industries/"
+        }
+      },
+      {
+        "id": "next",
+        "heading": "If Information Is Missing",
+        "paragraphs": [
+          "You can submit a basic inquiry before every detail is settled. Tell us whether you have drawings, a physical sample, photos or only a concept, and describe the component. Clear part drawings or an assessable physical sample will still be needed before a formal quotation.",
+          "Your inquiry is saved for follow-up. You can continue on WhatsApp after submission, or we can respond through the contact channel you request."
+        ],
+        "layout_cn": "正文＋明确提交入口，无注册或PDF邮箱墙。",
+        "visual_cn": ""
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Are these guides a quotation?",
+        "a": "No. They explain preparation and project questions. A quotation depends on assessable part information and the agreed scope."
+      },
+      {
+        "q": "Can I ask about one mold set?",
+        "a": "Yes. One custom mold set can be considered; a production order for finished parts is not required."
+      },
+      {
+        "q": "Do I need to register to read the guides?",
+        "a": "No. The planned guides are public pages. A project inquiry asks for basic details so we can assess and follow up."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Custom Mold Service",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "Application Overview",
+        "href": "/industries/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Put the Guide to Work on Your Project",
+      "text": "Share the component and the information you already have. We will help identify what is needed for the next quotation discussion.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "about",
+    "path": "/about/",
+    "phase": "P0",
+    "kind": "about",
+    "title": "About ExactMec | Custom Die Casting Mold Coordination",
+    "description": "Meet the business behind ExactMec. A China-based contact for custom die casting mold inquiries, design confirmation, trial samples and mold delivery.",
+    "primary_keyword": "about ExactMec",
+    "semantic_keywords": [
+      "die casting mold supplier China",
+      "mold project coordination"
+    ],
+    "target_words": [
+      450,
+      750
+    ],
+    "eyebrow": "ABOUT EXACTMEC",
+    "h1": "A Clear Contact Point for Your Mold Project",
+    "intro": "ExactMec focuses on custom aluminum die casting molds. We coordinate project communication with manufacturing partners in China, from the initial part information through design confirmation, trial samples and mold delivery.",
+    "goal_cn": "如实说明外贸与伙伴制造模式；公司法定名与品牌区分，建立可联系信任而非空泛工厂实力故事。",
+    "hero_layout_cn": "左标题/介绍，右真实联系人或模具图；没有授权人像就用模具图，不造员工/团队合照。",
+    "sections": [
+      {
+        "id": "operator",
+        "heading": "Who Operates the Website",
+        "paragraphs": [
+          "The ExactMec website is operated by 台州巽风贸易有限公司, a company registered in mainland China. ExactMec is the website brand; the operator details and contact information are provided in our legal and contact pages.",
+          "The parties responsible for a specific mold order, payment and delivery must be clear in the project arrangements. A website inquiry is the start of a discussion, not an automatic order."
+        ],
+        "layout_cn": "公司资料说明2段＋隐私/Terms链接；不编英文注册名、成立年或资质。",
+        "visual_cn": ""
+      },
+      {
+        "id": "focus",
+        "heading": "What We Focus On",
+        "paragraphs": [
+          "Our current service is the mold itself. One mold set can be considered. The project begins with clear 2D or 3D part drawings or an assessable physical sample, rather than a standard part selected from stock.",
+          "Trial castings are used to help you evaluate the mold. We do not currently take continuing die casting parts production orders or independent CNC parts orders through this website."
+        ],
+        "layout_cn": "2列明确范围与有效项目输入，不堆大数字。",
+        "visual_cn": "",
+        "cta": {
+          "label": "View the Mold Service",
+          "href": "/aluminum-die-casting-molds/"
+        }
+      },
+      {
+        "id": "working",
+        "heading": "How the Communication Is Organized",
+        "paragraphs": [
+          "Start with a basic inquiry containing your contact details, component and drawing or sample status. We review the request and follow up about the information needed for quotation. Your record remains available even if you do not start a WhatsApp conversation.",
+          "After payment, the 3D mold design is sent for your confirmation. Manufacturing follows that confirmation. Trial samples are sent for your testing before the mold is shipped. Payment arrangements and project-specific conditions are discussed directly."
+        ],
+        "layout_cn": "左60%正文＋右40%客户触点图，不将制造细节重复成长页面。",
+        "visual_cn": "",
+        "cta": {
+          "label": "See How We Work",
+          "href": "/how-we-work/"
+        }
+      },
+      {
+        "id": "partners",
+        "heading": "Manufacturing Resources, Represented Accurately",
+        "paragraphs": [
+          "Manufacturing images and capability descriptions should identify the resources involved in the project without implying that every facility is owned by the website operator. The actual tooling requirements and resource match are discussed against your component.",
+          "A component illustration helps describe a possible mold application. It is not presented as a delivered customer project unless the image and supporting information are identified as such."
+        ],
+        "layout_cn": "真实授权制造图优先，来源说明可见；暂无图时保留短说明不造场景。",
+        "visual_cn": ""
+      },
+      {
+        "id": "buyers",
+        "heading": "For Buyers Planning Tooling Across Borders",
+        "paragraphs": [
+          "We welcome mold inquiries from industrial buyers, sourcing contacts and engineering teams, with an initial focus on Southeast Asia and the Middle East. Tell us where your company is based, what component needs tooling and how you prefer us to contact you.",
+          "A planned purchasing time or approximate per-mold budget can help frame the discussion, but neither is required to prove your interest. The practical next step is clear part information and a way to reach the person responsible for the project."
+        ],
+        "layout_cn": "简洁联系区，无未核实出口地图、国家旗帜和客户Logo。",
+        "visual_cn": ""
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Is ExactMec the legal company name?",
+        "a": "No. ExactMec is the website brand. The website operator is 台州巽风贸易有限公司; the parties for a mold order are identified in the project arrangements."
+      },
+      {
+        "q": "Do you own every manufacturing facility shown?",
+        "a": "Manufacturing resources are described with their actual relationship and source. The website does not present partner facilities as wholly owned by the operator."
+      },
+      {
+        "q": "Can you contact me if I do not use WhatsApp?",
+        "a": "Yes. Submit the inquiry with your email and contact choices. We can follow up about the project without requiring you to start a WhatsApp conversation."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Manufacturing Resources",
+        "href": "/manufacturing/"
+      },
+      {
+        "label": "Project Process",
+        "href": "/how-we-work/"
+      },
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy"
+      }
+    ],
+    "final_cta": {
+      "heading": "Introduce Your Mold Project",
+      "text": "Tell us about your component and the information you have. We will review your inquiry and follow up about the tooling requirements.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "faq",
+    "path": "/faq/",
+    "phase": "P0",
+    "kind": "faq",
+    "title": "Die Casting Mold Questions and Answers | ExactMec",
+    "description": "Find answers about mold quotation information, one-set orders, 3D mold design, lead time, trial samples and contacting ExactMec after an inquiry.",
+    "primary_keyword": "die casting mold FAQ",
+    "semantic_keywords": [
+      "mold quotation questions",
+      "mold design confirmation",
+      "trial sample testing"
+    ],
+    "target_words": [
+      650,
+      1000
+    ],
+    "eyebrow": "MOLD PROJECT QUESTIONS",
+    "h1": "Answers Before You Request a Mold Quote",
+    "intro": "Understand what information to prepare, when your approvals are needed and how a mold inquiry moves into a project. Specific prices, payment and order conditions are discussed directly.",
+    "goal_cn": "集中解答采购异议，按资料/设计/样品/联系4类便于查找，回答首句直答，无Rich Result承诺。",
+    "hero_layout_cn": "窄Hero，下方可跳转4个问题组；桌面目录左25%/内容右75%，手机目录横排并可直接跳组。",
+    "sections": [
+      {
+        "id": "quotation",
+        "heading": "Quotation Information",
+        "paragraphs": [
+          "A useful inquiry identifies the person, company and component involved, together with the available drawings or sample. Clear 2D or 3D product drawings, or an assessable physical sample, are needed before a formal quotation.",
+          "You can leave optional budget or purchasing-time information blank. If the available material is only photographs or a concept, describe it accurately so that the next information request is relevant."
+        ],
+        "layout_cn": "本组下挂报价相关FAQ折叠项，首问可展开，其余可键盘展开。",
+        "visual_cn": "",
+        "cta": {
+          "label": "Read the Preparation Guide",
+          "href": "/resources/die-casting-mold-quotation-requirements/"
+        }
+      },
+      {
+        "id": "design",
+        "heading": "Design and Manufacturing",
+        "paragraphs": [
+          "The product drawing is the starting information supplied by the customer. The mold design is a separate output prepared after payment and sent for confirmation. Manufacturing does not begin before that design confirmation.",
+          "Keep confirmed versions and later changes clear. The effect of a change on the mold, price or schedule needs to be discussed for the project."
+        ],
+        "layout_cn": "本组问答配2D/3D产品资料→付款后模具设计的小图区，避免混淆。",
+        "visual_cn": ""
+      },
+      {
+        "id": "samples",
+        "heading": "Trial Samples and Delivery",
+        "paragraphs": [
+          "After manufacturing, the mold is trialed and samples are sent for customer testing. The mold is shipped after the customer confirms that the samples are acceptable.",
+          "The indicative period is approximately 30–40 days from payment. A project schedule must clarify the relevant stages and the effects of confirmation, changes, sample transport, testing and final logistics."
+        ],
+        "layout_cn": "本组强调两次确认，不声称样品寄出就等于验收。",
+        "visual_cn": ""
+      },
+      {
+        "id": "contact",
+        "heading": "Your Inquiry and Contact Choices",
+        "paragraphs": [
+          "A successfully submitted form creates an inquiry reference and a record for follow-up. Continuing to WhatsApp is optional. If you do not send a message, your inquiry is still retained and can be handled through your requested contact channel.",
+          "Project contact is separate from marketing. Your form choices explain whether we may message you on WhatsApp about the inquiry; leaving a number is not treated as permission for every kind of communication."
+        ],
+        "layout_cn": "问答下方接短RFQ按钮及Privacy链接。",
+        "visual_cn": ""
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can I order one mold set?",
+        "a": "Yes. One custom mold set can be considered, without an ongoing finished-parts order."
+      },
+      {
+        "q": "Can you quote from clear 2D drawings?",
+        "a": "Yes, if they provide enough information to assess the part. We will discuss missing details before preparing a formal quotation."
+      },
+      {
+        "q": "What if I have a physical sample but no CAD file?",
+        "a": "A physical sample can be a quotation basis. Start an inquiry and arrange sample delivery after contact; a photograph alone is not receipt of the sample."
+      },
+      {
+        "q": "What if I only have photos or a concept?",
+        "a": "You can still make an initial inquiry. Clear product drawings or an assessable physical sample will be needed before a formal quotation."
+      },
+      {
+        "q": "Do I upload drawings in the inquiry form?",
+        "a": "No. The initial form records what information you have. We arrange file review or sample delivery during the follow-up conversation."
+      },
+      {
+        "q": "When do you prepare the 3D mold design?",
+        "a": "After payment under the agreed project arrangements. You confirm that mold design before manufacturing begins."
+      },
+      {
+        "q": "Is the mold shipped immediately after trial?",
+        "a": "No. Trial samples are sent to you first for testing. The mold is shipped after you confirm that the samples are acceptable."
+      },
+      {
+        "q": "Do you offer ongoing parts production?",
+        "a": "No. The current service is mold development and delivery, with trial samples for validation."
+      },
+      {
+        "q": "Are budget and purchasing time mandatory?",
+        "a": "No. Both are optional, and you can state that they are not yet determined. They help frame follow-up rather than prove your identity."
+      },
+      {
+        "q": "Will my inquiry be lost if I do not send a WhatsApp message?",
+        "a": "No. A successful form submission is saved independently of WhatsApp. We can follow up through the contact channel you request."
+      },
+      {
+        "q": "What are the payment terms?",
+        "a": "Payment arrangements are discussed for the specific project. The website does not take online payments or set a fixed payment percentage."
+      },
+      {
+        "q": "How can I change my contact choices?",
+        "a": "Tell us through the contact details in the Privacy Policy or during your project conversation. We handle the request for the relevant channel and inquiry."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Quotation Guide",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      },
+      {
+        "label": "Process",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "Privacy",
+        "href": "/privacy"
+      }
+    ],
+    "final_cta": {
+      "heading": "Have a Question About Your Own Component?",
+      "text": "Describe the part and the information you have in the inquiry form. We will review the request and discuss the next step.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "rfq",
+    "path": "/request-a-quote/",
+    "phase": "P0",
+    "kind": "contact",
+    "title": "Request a Die Casting Mold Quote | ExactMec",
+    "description": "Describe your component, drawings or sample and contact details to request a custom mold quote. One set accepted; budget and timing are optional.",
+    "primary_keyword": "request die casting mold quote",
+    "semantic_keywords": [
+      "mold inquiry",
+      "custom tooling quotation",
+      "part drawings or physical sample"
+    ],
+    "target_words": [
+      400,
+      650
+    ],
+    "eyebrow": "START A MOLD INQUIRY",
+    "h1": "Tell Us About the Component You Need to Tool",
+    "intro": "Share your contact details and the mold project. We will review your inquiry and follow up about clear part drawings or a physical sample for quotation. One mold set can be considered.",
+    "goal_cn": "先保存可主动跟进线索，不以客户发WhatsApp为前提；完整表单及状态文案另见data/form.json和04-全局导航与表单交互文案.md。",
+    "hero_layout_cn": "桌面左8/12表单，右4/12粘性简短资料说明；手机先简短说明再单列表单，法律提示临近提交；无需强制5步。",
+    "sections": [
+      {
+        "id": "contact-details",
+        "heading": "Your Contact Details",
+        "paragraphs": [
+          "Tell us who is responsible for the project and where your company is based. Use an email address where we can reach you about this inquiry. If you provide a phone number, include the country code and indicate whether it is used for WhatsApp.",
+          "A company website can help provide context, but it is optional. We do not require a particular email domain or treat your city as proof of company identity."
+        ],
+        "layout_cn": "Name/Company、Email/Phone、Country/City桌面每行2项，Website可选全宽；手机单列，表单Label完整。",
+        "visual_cn": ""
+      },
+      {
+        "id": "project-details",
+        "heading": "The Component and the Mold",
+        "paragraphs": [
+          "Name the component and briefly explain its use and main requirements. State whether you have 2D drawings, a 3D file, both, a physical sample, photos and dimensions, or information that is not yet ready.",
+          "Choose the number of mold sets. One set is accepted. The form records your current information; it does not require you to upload a drawing or prove that a sample has already been received."
+        ],
+        "layout_cn": "产品名全宽、需求textarea、资料单选、套数+应用分类；材料和关键要求可选。",
+        "visual_cn": ""
+      },
+      {
+        "id": "budget-timing",
+        "heading": "Budget and Purchasing Time — Optional",
+        "paragraphs": [
+          "If useful, add an approximate budget per mold set and its currency, or state that you would like a suggestion or prefer not to disclose it. An amount without a currency or an overall parts budget can be misleading for a tooling discussion.",
+          "You may also tell us when you plan to purchase the mold. A planned order date is different from a requested arrival date. Leaving these items undecided will not prevent submission."
+        ],
+        "layout_cn": "2个轻量选填区域；有预算才展开金额/区间/币种，不强制数字；具体字段选项见表单文案。",
+        "visual_cn": ""
+      },
+      {
+        "id": "next",
+        "heading": "What Happens After You Submit",
+        "paragraphs": [
+          "Your inquiry is saved and a reference is shown after a successful submission. We review the information, identify what is needed next and follow up about the project. You can continue on WhatsApp, but you do not have to send a message to keep the inquiry active.",
+          "The contact and information choices below explain how this inquiry is handled. Optional WhatsApp messages are separate from email follow-up and do not sign you up for marketing or authorize calls."
+        ],
+        "layout_cn": "右侧说明摘要桌面常驻；左下合规告知/选择＋Send My Mold Inquiry按钮。",
+        "visual_cn": "无需大产品图；用小型流程图节约表单注意力。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do I need to upload drawings here?",
+        "a": "No. Select the information you have and describe the part. We arrange drawings or physical sample assessment during follow-up."
+      },
+      {
+        "q": "Can I submit without a budget?",
+        "a": "Yes. Budget and purchasing time are optional. You may leave them blank or select an undecided option."
+      },
+      {
+        "q": "Do I have to contact you on WhatsApp afterwards?",
+        "a": "No. Your successful submission is saved independently. We can follow up by email about the inquiry, and WhatsApp messages depend on your channel choice."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Quotation Requirements",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      },
+      {
+        "label": "Mold Process",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy"
+      },
+      {
+        "label": "Project Information",
+        "href": "/project-information"
+      }
+    ],
+    "final_cta": {
+      "heading": "Send the Inquiry When Your Details Are Ready",
+      "text": "Check your contact information and describe the component. A formal quotation follows assessment of clear part drawings or a physical sample.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "姓名/公司/邮箱/号码/国家/城市当前按PRD必填，合规R01要求发布前必要性复核。",
+      "此页final_cta字段是提交区说明，不再嵌套链接到自身的第二张表单；实际提交按钮Send My Mold Inquiry。",
+      "公司地址/域名邮箱/号码与处理依据等仍待合规放行；这些配置不阻塞本稿排版。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "manufacturing",
+    "path": "/manufacturing/",
+    "phase": "P0",
+    "kind": "service",
+    "title": "Aluminum Die Casting Mold Manufacturing | EXACTMEC",
+    "description": "Explore how EXACTMEC coordinates custom aluminum die casting mold manufacturing, from approved mold design through trial samples and mold shipment.",
+    "primary_keyword": "aluminum die casting mold manufacturing",
+    "semantic_keywords": [
+      "custom die casting molds",
+      "mold manufacturing partners",
+      "die casting tooling",
+      "mold trial samples"
+    ],
+    "target_words": [
+      450,
+      750
+    ],
+    "eyebrow": "MANUFACTURING",
+    "h1": "Custom mold manufacturing, with a clear path to handover",
+    "intro": "EXACTMEC coordinates the manufacture of custom aluminum die casting molds through manufacturing partners. We supply molds, starting from one set. Your product drawings or physical sample guide the quotation, and your approval of the 3D mold design comes before manufacturing begins.",
+    "goal_cn": "解释实际制造交付边界及合作制造模式，回答谁协调制造、交付什么、如何进入下一步；不以无依据设备清单代替制造能力。",
+    "hero_layout_cn": "桌面左侧标题与介绍占6列，右侧6列预留真实模具制造照片；图片下配简短流程标注。手机依次为标题、介绍、主询价按钮、图片。",
+    "sections": [
+      {
+        "id": "scope",
+        "heading": "A mold supply service, starting from one set",
+        "paragraphs": [
+          "Our service is for buyers who need a custom mold for an aluminum die cast product. The order can be one mold set. We do not currently accept die casting volume production orders or separate orders for machined parts.",
+          "Photos of automotive, lighting, electrical or industrial components help illustrate possible mold applications. They are not a catalog of finished parts for sale. Tell us which product you need to make, then provide the product information needed to assess the mold project."
+        ],
+        "layout_cn": "两栏：左侧服务范围正文，右侧用两张等宽卡片说明交付物为模具、起订为1套；手机单列。",
+        "visual_cn": "优先使用真实模具整体图；零件应用图须说明为应用示意，不代表供货案例。",
+        "cta": {
+          "label": "Explore Aluminum Die Casting Molds",
+          "href": "/aluminum-die-casting-molds/"
+        }
+      },
+      {
+        "id": "coordination",
+        "heading": "One contact across the manufacturing stages",
+        "paragraphs": [
+          "EXACTMEC is your contact for project information, mold design confirmation, manufacturing communication and sample feedback. Manufacturing is coordinated with partners rather than presented as production in a factory owned by EXACTMEC.",
+          "Before an order, we discuss the requested mold, the available drawings or sample, and the intended use. Project specific requirements must be reviewed before they become part of the quotation. This includes requirements for the receiving production equipment when the mold will be used at your facility."
+        ],
+        "bullets": [
+          "Keep the current product drawing version clear.",
+          "Identify customer requirements that affect mold acceptance.",
+          "Confirm the agreed scope through the quotation and project communication."
+        ],
+        "layout_cn": "全文段落在上，下方横向三条清单；手机垂直排列。",
+        "visual_cn": "使用简洁协调关系示意：客户→EXACTMEC→制造合作方；不用暗示工厂产权的厂区主视觉。"
+      },
+      {
+        "id": "approved-design",
+        "heading": "Manufacturing follows your mold design approval",
+        "paragraphs": [
+          "After payment, we prepare the 3D mold design and send it to you for confirmation. The product drawing used for quotation and the mold design prepared for approval are different documents.",
+          "Manufacturing begins after you confirm the mold design. Review the design with the people who will use or approve the mold. If a requirement changes during the project, raise it with us so we can discuss its effect on the scope and schedule before proceeding."
+        ],
+        "layout_cn": "左侧两段说明，右侧上下两张流程卡：付款后设计、确认后制造；手机先文后卡。",
+        "visual_cn": "可用自制流程图表达批准节点；实际设计截图需脱敏并获使用许可。",
+        "cta": {
+          "label": "See the Design Approval Stage",
+          "href": "/mold-design-review/"
+        }
+      },
+      {
+        "id": "trial-handover",
+        "heading": "Trial samples come before mold shipment",
+        "paragraphs": [
+          "Once the mold has been made, it is trialed to produce samples. We send samples to you for testing. You assess them against the product requirements agreed for the project and share the result with us.",
+          "When you confirm that the samples are acceptable, the completed mold is shipped. This sample stage supports mold acceptance; it is not the start of a volume production service. Sample quantities, acceptance details and shipping arrangements are discussed for the individual order."
+        ],
+        "layout_cn": "横向三步卡：试模、客户测样、确认后发模；每步下放一段完整说明。手机为纵向编号列表。",
+        "visual_cn": "规划真实试模样品照片和包装图位置；未取得素材前用流程线图。",
+        "cta": {
+          "label": "Understand Trial and Sample Review",
+          "href": "/quality-control/"
+        }
+      },
+      {
+        "id": "start",
+        "heading": "Start with information that can be assessed",
+        "paragraphs": [
+          "A clear product 2D or 3D drawing, or a physical sample, is needed for quotation. If you are still gathering these, you can send a basic inquiry first and tell us what is available.",
+          "The typical project timing discussed is about 30–40 days from customer payment. This is an estimate, not a guaranteed arrival date. Confirm the applicable milestones and the effects of design approval, sample testing and transport in your project discussion."
+        ],
+        "layout_cn": "浅色整宽信息区，左侧资料说明，右侧交期说明；下方主按钮。",
+        "visual_cn": "仅用图纸/实体样品图标，不使用虚构交期仪表盘。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do you own the manufacturing factory?",
+        "a": "Mold manufacturing is coordinated through manufacturing partners. EXACTMEC manages the customer communication and the agreed project stages."
+      },
+      {
+        "q": "Can I order one mold set?",
+        "a": "Yes. We accept custom mold projects starting from one set, subject to review of your product information and requirements."
+      },
+      {
+        "q": "Can you also supply mass produced die cast parts?",
+        "a": "No. The current service covers mold supply and trial samples for review, rather than volume production orders."
+      },
+      {
+        "q": "What do you need before quoting?",
+        "a": "We need clear product 2D or 3D drawings, or a physical sample. The initial inquiry can explain what you have, and we will discuss how to provide it."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Mold Development Process",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "How We Work Together",
+        "href": "/how-we-work/"
+      },
+      {
+        "label": "Quotation Information Checklist",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Tell us which mold you need",
+      "text": "Share your product, available drawings or sample, and intended purchasing time. We will use your inquiry to discuss the project and the information needed for a quotation.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "需补充可公开且获授权的真实模具制造、试模、包装照片；不以生成图作为制造实证。",
+      "无已核实设备与参数，不设置设备吨位、精度、模具寿命或认证模块。",
+      "制造资源与合作工厂表述仅采用已确认的合作制造模式。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "mold-development-process",
+    "path": "/mold-development-process/",
+    "phase": "P0",
+    "kind": "service",
+    "title": "Die Casting Mold Development Process | EXACTMEC",
+    "description": "Follow the EXACTMEC mold development process: product information, quotation, payment, 3D mold approval, manufacturing, trial samples and mold shipment.",
+    "primary_keyword": "die casting mold development process",
+    "semantic_keywords": [
+      "custom mold development",
+      "mold design approval",
+      "die casting mold lead time",
+      "mold trial and shipment"
+    ],
+    "target_words": [
+      450,
+      750
+    ],
+    "eyebrow": "PROJECT PROCESS",
+    "h1": "From your product information to a completed mold",
+    "intro": "A custom mold project moves through a series of customer and manufacturing decisions. This is the process for EXACTMEC aluminum die casting molds: assess the product information, agree the quotation, prepare the mold design after payment, manufacture after approval, and ship the mold after your trial sample acceptance.",
+    "goal_cn": "用可执行的时间线回答整个项目先后顺序，突出付款、设计批准、客户测样三个节点；与合作沟通页区分。",
+    "hero_layout_cn": "左侧标题介绍，右侧精简七节点纵向流程。手机把节点缩为紧凑列表，不横向溢出。",
+    "sections": [
+      {
+        "id": "inquiry",
+        "heading": "1. Describe the product and provide a drawing or sample",
+        "paragraphs": [
+          "Start with the product for which you need a mold. Clear 2D or 3D product drawings, or a physical sample, are required for quotation. Let us know which information is available when you complete the inquiry.",
+          "Include the number of mold sets, the planned purchasing time and any requirements you already know. If you have a particular budget, you may share it with a currency, but a budget alone cannot define the mold. A basic inquiry is welcome before all quotation information is ready."
+        ],
+        "layout_cn": "编号1配两段正文，右侧三项资料卡：产品图纸、实体样品、项目需求；手机先正文后卡。",
+        "visual_cn": "可用文件类型示意与样品轮廓图，不呈现客户机密文件。"
+      },
+      {
+        "id": "quotation",
+        "heading": "2. Review the quotation and confirm the order details",
+        "paragraphs": [
+          "We review the available information and discuss the proposed mold project with you. The quotation needs to reflect the product requirements and the mold supply scope, rather than a generic price for a pictured part.",
+          "Payment terms, sample arrangements, transport and other order details are settled in direct communication. Website information and the initial inquiry do not replace the quotation or create an order. Clarify any point that will affect your decision before making payment."
+        ],
+        "layout_cn": "两栏：左侧报价说明，右侧“需要一起确认”的短清单；避免价格套餐卡。",
+        "visual_cn": "使用报价范围示意清单；不展示未经确认的报价文件、固定价或付款比例。"
+      },
+      {
+        "id": "design",
+        "heading": "3. Approve the 3D mold design after payment",
+        "paragraphs": [
+          "After customer payment, we prepare the 3D mold design and send it for confirmation. This approval stage comes before mold manufacturing. It is not a mold design service promised before quotation.",
+          "Check the design with your project team and raise questions before confirming it. If your product requirements have changed since quotation, tell us at this stage. The current approved information should remain clear to everyone involved."
+        ],
+        "layout_cn": "突出付款→模具3D设计→客户确认→制造的四节点线；手机纵向。",
+        "visual_cn": "节点图即可；后续可替换为获授权的脱敏模具设计截图。",
+        "cta": {
+          "label": "Review the Mold Design Stage",
+          "href": "/mold-design-review/"
+        }
+      },
+      {
+        "id": "manufacture",
+        "heading": "4. Manufacture the mold after design confirmation",
+        "paragraphs": [
+          "Manufacturing starts after you confirm the mold design. EXACTMEC coordinates this stage with manufacturing partners and remains your contact for project communication.",
+          "The typical timing is approximately 30–40 days from customer payment. That starting point is payment, even though manufacturing follows design approval. It is an estimate rather than a promise that the mold will reach your site within that period. Confirm the relevant project milestones when discussing the order."
+        ],
+        "layout_cn": "左侧制造阶段说明，右侧交期提示卡，付款起算加粗且与设计确认节点并列。",
+        "visual_cn": "预留真实模具制造照片；交期仅文字呈现，不画保证倒计时。",
+        "cta": {
+          "label": "Explore the Manufacturing Scope",
+          "href": "/manufacturing/"
+        }
+      },
+      {
+        "id": "acceptance",
+        "heading": "5. Test the samples, then receive the mold",
+        "paragraphs": [
+          "After the mold is completed, we conduct a mold trial and send the resulting samples to you. Your team tests the samples and provides feedback against the agreed requirements. Keep that feedback connected to the relevant sample and drawing version.",
+          "Once you confirm the samples are acceptable, we arrange shipment of the completed mold. Testing, feedback and shipping are distinct steps. Discuss sample quantities, transport arrangements and any concerns directly with us so the next action is clear."
+        ],
+        "layout_cn": "三列节点：试模出样、寄样测试、认可后发模；下方一行提示客户反馈责任。手机逐卡堆叠。",
+        "visual_cn": "规划真实试模样品与模具包装素材；未获得时保留清晰图标。",
+        "cta": {
+          "label": "See the Sample Review Process",
+          "href": "/quality-control/"
+        }
+      }
+    ],
+    "faqs": [
+      {
+        "q": "When does the 30–40 day estimate begin?",
+        "a": "It begins after customer payment. It is an approximate project timing reference; confirm which milestones it covers and the transport arrangements for your order."
+      },
+      {
+        "q": "When do you begin manufacturing?",
+        "a": "Manufacturing begins after you confirm the 3D mold design prepared following payment."
+      },
+      {
+        "q": "Do I receive samples before the mold?",
+        "a": "Yes. Trial samples are sent for your testing, and the mold is shipped after you confirm that the samples are acceptable."
+      },
+      {
+        "q": "Can I start an inquiry without a drawing?",
+        "a": "Yes. Tell us whether you have a physical sample or are still preparing information. Clear product drawings or a physical sample will still be needed for quotation."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "How We Communicate During a Project",
+        "href": "/how-we-work/"
+      },
+      {
+        "label": "Custom Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "Mold Development Guide",
+        "href": "/resources/die-casting-mold-development-process/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Start with your product and project plan",
+      "text": "Tell us what the mold needs to produce, what information you have, and when you plan to purchase. We will discuss the next step through your chosen contact details.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "30–40天从付款后起算已确认；具体涵盖制造完成、试模及物流的范围仍须项目沟通明确，不能改成到货保证。",
+      "付款比例、修改费用、样品数量、运输承担未确认，正文引导项目沟通，不填写假规则。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "mold-design-review",
+    "path": "/mold-design-review/",
+    "phase": "P0",
+    "kind": "service",
+    "title": "3D Mold Design Review and Approval | EXACTMEC",
+    "description": "Understand how product information becomes a 3D mold design for your approval after payment, before EXACTMEC coordinates mold manufacturing.",
+    "primary_keyword": "3D die casting mold design approval",
+    "semantic_keywords": [
+      "mold design review",
+      "customer mold design confirmation",
+      "product drawing requirements",
+      "custom tooling design"
+    ],
+    "target_words": [
+      450,
+      750
+    ],
+    "eyebrow": "DESIGN CONFIRMATION",
+    "h1": "Review the 3D mold design before manufacturing starts",
+    "intro": "Your product information is the starting point for quotation. After payment, we prepare the 3D mold design and send it to you for confirmation. This page explains the difference between those two inputs and how to make the approval stage clear before the mold enters manufacturing.",
+    "goal_cn": "避免产品图纸与模具3D设计混淆，明确付款后的设计审批机制、客户应确认的信息及变更沟通；不宣传未确认的独立工程报告。",
+    "hero_layout_cn": "左文右图，右侧为“产品资料→付款→模具3D设计→客户确认”示意；主按钮去询价，不设置设计下载。",
+    "sections": [
+      {
+        "id": "different-documents",
+        "heading": "Your product drawing and the mold design serve different purposes",
+        "paragraphs": [
+          "A product drawing describes the item you want to make. A clear 2D or 3D drawing, or a physical sample, gives us information to assess the mold project and prepare a quotation. A general product photo alone is not the stated basis for a mold quotation.",
+          "The 3D mold design is prepared after customer payment. It describes the mold that will be made for the agreed project and is sent to you for confirmation. Manufacturing follows that confirmation; it does not begin simply because an initial inquiry was submitted."
+        ],
+        "layout_cn": "左右对照两张卡片，分别为产品资料与模具设计；每卡标明用途与出现阶段。手机先产品资料再模具设计。",
+        "visual_cn": "使用不含真实客户数据的两个线框示意，强调两者不同而非呈现虚构工程成果。"
+      },
+      {
+        "id": "initial-information",
+        "heading": "Make the starting information easy to identify",
+        "paragraphs": [
+          "Give the product drawing a clear reference and tell us which revision is current. If several files describe the same product, explain how they relate. For a physical sample, discuss the delivery arrangements with us before sending it.",
+          "Highlight requirements that your team considers essential. These might concern the product's fit, visible surfaces, intended use or the equipment on which the mold will run. We review project requirements with you rather than assuming that a photograph captures every acceptance condition."
+        ],
+        "bullets": [
+          "Identify the product and current information.",
+          "Explain requirements that may not be obvious from a picture.",
+          "Keep later changes separate from the original submission."
+        ],
+        "layout_cn": "上方一段引导，下方三条带编号要点，右侧可放文件版本标签示意。手机单列。",
+        "visual_cn": "可视化示意文件名与版本关联，勿编造公差、设备接口标准或检测能力。",
+        "cta": {
+          "label": "Read the Quotation Information Checklist",
+          "href": "/resources/die-casting-mold-quotation-requirements/"
+        }
+      },
+      {
+        "id": "customer-review",
+        "heading": "Review with the people who will approve and use the mold",
+        "paragraphs": [
+          "When you receive the mold design, involve the people responsible for the product and its production use. Collect their questions and return clear, consolidated feedback. This helps keep the approval decision understandable for both teams.",
+          "You do not need to approve something you do not understand. Ask for clarification before confirming the design. If the mold must work with equipment at your facility, discuss the required equipment information during the project instead of leaving the matter until delivery."
+        ],
+        "layout_cn": "左侧正文，右侧简短合作示意：客户采购/工程集中反馈→EXACTMEC；手机正文在先。",
+        "visual_cn": "用角色与反馈箭头图，不使用假客户头像或证言。"
+      },
+      {
+        "id": "confirmation",
+        "heading": "Keep the approval and any changes clear",
+        "paragraphs": [
+          "Confirmation marks the step from design review to manufacturing. Make clear which mold design version you are approving and whether any open questions remain. EXACTMEC coordinates manufacturing after that confirmation.",
+          "If your product, intended use or requirements change, tell us before asking the project to proceed. The effect on the design, quotation or schedule needs discussion for that order. The website does not promise unrestricted changes or assume that every revision has no effect on manufacturing."
+        ],
+        "layout_cn": "以批准节点为主的整宽信息区，下方两列“确认内容”“变更沟通”；手机垂直展开。",
+        "visual_cn": "采用流程审批图标，避免伪造签署文件或技术认证章。"
+      },
+      {
+        "id": "schedule",
+        "heading": "Design approval sits inside the project timeline",
+        "paragraphs": [
+          "The approximate 30–40 day timing starts from customer payment, while mold manufacturing begins after design approval. These are different milestones. Confirm how the proposed schedule applies to your project and communicate any internal approval constraints early.",
+          "After manufacturing, the mold is trialed and samples are sent for customer testing. The completed mold is shipped after the samples are accepted. Design approval supports a clear next step, but it does not replace the later sample review."
+        ],
+        "layout_cn": "水平时间线串联付款、设计确认、制造、测样、发模；手机纵向且所有节点文字完整。",
+        "visual_cn": "无需照片，可用统一流程组件；30–40天作为付款旁的估计提示。",
+        "cta": {
+          "label": "Follow the Full Development Process",
+          "href": "/mold-development-process/"
+        }
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do you design the mold before I pay?",
+        "a": "The 3D mold design is prepared after payment. Product drawings or a physical sample are used first to assess and quote the project."
+      },
+      {
+        "q": "Does my product drawing count as mold design approval?",
+        "a": "No. Your product drawing is an input for the project. The 3D mold design is a separate approval stage after payment."
+      },
+      {
+        "q": "Can I ask questions before confirming the design?",
+        "a": "Yes. Raise questions and clarify the design before you approve it for manufacturing."
+      },
+      {
+        "q": "What if my product changes after approval?",
+        "a": "Contact us to discuss the change. Its effect on the mold, quotation and project schedule must be considered for the order."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Manufacturing After Approval",
+        "href": "/manufacturing/"
+      },
+      {
+        "label": "Trial Samples and Customer Testing",
+        "href": "/quality-control/"
+      },
+      {
+        "label": "How We Work Together",
+        "href": "/how-we-work/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Start with the product you want to make",
+      "text": "Tell us whether you have clear product drawings or a physical sample. We will discuss the quotation information first, then the design approval stage for an agreed order.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "正文中的设备适配为客户需说明的项目需求，不构成已核实通用适配能力。",
+      "没有实际设计截图与报告，现阶段使用流程图；未来只加入经许可脱敏的真实设计素材。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "quality-control",
+    "path": "/quality-control/",
+    "phase": "P0",
+    "kind": "service",
+    "title": "Mold Trials, Sample Testing and Acceptance | EXACTMEC",
+    "description": "See how EXACTMEC mold trials and customer sample testing fit into acceptance, with completed mold shipment after your sample confirmation.",
+    "primary_keyword": "die casting mold trial and sample approval",
+    "semantic_keywords": [
+      "mold sample testing",
+      "die casting mold acceptance",
+      "trial samples",
+      "mold quality review"
+    ],
+    "target_words": [
+      450,
+      750
+    ],
+    "eyebrow": "TRIAL AND ACCEPTANCE",
+    "h1": "Test the trial samples before the mold is shipped",
+    "intro": "For a custom aluminum die casting mold, the trial sample stage gives your team an opportunity to test what the mold produces. After manufacturing, we trial the mold, send samples to you, and arrange mold shipment once you confirm that those samples are acceptable.",
+    "goal_cn": "以已确认的试模、寄样、客户测试、认可后发模替代虚构认证或精度保证，帮助买家理解验收角色与反馈要求。",
+    "hero_layout_cn": "左侧标题与介绍，右侧预留真实试模样品和模具同框照片；无素材时用三阶段流程图。手机先文案与CTA再视觉。",
+    "sections": [
+      {
+        "id": "requirements",
+        "heading": "Begin with requirements that both sides understand",
+        "paragraphs": [
+          "Quality review starts with a clear product reference and an agreed mold project. Give us the product drawings or physical sample used for quotation, and explain the requirements your team will use when reviewing trial samples.",
+          "A product photograph can help explain an application, but it does not communicate every requirement. If fit, appearance or another product feature is important to your decision, bring it into the project discussion. Inspection and acceptance expectations should not first appear after the sample arrives."
+        ],
+        "layout_cn": "左侧两段说明，右侧用“产品参考、关键要求、验收反馈”三项卡；手机堆叠。",
+        "visual_cn": "图纸与样品要求采用抽象示意，不编造检测报告、证书或标准公差。"
+      },
+      {
+        "id": "design-stage",
+        "heading": "Confirm the mold design before it is made",
+        "paragraphs": [
+          "Following payment, we prepare the 3D mold design and send it for your confirmation. Manufacturing begins after that approval. This gives the project an agreed design reference before mold manufacture proceeds.",
+          "Design approval and sample approval have different purposes. The first confirms the design to be manufactured. The second follows the mold trial and your testing of the resulting samples. Keep both decisions linked to the relevant project information."
+        ],
+        "layout_cn": "两张并排卡，分别解释设计批准和样品批准；中间连接制造节点。手机按先后顺序。",
+        "visual_cn": "可复用双审批流程图，避免给出未核实的检测设备图片。",
+        "cta": {
+          "label": "Understand Mold Design Approval",
+          "href": "/mold-design-review/"
+        }
+      },
+      {
+        "id": "trial",
+        "heading": "Trial the completed mold and produce samples",
+        "paragraphs": [
+          "Once mold manufacture is complete, the mold is trialed to produce samples for customer testing. These samples relate to the custom mold project; they are not an offer to supply ongoing production quantities.",
+          "Sample quantities, sample delivery and specific review needs are discussed for the order. If your team needs particular information alongside the samples, raise that requirement during quotation and project communication so it can be reviewed within the scope."
+        ],
+        "layout_cn": "左侧试模说明，右侧样品说明，底部小字强调非量产服务；手机单列。",
+        "visual_cn": "预留真实试模过程或试模零件照片；图片需授权，不用生成图证明质量。"
+      },
+      {
+        "id": "feedback",
+        "heading": "Use your testing to give clear sample feedback",
+        "paragraphs": [
+          "After receiving the samples, test them against the requirements agreed for the project. Your team is responsible for communicating the result and identifying any concern that prevents acceptance. Share clear observations rather than a general statement that something is wrong.",
+          "Reference the relevant sample, product drawing and feature when explaining a concern. Measurements, annotated photos or a short description of the test can help the discussion when available. We discuss the issue and the next action with you; changes and their implications are handled for the individual order."
+        ],
+        "bullets": [
+          "Identify which sample and feature you are discussing.",
+          "Explain the expected requirement and observed result.",
+          "Keep sample feedback separate from new product design requests."
+        ],
+        "layout_cn": "正文下方三点反馈清单，右侧预留匿名标注样例。手机先说明再清单。",
+        "visual_cn": "如需示例用明确标为流程示意的注释图，不能伪装真实客户测试记录。"
+      },
+      {
+        "id": "release",
+        "heading": "Release the mold after sample acceptance",
+        "paragraphs": [
+          "When you confirm that the samples are acceptable, we arrange shipment of the completed mold. Share your acceptance clearly so both sides understand that the project can move to mold delivery.",
+          "Transport details and the documents required for the shipment are discussed directly. The typical project estimate of about 30–40 days starts after payment. It does not by itself guarantee the date of sample arrival, customer testing completion or mold delivery at your site."
+        ],
+        "layout_cn": "整宽尾段，明确样品认可→模具发运；交期说明独立提示，避免被误读为保证。",
+        "visual_cn": "可规划真实模具包装照片，未提供时用发运图标。",
+        "cta": {
+          "label": "See All Project Milestones",
+          "href": "/mold-development-process/"
+        }
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Will I test samples before the mold is shipped?",
+        "a": "Yes. Samples from the mold trial are sent to you, and the mold is shipped after you confirm sample acceptance."
+      },
+      {
+        "q": "Does approving the mold design also approve the samples?",
+        "a": "No. Design confirmation takes place before manufacturing. Sample acceptance follows the mold trial and your testing."
+      },
+      {
+        "q": "What should I do if a sample has a problem?",
+        "a": "Share clear feedback with us, including the relevant sample, feature and requirement. We will discuss the concern and the next action for the project."
+      },
+      {
+        "q": "Are trial samples a volume production order?",
+        "a": "No. Trial samples support testing and mold acceptance. EXACTMEC does not currently accept die casting volume production orders."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Mold Manufacturing Scope",
+        "href": "/manufacturing/"
+      },
+      {
+        "label": "Customer Cooperation Steps",
+        "href": "/how-we-work/"
+      },
+      {
+        "label": "Common Mold Project Questions",
+        "href": "/faq/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Make your acceptance needs part of the conversation",
+      "text": "Describe the product you need to make and the requirements that matter for your sample review. Start with a basic inquiry, then discuss the supporting drawings or physical sample with us.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "未确认检测设备、第三方报告、检验项目或认证，不能在设计或开发阶段自行添加徽章和量化指标。",
+      "样品异常的修改次数、费用、责任规则待项目确认，页面仅解释反馈方式。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "how-we-work",
+    "path": "/how-we-work/",
+    "phase": "P0",
+    "kind": "service",
+    "title": "How to Work With EXACTMEC on a Mold Project",
+    "description": "Start a custom mold inquiry, share your project information, discuss a quotation, and stay involved through mold design approval and sample testing.",
+    "primary_keyword": "custom die casting mold supplier inquiry",
+    "semantic_keywords": [
+      "mold quotation process",
+      "mold project communication",
+      "mold supplier cooperation",
+      "mold order requirements"
+    ],
+    "target_words": [
+      450,
+      750
+    ],
+    "eyebrow": "WORKING TOGETHER",
+    "h1": "A practical way to discuss your next mold project",
+    "intro": "You bring the product requirement. EXACTMEC coordinates the discussion, mold design confirmation and manufacturing communication. Start with a short inquiry so we know who to contact, which product the mold will make, and what drawings or sample you have available.",
+    "goal_cn": "解释客户的每个合作触点和沟通责任，保留表单留资与后续人工联系；与制造时间线页分工，重点为如何发起与协作。",
+    "hero_layout_cn": "左侧标题与介绍，右侧三张叠卡：客户信息、产品需求、资料状态；主CTA去表单，辅助链接去流程。手机单列。",
+    "sections": [
+      {
+        "id": "first-inquiry",
+        "heading": "Send a basic inquiry before opening a detailed discussion",
+        "paragraphs": [
+          "The inquiry form records your name, company, country and city, email and project information. Tell us what the mold will produce, how many mold sets you need, whether you have product drawings or a physical sample, and when you plan to purchase.",
+          "A budget can help explain your expectations, but it is optional. You can say that it is not yet decided. A company website or other useful context can also help us understand the project. The aim is to start an informed conversation, not to make you complete every technical detail at once."
+        ],
+        "layout_cn": "左侧介绍，右侧静态字段概览，不嵌入第二份复杂表单；手机先文后清单。",
+        "visual_cn": "使用简洁表单字段示意，不显示真实个人信息或虚构询盘。",
+        "cta": {
+          "label": "Start Your Mold Inquiry",
+          "href": "/request-a-quote/"
+        }
+      },
+      {
+        "id": "follow-up",
+        "heading": "Choose how to continue the conversation",
+        "paragraphs": [
+          "You can continue on WhatsApp after submitting the form, or wait for us to follow up through the contact details you provided for your inquiry. Your inquiry remains recorded even if you do not start a WhatsApp chat.",
+          "We use the initial information to understand whether the request fits our mold supply service and what needs clarification. If you have given permission for WhatsApp contact, we can discuss the project there. You can also continue by email when that is more suitable for your team."
+        ],
+        "layout_cn": "两列渠道卡：表单后WhatsApp与邮箱跟进；卡片必须说明WhatsApp非提交前置条件。手机上下排列。",
+        "visual_cn": "只使用渠道图标；不得添加虚构联系人头像、在线状态或秒回承诺。"
+      },
+      {
+        "id": "quotation-info",
+        "heading": "Provide the information needed for a quotation",
+        "paragraphs": [
+          "Quotation requires clear 2D or 3D product drawings, or a physical sample. Tell us what you have first; we will discuss how to provide it. The initial form does not require a file upload.",
+          "Explain the product's intended use and any requirements that are important to the mold project. If the mold will run on equipment at your facility, mention that context during the discussion. One mold set can be considered, and our current service does not include volume die casting production."
+        ],
+        "layout_cn": "三列资料卡：2D产品图、3D产品图、实体样品，下面一段要求说明；手机单列。",
+        "visual_cn": "文件/样品图标即可，不能出现上传按钮或拖放上传框。",
+        "cta": {
+          "label": "Check the Quotation Requirements",
+          "href": "/resources/die-casting-mold-quotation-requirements/"
+        }
+      },
+      {
+        "id": "agree",
+        "heading": "Agree the scope before payment and design work",
+        "paragraphs": [
+          "Discuss the quotation, payment arrangements and project details directly with us. Matters such as sample quantities, shipping and changes need to be clear for your order; the website does not set a single payment plan for every customer.",
+          "After payment, we prepare the 3D mold design for your confirmation. Manufacturing begins after you approve it. Keep your team's feedback together, identify the version being discussed, and tell us if your product requirements change."
+        ],
+        "layout_cn": "左侧订单沟通，右侧付款后设计确认；中间用项目确认节点衔接。手机按顺序展开。",
+        "visual_cn": "使用信息确认示意，不放付款比例、订阅套餐或在线结账界面。"
+      },
+      {
+        "id": "customer-actions",
+        "heading": "Stay involved through sample testing and handover",
+        "paragraphs": [
+          "We trial the finished mold and send samples to you. Your team tests them and tells us whether they meet the agreed requirements. When you confirm the samples are acceptable, we arrange shipment of the completed mold.",
+          "The approximate timing of 30–40 days starts from customer payment. Confirm the milestones that apply to your project rather than treating that estimate as a guaranteed arrival date. Your internal design approval and sample testing plans are useful parts of the scheduling conversation."
+        ],
+        "layout_cn": "三张客户行动卡：批准设计、测试样品、确认发模；底部链接完整流程。手机纵向排列。",
+        "visual_cn": "以责任节点图代替无依据项目进度截图。",
+        "cta": {
+          "label": "See the Complete Project Process",
+          "href": "/mold-development-process/"
+        }
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do I have to contact you on WhatsApp after the form?",
+        "a": "No. Your inquiry is saved after a successful submission. We can follow up through the contact details provided for the project, including email."
+      },
+      {
+        "q": "Can I inquire before the drawings are ready?",
+        "a": "Yes. Tell us what you currently have. Clear product drawings or a physical sample are still required for quotation."
+      },
+      {
+        "q": "Do I need a fixed budget to contact you?",
+        "a": "No. Budget is optional and can be undecided. The product information and mold requirements remain important to a meaningful quotation."
+      },
+      {
+        "q": "Can we agree payment terms in the conversation?",
+        "a": "Yes. Payment arrangements are discussed for the individual order rather than published as a fixed website payment plan."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Mold Design Confirmation",
+        "href": "/mold-design-review/"
+      },
+      {
+        "label": "Trial Samples and Acceptance",
+        "href": "/quality-control/"
+      },
+      {
+        "label": "About EXACTMEC",
+        "href": "/about/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Give us enough context to start a useful conversation",
+      "text": "Introduce your company and the product, tell us which drawings or sample are available, and leave reliable contact details. We will discuss the mold project with you from there.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "WhatsApp主动联系依主任务的渠道许可组件实施，页面不得以勾选WhatsApp联系许可作为提交门槛。",
+      "前台不上传文件已确认；图纸和样品的具体传递方式在后续沟通确定。",
+      "实际收件邮箱、WhatsApp号码和服务商尚待配置，公开文案不写占位联系方式。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-automotive",
+    "path": "/industries/automotive/",
+    "phase": "P1-prepared",
+    "kind": "industry",
+    "title": "Automotive Aluminum Die Casting Molds | EXACTMEC",
+    "description": "Discuss a custom aluminum die casting mold for automotive housings, covers and brackets. Quote from clear product drawings or a physical sample.",
+    "primary_keyword": "automotive die casting molds",
+    "semantic_keywords": [
+      "automotive die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Aluminum Die Casting Molds for Automotive Components",
+    "intro": "Plan a mold around the automotive component you need to manufacture. EXACTMEC accepts custom aluminum die casting mold inquiries from one set. Send clear product drawings or discuss a physical sample. This page covers mold development; automotive component examples show applications to discuss, rather than parts offered for sale.",
+    "goal_cn": "识别汽车项目的版本、装配和客户要求，避免暗示已有汽车认证或案例。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "project-scope",
+        "heading": "Start with the Component and Its Use",
+        "paragraphs": [
+          "Housing, cover and bracket projects can involve very different mold requirements. Describe where your component fits and which surfaces connect to other parts. Tell us whether you are developing a new product, replacing an existing mold or seeking another mold source. These details make the first discussion more useful than a product name alone.",
+          "If your project follows a customer specification or approval process, identify it at the inquiry stage. Its requirements need separate review before a scope is agreed."
+        ],
+        "layout_cn": "左标题右正文，下面三卡展示壳体、盖件、支架；手机纵排。",
+        "visual_cn": "需3张汽车零件应用示意；不使用车品牌或客户标志。"
+      },
+      {
+        "id": "drawing-priorities",
+        "heading": "Make Drawing Revisions and Interfaces Clear",
+        "paragraphs": [
+          "Provide the latest available 2D or 3D product drawings. Mark the revision you want quoted and identify important mounting holes, mating faces and areas with later machining. If separate documents contain different information, explain which document controls. A photo can help explain the use, but does not replace the drawing or physical sample needed for a quotation.",
+          "You can submit the initial inquiry without sending technical files. We will arrange the next exchange after reviewing your details."
+        ],
+        "layout_cn": "清单式两列：图纸版本、装配接口、后加工区域、外观要求；手机单列。",
+        "visual_cn": "使用自制不含真实参数的接口标注示意图，明确为说明图。"
+      },
+      {
+        "id": "production-context",
+        "heading": "Explain Where the Mold Will Run",
+        "paragraphs": [
+          "Let us know where the finished mold will be used and whether the receiving manufacturer has machine or mold interface requirements. Share those requirements when available, rather than assuming that every mold fits every production setup. Expected production volume is also useful project context, even though the order you place with us is for a mold.",
+          "We do not accept automotive die casting mass production orders. Any downstream component production remains a separate arrangement for your project."
+        ],
+        "layout_cn": "横向两段信息区，左侧模具交付、右侧接收端要求；手机按此顺序。",
+        "visual_cn": "规划模具与接收工厂的流程示意，不虚构机台参数。"
+      },
+      {
+        "id": "approval",
+        "heading": "Agree How Samples Will Be Reviewed",
+        "paragraphs": [
+          "After payment, we prepare the 3D mold design for your confirmation. Manufacturing begins after you approve that design. When the mold is made, trial samples are sent for your testing. Tell us who will review them and what product requirements they will check. The finished mold is dispatched after you confirm the samples are acceptable.",
+          "The current indicative schedule is about 30–40 days from payment. The applicable milestones and shipping arrangements are confirmed for the individual project."
+        ],
+        "layout_cn": "四节点流程：付款、模具设计确认、制造试模、客户测样后发模；手机竖向。",
+        "visual_cn": "只做流程图；日程脚注与总流程页保持一致。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can I order a mold for one automotive component?",
+        "a": "Yes. Orders can start from one mold set. Quote scope depends on the component drawing or physical sample and the requirements agreed for that project."
+      },
+      {
+        "q": "How should I share automotive program requirements?",
+        "a": "Include the applicable specifications and approval requirements in the project discussion. We review them before agreeing the mold scope."
+      },
+      {
+        "q": "Do you supply production quantities of the cast parts?",
+        "a": "No. Our current service is custom mold development. Trial samples are for customer testing before the finished mold is dispatched."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "汽车行业认证、客户程序和已交付车型均无证据，不做背书。",
+      "所有汽车零件视觉仅为应用说明；不得使用未经许可品牌。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-motorcycle",
+    "path": "/industries/motorcycle-e-mobility/",
+    "phase": "P1-prepared",
+    "kind": "industry",
+    "title": "Motorcycle & E-Mobility Die Casting Molds | EXACTMEC",
+    "description": "Plan aluminum die casting molds for motorcycle and electric two-wheeler components. Share product drawings or a sample for project review.",
+    "primary_keyword": "motorcycle die casting molds",
+    "semantic_keywords": [
+      "motorcycle die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Molds for Motorcycle and Electric Two-Wheeler Components",
+    "intro": "Bring us the component you want to develop, from an engine side cover to an electric drive housing. We quote custom aluminum die casting molds using clear 2D or 3D product drawings or a physical sample. One mold set is welcome. The focus is your mold project, rather than a catalogue of finished motorcycle parts.",
+    "goal_cn": "围绕燃油与电动两轮车的匹配接口、外观及样品版本展开，区分修复和重新开模。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "component",
+        "heading": "Define Which Component You Need to Make",
+        "paragraphs": [
+          "Engine covers, crankcase sections, transmission covers and electric drive housings are examples to discuss. They should not be treated as interchangeable projects. Tell us which assembly the part belongs to and whether it replaces an existing component or supports a new design. If a left and right part must work together, identify both in the initial discussion.",
+          "An existing part number can help communication, but the quotation still needs clear drawings or a physical sample."
+        ],
+        "layout_cn": "三张应用卡片配短说明：发动机盖、传动壳、电驱壳；手机单列。",
+        "visual_cn": "规划不同外形的无品牌应用示意图；不声称兼容特定车型。"
+      },
+      {
+        "id": "interfaces",
+        "heading": "Show the Interfaces That Need to Match",
+        "paragraphs": [
+          "Explain where the part meets the engine, motor, frame or surrounding covers. Identify mounting positions, shaft openings, mating faces and any areas that will be machined later. Include appearance expectations for visible surfaces, especially where lettering, a texture or a coating is planned. These are inputs for a project discussion, rather than automatic promises about the finished part.",
+          "If you have a physical sample only, tell us whether it represents the desired result or includes defects that must be corrected."
+        ],
+        "layout_cn": "左图右清单；手机先清单后接口说明图。",
+        "visual_cn": "中性壳体轮廓及客户需说明的接口标注，不包含公差承诺。"
+      },
+      {
+        "id": "changes",
+        "heading": "Separate a Copy Project from a Design Change",
+        "paragraphs": [
+          "A request to reproduce a sample differs from a request to redesign it. List the changes you want and explain which existing features must stay. Photos of a worn or broken part are useful context, but may not show its original geometry. We may need additional information before quoting a suitable mold.",
+          "Tell us where the mold will be used and whether the receiving manufacturer has equipment interface requirements. This helps define the mold scope before manufacturing starts."
+        ],
+        "layout_cn": "上下两条对比说明：按确认版本开模、带修改需求开模；不用优劣对比。",
+        "visual_cn": "规划版本对照示意，避免展示他人专有设计。"
+      },
+      {
+        "id": "testing",
+        "heading": "Plan the Sample Check Before Mold Dispatch",
+        "paragraphs": [
+          "Following payment, we create the 3D mold design and send it for your confirmation. We manufacture after that approval, then trial the mold and send samples for your testing. Explain whether your review includes assembly with surrounding components, appearance or other agreed product checks. Sample acceptance is followed by dispatch of the finished mold.",
+          "The indicative project schedule is about 30–40 days from payment. Confirm milestone coverage and transport separately before agreeing the delivery plan."
+        ],
+        "layout_cn": "流程横排四节点，样品检查单独突出；手机纵排。",
+        "visual_cn": "用流程图和样品待检图示，不用性能测试结果图。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you make a mold from an old motorcycle part?",
+        "a": "A physical sample can be used for quotation review. Tell us about wear, damage and requested changes so that the intended geometry can be discussed."
+      },
+      {
+        "q": "Do you sell engine covers or electric drive housings?",
+        "a": "No. These are examples of applications for custom molds. We are not currently accepting die cast part mass production orders."
+      },
+      {
+        "q": "Do you develop a full vehicle system?",
+        "a": "No. The discussion concerns a custom mold for your component. Vehicle design, system approval and road-use requirements are outside the website service offer."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "不宣称整车工程、车型适配、道路认证或量产能力。",
+      "发动机与电驱示例的图纸需求必须按真实项目核对。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-led",
+    "path": "/industries/led-lighting/",
+    "phase": "P0",
+    "kind": "industry",
+    "title": "LED Lighting Aluminum Die Casting Molds | EXACTMEC",
+    "description": "Request a mold quote for LED lighting housings and related aluminum components. Explain appearance, assembly and thermal design requirements.",
+    "primary_keyword": "LED lighting die casting molds",
+    "semantic_keywords": [
+      "LED lighting die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Custom Aluminum Die Casting Molds for LED Lighting",
+    "intro": "Develop a mold for the lighting component your product needs. Street light housings, floodlight bodies and industrial light housings are examples of projects to discuss. EXACTMEC accepts mold orders from one set. Clear product drawings or a physical sample are required for quotation; an initial inquiry can start with your project details.",
+    "goal_cn": "面向灯具采购方说明壳体结构、外观与安装需求，避免承诺散热或防护等级。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "housing",
+        "heading": "Describe the Housing as Part of a Light Assembly",
+        "paragraphs": [
+          "A lighting housing needs to be discussed together with the parts it meets. Explain where the lens, cover, driver compartment, bracket or other hardware sits. Identify the housing version you want quoted, especially if your product range includes several wattage or body size options. A family of related products does not necessarily use one identical mold.",
+          "Start with the component that is closest to purchase. Further versions can be reviewed once their differences are clear."
+        ],
+        "layout_cn": "左侧项目说明，右侧灯体拆分应用示意；手机文字先行。",
+        "visual_cn": "需路灯或投光灯铝壳示意，不配虚构照明效果认证。"
+      },
+      {
+        "id": "requirements",
+        "heading": "Tell Us Which Surfaces and Features Matter",
+        "paragraphs": [
+          "Show visible surfaces, planned coatings, fastener positions and areas used for assembly. If your design includes ribs or fins, provide their geometry in the product drawings. Explain any requirements associated with heat management or environmental protection, and identify the documents that define them. Those needs must be reviewed for the individual project.",
+          "We do not infer a thermal rating or an ingress protection rating from a housing image. State the intended product requirements instead of relying on appearance alone."
+        ],
+        "layout_cn": "两列清单：外观与装配、项目技术要求；手机单列。",
+        "visual_cn": "规划表面与结构标注图，标题为客户应说明事项，不展示测试承诺。"
+      },
+      {
+        "id": "quotation",
+        "heading": "Prepare Product Information for a Quote",
+        "paragraphs": [
+          "Send clear 2D or 3D product drawings, or discuss a physical sample. Include overall dimensions and indicate which surfaces will receive later machining or finishing. If the sample is coated, explain whether the drawing represents the underlying casting or the finished product. That distinction can affect what needs clarification before a mold price is prepared.",
+          "Also tell us where the mold will run and whether the receiving manufacturer has interface requirements. We quote the mold; we do not offer lighting component mass production."
+        ],
+        "layout_cn": "按图纸、样品、补充要求三块排布；手机依次阅读。",
+        "visual_cn": "图纸与样品占位仅写素材计划，实际配图需有使用权。"
+      },
+      {
+        "id": "approval",
+        "heading": "Confirm the Mold Design, Then Test Samples",
+        "paragraphs": [
+          "After payment, we prepare a 3D mold design for your review. Mold manufacturing starts only after your design confirmation. Once the mold is made, we trial it and send samples for your testing. Before that stage, tell us which assembly and appearance checks your team plans to make. The mold is sent after you confirm that the samples are acceptable.",
+          "About 30–40 days from payment is the current indicative schedule. Exact milestones, sample transport and final shipment are agreed for your project."
+        ],
+        "layout_cn": "付款到发模的五步流程，样品测试提示放在右侧；手机提示跟随节点。",
+        "visual_cn": "无品牌灯壳样品与流程线，避免散热温度数值。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you quote a mold from a lighting housing sample?",
+        "a": "Yes, a physical sample can be reviewed for quotation. Tell us about any intended changes, coatings and surfaces that differ from the sample."
+      },
+      {
+        "q": "Does the mold quote include LED electronics?",
+        "a": "No. Our current offer concerns the custom aluminum die casting mold. LEDs, drivers and lighting system supply are not included in this website offer."
+      },
+      {
+        "q": "Can you promise a thermal or protection rating?",
+        "a": "No general rating is promised. Share your requirements so the mold project and the customer's intended sample checks can be discussed."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "灯壳示意不能写作交付案例。",
+      "不宣传IP、热测试、灯具认证或未确认的特定薄壁能力。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-motor",
+    "path": "/industries/motor-pump-transmission/",
+    "phase": "P0",
+    "kind": "industry",
+    "title": "Motor, Pump & Transmission Die Casting Molds | EXACTMEC",
+    "description": "Discuss molds for motor end covers, pump housings and transmission casings. Define mating surfaces, machining and sample review requirements.",
+    "primary_keyword": "motor pump transmission die casting molds",
+    "semantic_keywords": [
+      "motor pump transmission die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Aluminum Die Casting Molds for Motors, Pumps and Transmissions",
+    "intro": "Plan a custom mold for a motor, pump or transmission component using your own product reference. End covers, pump housings and gearbox casings are examples to discuss. We accept one mold set and quote from clear 2D or 3D product drawings or a physical sample. Production quantities of cast components are not part of our current service.",
+    "goal_cn": "以装配接口与后加工边界筛选工程采购，区别电机、泵、传动项目。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "assembly",
+        "heading": "Begin with the Assembly Function",
+        "paragraphs": [
+          "Tell us whether the component supports a motor, contains a pump passage or forms part of a transmission enclosure. Explain how it fits with nearby parts and where alignment or clearance matters. These uses raise different questions, even when the components look similar in a product photograph.",
+          "For a replacement mold, identify the current issue you want to address. Separate a mold replacement from a product redesign so that the intended drawing version and quotation scope remain clear."
+        ],
+        "layout_cn": "三列应用卡：电机端盖、泵壳、传动壳；手机纵排。",
+        "visual_cn": "三种无品牌壳体示意，均标为应用示例。"
+      },
+      {
+        "id": "interfaces",
+        "heading": "Identify Mating Faces and Later Operations",
+        "paragraphs": [
+          "Highlight mounting faces, bearing-related features, shaft openings and any other interfaces your team considers critical. Indicate which features are defined in the casting and which are intended for later machining. If seals, internal passages or operating conditions affect your requirements, describe them and provide the relevant product documents.",
+          "This information helps frame the review; it does not establish a general promise of sealing performance, pressure capability or dimensional results. Requirements and acceptance checks must be agreed for the specific project."
+        ],
+        "layout_cn": "左图右清单，重点区域采用编号关联；手机先要点后图。",
+        "visual_cn": "说明性剖面或接口示意，不包含未经确认的压力、公差数据。"
+      },
+      {
+        "id": "handover",
+        "heading": "Define the Mold Receiving Requirements",
+        "paragraphs": [
+          "Let us know where the finished mold will be used. If the receiving manufacturer has machine interface, handling or mold connection requirements, include them in the discussion. Do not assume the same mold arrangement suits every facility. Your expected production volume is useful context for planning, even though you are ordering a mold rather than a batch of castings.",
+          "For sample-based inquiries, identify wear, repairs or modifications in the reference part. We may need clarification before preparing a quotation."
+        ],
+        "layout_cn": "接收端信息按位置、设备要求、样品状态分三行；手机卡片化。",
+        "visual_cn": "模具交付清单图示，不用未经证实的生产设备照片。"
+      },
+      {
+        "id": "review",
+        "heading": "Use Trial Samples to Check the Agreed Product",
+        "paragraphs": [
+          "After payment, we design the mold in 3D and send the design for your confirmation. Manufacturing follows approval. We then trial the mold and send samples for your testing. Tell us which assembly checks, measurements or other agreed checks your team will perform. Once you confirm the samples are acceptable, the finished mold is dispatched.",
+          "The indicative schedule is about 30–40 days from payment. Confirm which milestones it covers and agree sample and mold transport arrangements during project discussion."
+        ],
+        "layout_cn": "四阶段流程配样品验收提示；手机按时间纵向。",
+        "visual_cn": "仅显示客户测试节点，不暗示自有检测设备或特定测试服务。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you make a mold for a pump housing?",
+        "a": "A pump housing project can be reviewed. Provide clear product drawings or a physical sample and explain any relevant sealing, passage or operating requirements."
+      },
+      {
+        "q": "Does your service include machining finished components?",
+        "a": "No standalone component machining or casting production orders are offered here. Identify planned downstream machining so that the mold scope can be discussed."
+      },
+      {
+        "q": "Do you guarantee pressure-tight castings?",
+        "a": "No blanket performance guarantee is made. Product requirements and the applicable sample acceptance checks need project-specific agreement."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "不承诺气密、水压或传动精度结果。",
+      "项目接受与否取决于具体图纸和合作制造能力确认。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-electronics",
+    "path": "/industries/electronics-telecommunications/",
+    "phase": "P1-prepared",
+    "kind": "industry",
+    "title": "Electronic Enclosure Die Casting Molds | EXACTMEC",
+    "description": "Plan custom aluminum molds for electronics and telecommunications enclosures. Clarify board fit, connectors, assembly and appearance requirements.",
+    "primary_keyword": "electronic enclosure die casting molds",
+    "semantic_keywords": [
+      "electronic enclosure die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Die Casting Molds for Electronic and Communication Enclosures",
+    "intro": "Turn your enclosure requirements into a clearly defined mold inquiry. Instrument housings, communication equipment covers and electronic module enclosures are examples to discuss. EXACTMEC supplies custom aluminum die casting molds from one set. Provide clear product drawings or a physical sample for quotation. We do not sell completed electronic devices or offer casting mass production.",
+    "goal_cn": "强调板件空间、接口与外观版本，避免把金属外壳等同于认证屏蔽或防护产品。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "enclosure",
+        "heading": "Define the Enclosure Boundary",
+        "paragraphs": [
+          "Tell us which pieces of the enclosure need molds and which will come from other processes. A body, lid and mounting accessory may have separate requirements. Explain whether the product sits inside equipment, on a wall or in another assembly. This context helps identify questions about fastening, installation and access before the quotation is prepared.",
+          "If several product variants share an enclosure, list their differences. Avoid combining incompatible connector layouts or board sizes into an undefined first inquiry."
+        ],
+        "layout_cn": "主壳、盖件、安装件三卡，标示项目边界；手机单列。",
+        "visual_cn": "中性电子外壳应用图，不展示真实品牌产品。"
+      },
+      {
+        "id": "fit",
+        "heading": "Show Board, Connector and Assembly Interfaces",
+        "paragraphs": [
+          "Provide dimensions for internal spaces, board supports, connector openings and fastener locations in the available product drawings. Identify areas that may be machined after casting, along with visible surfaces and planned finishes. If a sample contains fitted inserts or separate hardware, explain whether these belong to the mold project.",
+          "Electrical shielding, environmental protection and other product requirements need their own supporting information. A metal enclosure image does not establish that a particular performance level or certification will be achieved."
+        ],
+        "layout_cn": "左清单右外壳内部示意；手机清单后图片。",
+        "visual_cn": "内部安装空间标注图；不画认证徽标或性能数值。"
+      },
+      {
+        "id": "versions",
+        "heading": "Keep Product Versions Traceable",
+        "paragraphs": [
+          "Use clear drawing file names and tell us which revision is ready for quotation. If the electronics layout is still changing, identify what is settled and what may move. This prevents a preliminary enclosure concept from being confused with an approved product definition.",
+          "A physical sample is another route to quotation review. Explain any differences between that sample and your intended product, including openings, finish or mounting points. Photos are useful context, but quotation requires clear drawings or the physical reference."
+        ],
+        "layout_cn": "两列展示版本识别与样品差异说明；手机上下。",
+        "visual_cn": "示例文件名与版本标签采用自制内容，不显示客户文件。"
+      },
+      {
+        "id": "verification",
+        "heading": "Plan Approval Around the Actual Assembly",
+        "paragraphs": [
+          "Following payment, we prepare the 3D mold design and send it for customer confirmation. We manufacture after approval, trial the mold and send samples for your testing. Your review can then consider the agreed enclosure requirements alongside your boards, connectors and other components. We dispatch the finished mold after you confirm that the samples are acceptable.",
+          "The indicative schedule is about 30–40 days from payment. Milestone scope and transport timing are confirmed separately for the project."
+        ],
+        "layout_cn": "流程中突出客户装配检查；手机四步纵排。",
+        "visual_cn": "外壳与抽象板件装配示意，避免暗示我们供应电子组件。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you quote before the electronics design is finished?",
+        "a": "You can start a discussion early. A mold quotation requires clear product drawings or a physical sample; unresolved changes need to be identified."
+      },
+      {
+        "q": "Do you supply boards, connectors or finished devices?",
+        "a": "No. The current offer is a custom aluminum die casting mold. Associated electronics and device assembly are outside this website service."
+      },
+      {
+        "q": "Does an aluminum housing guarantee shielding performance?",
+        "a": "No. State the intended requirements and supporting documents. This website makes no general shielding, protection or product certification claim."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "不承诺EMC、屏蔽效能、IP等级或电子整机供货。",
+      "应用示意不能包装成通信客户项目。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-energy",
+    "path": "/industries/energy-power/",
+    "phase": "P1-prepared",
+    "kind": "industry",
+    "title": "Energy & Power Equipment Die Casting Molds | EXACTMEC",
+    "description": "Discuss custom molds for inverter, power module and electrical housings. Define enclosure scope, interfaces and project requirements before quotation.",
+    "primary_keyword": "power equipment die casting molds",
+    "semantic_keywords": [
+      "power equipment die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Aluminum Die Casting Molds for Energy and Power Equipment",
+    "intro": "Discuss a mold for the aluminum component in your power equipment project. Inverter housings, power module enclosures and electrical junction housings are application examples to review. We accept one mold set and quote from clear product drawings or a physical sample. The offer is mold development, with product-specific requirements reviewed before an order is agreed.",
+    "goal_cn": "吸引电力设备壳体采购，先明确零件范围和客户规范，避免安全与认证承诺。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "scope",
+        "heading": "Identify the Component Within the System",
+        "paragraphs": [
+          "Specify the aluminum component you want to manufacture, rather than requesting a complete power product. A housing body, lid, mounting piece and cooling-related component may have different scopes. Explain how the part is used and identify the version intended for the first mold.",
+          "If the design belongs to a larger product program, share the relevant component requirements. Brand names or a general description such as an inverter housing are not enough to define a quotation."
+        ],
+        "layout_cn": "左侧范围说明，右侧外壳与系统边界示意；手机文字先。",
+        "visual_cn": "中性电力外壳示意；不显示电气性能或厂商品牌。"
+      },
+      {
+        "id": "requirements",
+        "heading": "Separate Geometry from Product Performance",
+        "paragraphs": [
+          "Mark mounting points, internal clearances, cable entries and the surfaces that meet other components. Identify planned finishing and later machining. Where the design uses ribs, fins or compartments, include their geometry in the product drawing rather than relying on a photograph.",
+          "Tell us about thermal, electrical, environmental or other requirements that affect the component. These are project inputs to review, not performance guarantees implied by the mold service. Final product compliance cannot be established by the housing's appearance."
+        ],
+        "layout_cn": "四项要求清单，以轮廓图编号对应；手机单列。",
+        "visual_cn": "仅做几何与界面说明，不显示温度、电压或认证图标。"
+      },
+      {
+        "id": "reference",
+        "heading": "Provide a Clear Reference for the Quote",
+        "paragraphs": [
+          "The quotation reference can be clear 2D or 3D product drawings or a physical sample. Identify the drawing revision and explain any areas still under development. For a sample, list the features you want to change and distinguish surface treatment from the underlying casting.",
+          "Also tell us the planned purchasing date, approximate mold budget if known, and where the mold will be used. These details help organize the discussion without turning a preliminary inquiry into an order commitment."
+        ],
+        "layout_cn": "报价资料与采购背景各占一列；手机先资料后背景。",
+        "visual_cn": "规划项目资料卡，不使用实际报价、虚构预算区间或客户记录。"
+      },
+      {
+        "id": "samples",
+        "heading": "Confirm Design and Sample Review Responsibilities",
+        "paragraphs": [
+          "After payment, we prepare a 3D mold design for your confirmation. Manufacturing begins after that approval. Once the mold is made, trial samples are sent to you for testing against the agreed requirements. Clarify who will review the sample and which assembly or product checks need to be completed. Dispatch of the finished mold follows your sample acceptance.",
+          "The current indicative schedule is about 30–40 days from payment. Milestone coverage, sample transport and mold shipment are agreed for the individual project."
+        ],
+        "layout_cn": "设计批准与样品批准两次确认单独标记；手机纵向流程。",
+        "visual_cn": "双确认节点流程图，无检测能力背书。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do you supply finished inverters or charging equipment?",
+        "a": "No. We discuss custom aluminum die casting molds for components. Complete electrical products and cast component mass production are outside the current offer."
+      },
+      {
+        "q": "Can my electrical safety requirements be included?",
+        "a": "Share the relevant requirements for review. They must be addressed in the agreed project scope; the website does not promise a finished product certification."
+      },
+      {
+        "q": "Can I order one mold for a new product?",
+        "a": "Yes. One mold set is accepted. Clear product drawings or a physical sample are required to prepare a quotation."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "电气安全和热设计要求只作为客户输入，不给出工程结论。",
+      "不出现储能/充电整机合规背书。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-industrial",
+    "path": "/industries/industrial-automation/",
+    "phase": "P1-prepared",
+    "kind": "industry",
+    "title": "Industrial Automation Die Casting Molds | EXACTMEC",
+    "description": "Plan molds for actuator housings, sensor enclosures and industrial supports. Explain installation interfaces, variants and sample checks.",
+    "primary_keyword": "industrial automation die casting molds",
+    "semantic_keywords": [
+      "industrial automation die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Molds for Industrial Equipment and Automation Components",
+    "intro": "Define a custom mold for the component inside your industrial product. Actuator housings, sensor enclosures, mounting supports and equipment covers are examples to discuss. EXACTMEC accepts aluminum die casting mold orders from one set. We use clear product drawings or a physical sample for quotation and coordinate the mold development process through sample confirmation.",
+    "goal_cn": "针对自动化非标件询价，强调使用环境、接口及版本管理，不扩展为整机服务。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "component",
+        "heading": "Describe the Job of the Component",
+        "paragraphs": [
+          "Tell us what the component supports, covers or connects. Its role in the machine helps explain which features deserve attention in the initial discussion. Identify whether the project is for a new design, a replacement mold or an additional source for an established component.",
+          "A general equipment photograph may show the context, but it does not define the part. Point out the specific aluminum item and distinguish it from purchased hardware, machined components or other materials."
+        ],
+        "layout_cn": "设备上下文与具体零件双图布局；手机先零件后上下文。",
+        "visual_cn": "自制设备轮廓与零件高亮，不使用实际客户设备照片。"
+      },
+      {
+        "id": "installation",
+        "heading": "Highlight Installation and Moving Interfaces",
+        "paragraphs": [
+          "Provide the geometry of mounting points, covers, openings and nearby components in the product drawings. If the part surrounds a moving assembly, identify the relevant clearance requirements. State the areas that receive later machining, the visible surfaces and the planned finish.",
+          "Share operating environment or product requirements that affect your component. Their inclusion starts a discussion; it does not imply a universal promise about loads, vibration, sealing or operating life. Any required checks need project-specific agreement."
+        ],
+        "layout_cn": "左图标注安装区域，右侧要求清单；手机先清单。",
+        "visual_cn": "标注示意不使用载荷、寿命或精度数值。"
+      },
+      {
+        "id": "variants",
+        "heading": "Make Product Variants Easy to Compare",
+        "paragraphs": [
+          "Industrial products often have project-specific configurations. List the differences between your versions, such as mounting arrangements or enclosure openings, and identify the version you plan to purchase first. We will discuss whether the proposed mold scope matches those references rather than assuming several drawings form one order.",
+          "For a sample-based inquiry, explain its condition and intended changes. A repaired sample or a modified prototype may need additional clarification before it can serve as a quotation reference."
+        ],
+        "layout_cn": "版本差异三列表格：参考版本、拟调整项、首单范围；手机卡片化。",
+        "visual_cn": "空白结构示例使用示意版本标签，不填虚构客户参数。"
+      },
+      {
+        "id": "delivery",
+        "heading": "Set Up a Practical Review and Handover",
+        "paragraphs": [
+          "After payment, we prepare the mold's 3D design for your confirmation. Manufacturing follows approval. Trial samples are then sent for customer testing, and the mold is dispatched after you confirm the samples are acceptable. Tell us who can approve the design and who will check the samples so these stages have clear contacts.",
+          "The indicative schedule is about 30–40 days from payment. Confirm its milestone coverage and shipping arrangements. We do not currently accept mass production orders for the cast components."
+        ],
+        "layout_cn": "联系角色与流程并排，手机先流程再角色。",
+        "visual_cn": "工程/采购角色图标和两次确认流程，无假头像。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you work from a modified prototype sample?",
+        "a": "A physical sample can be reviewed. Explain repairs, modifications and differences from the intended product before a quotation reference is agreed."
+      },
+      {
+        "q": "Do you design complete automation equipment?",
+        "a": "No. The website offer concerns a custom aluminum die casting mold for your component. Complete machine design and system integration are outside that scope."
+      },
+      {
+        "q": "Can several component variants be included?",
+        "a": "List each variant for review. The quotation must identify the drawings and mold scope it includes rather than assuming all versions are covered."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "不承诺工业载荷、振动测试、寿命或自动化系统集成。",
+      "不根据行业列举推断有相应交付案例。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "industry-tools",
+    "path": "/industries/power-tools-home-appliances/",
+    "phase": "P1-prepared",
+    "kind": "industry",
+    "title": "Power Tool & Appliance Die Casting Molds | EXACTMEC",
+    "description": "Discuss aluminum molds for tool gear housings, appliance supports and covers. Prepare drawings, appearance requirements and sample review details.",
+    "primary_keyword": "power tool appliance die casting molds",
+    "semantic_keywords": [
+      "power tool appliance die casting molds",
+      "custom aluminum die casting molds",
+      "single mold orders",
+      "product drawing review"
+    ],
+    "target_words": [
+      400,
+      600
+    ],
+    "eyebrow": "MOLD APPLICATIONS",
+    "h1": "Aluminum Die Casting Molds for Tools and Home Appliances",
+    "intro": "Plan the mold behind your tool or appliance component. Gear housings, structural supports and equipment covers are examples of aluminum die casting applications to discuss. We accept one mold set. Clear 2D or 3D product drawings or a physical sample are required for quotation. Our current service does not include finished appliance supply or cast component mass production.",
+    "goal_cn": "区分外观件和内部结构件，说明模具采购输入，避免工具/家电整机认证承诺。",
+    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "sections": [
+      {
+        "id": "part",
+        "heading": "Separate Visible Parts from Internal Components",
+        "paragraphs": [
+          "Tell us whether your part is a visible cover, an internal support or a housing around a mechanism. Visible surfaces may need a different discussion from hidden areas. Identify the product version and explain how the component meets surrounding plastic parts, hardware or other metal pieces.",
+          "A complete tool or appliance photo can add context. Also identify the individual component you want molded, since a finished product usually contains items outside the scope of an aluminum die casting mold."
+        ],
+        "layout_cn": "双列：外观盖件、内部结构件；手机先外观再结构。",
+        "visual_cn": "无品牌工具与家电零件示意，不使用整机商业宣传照。"
+      },
+      {
+        "id": "details",
+        "heading": "Explain Assembly, Appearance and Finishing",
+        "paragraphs": [
+          "Show fastening points, moving-part clearances and surfaces that connect to the rest of the product. Identify planned machining, coatings, lettering or textures in the available documents. If a sample has a finish that hides casting details, explain what the quotation reference represents.",
+          "Tell us about noise, operating conditions or product requirements when they affect the component. These are inputs for review, not claims that our mold service guarantees whole-product performance, consumer safety approval or a particular cosmetic result."
+        ],
+        "layout_cn": "左侧组件图，右侧四项要求；手机要求清单在前。",
+        "visual_cn": "仅标注功能区域，不显示认证、耐久或噪声测试结果。"
+      },
+      {
+        "id": "reference",
+        "heading": "Choose a Stable Product Reference",
+        "paragraphs": [
+          "Send the latest clear 2D or 3D product drawings or discuss a physical sample. Mark the revision to quote and list requested changes separately. If you are comparing a current product with a redesigned one, explain which features must remain and which can change.",
+          "Tell us the intended mold use location and any receiving manufacturer's equipment interface requirements. The approximate budget and planned purchasing time are also helpful. You may leave the budget undecided while you are seeking an initial supplier discussion."
+        ],
+        "layout_cn": "资料版本与商业背景两行表单预览；手机分卡。",
+        "visual_cn": "使用自制表单式说明图，不伪造客户已填记录。"
+      },
+      {
+        "id": "check",
+        "heading": "Review the Design Before Manufacturing",
+        "paragraphs": [
+          "Following payment, we prepare the 3D mold design for your confirmation. Mold manufacturing starts after you approve that design. We then trial the completed mold and send samples for your testing. Plan how your team will check appearance, fit and any other agreed product requirements. We dispatch the finished mold when you confirm that the samples are acceptable.",
+          "The current indicative schedule is about 30–40 days from payment. Milestone coverage, sample shipment and mold transport are confirmed during project discussion."
+        ],
+        "layout_cn": "设计与样品两次批准用大节点，手机四步纵排。",
+        "visual_cn": "流程示意与无品牌样品占位；不展示承诺性能。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you quote from a finished appliance component?",
+        "a": "A physical component sample can be reviewed. Explain its finish, condition and any changes needed for your intended product."
+      },
+      {
+        "q": "Does the mold order include assembled tools or appliances?",
+        "a": "No. The current offer is a custom aluminum die casting mold. Finished products, electrical assembly and casting mass production are outside the scope."
+      },
+      {
+        "q": "Will sample review cover appearance and fit?",
+        "a": "Tell us which appearance and fit requirements matter. Trial samples are sent for your testing against the requirements agreed for the project."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Aluminum Die Casting Molds",
+        "href": "/aluminum-die-casting-molds/"
+      },
+      {
+        "label": "How Mold Development Works",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "What to Prepare for a Quote",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss a Mold for Your Product",
+      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "不承诺消费品认证、整机噪声、安全或耐久表现。",
+      "装饰文字和外观设计的使用权由实际项目核对。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "resource-mold-cost",
+    "path": "/resources/die-casting-mold-cost/",
+    "phase": "P0",
+    "kind": "article",
+    "title": "Die Casting Mold Cost: A Buyer's Guide | EXACTMEC",
+    "description": "Understand what to clarify before comparing aluminum die casting mold quotes, from product drawings and tooling scope to trials, samples and delivery.",
+    "primary_keyword": "die casting mold cost",
+    "semantic_keywords": [
+      "aluminum die casting mold price",
+      "die casting tooling quotation",
+      "custom mold quotation checklist"
+    ],
+    "target_words": [
+      700,
+      1050
+    ],
+    "eyebrow": "BUYER'S GUIDE",
+    "h1": "How to Compare Die Casting Mold Costs",
+    "intro": "A useful mold price answers more than how much the tool costs. It explains which product revision it covers, what work is included and what happens before shipment. This guide helps you prepare a clearer request and compare quotations on the same basis. EXACTMEC supplies custom aluminum die casting molds, starting from one mold set. We do not currently accept die casting mass-production orders.",
+    "goal_cn": "承接模具费用与比价搜索；不虚构美元区间，通过报价范围比较框架筛选有实际图纸或样品的采购者。",
+    "hero_layout_cn": "桌面采用左侧文章标题与摘要、右侧紧凑目录；标题下显示Buyer’s guide，不放伪造阅读量/日期。手机先标题摘要再折叠目录，正文单栏。",
+    "sections": [
+      {
+        "id": "price-needs-context",
+        "heading": "Why a Product Photo Is Not a Reliable Price Basis",
+        "paragraphs": [
+          "A photo may show the application, but it rarely communicates the complete product geometry, dimensions or requirements. Two parts with a similar appearance can lead to different tooling discussions. Asking several suppliers to quote from different assumptions makes the resulting prices difficult to compare.",
+          "For an EXACTMEC quotation, provide clear product 2D or 3D drawings, or an actual sample. Identify the revision you want to make. If you only have photos, start a discussion and explain what additional information is available; a photo alone is not our basis for a formal mold quotation."
+        ],
+        "layout_cn": "H2下两段窄栏正文，桌面正文宽约760px；段后加一句报价资料提示，避免旁侧销售卡打断阅读。",
+        "visual_cn": "规划一张原创说明图：产品照片与带尺寸产品图的资料类型对比，明确示意，不能用虚构客户图纸。"
+      },
+      {
+        "id": "cost-discussion",
+        "heading": "Clarify the Tooling Requirements Before Comparing Prices",
+        "paragraphs": [
+          "The North American Die Casting Association identifies tool material and operating conditions among the factors affecting tooling cost and life. This is one reason a generic price per mold is a poor starting point. A quotation needs to relate to the specific product and the intended tool.",
+          "Tell us which requirements are already fixed and which need discussion. Examples include product features, the intended casting material, required mold sets and the machine on which the finished mold will be used. Do not guess missing equipment information. Identify the gap so it can be resolved before the relevant design decision."
+        ],
+        "layout_cn": "单栏正文，来源标注紧跟技术背景段。可将已确认与待讨论做两列摘要，手机纵排。",
+        "visual_cn": "不需要工业渲染；采用简洁清单图标，区分产品、模具、设备三类输入。"
+      },
+      {
+        "id": "comparison-table",
+        "heading": "Compare the Scope, Not Just the Total",
+        "paragraphs": [
+          "Ask each supplier to state inclusions and exclusions in writing. A lower total may cover a different package. This table is a discussion checklist, not a statement that every item is included in an EXACTMEC price. Payment arrangements, freight and any change-related charges are agreed for the individual project."
+        ],
+        "table": {
+          "columns": [
+            "Item",
+            "Question to resolve"
+          ],
+          "rows": [
+            [
+              "Product reference",
+              "Do all quotations use the same drawing revision or sample?"
+            ],
+            [
+              "Design work",
+              "Which mold design work and approval steps are included?"
+            ],
+            [
+              "Trial and samples",
+              "Which trials and sample quantities are covered?"
+            ],
+            [
+              "Changes",
+              "How are product changes and tool adjustments handled?"
+            ],
+            [
+              "Delivery",
+              "What packing, freight and destination assumptions apply?"
+            ],
+            [
+              "Acceptance",
+              "What will the customer check before mold shipment?"
+            ]
+          ]
+        },
+        "layout_cn": "桌面两列表格，全宽置于正文内；手机转为逐项卡片，项目名称置顶、问题置下，不横向裁切文字。",
+        "visual_cn": "表格本身承担信息可视化，不加装饰图片。"
+      },
+      {
+        "id": "budget",
+        "heading": "Use Your Budget to Explain Priorities",
+        "paragraphs": [
+          "An approximate budget helps explain your expectations, but you do not need an approved budget to start a conversation. If you share one, include the currency and say whether it is for a single mold set. Separate the tooling budget from any broader product-launch spending.",
+          "If you do not know the likely cost, say so. Explain what matters most in the purchase: the intended application, a confirmed product design, a target purchase date or compatibility with existing equipment. A clear brief is more useful than an unsupported target price. We review the project rather than treating a high budget as proof of a genuine buyer."
+        ],
+        "layout_cn": "两段正文后可加入预算填写小示例框，只显示币种、单套范围和可选属性，不给预设低价。",
+        "visual_cn": "使用文字示例框，不生成带美元价格的宣传图。"
+      },
+      {
+        "id": "schedule",
+        "heading": "Check What the Quoted Schedule Actually Covers",
+        "paragraphs": [
+          "EXACTMEC's general production estimate is approximately 30–40 days from payment. After payment, we prepare the 3D mold design for your approval; manufacturing starts after approval. The scope and milestones of the project schedule need to be confirmed in your quotation.",
+          "Do not treat this estimate as a guaranteed arrival date. Trial work, sample transport, your testing and final mold transport all need attention when planning a launch. Ask for a sequence of milestones and explain your required purchase date separately from the date you hope to receive the mold."
+        ],
+        "layout_cn": "浅底时间范围提示框+正文，30–40 days不做巨大数字卖点；起算点和范围限制同框呈现。",
+        "visual_cn": "仅使用标明not to scale的步骤线，避免按天数比例虚构工期分配。"
+      },
+      {
+        "id": "changes",
+        "heading": "Keep Product Changes Visible During Quotation",
+        "paragraphs": [
+          "A price based on one product revision should not silently become a price for another. If the design is still changing, list the open decisions and tell us when you expect to finalize them. Give revised files clear names and identify what has changed.",
+          "After the quotation, record any agreed scope change together with its possible cost and schedule effects. The same principle applies to a change in mold quantity, intended equipment or acceptance requirements. A written comparison trail helps your purchasing and engineering teams understand why two quotation versions differ."
+        ],
+        "layout_cn": "正文配一个三行修订记录示例，示例不使用真实客户信息；手机直接纵排。",
+        "visual_cn": "规划空白模板式Revision/Change/Status图表，供开发用HTML呈现。"
+      },
+      {
+        "id": "request",
+        "heading": "Prepare a Quote Request You Can Follow Up",
+        "paragraphs": [
+          "Start with your name, company, country and city, email and a usable contact number. Describe the product, tell us whether you have 2D drawings, 3D drawings or a physical sample, and give the number of mold sets required. Add your planned purchase timing and an approximate budget if available.",
+          "The initial form does not upload files. After submission, we use the contact details you provide to discuss the project and arrange the next information exchange. You can also continue through WhatsApp when appropriate. Your inquiry remains recorded even if you do not start a WhatsApp chat."
+        ],
+        "layout_cn": "正文末尾放一枚主CTA，旁边小字解释先填基本信息再沟通资料；不在文章中嵌完整长表单。",
+        "visual_cn": "不需要图片，CTA以品牌强调色呈现。",
+        "cta": {
+          "label": "Start a Mold Quote Request",
+          "href": "/request-a-quote/"
+        }
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can you publish a standard price for every aluminum die casting mold?",
+        "a": "No. We quote from clear product drawings or a physical sample and the agreed tooling scope. A generic figure would not explain what your project includes."
+      },
+      {
+        "q": "Can I order only one mold set?",
+        "a": "Yes. EXACTMEC accepts custom mold orders starting from one set. Our current offering is mold supply, not mass production of cast parts."
+      },
+      {
+        "q": "Do I have to disclose my budget?",
+        "a": "No. Budget information is optional. Share an approximate amount and currency if useful, or tell us that you need a supplier quotation before setting a budget."
+      },
+      {
+        "q": "Does the mold price automatically include shipping?",
+        "a": "No automatic inclusion should be assumed. Sample shipment, final mold shipment, packing and related commercial arrangements must be confirmed in your project quotation."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "What to prepare for a mold quotation",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      },
+      {
+        "label": "Understand the development and approval process",
+        "href": "/resources/die-casting-mold-development-process/"
+      },
+      {
+        "label": "Explore our aluminum die casting mold service",
+        "href": "/aluminum-die-casting-molds/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Compare a Quote Built Around Your Product",
+      "text": "Tell us what the mold will produce and which drawings or samples are available. We will discuss the information needed to evaluate your project.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "正文NADCA背景段需在成品页面显示来源链接；其余为本项目已确认流程和采购建议。",
+      "未给出价格区间、最低收费、运费包含、付款比例或改模次数；不得后续擅自添加。",
+      "工期为付款起约30–40天，具体覆盖范围仍由项目报价确认，不等同到货承诺。"
+    ],
+    "source_urls": [
+      "https://www.diecastingdesign.org/tooling-costs"
+    ]
+  },
+  {
+    "id": "resource-quotation-requirements",
+    "path": "/resources/die-casting-mold-quotation-requirements/",
+    "phase": "P0",
+    "kind": "article",
+    "title": "Die Casting Mold Quotation Requirements | EXACTMEC",
+    "description": "Prepare product drawings or a physical sample, company details and purchase timing for a custom aluminum die casting mold quotation. One mold set accepted.",
+    "primary_keyword": "die casting mold quotation requirements",
+    "semantic_keywords": [
+      "mold quotation checklist",
+      "2D drawing mold quote",
+      "3D product drawing",
+      "mold quote from sample"
+    ],
+    "target_words": [
+      700,
+      1050
+    ],
+    "eyebrow": "QUOTATION CHECKLIST",
+    "h1": "What to Prepare for a Die Casting Mold Quotation",
+    "intro": "You do not need a finished mold design to ask about a custom mold. You do need a clear reference for the product the mold will make. For EXACTMEC, that means clear product 2D or 3D drawings, or a physical sample. This checklist explains what to prepare now, what can follow in conversation and how to avoid mixing product information with the mold design we prepare after payment.",
+    "goal_cn": "承接询价资料搜索并降低误填。讲清客户提供产品图、不是先自行设计模具；基本表单不上传；实体样品可报价。",
+    "hero_layout_cn": "文章页单栏标题摘要，下方三张资料卡2D/3D/Sample；桌面右侧目录，手机目录折叠。禁止写Upload按钮。",
+    "sections": [
+      {
+        "id": "minimum-reference",
+        "heading": "Start With One Clear Product Reference",
+        "paragraphs": [
+          "Clear 2D drawings, 3D drawings or an actual sample give us a basis for evaluating the mold request. If you have more than one type, tell us which information is current and whether the files describe the same product. Make the units and revision clear.",
+          "An image of a drawing may be difficult to interpret when dimensions or notes are blurred. Check readability before sending files during follow-up. If you only have a sample, explain whether it represents the exact product you want or a reference that needs changes. We can then discuss the next assessment steps."
+        ],
+        "cards": [
+          {
+            "title": "2D product drawing",
+            "text": "Provide a readable current drawing with the dimensions and notes you already have."
+          },
+          {
+            "title": "3D product drawing",
+            "text": "Identify the current product model and any accompanying requirements."
+          },
+          {
+            "title": "Physical sample",
+            "text": "Describe the sample and discuss sending arrangements before shipping it."
+          }
+        ],
+        "layout_cn": "两段正文+三列卡片，移动端卡片逐项堆叠；产品图与模具图使用不同标签。",
+        "visual_cn": "用原创线稿图标表示2D、3D与样品，非虚构已完成项目照片。"
+      },
+      {
+        "id": "brief",
+        "heading": "Add a Short Product Brief",
+        "paragraphs": [
+          "Tell us what the product does and where it will be used. A motor housing, lighting enclosure and mounting component may need different questions during the conversation, even when all are aluminum die casting applications. Describe the intended part rather than selecting an industry name alone.",
+          "List requirements your own team has already identified. These might include the intended aluminum material, important mating features, appearance areas or a required customer specification. Treat these as requests for assessment, not capabilities automatically confirmed by a website example. If a requirement is unknown, mark it as unknown rather than copying a value from another product."
+        ],
+        "layout_cn": "单栏正文后设置四项简短brief checklist，手机保留原顺序。",
+        "visual_cn": "可用产品用途/现有要求/未定问题的三格笔记式HTML图，不需要产品图片。"
+      },
+      {
+        "id": "mold-not-parts",
+        "heading": "Describe the Mold Order, Not a Cast-Part Order",
+        "paragraphs": [
+          "EXACTMEC currently supplies custom aluminum die casting molds. We do not accept mass-production orders for the cast parts. One mold set can be ordered, so you do not need to invent a large part quantity to make an inquiry worthwhile.",
+          "State how many mold sets you need and where the finished mold will be used. If you already have casting equipment, tell us that equipment information is available and arrange to share the relevant details during technical discussion. If another production partner will operate the mold, involve that team when equipment compatibility and acceptance requirements are being agreed."
+        ],
+        "layout_cn": "信息提示条突出Mold supply / One set accepted，随后正文，不能使用零件购物卡或单价。",
+        "visual_cn": "一张模具与目标零件的概念关系图，标注零件仅为应用示意。"
+      },
+      {
+        "id": "company-contact",
+        "heading": "Provide Company Details We Can Follow Up",
+        "paragraphs": [
+          "Include your name, company, country, city, email and a reachable phone or WhatsApp number. A company website is useful if available. These details help us understand the inquiry and contact the appropriate person about the project.",
+          "Use an email address you monitor and check the spelling before submission. If your company is new or you use a personal business email, explain the project briefly; those facts alone do not make an inquiry unsuitable. If you are requesting the mold for another company, state your role so communication and technical questions reach the right people."
+        ],
+        "layout_cn": "正文配简洁联系资料核对清单，不嵌真实人员示例，不要求详细住宅地址。",
+        "visual_cn": "文字清单即可。"
+      },
+      {
+        "id": "timing-budget",
+        "heading": "Separate Purchase Timing, Budget and Delivery Needs",
+        "paragraphs": [
+          "Your planned purchase date tells us how ready the project is to proceed. Your required delivery date tells us about the wider schedule. They are different questions. Explain whether you are ready to buy, collecting quotations, finishing a product design or researching a future project.",
+          "An approximate per-mold budget is optional. If you share it, include the currency and clarify whether it covers tooling alone. You can also say that the budget is undecided. Our general production estimate is approximately 30–40 days from payment; the exact project scope and timing need confirmation, and this estimate is not a guaranteed arrival date."
+        ],
+        "layout_cn": "三张小卡分别Purchase timing/Budget/Delivery need，再接一段工期口径；手机竖排。",
+        "visual_cn": "不使用倒计时和未经证实的限时供应文案。"
+      },
+      {
+        "id": "submission",
+        "heading": "Submit Basic Details First, Then Arrange the Files",
+        "paragraphs": [
+          "The initial inquiry form records your contact and project details. It asks which drawings or samples you have; it does not upload files. After reviewing the inquiry, we contact you using the details provided to discuss the project and arrange the appropriate information exchange.",
+          "Keep the original files available and avoid sending different revisions through several conversations without explanation. For a physical sample, discuss the receiving details and shipping arrangements first. You may continue through WhatsApp when appropriate, but a WhatsApp chat is not required to preserve the inquiry. We can follow up by email."
+        ],
+        "layout_cn": "三步横排：Basic inquiry → Follow-up → Drawings or sample arrangements；手机改纵向，有箭头但不嵌外部聊天浮窗。",
+        "visual_cn": "开发用HTML步骤图，链接到唯一正式询价页。",
+        "cta": {
+          "label": "Complete the Basic Inquiry",
+          "href": "/request-a-quote/"
+        }
+      },
+      {
+        "id": "final-check",
+        "heading": "Check for Gaps Before You Ask for a Final Quote",
+        "paragraphs": [
+          "Before a final quotation, confirm that the product reference, requested mold quantity and known requirements agree. List open points instead of assuming they are included. Ask what the quotation covers for design, trial work, samples and delivery, and how later changes will be handled.",
+          "The mold's 3D design comes after payment and is sent to you for approval before manufacturing. That approval stage does not replace the need for a clear product reference at quotation. Keeping these two stages distinct helps both teams discuss the same product and the same scope."
+        ],
+        "layout_cn": "结尾勾选清单，产品资料与后续模具设计两个阶段用对照边框强调。",
+        "visual_cn": "无额外图片，提供读者可复制的简短检查项。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do I need both 2D and 3D drawings to start?",
+        "a": "Not necessarily. Clear product 2D or 3D drawings, or a physical sample, can be the starting reference. We will discuss whether additional information is needed for your specific quotation."
+      },
+      {
+        "q": "Can you quote if I only have photos?",
+        "a": "Photos alone are not enough for our formal mold quotation. You can submit a basic inquiry and explain your situation, then arrange clear drawings or a physical sample."
+      },
+      {
+        "q": "Must I prepare the mold's 3D design myself?",
+        "a": "No. You provide the product reference. After payment, we prepare the 3D mold design and send it for your approval before manufacturing begins."
+      },
+      {
+        "q": "Where do I upload the drawings?",
+        "a": "The initial website form has no file upload. Tell us what you have, and we will arrange the next information exchange during follow-up."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Compare die casting mold quotation scope",
+        "href": "/resources/die-casting-mold-cost/"
+      },
+      {
+        "label": "Read the buyer's development process guide",
+        "href": "/resources/die-casting-mold-development-process/"
+      },
+      {
+        "label": "See how product drawings and design approval differ",
+        "href": "/mold-design-review/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Have Drawings or a Sample? Tell Us About the Mold",
+      "text": "Send your basic project details first. We will follow up to discuss the quotation reference and any information still needed.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "只基于已确认业务规则和采购沟通建议，无外部技术数据。",
+      "不列尚未确认的软件格式、附件上限、邮箱地址或收件地址。",
+      "实体样品寄送、文件传输渠道、样品数量和费用由后续沟通确认。"
+    ],
+    "source_urls": []
+  },
+  {
+    "id": "resource-development-process",
+    "path": "/resources/die-casting-mold-development-process/",
+    "phase": "P0",
+    "kind": "article",
+    "title": "Die Casting Mold Development: Buyer's Guide | EXACTMEC",
+    "description": "Plan the buyer's decisions from product reference and quotation to 3D mold design approval, manufacturing, trial samples, customer testing and mold shipment.",
+    "primary_keyword": "die casting mold development process",
+    "semantic_keywords": [
+      "mold design approval",
+      "die casting mold project timeline",
+      "trial sample approval",
+      "custom mold purchasing process"
+    ],
+    "target_words": [
+      700,
+      1050
+    ],
+    "eyebrow": "PROJECT PLANNING",
+    "h1": "Die Casting Mold Development: What Buyers Need to Plan",
+    "intro": "Buying a custom mold involves decisions as well as manufacturing. A product drawing, an approved mold design and an approved trial sample each answer a different question. This guide explains how to prepare your team for those decisions and avoid an unclear handover. It follows EXACTMEC's mold-only supply model: quotation from product drawings or a sample, design after payment, customer approval, manufacturing, trial samples and final mold shipment.",
+    "goal_cn": "搜索文章以采购者里程碑、决策责任和项目准备为主；服务页/mold-development-process/只做我方流程总览，两者不互抄。",
+    "hero_layout_cn": "文章页标题+摘要，下方一行关键决策标签Product reference / Design approval / Sample testing；目录放右侧，手机折叠。",
+    "sections": [
+      {
+        "id": "product-reference",
+        "heading": "1. Agree on the Product Reference Before Comparing Offers",
+        "paragraphs": [
+          "Begin with the product the mold needs to make. Clear product 2D or 3D drawings, or an actual sample, provide the starting basis for an EXACTMEC quotation. Explain whether the reference is final and identify any changes still being considered.",
+          "Ask your purchasing and technical teams to use the same revision. If a sample is the reference, state which details must be reproduced and which need discussion. A simple list of open points helps prevent an early estimate being mistaken for agreement on an unfinished specification. Submit basic project details first; the website form does not upload files."
+        ],
+        "layout_cn": "编号H2+两段正文；侧注框提示产品图不是模具图。手机侧注移到段后。",
+        "visual_cn": "原创产品参考/项目要求/未定问题三格清单，不能冒充客户实物。"
+      },
+      {
+        "id": "scope",
+        "heading": "2. Turn the Quotation Into a Shared Project Scope",
+        "paragraphs": [
+          "Before payment, ask what the quotation covers and what still requires agreement. Confirm mold quantity, design work, trial arrangements, sample expectations and the proposed delivery sequence. Payment terms, freight and change-related costs are discussed for the individual project.",
+          "Separate the tool purchase from the production of finished cast parts. EXACTMEC accepts one mold set and does not currently accept die casting mass-production orders. If your own production team or another supplier will run the finished mold, involve them early enough to provide the relevant equipment and acceptance information. Do not assume that sending a mold drawing to an unrelated team at the end will resolve every interface question."
+        ],
+        "layout_cn": "主段落加Buyer action小框，列出需内部统一的采购范围。",
+        "visual_cn": "无需装饰图片；使用工具采购与零件量产的文本范围标签。"
+      },
+      {
+        "id": "design-approval",
+        "heading": "3. Make Time for 3D Mold Design Approval",
+        "paragraphs": [
+          "After payment, we prepare the 3D mold design and send it to you for approval. Manufacturing begins only after you confirm that design. This is a separate stage from providing the product drawing used for quotation.",
+          "Decide who can approve the design and who needs to review it internally. Consolidate questions into a clear response rather than sending conflicting instructions from several contacts. If a point is unclear, ask for an explanation before approving it. Keep the approval record tied to an identifiable design version so purchasing, engineering and the project contact can refer to the same decision."
+        ],
+        "layout_cn": "左右对照：客户输入Product reference / 我方输出3D mold design，正文说明确认责任。手机先输入后输出。",
+        "visual_cn": "如后续使用设计截图必须真实且获授权；现阶段用带标签的示意框。"
+      },
+      {
+        "id": "schedule",
+        "heading": "4. Build a Schedule Around Decisions, Not One Date",
+        "paragraphs": [
+          "The general production estimate is approximately 30–40 days from payment. Design approval follows payment and is part of the project sequence. Confirm the covered milestones and exact timing for your project; the estimate does not guarantee a door-to-door delivery date.",
+          "Plan internal review time, trial work, sample transport, customer testing and final mold transport as distinct milestones. Tell us if your company has a fixed launch or equipment-installation date. Ask how an unresolved design decision or a later product change would affect the agreed plan before relying on the estimate for downstream commitments."
+        ],
+        "table": {
+          "columns": [
+            "Milestone",
+            "Buyer's preparation"
+          ],
+          "rows": [
+            [
+              "Design approval",
+              "Nominate the reviewer and record the approved version."
+            ],
+            [
+              "Sample receipt",
+              "Arrange the receiving contact and testing availability."
+            ],
+            [
+              "Sample feedback",
+              "Prepare clear checks and a consolidated response."
+            ],
+            [
+              "Mold shipment",
+              "Confirm shipping and receiving arrangements."
+            ]
+          ]
+        },
+        "layout_cn": "工期说明段和四行表格同区，30–40不做交付倒计时；手机表格转卡片。",
+        "visual_cn": "使用无比例里程碑图，不编写各环节天数，不暗示全部包含在30–40天。"
+      },
+      {
+        "id": "trial-feedback",
+        "heading": "5. Prepare for Trial Samples Before They Arrive",
+        "paragraphs": [
+          "After the mold is manufactured, we carry out a mold trial and send produced samples for your testing. Your team then checks the samples against the agreed requirements. This is a customer decision point before final mold shipment.",
+          "Prepare who will inspect the samples, what they will check and how the results will be recorded. Use the same agreed product reference. If you find a problem, provide specific observations and supporting information so the issue can be discussed. A later change to the product should be identified separately from feedback on whether a sample meets the existing requirement. Adjustment scope, cost and timing need project-specific agreement."
+        ],
+        "layout_cn": "两段正文后放Sample feedback三项卡：Reference / Observation / Supporting information；不展示伪造合格报告。",
+        "visual_cn": "可预留真实试模样品照片位，但没有素材时直接使用图标。"
+      },
+      {
+        "id": "shipment",
+        "heading": "6. Confirm Acceptance Before Final Mold Shipment",
+        "paragraphs": [
+          "We arrange shipment of the finished mold after you test the samples and confirm there is no issue. Sample approval does not lead to a mass-production order with EXACTMEC; the next step in this supply model is the mold handover.",
+          "Before that handover, confirm the delivery destination, receiving contact and agreed shipping arrangements. Ask which project information accompanies the mold and resolve outstanding commercial details. Avoid assuming that a website process diagram settles packing costs, freight, import responsibilities or every document needed at the destination. Those details belong in the project agreement and shipping discussion."
+        ],
+        "layout_cn": "单栏正文加一个清晰终点框Finished mold shipment，不出现批量生产图标。",
+        "visual_cn": "未来可放真实模具包装照片；现阶段只写素材需求，不放虚构出货证据。"
+      },
+      {
+        "id": "project-record",
+        "heading": "7. Keep a Short Decision Record Throughout the Project",
+        "paragraphs": [
+          "A useful project record can be simple: current product revision, current mold design revision, open questions, approvals and next actions. Give each open question an owner. When your team changes a requirement, explain what changed instead of sending a new file without context.",
+          "This record supports continuity if purchasing, engineering or the receiving team joins at a different stage. It also helps distinguish confirmed scope from an idea discussed informally. Start your inquiry with the information already available, be clear about the gaps and use the follow-up conversation to resolve the next decision rather than attempting to settle everything in the first form."
+        ],
+        "layout_cn": "结尾用四行空白记录模板，之后相关指南与询价CTA。手机顺序保持正文→模板→链接→CTA。",
+        "visual_cn": "HTML轻量清单，避免提供未验证的正式工程验收表。"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "When does mold manufacturing start?",
+        "a": "Manufacturing starts after you approve the 3D mold design. We prepare that design after payment and send it to you for confirmation."
+      },
+      {
+        "q": "When does the approximate 30–40-day estimate start?",
+        "a": "It starts from payment. Confirm the exact schedule and covered milestones for your project; it is not a guaranteed arrival date for the finished mold."
+      },
+      {
+        "q": "What happens after I approve the trial samples?",
+        "a": "We arrange shipment of the finished mold after you confirm the tested samples have no issue. We do not move into cast-part mass production."
+      },
+      {
+        "q": "Can I request changes during the project?",
+        "a": "You can discuss a change. Its scope, feasibility and possible cost or schedule effects need agreement; do not assume every change is included in the original quotation."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "See EXACTMEC's service process overview",
+        "href": "/mold-development-process/"
+      },
+      {
+        "label": "Prepare the quotation reference",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
+      },
+      {
+        "label": "Compare quotation inclusions",
+        "href": "/resources/die-casting-mold-cost/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Start With the Product You Need to Mold",
+      "text": "Tell us about the product, available drawings or sample, mold quantity and purchase plan. We will follow up to discuss your next project step.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "全文是已确认业务流程与采购规划建议，不冒充工程标准。",
+      "严格保留付款起算、付款后模具设计、确认后生产、试模寄样测试后发模具的顺序。",
+      "未将自然日/工作日、样品数量、费用、验收技术标准与工期完整范围编成确定事实。"
+    ],
+    "source_urls": []
+  }
+]

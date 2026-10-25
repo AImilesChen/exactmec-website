@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "selectedDisplayOrder": 1,
+  "selectedImage": "reference-cube/01-machined.png",
+  "generatedId": "exec-8d6af286-bd3b-4df2-8ff9-fad6f7fe3b40",
+  "sha256": "8238561fbda5d74ae013c339ef06efc534282cdfba3a949872db15ebb1c072a8",
+  "sourceBounds": [
+    207,
+    161,
+    1046,
+    1058
+  ],
+  "vectorization": "VTracer 0.6.15 polygon/cutout, from selected source pixels",
+  "wordmark": "existing Manrope path outlines preserved",
+  "nativeIcons": "flat at 16/32/48; metallic at 180/192/512",
+  "tool": "built-in image_gen original, VTracer vector export, Sharp raster exports"
+}

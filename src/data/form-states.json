@@ -1,0 +1,22 @@
+{
+  "submitting": "Sending your inquiry…",
+  "saved": "Thank you. Your inquiry has been received. Your reference is {LEAD_ID}.",
+  "pending": "We have not yet confirmed that your inquiry was saved. Please try again. If you contact us by email, mention that the website submission was not confirmed.",
+  "failed": "Your inquiry could not be sent. Your entries are still here. Please try again.",
+  "duplicate": "This inquiry has already been received. Your reference is {LEAD_ID}.",
+  "validation_summary": "Please check the highlighted fields and try again.",
+  "required": "Please complete this field.",
+  "email": "Enter an email address we can reply to.",
+  "phone": "Include your country code and a valid contact number.",
+  "url": "Enter a complete website address, such as https://example.com, or leave this optional field blank.",
+  "mold_sets": "Enter a whole number of 1 or more, or select Not sure.",
+  "budget": "Enter a positive amount and select its currency, or leave the budget blank.",
+  "budget_range": "The upper budget amount must be equal to or greater than the lower amount.",
+  "processing": "Please review the inquiry information notice and confirm your choice before submitting.",
+  "rate_limit": "Too many attempts were made in a short time. Please wait and try again.",
+  "whatsapp_unavailable": "WhatsApp is not available here right now. Your saved inquiry remains received; we can follow up by email.",
+  "reference_copy": "Copy reference",
+  "reference_copied": "Reference copied.",
+  "reference_copy_failed": "Please select and copy the reference shown above.",
+  "leave": "Your inquiry has not been sent yet. Leave this page and discard your entries?"
+}

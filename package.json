@@ -1,0 +1,34 @@
+{
+  "name": "exactmec-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.frontend.config.mjs",
+    "build": "node scripts/build-frontend.mjs",
+    "preview": "vite preview",
+    "test:sites": "node --test tests/sites-worker.test.mjs",
+    "build:frontend": "node scripts/build-frontend.mjs",
+    "build:release": "node scripts/build-frontend.mjs --release",
+    "preview:frontend": "node scripts/serve-frontend.mjs",
+    "test:frontend": "node --test tests/frontend-*.test.mjs tests/inquiry-*.test.mjs tests/analytics-*.test.mjs tests/cloudflare-*.test.mjs",
+    "check:frontend": "npm run build:frontend && npm run test:frontend",
+    "check:cloudflare": "node scripts/check-cloudflare.mjs",
+    "smoke:frontend": "node scripts/smoke-frontend.mjs",
+    "dev:review": "vite",
+    "build:review": "vite build && node scripts/prepare-sites-build.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@vitejs/plugin-react": "5.0.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "vite": "6.4.2"
+  },
+  "devDependencies": {
+    "wrangler": "4.152.0"
+  }
+}

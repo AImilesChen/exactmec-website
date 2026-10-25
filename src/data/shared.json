@@ -1,0 +1,69 @@
+{
+  "version": "0.1",
+  "status": "NEEDS_REVIEW",
+  "navigation": [
+    {
+      "label": "Mold Tooling",
+      "href": "/products/"
+    },
+    {
+      "label": "Applications",
+      "href": "/industries/"
+    },
+    {
+      "label": "Manufacturing",
+      "href": "/manufacturing/"
+    },
+    {
+      "label": "How We Work",
+      "href": "/how-we-work/"
+    },
+    {
+      "label": "Resources",
+      "href": "/resources/"
+    },
+    {
+      "label": "About ExactMec",
+      "href": "/about/"
+    }
+  ],
+  "header_cta": {
+    "label": "Request a Mold Quote",
+    "href": "/request-a-quote/"
+  },
+  "footer": {
+    "description": "Custom aluminum die casting molds, from part information to design confirmation, trial samples and mold delivery. One mold set accepted.",
+    "operator_label": "Website operator: 台州巽风贸易有限公司, China.",
+    "links": [
+      {
+        "label": "Frequently Asked Questions",
+        "href": "/faq/"
+      },
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy"
+      },
+      {
+        "label": "Terms of Use",
+        "href": "/terms"
+      },
+      {
+        "label": "Cookie Policy",
+        "href": "/cookies",
+        "release_condition_cn": "实际Cookie/服务配置确认并发布该政策后显示。"
+      }
+    ],
+    "copyright_template": "© {CURRENT_YEAR} ExactMec. Website operated by 台州巽风贸易有限公司."
+  },
+  "asset_captions": {
+    "ai_example": "Illustrative component example. Shown to explain a potential mold application; this is not a delivered project.",
+    "generic_component": "Component example for mold project discussion. Finished parts are not offered for ongoing production.",
+    "partner_photo_template": "Manufacturing partner image. {ACCURATE_SUBJECT_AND_CONTEXT}. Used with permission."
+  },
+  "contact_config": {
+    "email": "[TO_BE_CONFIRMED_DOMAIN_EMAIL]",
+    "whatsapp": "[TO_BE_CONFIRMED_WHATSAPP_NUMBER]",
+    "address": "[TO_BE_CONFIRMED_PUBLIC_CONTACT_ADDRESS]",
+    "rules_cn": "这些是内部配置占位，不是可发布英文。无真实号码时隐藏WhatsApp按钮；不得用虚构号码/邮箱。没有Cookie工具或政策配置时，按合规包确认该页是否启用。"
+  }
+}
