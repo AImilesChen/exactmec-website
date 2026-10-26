@@ -4,7 +4,7 @@ import {accessConfiguration,authenticateAccess} from '../backend/auth.mjs';
 import {cleanupRateLimits} from '../backend/business.mjs';
 const handleApi=createApiHandler();
 
-const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml']);
+const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml','/third-party-notices.txt']);
 const truthy = value => value === true || value === 'true';
 const isAsset = path => rootAssets.has(path) || /^\/(?:assets|brand)\/[a-zA-Z0-9_./-]+\.(?:css|js|mjs|woff2?|ttf|otf|png|webp|jpe?g|gif|svg|ico|avif)$/i.test(path);
 

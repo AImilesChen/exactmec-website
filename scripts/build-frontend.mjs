@@ -17,7 +17,7 @@ if(release&&blockers.length)throw new Error('Release is not ready:\n'+blockers.m
 if(release){
  const notices=JSON.parse(await fs.readFile(path.join(root,'src/data/notice-versions.json'),'utf8'));
  const policies=JSON.parse(await fs.readFile(path.join(root,'src/data/legal-drafts.json'),'utf8'));
- if(Object.values(notices).some(value=>/draft|test|synthetic/i.test(value))||policies.some(p=>/INTERNAL DRAFT|\[[A-Z][A-Z0-9_]+\]/.test(p.markdown)))throw new Error('Release requires finalized legal copy and matching approved notice versions, not flags alone.');
+ if(Object.values(notices).some(value=>/draft|test|synthetic/i.test(value))||policies.some(p=>p.draft!==false||/INTERNAL DRAFT|\[[A-Z][A-Z0-9_]+\]/.test(p.markdown)))throw new Error('Release requires finalized legal copy and matching approved notice versions, not flags alone.');
 }
 const output=path.join(root,'dist/public'),serverOutput=path.join(root,'dist/server-render');
 const manifest=JSON.parse(await fs.readFile(path.join(root,'src/data/site-manifest.json'),'utf8'));
@@ -50,7 +50,7 @@ for(const route of PUBLIC_ROUTES){
 await fs.unlink(path.join(output,'frontend.html'));
 await fs.mkdir(path.join(output,'admin'),{recursive:true});await fs.rename(path.join(output,'admin.html'),path.join(output,'admin/index.html'));
 const publicDir=path.join(root,'public');
-const rootFiles=['favicon.svg','favicon.ico','favicon-16x16.png','favicon-32x32.png','favicon-48x48.png','apple-touch-icon.png','icon-192.png','icon-512.png','og-image.png','site.webmanifest'];
+const rootFiles=['favicon.svg','favicon.ico','favicon-16x16.png','favicon-32x32.png','favicon-48x48.png','apple-touch-icon.png','icon-192.png','icon-512.png','og-image.png','site.webmanifest','third-party-notices.txt'];
 for(const name of rootFiles)await fs.copyFile(path.join(publicDir,name),path.join(output,name));
 await fs.mkdir(path.join(output,'brand'),{recursive:true});
 for(const file of await fs.readdir(path.join(publicDir,'brand')))if(/\.(svg|png|webp)$/.test(file))await fs.copyFile(path.join(publicDir,'brand',file),path.join(output,'brand',file));
