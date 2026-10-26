@@ -24,9 +24,9 @@ function finish(response, { status = response.status, robots = 'noindex,nofollow
   headers.set('X-Frame-Options', 'DENY');
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   headers.set('Strict-Transport-Security','max-age=31536000');
-  const script=externalAnalytics?' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms':'';
+  const script=externalAnalytics?' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms https://analytics.ahrefs.com':'';
   const image=externalAnalytics?' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms https://c.bing.com':'';
-  const connect=externalAnalytics?' https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com https://*.clarity.ms https://plausible.shipsolo.io':'';
+  const connect=externalAnalytics?' https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com https://*.clarity.ms https://plausible.shipsolo.io https://analytics.ahrefs.com':'';
   headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'"+script+"; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:"+image+"; font-src 'self' data:; connect-src 'self'"+connect+"; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
   if (staging) headers.set('Cache-Control', 'no-store');
   else if (headers.get('Content-Type')?.includes('text/html')) headers.set('Cache-Control', 'no-cache');

@@ -21,7 +21,7 @@ export function MeasurementPanel({id,choice,onChoose,storageWarning=false}){
   <p style={copyStyle}>We use optional cookies and masked session recordings on marketing pages. Your choice won’t affect inquiries.</p>
   <details style={{marginTop:10,fontSize:13,lineHeight:1.55}}>
    <summary style={{cursor:'pointer',color:'#315a74'}}>Services &amp; privacy details</summary>
-   <p style={{...copyStyle,fontSize:13}}>With your permission, we use Google Analytics 4, Microsoft Clarity (session recordings and heatmaps), and ShipSolo-hosted analytics (Plausible) on public marketing pages.</p>
+   <p style={{...copyStyle,fontSize:13}}>With your permission, we use Google Analytics 4, Microsoft Clarity (session recordings and heatmaps), ShipSolo-hosted analytics (Plausible), and Ahrefs Web Analytics on public marketing pages.</p>
    <p style={{...copyStyle,fontSize:13}}>These services may use cookies and process technical data such as device, IP address, and network information. Inquiry forms, customer accounts, and admin pages are excluded; inquiry fields are not sent.</p>
   </details>
   <p style={{...copyStyle,fontSize:13}}><a href="/cookies" style={{color:'#315a74',textDecoration:'underline',textUnderlineOffset:3}}>Cookie Policy</a>{' · '}<a href="/privacy" style={{color:'#315a74',textDecoration:'underline',textUnderlineOffset:3}}>Privacy Policy</a>{choice&&<span style={{display:'block',marginTop:4}}>Current permission: {choice==='allow'?'allowed':'rejected'}</span>}</p>

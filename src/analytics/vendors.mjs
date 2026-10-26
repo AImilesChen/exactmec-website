@@ -4,6 +4,7 @@ export const VENDOR_ANALYTICS = Object.freeze({
   origin: 'https://exactmec.com', ga4Id: 'G-E8EBN552MZ', clarityId: 'z3mu7j6fex',
   googleScript: 'https://www.googletagmanager.com/gtag/js?id=G-E8EBN552MZ',
   clarityScript: 'https://www.clarity.ms/tag/z3mu7j6fex',
+  ahrefsScript: 'https://analytics.ahrefs.com/analytics.js', ahrefsKey: 'kwvnBi883wOXoELTpu9YWQ',
   plausibleEndpoint: 'https://plausible.shipsolo.io/api/event', plausibleDomain: 'exactmec.com',
 });
 const denied = () => ({ ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
@@ -46,6 +47,7 @@ export function clarityContextAllowed(window, document, knownPaths = []) {
 export function createVendorAnalytics({ enabled = false, window = globalThis.window, document = window?.document, fetchImpl = window?.fetch?.bind(window), knownPaths = [] } = {}) {
   let permitted = false, destroyed = false, revoked = false, sdkStarted = false;
   let googleAttempted = false, googleReady = false, clarityAttempted = false, clarityReady = false;
+  let ahrefsAttempted = false, ahrefsReady = false;
   let bootPath = null;
   const seenPageviews = new Set();
   const scripts = new Set();
@@ -58,13 +60,14 @@ export function createVendorAnalytics({ enabled = false, window = globalThis.win
       return location.origin === VENDOR_ANALYTICS.origin && !location.username && !location.password ? vendorMarketingRoute(location.pathname, registered) : null;
     } catch { return null; }
   }
-  function appendScript(id, src) {
+  function appendScript(id, src, {attributes = {}, onLoad} = {}) {
     if (document.getElementById?.(id)) return false; // Do not add duplicate tags.
     const script = document.createElement('script');
     script.id = id; script.src = src; script.async = true; script.referrerPolicy = 'no-referrer';
     script.setAttribute('data-exactmec-analytics', 'opt-in');
     script.setAttribute('data-exactmec-status', 'loading');
-    script.onload = () => { if (permitted && !revoked) script.setAttribute('data-exactmec-status', 'loaded'); };
+    for (const [name,value] of Object.entries(attributes)) script.setAttribute(name,value);
+    script.onload = () => { if (permitted && !revoked && !destroyed) { script.setAttribute('data-exactmec-status', 'loaded'); onLoad?.(); } };
     script.onerror = () => { script.setAttribute('data-exactmec-status', 'blocked'); }; // No raw errors or visitor data.
     (document.head || document.documentElement).appendChild(script);
     scripts.add(script); sdkStarted = true;
@@ -106,8 +109,25 @@ export function createVendorAnalytics({ enabled = false, window = globalThis.win
   function start(route) {
     if (!bootPath) bootPath = route;
     if (bootPath !== route) return false; // Adapter never follows SPA into another DOM.
-    startGoogle(route); startClarity();
+    startGoogle(route); startClarity(); startAhrefs(route);
     return true;
+  }
+  function startAhrefs(route) {
+    if (ahrefsAttempted) return;
+    ahrefsAttempted = true;
+    // The official runtime reads referrer and public link destinations itself.
+    // As with Clarity, do not load it on query/fragment or unsafe-referrer pages.
+    if (!clarityContextAllowed(window, document, registered)) return;
+    try {
+      appendScript('exactmec-ahrefs', VENDOR_ANALYTICS.ahrefsScript, {
+        attributes: {'data-key':VENDOR_ANALYTICS.ahrefsKey,'data-page-location':VENDOR_ANALYTICS.origin+route,'data-no-pageview-auto':''},
+        onLoad() {
+          if (ahrefsReady || currentRoute()!==route || !clarityContextAllowed(window,document,registered) || typeof window.AhrefsAnalytics?.sendEvent!=='function') return;
+          ahrefsReady=true;
+          try { window.AhrefsAnalytics.sendEvent('pageview'); } catch { /* Optional provider failure stays isolated. */ }
+        },
+      });
+    } catch { ahrefsReady=false; }
   }
   function clearAnalyticsCookies() {
     try {
@@ -136,6 +156,8 @@ export function createVendorAnalytics({ enabled = false, window = globalThis.win
       window.clarity?.('consentv2', clarityChoice(false));
       window.clarity?.('stop');
     } catch { /* Host reload removes remaining SDK state. */ }
+    if (ahrefsReady) try { window.AhrefsAnalytics.sendEvent=()=>{}; } catch { /* A fresh document unloads SDK-owned listeners. */ }
+    ahrefsReady=false;
     for (const script of scripts) try { script.remove(); } catch { /* Reload remains required. */ }
     scripts.clear();
     if (clearCookies) clearAnalyticsCookies();
@@ -160,6 +182,7 @@ export function createVendorAnalytics({ enabled = false, window = globalThis.win
       dispatched = true;
     } catch { /* Another provider may still record the sanitized event. */ }
     if (clarityReady && name !== 'pageview') try { window.clarity('event', name); dispatched = true; } catch { /* No arbitrary properties or identifiers go to Clarity. */ }
+    if (ahrefsReady && name !== 'pageview') try { window.AhrefsAnalytics.sendEvent(name,{props}); dispatched=true; } catch { /* No arbitrary event fields reach this API. */ }
     if (typeof fetchImpl === 'function') try {
       const controller = new AbortController(); pending.add(controller);
       const request = fetchImpl(VENDOR_ANALYTICS.plausibleEndpoint, {

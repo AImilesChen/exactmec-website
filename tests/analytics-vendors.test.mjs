@@ -38,7 +38,7 @@ test('construction/default-disabled/unconsented tracking performs no request, ta
 test('basic GA consent/ads restrictions precede SDK insertion; Clarity is masked and analytics-only before its tag', () => {
   const fixture = browser(); const api = fixture.adapter();
   assert.equal(api.setConsent(true), true);
-  assert.deepEqual(fixture.scripts.map(entry => entry.node.src), [VENDOR_ANALYTICS.googleScript, VENDOR_ANALYTICS.clarityScript]);
+  assert.deepEqual(fixture.scripts.map(entry => entry.node.src), [VENDOR_ANALYTICS.googleScript, VENDOR_ANALYTICS.clarityScript, VENDOR_ANALYTICS.ahrefsScript]);
   for (const { node } of fixture.scripts) { assert.equal(node.async, true); assert.equal(node.referrerPolicy, 'no-referrer'); assert.equal(node.textContent, undefined); }
   const queue = fixture.scripts[0].queueAtInsertion;
   assert.deepEqual(queue[0], ['consent', 'default', { ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }]);
@@ -90,7 +90,7 @@ test('pageviews are manual and deduplicated within the document while intentiona
   const fixture = browser(); const api = fixture.adapter();
   api.setConsent(true); api.setConsent(true);
   assert.equal(api.track('pageview', { route: '/' }), false);
-  assert.equal(fixture.scripts.length, 2);
+  assert.equal(fixture.scripts.length, 3);
   assert.equal(googleCalls(fixture.window).filter(args => args[0] === 'event' && args[1] === 'page_view').length, 1);
   assert.equal(plausibleBodies(fixture).filter(body => body.name === 'pageview').length, 1);
   api.track('whatsapp_click', { route: '/', placement: 'header' }); api.track('whatsapp_click', { route: '/', placement: 'header' });

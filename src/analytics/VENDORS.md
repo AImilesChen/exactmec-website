@@ -1,6 +1,6 @@
 # 可选外部统计适配器
 
-2026-10-26。仅接入用户提供的 GA4 `G-E8EBN552MZ`、Clarity `z3mu7j6fex` 和 ShipSolo 托管 Plausible（domain `exactmec.com`），不创建账号、升级套餐或开启广告功能。业务询价、客户门户与管理员登录不依赖这三个服务。
+2026-10-26。接入用户提供的 GA4 `G-E8EBN552MZ`、Clarity `z3mu7j6fex`、ShipSolo 托管 Plausible（domain `exactmec.com`）及 Ahrefs Web Analytics `kwvnBi883wOXoELTpu9YWQ`，不创建账号、升级套餐或开启广告功能。业务询价、客户门户与管理员登录不依赖这些服务。
 
 ## 调用合同
 
@@ -42,6 +42,12 @@ Clarity 使用官方 `consentv2`，注意字段名大小写：`analytics_Storage
 实际源与隔离 VM 证据位于仓库外 `backend-delivery/analytics-integration-2026-10-26/`，其中 `plausible-actual-script-behavior.json` 记录自动／手动脚本行为。此为代码与受控模拟证据，不冒充三个供应商后台已接收真实生产数据。
 
 ## 撤回与限制
+
+Ahrefs 使用官方 head 脚本 https://analytics.ahrefs.com/analytics.js ，data-key 如上。官方当前脚本支持 data-page-location 和 data-no-pageview-auto；本接入关闭自动页面浏览，由加载成功回调发送一次 pageview，后续只显式发送允许的营销按钮事件。SDK还会自动观测公共链接点击，因此它不能被称为只接收本适配器自定义字段。询价/私有页面不加载；当前URL有query/hash或referrer不安全时整项跳过，与Clarity使用同一检查。它不是UTM广告归因的替代，带参数落地页仍由既有GA/Plausible发送清洗后的事件。
+
+Ahrefs会收到公开页面标题、规范地址、通过安全检查的来源、公开链接目标与设备/网络信息。官方说明不使用cookies而在服务端计算当日假名访客ID；这不代表不处理IP或UA。新增服务使用v3选择，不继承旧v2的允许状态。同意前不加载，不为AhrefsSiteAudit伪造同意或专门放开统计；其爬虫不点击选择框，后台自动安装检查可能仍提示未检测到。不要为了消除提示绕过访客选择。撤回后本接入禁用公开sendEvent，宿主仍必须整页重载来卸载SDK内部监听器。
+
+官方参考：[安装与采集说明](https://help.ahrefs.com/en/articles/10247870-about-ahrefs-web-analytics)、[事件API](https://help.ahrefs.com/en/articles/11381932-tracked-events-in-ahrefs-web-analytics)、[安装检测限制](https://help.ahrefs.com/en/articles/10631520-troubleshooting-ahrefs-web-analytics-snippet-isn-t-found-on-your-website)。本次读取的官方脚本原件及受控验证保存在仓库外backend-delivery/ahrefs-analytics-2026-10-26。
 
 先持久保存拒绝；停止新的 track，设置 Google ga-disable，撤回供应商同意，清除尚未执行的本适配器授权／事件队列并终止可取消的 Plausible 请求。只清理本站 `_ga`、本测量 ID 的 GA cookie、`_gid`、本 ID 的 `_gat_gtag`、`_clck`、`_clsk`，不碰客户会话或其他必要 cookie。
 
