@@ -1,6 +1,6 @@
 # Inquiry backend and protected admin · local candidate
 
-Confirmed site origin: https://exactmec.com. Domain registration does not prove deployment, DNS routing or HTTPS readiness. Administrator email, notification recipient, domain email and company correspondence address remain undecided. Production inquiry collection and mail sending are disabled.
+Confirmed site origin: https://exactmec.com. Business/privacy email is sales@exactmec.com; correspondence address is No. 46 Jinqing Avenue, Luqiao, Taizhou, Zhejiang, China (中国浙江台州路桥金清大道46号). Mail provisioning and send/receive verification remain pending. A separate private administrator identity has been supplied and must not be published in source, frontend bundles or public wrangler vars. Internal notification recipient is still pending. Production inquiry collection and mail sending are disabled.
 
 ## Implemented
 
@@ -11,6 +11,8 @@ Confirmed site origin: https://exactmec.com. Domain registration does not prove 
 - Cloudflare Access JWT signature/issuer/audience/expiry and explicit administrator allowlist, actor-bound CSRF tokens, same-origin writes, actual UTF8 body limit and generic errors. A raw email header or hidden admin URL grants no access.
 
 Production Access policies must protect both `/admin/*` and `/api/admin/*`; the Worker independently verifies the application JWT, including on static-asset-backed deployments. Public inquiry paths must remain accessible without an administrator login. Configure the actual Access team/audience/allowlist and verify anonymous denial before connecting any real database.
+
+Set ADMIN_EMAILS, ACCESS_TEAM_DOMAIN and ACCESS_AUD as server-side Secrets. Public templates omit these fields so a deployment cannot accidentally publish or overwrite a private identity. The public contact mailbox is not an implicit administrator. Do not add a global identity provider without reviewing its effect on existing applications that accept all providers; keep unrelated application settings unchanged unless explicitly authorized.
 
 ## Local integration
 

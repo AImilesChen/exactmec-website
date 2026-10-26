@@ -3,3 +3,7 @@
 RATE_LIMIT_SECRET=
 CONTACT_HASH_SECRET=
 ADMIN_CSRF_SECRET=
+# Keep the private administrator identity out of public wrangler vars and Git.
+ADMIN_EMAILS=
+ACCESS_TEAM_DOMAIN=
+ACCESS_AUD=

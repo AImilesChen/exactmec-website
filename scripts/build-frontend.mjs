@@ -11,7 +11,7 @@ const release=process.argv.includes('--release');
 const configured=loadEnv('frontend',root,'VITE_');
 Object.assign(process.env,configured);
 process.env.VITE_SITE_RELEASE=String(release);
-const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true'});
+const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,contactEmailVerified:process.env.VITE_CONTACT_EMAIL_VERIFIED==='true',release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true'});
 const blockers=releaseBlockers(config);
 if(release&&blockers.length)throw new Error('Release is not ready:\n'+blockers.map(x=>' - '+x).join('\n'));
 if(release){

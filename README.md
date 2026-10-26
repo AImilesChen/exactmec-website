@@ -18,7 +18,7 @@ Open http://127.0.0.1:4174/. With the preview running, `npm run smoke:frontend` 
 
 ## Current release state
 
-This is a staging candidate, not a launched lead collection service. Every page is `noindex,nofollow`, robots disallows crawling, and the sitemap contains no published URLs. The registered domain is confirmed as https://exactmec.com and used for canonical targets; domain email, administrator identity and public correspondence address remain pending. Registration alone is not evidence of DNS, HTTPS or deployment readiness. A confirmed manual WhatsApp link is available on the inquiry page and in the footer. Clicking the link does not send a message automatically.
+This is a staging candidate, not a launched lead collection service. Every page is `noindex,nofollow`, robots disallows crawling, and the sitemap contains no published URLs. The registered domain is https://exactmec.com. Business and privacy contact share sales@exactmec.com; the confirmed correspondence address is No. 46 Jinqing Avenue, Luqiao, Taizhou, Zhejiang, China (中国浙江台州路桥金清大道46号). These appear in the footer and legal draft copy. The mailbox still requires provisioning and send/receive verification, recorded separately by VITE_CONTACT_EMAIL_VERIFIED, which remains false. Administrator identity is not inferred from a public contact address. Registration alone is not evidence of DNS, HTTPS or deployment readiness. A confirmed manual WhatsApp link is available on the inquiry page and in the footer. Clicking the link does not send a message automatically.
 
 Online inquiry collection is closed. With the default configuration, public saves return 503 and admin access is unavailable. The frontend implements validation, optional budget/timing, independent contact choices, timeout/error/retry handling and a strict saved-response contract. It cannot claim success without a backend-confirmed saved inquiry. Analytics is disabled: no provider SDK, tracking ID or real reporting is configured.
 
@@ -28,7 +28,7 @@ The backend now implements atomic D1 inquiry/consent/outbox persistence, idempot
 
 Before production release:
 
-1. Configure and verify domain email, company contact address, actual processors and retention rules; finalize the legal notices and notice versions.
+1. Provision and verify the confirmed domain mailbox; review actual processors and retention rules, then finalize the legal notices and notice versions. Contact names/addresses in source are confirmed, while reachability remains independently gated.
 2. Configure production Access application/allowlist, secrets and internal mail transport, then verify anonymous denial, real storage, notification failures and data operations in the intended environment.
 3. If measurement is enabled, choose the provider and implement its approved notice/choice flow; verify actual reporting without lead information. Otherwise explicitly retain measurement as disabled in the handoff.
 4. Complete browser/mobile, accessibility and production smoke checks, and approve public deployment/domain changes.

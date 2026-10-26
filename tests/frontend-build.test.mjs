@@ -67,3 +67,21 @@ test('unconfigured public inquiry has confirmed manual WhatsApp and cannot be en
  assert.ok(releaseBlockers(createSiteConfig()).length>=4);
  assert.throws(()=>createSiteConfig({origin:'https://example.com'}));
 });
+
+test('confirmed mailbox and correspondence address are rendered, while draft contact placeholders are removed',async()=>{
+ for(const page of await pages()){
+  assert.match(page.html,/mailto:sales@exactmec\.com/,page.path);
+  assert.match(page.html,/No\. 46 Jinqing Avenue/,page.path);
+  if(page.kind==='legal')assert.doesNotMatch(page.html,/\[(?:PUBLIC_CONTACT_ADDRESS|BUSINESS_CONTACT_EMAIL|PRIVACY_CONTACT_EMAIL)\]/,page.path);
+ }
+});
+
+test('a confirmed mailbox name cannot pass the release gate without actual send and receive verification',()=>{
+ const values={origin:'https://exactmec.com',release:true,legalApproved:true,backendVerified:true,inquiryEnabled:true};
+ const pending=createSiteConfig(values);
+ assert.equal(pending.contactEmail,'sales@exactmec.com');
+ assert.equal(pending.contactEmailVerified,false);
+ assert.equal(pending.inquiryEnabled,false);
+ assert.ok(releaseBlockers(pending).includes('域名邮箱收发尚未实际验证'));
+ assert.equal(releaseBlockers(createSiteConfig({...values,contactEmailVerified:true})).length,0);
+});
