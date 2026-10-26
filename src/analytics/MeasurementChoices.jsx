@@ -3,7 +3,7 @@ import {browserStorage,MEASUREMENT_CHOICE_KEY,readSavedMeasurementChoice,saveMea
 import manifest from '../data/site-manifest.json';
 
 const marketingRoutes = new Set(manifest.routes.filter(item => item.include_in_p0_plan && !['legal','system'].includes(item.kind) && item.id !== 'rfq').map(item => item.path));
-const panelStyle = {position:'fixed',bottom:16,right:16,zIndex:90,width:'min(420px, calc(100vw - 32px))',maxWidth:420,maxHeight:'calc(100dvh - 32px)',boxSizing:'border-box',overflowY:'auto',margin:0,padding:20,background:'#fff',border:'1px solid #cbd7df',borderRadius:8,boxShadow:'0 8px 32px #19394f20',color:'#2d4657'};
+const panelStyle = {position:'fixed',bottom:16,right:16,zIndex:90,width:'calc(100% - 32px)',maxWidth:420,maxHeight:'calc(100dvh - 32px)',boxSizing:'border-box',overflowY:'auto',margin:0,padding:20,background:'#fff',border:'1px solid #cbd7df',borderRadius:8,boxShadow:'0 8px 32px #19394f20',color:'#2d4657'};
 const copyStyle = {fontSize:14,lineHeight:1.55,margin:'8px 0 0',color:'#4f6675'};
 const buttonStyle = {minHeight:44,minWidth:0,flex:'1 1 0',margin:0,padding:'10px 12px',fontSize:14,fontWeight:500,lineHeight:1.5,borderRadius:4,cursor:'pointer'};
 
@@ -52,3 +52,4 @@ export function MeasurementChoices({enabled=false,analytics,route}){
  };
  return <div className="measurement-choices" data-clarity-mask="true"><button type="button" className="measurement-toggle" onClick={()=>setOpen(!open)} aria-expanded={open} aria-controls={id} data-clarity-mask="true">Measurement choices</button>{open&&<MeasurementPanel id={id} choice={choice} onChoose={choose} storageWarning={storageWarning}/>}</div>;
 }
+
