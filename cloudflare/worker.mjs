@@ -7,7 +7,8 @@ import {loadContentPreview} from '../backend/content.mjs';
 import {renderPublishedHtml} from './cms-response.mjs';
 import {administratorLoginPage} from './login-page.mjs';
 import {resolveCustomerRoute} from '../src/customer-routes.mjs';
-import {customerCleanup} from '../backend/customer-auth.mjs';
+import {customerCleanup,customerPortalConfiguration} from '../backend/customer-auth.mjs';
+import {customerEmailAvailable,sendCustomerLoginCode} from '../backend/portal-email.mjs';
 const handleApi=createApiHandler();
 
 const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml','/third-party-notices.txt']);
@@ -85,7 +86,10 @@ export default {
       const customer=resolveCustomerRoute(path);
       if(customer.redirect)return finish(new Response(null,{status:308,headers:{Location:customer.redirect}}),privateOptions);
       if(customer.status!==200)return finish(await notFound(env,request),{...privateOptions,status:404});
-      const response=finish(await asset(env,request,'/account/index.html'),privateOptions),headers=new Headers(response.headers);
+      const shell=await asset(env,request,'/account/index.html');
+      const available=Boolean(customerPortalConfiguration(env,{sendCode:customerEmailAvailable(env)?input=>sendCustomerLoginCode(env,input):undefined}));
+      const html=(await shell.text()).replace('</head>','<script type="application/json" id="customer-config">'+JSON.stringify({available})+'</script></head>');
+      const response=finish(new Response(html,{status:shell.status,headers:shell.headers}),privateOptions),headers=new Headers(response.headers);
       headers.set('Referrer-Policy','no-referrer');
       return new Response(response.body,{status:response.status,headers});
     }

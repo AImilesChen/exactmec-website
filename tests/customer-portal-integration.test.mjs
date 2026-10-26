@@ -183,6 +183,8 @@ test('wrong-code attempts permanently exhaust a challenge without exposing deliv
 
 test('production cookie is a secure host cookie and never accepts the local test cookie', async () => {
   await lead();
+  const development = await login();
+  await DB.prepare('DELETE FROM customer_rate_buckets').run();
   const production = { ...env, SITE_ORIGIN: 'https://exactmec.com', CUSTOMER_PORTAL_ENABLED: true, RELEASE: true, LEGAL_APPROVED: true };
   const post = (path, body) => handleCustomer(new Request('https://exactmec.com' + path, { method: 'POST', headers: { Origin: 'https://exactmec.com', 'Content-Type': 'application/json', 'CF-Connecting-IP': '192.0.2.201' }, body: JSON.stringify(body) }), production, { sendCode: context().sendCode });
   const issued = await (await post('/api/customer/auth/request-code', { email: emailA })).json();
@@ -197,6 +199,14 @@ test('production cookie is a secure host cookie and never accepts the local test
   const localName = cookie.split(';')[0].replace('__Host-exactmec_customer=', 'exactmec_customer_dev=');
   const spoofed = await handleCustomer(new Request('https://exactmec.com/api/customer/session', { headers: { Cookie: localName } }), production, { sendCode: context().sendCode });
   assert.equal(spoofed.status, 401);
+  const renamedDevelopmentCookie = development.cookie.replace('exactmec_customer_dev=', '__Host-exactmec_customer=');
+  const transplanted = await handleCustomer(new Request('https://exactmec.com/api/customer/session', { headers: { Cookie: renamedDevelopmentCookie } }), production, { sendCode: context().sendCode });
+  assert.equal(transplanted.status, 401, 'even a renamed development cookie cannot migrate a session to production');
+  await DB.prepare('DELETE FROM customer_rate_buckets').run();
+  const developmentChallenge = await challenge();
+  const migratedCode = await post('/api/customer/auth/verify-code', developmentChallenge);
+  assert.notEqual(migratedCode.status, 200, 'OTP challenges are bound to the origin too');
+  assert.equal(migratedCode.headers.get('Set-Cookie'), null);
 });
 
 test('expired challenges and sessions are rejected and purged without extending their lifetime', async () => {
@@ -210,6 +220,12 @@ test('expired challenges and sessions are rejected and purged without extending 
   await DB.prepare('UPDATE customer_sessions SET expires_at=?').bind(Date.now() - 1).run();
   assert.equal((await call('/api/customer/session', 'GET', undefined, { Cookie: session.cookie })).status, 401);
   assert.equal((await DB.prepare('SELECT count(*) AS n FROM customer_sessions').first()).n, 0);
+  await DB.prepare('DELETE FROM customer_rate_buckets').run();
+  const older = await challenge();
+  await DB.prepare('DELETE FROM customer_rate_buckets').run();
+  const replacement = await challenge();
+  assert.notEqual((await call('/api/customer/auth/verify-code', 'POST', older)).status, 200, 'requesting a replacement invalidates the older OTP');
+  assert.equal((await call('/api/customer/auth/verify-code', 'POST', replacement)).status, 200);
 });
 
 test('concurrent email code requests reserve one cooldown and verify endpoint enforces IP attempt limit', async () => {
@@ -269,7 +285,7 @@ test('actual API router keeps customer auth cookies while stripping cookies from
 test('actual Worker isolates customer routes and admin login from marketing and never serves cookies from static assets', async () => {
   const assets = { async fetch(request) {
     const path = new URL(request.url).pathname;
-    const files = { '/index.html': '<h1>Synthetic marketing</h1>', '/account/index.html': '<h1>Synthetic customer workspace</h1>', '/404.html': '<h1>Not found</h1>', '/sitemap.xml': '<urlset><url><loc>https://exactmec.com/</loc></url></urlset>' };
+    const files = { '/index.html': '<h1>Synthetic marketing</h1>', '/account/index.html': '<!doctype html><html><head><meta name="robots" content="noindex,nofollow"></head><body><h1>Synthetic customer workspace</h1></body></html>', '/404.html': '<h1>Not found</h1>', '/sitemap.xml': '<urlset><url><loc>https://exactmec.com/</loc></url></urlset>' };
     return new Response(files[path] || 'Missing', { status: files[path] ? 200 : 404, headers: { 'Content-Type': path.endsWith('.xml') ? 'application/xml' : 'text/html', 'Set-Cookie': '__Host-exactmec_customer=untrusted; Path=/; Secure; HttpOnly; SameSite=Lax' } });
   } };
   const configuration = { ASSETS: assets, SITE_ORIGIN: 'https://exactmec.com', RELEASE: true };
@@ -280,6 +296,12 @@ test('actual Worker isolates customer routes and admin login from marketing and 
     assert.equal(response.headers.get('Cache-Control'), 'no-store');
     assert.equal(response.headers.get('Referrer-Policy'), 'no-referrer');
     assert.equal(response.headers.get('Set-Cookie'), null);
+    if (path.startsWith('/account/')) {
+      const html = await response.text();
+      const bootstrap = html.match(/<script type="application\/json" id="customer-config">([\s\S]*?)<\/script>/)?.[1];
+      assert.ok(bootstrap, 'private HTML exposes only its actual availability, not fake auth');
+      assert.deepEqual(JSON.parse(bootstrap), { available: false });
+    }
   }
   const publicResponse = await worker.fetch(new Request('https://exactmec.com/'), configuration);
   assert.equal(publicResponse.headers.get('Set-Cookie'), null);
@@ -287,5 +309,5 @@ test('actual Worker isolates customer routes and admin login from marketing and 
   assert.doesNotMatch(sitemap, /account|admin/);
   assert.equal((await worker.fetch(new Request('https://exactmec.com/account/arbitrary/'), configuration)).status, 404);
   assert.equal((await worker.fetch(new Request('https://exactmec.com/account/login/', { method: 'POST' }), configuration)).status, 405);
-  assert.equal((await worker.fetch(new Request('https://exactmec.com/api/customer/session'), { ...configuration, DB })).status, 503);
+  assert.equal((await worker.fetch(new Request('https://exactmec.com/api/customer/session', { headers: { 'X-Customer-Available': 'true' } }), { ...configuration, DB })).status, 503, 'changing frontend availability never authorizes the API');
 });

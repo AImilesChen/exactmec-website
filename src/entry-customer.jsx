@@ -9,4 +9,6 @@ import '@fontsource/ibm-plex-sans/latin-500.css';
 import '@fontsource/ibm-plex-sans/latin-600.css';
 import './customer/styles.css';
 
-createRoot(document.getElementById('root')).render(<CustomerPortal initialPath={location.pathname}/>);
+let available;
+try{const value=JSON.parse(document.getElementById('customer-config')?.textContent||'null');if(typeof value?.available==='boolean')available=value.available;}catch{available=false;}
+createRoot(document.getElementById('root')).render(<CustomerPortal initialPath={location.pathname} available={available}/>);

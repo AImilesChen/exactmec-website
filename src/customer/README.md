@@ -1,6 +1,6 @@
 # Optional customer inquiry workspace
 
-Entry: `CustomerPortal` from `App.jsx`; props `initialPath` (default `/account/login/`) and optional `client` injection for isolated synthetic integration tests. Parent supplies a dedicated HTML/JS entry, local Manrope and IBM Plex fonts, and `styles.css`. No public/admin layouts or global tracking adapters are imported here. The stylesheet scopes the workspace, controls, responsive layout and reset to `.customer-portal`.
+Entry: `CustomerPortal` from `App.jsx`; props `initialPath` (default `/account/login/`) optional `available` (default `true`), and optional `client` injection for isolated synthetic integration tests. Passing `available={false}` renders the review-closed design immediately, disables email/code controls, omits the availability retry action, and prevents session/list/detail/write API requests. Availability is a public configuration signal, not a substitute for backend security gates. Parent supplies a dedicated HTML/JS entry, local Manrope and IBM Plex fonts, and `styles.css`. No public/admin layouts or global tracking adapters are imported here. The stylesheet scopes the workspace, controls, responsive layout and reset to `.customer-portal`.
 
 ## Customer flow
 
@@ -24,3 +24,5 @@ Authenticated POSTs send the closure's `X-CSRF-Token`. All fetches use same-orig
 ## Validation
 
 `node --test src/customer/customer-client.test.mjs` covers 12 meaningful client checks including challenge privacy, generic 202, unavailable state, safe projection, authenticated exact bodies, untrusted references, conflicts/expiry, no write replay, concurrency, timeout, logout and stale challenge invalidation. `App.jsx` also passes the JSX compiler. Parent must run actual mobile/desktop, keyboard and local synthetic backend flow checks. No real customer record or external email was used for these unit tests.
+
+Review-closeout checks: `node --test src/customer/customer-client.test.mjs src/customer/customer-component.test.mjs` passes 15 checks. The three SSR checks verify the closed design, disabled controls and safe detail-route fallback without invented records. Actual mounted browser network silence is separately verified by the parent. Low-contrast secondary text, image captions, footer, helper copy and placeholders were darkened to #556b79 (5.58:1 on white; 5.24:1 on gray panel). Disabled primary labels have 4.93:1; layout and typography are unchanged.

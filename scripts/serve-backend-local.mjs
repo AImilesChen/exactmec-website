@@ -78,6 +78,12 @@ const server=http.createServer(async(req,res)=>{
   // RFQ integration entry below alone can submit example.com synthetic forms.
   if(['GET','HEAD'].includes(req.method)&&!url.pathname.startsWith('/request-a-quote')&&!/^\/(?:src|local|node_modules|@)/.test(url.pathname)){
    const response=await publicWorker.fetch(new Request('https://exactmec.com'+url.pathname+url.search,{method:req.method}),{...env,ASSETS:assets,SITE_ORIGIN:'https://exactmec.com',CMS_ENABLED:'true',RELEASE:'false',LEGAL_APPROVED:'false'});
+   if(url.pathname==='/account'||url.pathname.startsWith('/account/')){
+    // This loopback-only host enables the UI against its injected synthetic
+    // transport. The production API still has its independent release gates.
+    const html=(await response.text()).replace('{"available":false}','{"available":true}');
+    res.writeHead(response.status,Object.fromEntries(response.headers));res.end(req.method==='HEAD'?'':html);return;
+   }
    res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));return;
   }
   vite.middlewares(req,res,()=>{res.writeHead(404);res.end('Not found.');});
