@@ -226,5 +226,137 @@
     "source": "ui-design-delivery-v3/assets-source/guide-process-v3.png",
     "type": "AI generated illustration",
     "rights": "Original generated asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-automotive",
+    "size": [
+      1341,
+      1173
+    ],
+    "path": "/assets/home-v2-automotive.webp",
+    "bytes": 106792,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-automotive.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-cta",
+    "size": [
+      1983,
+      793
+    ],
+    "path": "/assets/home-v2-cta.webp",
+    "bytes": 52248,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-cta.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-electronics",
+    "size": [
+      1340,
+      1174
+    ],
+    "path": "/assets/home-v2-electronics.webp",
+    "bytes": 105692,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-electronics.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-guide-approval",
+    "size": [
+      1672,
+      941
+    ],
+    "path": "/assets/home-v2-guide-approval.webp",
+    "bytes": 132694,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-guide-approval.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-guide-cost",
+    "size": [
+      1672,
+      941
+    ],
+    "path": "/assets/home-v2-guide-cost.webp",
+    "bytes": 139270,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-guide-cost.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-guide-quotation",
+    "size": [
+      1672,
+      941
+    ],
+    "path": "/assets/home-v2-guide-quotation.webp",
+    "bytes": 122590,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-guide-quotation.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-hero",
+    "size": [
+      1912,
+      823
+    ],
+    "path": "/assets/home-v2-hero.webp",
+    "bytes": 94712,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-hero.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-led",
+    "size": [
+      1340,
+      1174
+    ],
+    "path": "/assets/home-v2-led.webp",
+    "bytes": 98928,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-led.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-motor",
+    "size": [
+      1341,
+      1173
+    ],
+    "path": "/assets/home-v2-motor.webp",
+    "bytes": 134226,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-motor.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-process",
+    "size": [
+      1536,
+      1024
+    ],
+    "path": "/assets/home-v2-process.webp",
+    "bytes": 235418,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-process.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "home-v2-hero-mobile",
+    "size": [
+      1364,
+      1153
+    ],
+    "path": "/assets/home-v2-hero-mobile.webp",
+    "bytes": 137120,
+    "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-hero-mobile.png",
+    "type": "AI generated illustration",
+    "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
   }
 ]

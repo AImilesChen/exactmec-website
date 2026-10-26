@@ -11,6 +11,7 @@ import './styles.css';
 import './redesign.css';
 import './compositions.css';
 import './v3.css';
+import './home-v2.css';
 
 const root=document.getElementById('root');
 let bootstrap;try{bootstrap=JSON.parse(document.getElementById('site-bootstrap')?.textContent||'null');}catch{}

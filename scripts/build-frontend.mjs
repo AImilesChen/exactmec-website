@@ -44,7 +44,7 @@ const generated=[];
 for(const route of PUBLIC_ROUTES){
  const meta=getPageMeta(route.path,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled});
  let html=shell.replace(/<title>.*?<\/title>/s,'').replace(/<meta name="robots"[^>]*\/>/,'');
- const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/mold-hero-roomy-v3.webp" fetchpriority="high"/>':'';
+ const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/home-v2-hero.webp" fetchpriority="high"/>':'';
  html=html.replace('</head>',head(meta)+'\n'+hero+'\n</head>').replace('<div id="root"></div>','<!--exactmec:root:start--><div id="root">'+render(route.path,config)+'</div><!--exactmec:root:end-->');
  const filename=route.id==='404'?'404.html':route.path==='/'?'index.html':route.path.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
  const dest=path.join(output,filename);await fs.mkdir(path.dirname(dest),{recursive:true});await fs.writeFile(dest,html);
@@ -61,7 +61,7 @@ for(const file of await fs.readdir(path.join(publicDir,'brand')))if(/\.(svg|png|
 
 // Copy actual site imagery and fonts, not design boards, ZIPs or prompt files.
 const needed=new Set();
-const runtime=['LightHome.jsx','MegaHeader.jsx','EditorialPages.jsx','PageCompositions.jsx','Media.jsx','PhaseExplorer.jsx','SitePages.jsx','styles.css','redesign.css','compositions.css','v3.css','delivery.css'];
+const runtime=['LightHome.jsx','MegaHeader.jsx','EditorialPages.jsx','PageCompositions.jsx','Media.jsx','PhaseExplorer.jsx','SitePages.jsx','styles.css','redesign.css','compositions.css','v3.css','home-v2.css','delivery.css'];
 const assetData=JSON.parse(await fs.readFile(path.join(root,'src/data/v3-assets.json'),'utf8'));
 for(const asset of assetData)if(asset.path)needed.add(path.basename(asset.path));
 for(const file of runtime){const text=await fs.readFile(path.join(root,'src',file),'utf8');for(const match of text.matchAll(/["'(/]([A-Za-z0-9_.-]+\.(?:png|webp|jpe?g|svg))["')]/g))needed.add(match[1]);}
