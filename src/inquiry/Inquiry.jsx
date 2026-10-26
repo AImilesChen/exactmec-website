@@ -28,7 +28,10 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
   const mounted = useRef(false);
   const submitting = useRef(false);
   const started = useRef(false);
-  const configured = !reviewMode && submitEnabled === true && !!sameOriginEndpoint(endpoint);
+  // The canonical relative endpoint must render consistently before hydration;
+  // the client still validates the actual request origin before transmitting.
+  const configured = !reviewMode && submitEnabled === true && (endpoint === '/api/inquiries' || !!sameOriginEndpoint(endpoint));
+  const unavailable = !reviewMode && !configured;
   const client = useMemo(() => createInquiryClient({ endpoint, submitEnabled: !reviewMode && submitEnabled === true }), [endpoint, submitEnabled, reviewMode, session]);
   const busy = result.state === 'submitting';
   const confirmed = ['saved', 'duplicate'].includes(result.state);
@@ -139,7 +142,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
         <label className="check-row"><input id="processing" name="processing" disabled={busy} type="checkbox" checked={values.processing} onChange={event => update('processing', event.target.checked)} required aria-invalid={!!errors.processing} aria-describedby={errors.processing ? 'processing-error' : undefined} /><span>{copy.processing_checkbox.label}<span className="required"> *</span></span></label>{errors.processing && <p id="processing-error" className="field-error">{errors.processing}</p>}
         <label className="check-row"><input id="whatsapp" name="whatsapp" disabled={busy} type="checkbox" checked={values.whatsapp} onChange={event => update('whatsapp', event.target.checked)} /><span>{copy.whatsapp_checkbox.label}<small>{copy.whatsapp_checkbox.helper}</small></span></label>
       </div>
-      <button className="button primary submit" type="submit" disabled={busy || (!reviewMode && !configured) || waitSeconds > 0}>{busy ? reviewMode ? 'Previewing your inquiry…' : states.submitting : copy.submit}{!busy && <ArrowRight size={21} aria-hidden="true" />}</button>
+      <button className={'button primary submit' + (unavailable ? ' is-unavailable' : '')} type="submit" disabled={busy || unavailable || waitSeconds > 0}>{busy ? reviewMode ? 'Previewing your inquiry…' : states.submitting : unavailable ? 'Online submission unavailable' : copy.submit}{!busy && !unavailable && <ArrowRight size={21} aria-hidden="true" />}</button>
       <p className="submit-note" role="status">{reviewMode ? busy ? 'Preparing the design preview. Your details are not being sent.' : 'This preview demonstrates the form only. No real inquiry is submitted.' : busy ? states.submitting : 'Your inquiry is received only after the server confirms a reference.'}</p>
     </form><aside className="inquiry-aside"><div><p className="eyebrow">THE NEXT STEP</p><h2>What Happens After You Submit</h2><p className="field-help">After a confirmed submission:</p><ol>{['Your inquiry is saved.', 'We review your project details.', 'We follow up by email, or WhatsApp if you choose.'].map((step, index) => <li key={step}><span>{index + 1}</span><p>{step}</p></li>)}</ol><Media file="mold-cavity-detail-v3" alt="Illustrative steel mold detail" caption="Illustrative example" /><hr /><h3>Drawings or a Sample?</h3><p>Keep your clear product drawings or physical sample available. We arrange the next information exchange during follow-up.</p><TextLink href="/resources/die-casting-mold-quotation-requirements/">Quotation Requirements</TextLink></div></aside></div></section>
   </>;

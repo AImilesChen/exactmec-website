@@ -16,3 +16,6 @@
 html:root{scroll-behavior:auto}
 .rfq-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important;}
 .site-footer .footer-brand> a:not(.wordmark){display:block;margin-top:12px;overflow-wrap:anywhere}.site-footer .footer-brand address{font-style:normal;font-size:14px;line-height:1.7;color:var(--muted);margin-top:16px;max-width:30ch}
+
+/* Closed public RFQ: an unavailable action must not look like a live CTA. */
+.inquiry-layout .submit.is-unavailable:disabled{background:#e6eaed;border:1px solid #cbd3d9;color:#52616c;opacity:1;cursor:not-allowed;box-shadow:none;transform:none}

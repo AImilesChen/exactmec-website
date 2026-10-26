@@ -30,7 +30,26 @@ test('production mode remains unavailable until parent explicitly enables collec
   const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false }));
   assert.match(html, /Online submission is not available yet/);
   assert.match(html, /<button[^>]*type="submit"[^>]*disabled=""/);
+  assert.match(html, /class="button primary submit is-unavailable"/);
+  assert.match(html, />Online submission unavailable<\/button>/);
   assert.doesNotMatch(html, /Your Inquiry Has Been Received|Your reference is/);
+});
+
+test('an enabled inquiry form retains the submission action without the unavailable state', () => {
+  const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, submitEnabled: true }));
+  const button = html.match(/<button[^>]*type="submit"[^>]*>/)?.[0];
+  assert.ok(button);
+  assert.doesNotMatch(button, /disabled|is-unavailable/);
+  assert.match(html, /Send My Mold Inquiry/);
+  assert.doesNotMatch(html, /Online submission unavailable/);
+});
+
+test('enabling the form does not enable an untrusted or parameterized endpoint', () => {
+  for (const endpoint of ['https://untrusted.example/api/inquiries', '//untrusted.example/api/inquiries', '/api/inquiries?email=private']) {
+    const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, submitEnabled: true, endpoint }));
+    assert.match(html, /<button[^>]*type="submit"[^>]*disabled=""/);
+    assert.match(html, />Online submission unavailable<\/button>/);
+  }
 });
 
 test('closed public form offers configured manual WhatsApp contact before the fields', () => {
