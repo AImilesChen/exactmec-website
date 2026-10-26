@@ -21,6 +21,7 @@ const origin=`http://127.0.0.1:${port}`,state=path.join(root,'.wrangler/backend-
 await fs.mkdir(state,{recursive:true});
 const secretsFile=path.join(state,'secrets.json');let secrets;
 try{secrets=JSON.parse(await fs.readFile(secretsFile,'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;secrets=Object.fromEntries(['RATE_LIMIT_SECRET','CONTACT_HASH_SECRET','ADMIN_CSRF_SECRET'].map(k=>[k,randomBytes(48).toString('hex')]));await fs.writeFile(secretsFile,JSON.stringify(secrets),{mode:0o600});}
+if(typeof secrets.CUSTOMER_AUTH_SECRET!=='string'||secrets.CUSTOMER_AUTH_SECRET.length<32){secrets.CUSTOMER_AUTH_SECRET=randomBytes(48).toString('hex');await fs.writeFile(secretsFile,JSON.stringify(secrets),{mode:0o600});}
 const mf=new Miniflare(convertV4MiniflareOptions({modules:true,script:'export default {fetch(){return new Response("local-only")}}',compatibilityDate:'2026-10-01',d1Databases:{DB:'exactmec-synthetic-local'},d1Persist:path.join(state,'d1')}));
 const db=await mf.getD1Database('DB');
 await db.exec('CREATE TABLE IF NOT EXISTS local_migrations(name TEXT PRIMARY KEY)');
@@ -30,8 +31,13 @@ for(const name of(await fs.readdir(path.join(root,'migrations'))).filter(n=>/^\d
  const statements=sql.split(';').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s));
  await db.batch([...statements,db.prepare('INSERT INTO local_migrations(name) VALUES(?)').bind(name)]);
 }
-const env={...secrets,DB:db,SITE_ORIGIN:origin,NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',PRIVACY_VERSION:'privacy-policy-draft',PROCESSING_BASIS:'purpose_limited_consent_draft',WHATSAPP_NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',NOTIFICATIONS_ENABLED:'false'};
-const api=createApiHandler({localSynthetic:true,authenticate:async()=>({id:'local-synthetic-admin',email:'admin@example.com'})});
+const env={...secrets,DB:db,SITE_ORIGIN:origin,NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',PRIVACY_VERSION:'privacy-policy-draft',PROCESSING_BASIS:'purpose_limited_consent_draft',WHATSAPP_NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',NOTIFICATIONS_ENABLED:'false',CUSTOMER_SCHEMA_READY:'true'};
+const api=createApiHandler({localSynthetic:true,authenticate:async()=>({id:'local-synthetic-admin',email:'admin@example.com'}),sendCustomerCode:async({email,code,expiresMinutes})=>{
+ if(!/^[^@\s]+@example\.com$/i.test(email))throw new Error('synthetic_only');
+ // Disposable local test outbox, never a real email service or public route.
+ await fs.writeFile(path.join(state,'customer-code.json'),JSON.stringify({synthetic:true,email,code,expiresMinutes,at:new Date().toISOString()}),{mode:0o600});
+ return {accepted:true};
+}});
 const assetRoot=path.join(root,'dist/public'),types={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.xml':'application/xml','.txt':'text/plain','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2'};
 const assets={async fetch(request){const assetPath=path.resolve(assetRoot,'.'+new URL(request.url).pathname);if(!assetPath.startsWith(assetRoot+path.sep))return new Response('Missing',{status:404});try{return new Response(await fs.readFile(assetPath),{headers:{'Content-Type':types[path.extname(assetPath)]||'application/octet-stream'}});}catch{return new Response('Missing',{status:404});}}};
 let vite;const pending=new Set();
@@ -47,6 +53,10 @@ const server=http.createServer(async(req,res)=>{
    headers.set('CF-Connecting-IP',req.socket.remoteAddress||'127.0.0.1');
    const request=new Request(url,{method:req.method,headers,...(!['GET','HEAD'].includes(req.method)?{body:Buffer.concat(chunks)}:{})});
    const response=await api(request,env,execution);
+   res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));return;
+  }
+  if(url.pathname==='/admin/login'||url.pathname==='/admin/login/'){
+   const response=await publicWorker.fetch(new Request('https://exactmec.com'+url.pathname,{method:req.method}),{...env,ASSETS:assets,SITE_ORIGIN:'https://exactmec.com',RELEASE:'false'});
    res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));return;
   }
   if(url.pathname==='/admin'||url.pathname.startsWith('/admin/')){

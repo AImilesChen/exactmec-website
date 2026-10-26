@@ -25,7 +25,7 @@ const allCopy=JSON.parse(await fs.readFile(path.join(root,'src/data/site-content
 const marketingPaths=new Set(PUBLIC_ROUTES.filter(r=>!['legal','system'].includes(r.kind)).map(r=>r.path));
 const publicCopy=allCopy.filter(p=>marketingPaths.has(p.path));
 const filteredCopy=()=>({name:'exactmec-public-copy',enforce:'pre',resolveId(id){if(id.endsWith('data/site-content.json'))return '\0exactmec-public-copy';},load(id){if(id==='\0exactmec-public-copy')return 'export default '+JSON.stringify(publicCopy);}});
-await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{outDir:output,emptyOutDir:true,rollupOptions:{input:{frontend:path.join(root,'frontend.html'),admin:path.join(root,'admin.html')},output:{manualChunks(id){if(/node_modules[\\/](?:react|react-dom|scheduler)[\\/]/.test(id))return 'react-vendor';}}}}});
+await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{outDir:output,emptyOutDir:true,rollupOptions:{input:{frontend:path.join(root,'frontend.html'),admin:path.join(root,'admin.html'),customer:path.join(root,'customer.html')},output:{manualChunks(id){if(/node_modules[\\/](?:react|react-dom|scheduler)[\\/]/.test(id))return 'react-vendor';}}}}});
 await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{ssr:path.join(root,'src/entry-server.jsx'),outDir:serverOutput,emptyOutDir:true,rollupOptions:{output:{entryFileNames:'entry-server.mjs'}}}});
 // Workers-compatible renderer is bundled with the exact same UI and copy.
 await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],ssr:{target:'webworker',noExternal:true},build:{ssr:path.join(root,'src/entry-server.jsx'),outDir:path.join(root,'dist/cms-render'),emptyOutDir:true,rollupOptions:{output:{entryFileNames:'entry-server.mjs'}}}});
@@ -52,6 +52,7 @@ for(const route of PUBLIC_ROUTES){
 }
 await fs.unlink(path.join(output,'frontend.html'));
 await fs.mkdir(path.join(output,'admin'),{recursive:true});await fs.rename(path.join(output,'admin.html'),path.join(output,'admin/index.html'));
+await fs.mkdir(path.join(output,'account'),{recursive:true});await fs.rename(path.join(output,'customer.html'),path.join(output,'account/index.html'));
 const publicDir=path.join(root,'public');
 const rootFiles=['favicon.svg','favicon.ico','favicon-16x16.png','favicon-32x32.png','favicon-48x48.png','apple-touch-icon.png','icon-192.png','icon-512.png','og-image.png','site.webmanifest','third-party-notices.txt'];
 for(const name of rootFiles)await fs.copyFile(path.join(publicDir,name),path.join(output,name));
@@ -70,7 +71,7 @@ for(const row of generated){const html=await fs.readFile(path.join(output,row.fi
 for(const name of needed)await fs.copyFile(path.join(publicDir,'assets',name),path.join(output,'assets',name));
 const xml=config.release?generated.filter(r=>r.robots==='index,follow').map(r=>`  <url><loc>${escape(config.origin+r.path)}</loc></url>`).join('\n'):'';
 await fs.writeFile(path.join(output,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${xml}\n</urlset>\n`);
-await fs.writeFile(path.join(output,'robots.txt'),config.release?`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin/\nDisallow: /design-system/\nSitemap: ${config.origin}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n');
+await fs.writeFile(path.join(output,'robots.txt'),config.release?`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin/\nDisallow: /account/\nDisallow: /design-system/\nSitemap: ${config.origin}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n');
 const report={mode:release?'release':'staging',published:false,origin:config.origin||null,inquiryEnabled:config.inquiryEnabled,analyticsEnabled:false,generatedAt:new Date().toISOString(),routes:generated,marketingPages:publicCopy.length,publicAssets:[...needed],releaseBlockers:blockers,sourceContract:manifest.version};
 await fs.writeFile(path.join(root,'dist/frontend-report.json'),JSON.stringify(report,null,2));
 console.log(`Frontend ${report.mode}: ${generated.length} HTML pages (${publicCopy.length} marketing), no internal workbench/download assets. Online inquiry/analytics remain ${config.inquiryEnabled?'configured':'disabled'}.`);

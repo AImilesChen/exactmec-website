@@ -1,0 +1,128 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { createCustomerClient, CustomerApiError, isInquiryReference } from './client.mjs';
+
+const quotePath = '/request-a-quote/';
+const statusLabels = { received: 'Received', under_review: 'Under review', needs_information: 'More information needed', in_contact: 'In discussion', quotation_sent: 'Quotation sent', closed: 'Closed', withdrawn: 'Withdrawn' };
+const fieldLabels = [
+  ['name','Contact name'], ['company','Company'], ['email','Email'], ['phone','Contact number'], ['country','Country / region'], ['city','City'], ['website','Company website'],
+  ['component','Component'], ['drawing_status','Drawing or sample availability'], ['mold_sets','Mold sets'], ['industry','Application'], ['purchase_timing','Planned purchase'], ['budget_status','Budget information'], ['budget_min','Budget from'], ['budget_max','Budget to'], ['currency','Currency'],
+];
+const displayDate = value => { try { return new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(value)); } catch { return 'Date unavailable'; } };
+const safeError = cause => cause instanceof CustomerApiError ? cause : new CustomerApiError('failed');
+const displayValue = value => value === null || value === undefined || value === '' ? 'Not provided' : String(value);
+function portalPath(value) { return value === '/account/login/' || value === '/account/inquiries/' || /^\/account\/inquiries\/[A-Za-z0-9][A-Za-z0-9_-]{7,127}\/$/.test(value) ? value : '/account/login/'; }
+function Arrow({ back = false }) { return <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d={back ? 'M16 10H4m0 0 5-5m-5 5 5 5' : 'M4 10h12m0 0-5-5m5 5-5 5'} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>; }
+function Notice({ error, children }) { return <div className={`customer-notice${error ? ' is-error' : ''}`} role={error ? 'alert' : 'status'}>{children}</div>; }
+function Status({ value }) { return <span className={`customer-status status-${value}`}>{statusLabels[value] || 'Status unavailable'}</span>; }
+
+function Login({ client, onSignIn, unavailable, onRetry, busySession }) {
+  const [email, setEmail] = useState(''), [code, setCode] = useState(''), [requested, setRequested] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState(null), [cooldown, setCooldown] = useState(0);
+  const alive = useRef(true), codeInput = useRef(null);
+  useEffect(() => { alive.current = true; return () => { alive.current = false; client.resetChallenge(); }; }, []);
+  useEffect(() => { if (!cooldown) return; const timer = setInterval(() => setCooldown(value => Math.max(0, value - 1)), 1000); return () => clearInterval(timer); }, [cooldown > 0]);
+  async function requestCode(event) {
+    event?.preventDefault(); if (busy || unavailable || cooldown > 0) return;
+    setBusy(true); setError(null); setCode('');
+    try { const result = await client.requestCode(email); if (!alive.current) return; setRequested(true); setCooldown(result.retryAfter || 60); requestAnimationFrame(() => codeInput.current?.focus()); }
+    catch (cause) { if (alive.current) { const failure = safeError(cause); setError(failure); if (failure.retryAfter) setCooldown(failure.retryAfter); } }
+    finally { if (alive.current) setBusy(false); }
+  }
+  async function verify(event) {
+    event.preventDefault(); if (busy || unavailable) return;
+    setBusy(true); setError(null);
+    try { const result = await client.verifyCode(code); if (alive.current) { setCode(''); setEmail(''); onSignIn(result); } }
+    catch (cause) { if (alive.current) { const failure = safeError(cause); setError(failure); setCode(''); if (failure.retryAfter) setCooldown(failure.retryAfter); codeInput.current?.focus(); } }
+    finally { if (alive.current) setBusy(false); }
+  }
+  return <section className="customer-login-grid">
+    <div className="customer-login-intro"><p className="customer-eyebrow">OPTIONAL CUSTOMER ACCESS</p><h1>Your mold inquiry,<br/>in one place.</h1><p>Review what you submitted, add project details, and check your inquiry status.</p><a className="customer-text-link" href={quotePath}>Submit an inquiry without signing in <Arrow/></a></div>
+    <div className="customer-login-card"><div className="customer-lock-symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><rect x="6" y="12" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M10 12V8a4 4 0 0 1 8 0v4M14 17v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg></div><h2>Sign in to your inquiries</h2><p>Use the email address you entered on your inquiry. No password or registration is needed.</p>
+      {unavailable ? <><Notice>Customer sign-in is not available yet. You can still submit an inquiry without signing in.</Notice><a className="customer-button primary" href={quotePath}>Start a mold inquiry <Arrow/></a><button type="button" className="customer-link-button" disabled={busySession} onClick={onRetry}>{busySession ? 'Checking…' : 'Check sign-in availability'}</button></> : <>
+        {error && <Notice error>{error.message}</Notice>}
+        {!requested ? <form onSubmit={requestCode} autoComplete="off"><label className="customer-field"><span>Inquiry email</span><input type="email" autoComplete="email" maxLength={254} required value={email} onChange={event => setEmail(event.target.value)} disabled={busy || busySession} placeholder="you@company.com"/></label><button className="customer-button primary" type="submit" disabled={busy || busySession || cooldown > 0}>{busy ? 'Requesting code…' : cooldown ? `Try again in ${cooldown}s` : 'Continue with email'}<Arrow/></button></form> : <>
+          <Notice>If that email has matching inquiries, a code will arrive shortly. Check your inbox and spam folder, then enter the six-digit code.</Notice>
+          <form onSubmit={verify} autoComplete="off"><label className="customer-field"><span>Email code</span><input ref={codeInput} className="customer-code-input" type="text" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required value={code} onChange={event => setCode(event.target.value.replace(/\D/g, '').slice(0, 6))} disabled={busy} aria-describedby="customer-code-help"/></label><p className="customer-help" id="customer-code-help">Codes expire after 10 minutes and can only be used once.</p><button className="customer-button primary" type="submit" disabled={busy || code.length !== 6}>{busy ? 'Checking code…' : 'Sign in'}<Arrow/></button></form>
+          <div className="customer-login-alternatives"><button type="button" className="customer-link-button" disabled={busy || cooldown > 0} onClick={requestCode}>{cooldown ? `Resend in ${cooldown}s` : 'Request another code'}</button><button type="button" className="customer-link-button" disabled={busy} onClick={() => { client.resetChallenge(); setRequested(false); setCode(''); setError(null); }}>Use a different email</button></div>
+        </>}
+        <p className="customer-privacy-note">Your inquiry remains available to our team even if you never sign in. <a href="/privacy">Privacy notice</a></p>
+      </>}
+    </div>
+    <figure className="customer-login-image"><img src="/assets/mold-cavity-detail-v3.webp" alt="Illustrative close-up of die casting mold tooling"/><figcaption>Custom aluminum die casting molds · Illustrative example</figcaption></figure>
+  </section>;
+}
+function InquiryList({ result, loading, onReload, navigate }) {
+  return <><div className="customer-page-heading"><div><p className="customer-eyebrow">YOUR WORKSPACE</p><h1>Your mold inquiries</h1><p>Review your submitted details and add information for the project discussion.</p></div><a className="customer-button primary" href={quotePath}>New mold inquiry <Arrow/></a></div>
+    <div className="customer-list-top"><h2>Submitted inquiries {result && <span>{result.total}</span>}</h2><button className="customer-link-button" type="button" disabled={loading} onClick={onReload}>{loading ? 'Refreshing…' : 'Refresh inquiries'}</button></div>
+    {loading ? <div className="customer-loading" role="status"><span className="customer-loading-dot"/>Loading your inquiries…</div> : !result ? <div className="customer-empty"><h2>Your inquiries could not be loaded.</h2><p>Use the refresh button to try again. No example records are shown.</p></div> : !result.items.length ? <div className="customer-empty"><div className="customer-empty-symbol" aria-hidden="true">↗</div><h2>No inquiries to show</h2><p>Inquiries submitted with this email appear here. You can start a new mold inquiry without signing in.</p><a href={quotePath} className="customer-button primary">Describe your mold project <Arrow/></a></div> : <><div className="customer-inquiry-list">{result.items.map(inquiry => <a className="customer-inquiry-card" href={`/account/inquiries/${inquiry.reference}/`} key={inquiry.reference} onClick={event => navigate(event, `/account/inquiries/${inquiry.reference}/`)}><div className="customer-card-title"><p className="customer-reference">{inquiry.reference}</p><h3>{inquiry.submitted.component || 'Mold project inquiry'}</h3><p>Submitted {displayDate(inquiry.created_at)}</p></div><Status value={inquiry.status}/><span className="customer-card-open">View inquiry <Arrow/></span></a>)}</div>{result.total > result.limit && <p className="customer-help customer-list-limit">Showing your latest {result.limit} inquiries. Contact sales@exactmec.com if you need help with an older inquiry.</p>}</>}
+    <aside className="customer-workspace-note"><strong>A place for project information.</strong><p>Quotation, drawings, samples and payment arrangements are discussed directly with EXACTMEC through WhatsApp or email.</p></aside>
+  </>;
+}
+function WithdrawDialog({ busy, onClose, onConfirm }) {
+  const ref = useRef(null), cancel = useRef(null);
+  useEffect(() => { ref.current.showModal(); cancel.current?.focus(); const dialog = ref.current; return () => { if (dialog.open) dialog.close(); }; }, []);
+  return <dialog className="customer-dialog" ref={ref} aria-labelledby="customer-withdraw-heading" aria-describedby="customer-withdraw-description" onCancel={event => { if (busy) event.preventDefault(); else onClose(); }}><p className="customer-eyebrow">YOUR INQUIRY</p><h2 id="customer-withdraw-heading">Withdraw this inquiry?</h2><p id="customer-withdraw-description">Let EXACTMEC know you no longer wish to proceed. You will not be able to add further information to this inquiry.</p><p className="customer-help">Your original submission stays in your history. Withdrawal does not delete your information.</p><div className="customer-dialog-actions"><button ref={cancel} type="button" className="customer-button secondary" disabled={busy} onClick={onClose}>Keep inquiry</button><button type="button" className="customer-button danger" disabled={busy} onClick={onConfirm}>{busy ? 'Withdrawing…' : 'Withdraw inquiry'}</button></div></dialog>;
+}
+function InquiryDetail({ inquiry, loading, busy, requiresReload, onReload, onSupplement, onWithdraw, navigate }) {
+  const [note, setNote] = useState(''), [confirmWithdraw, setConfirmWithdraw] = useState(false);
+  const atLimit = (inquiry?.supplements.length || 0) >= 100;
+  useEffect(() => { setNote(''); setConfirmWithdraw(false); }, [inquiry?.reference]);
+  async function supplement(event) { event.preventDefault(); if (await onSupplement(note)) setNote(''); }
+  async function withdraw() { await onWithdraw(); setConfirmWithdraw(false); }
+  return <><a className="customer-back-link" href="/account/inquiries/" onClick={event => navigate(event, '/account/inquiries/')}><Arrow back/>All inquiries</a>
+    {loading ? <div className="customer-loading" role="status"><span className="customer-loading-dot"/>Loading this inquiry…</div> : !inquiry ? <div className="customer-empty"><h1>Inquiry unavailable</h1><p>This inquiry could not be loaded for your account.</p><button type="button" className="customer-button secondary" onClick={onReload}>Try loading again</button></div> : <>
+      <div className="customer-detail-heading"><div><p className="customer-reference">{inquiry.reference}</p><h1>{inquiry.submitted.component || 'Mold project inquiry'}</h1><p>Submitted {displayDate(inquiry.created_at)} · Updated {displayDate(inquiry.updated_at)}</p></div><Status value={inquiry.status}/></div>
+      <div className="customer-detail-layout"><div className="customer-detail-main"><section className="customer-panel"><div className="customer-panel-heading"><h2>Your original submission</h2><span>Read-only</span></div><p className="customer-help">These are the details you provided. Use the additional information section to clarify or correct them.</p><dl className="customer-details">{fieldLabels.map(([field, label]) => <div key={field}><dt>{label}</dt><dd>{field === 'mold_sets' && inquiry.submitted.mold_sets_unsure ? 'Not sure yet' : displayValue(inquiry.submitted[field])}</dd></div>)}</dl>{['description', 'requirements'].map(field => <div className="customer-long-copy" key={field}><h3>{field === 'description' ? 'Project description' : 'Other requirements'}</h3><p>{displayValue(inquiry.submitted[field])}</p></div>)}<p className="customer-help">Any stated budget is per mold set, in the currency you selected. A budget or timing preference is not a confirmed quotation or delivery commitment.</p></section>
+        <section className="customer-panel"><div className="customer-panel-heading"><h2>Additional information</h2><span>{inquiry.supplements.length}</span></div>{inquiry.supplements.length ? <ol className="customer-supplements">{inquiry.supplements.map(entry => <li key={entry.id}><time dateTime={entry.created_at}>{displayDate(entry.created_at)}</time><p>{entry.note}</p></li>)}</ol> : <p className="customer-help">No additional information has been added.</p>}</section>
+      </div><aside className="customer-detail-aside"><section className="customer-panel customer-add-panel"><p className="customer-eyebrow">KEEP THE DETAILS CLEAR</p><h2>{inquiry.withdrawn ? 'This inquiry is withdrawn' : 'Add project information'}</h2>{inquiry.withdrawn ? <><p>You can review your submission and previous notes. Start a new inquiry if your requirements change.</p>{inquiry.withdrawn_at && <p className="customer-help">Withdrawn {displayDate(inquiry.withdrawn_at)}</p>}<a href={quotePath} className="customer-button secondary">Start a new inquiry <Arrow/></a></> : atLimit ? <><p>This inquiry has reached the limit for additional notes. Your information is still available here. Continue the project discussion by email or WhatsApp.</p><a href="mailto:sales@exactmec.com" className="customer-button secondary">Continue by email <Arrow/></a></> : <form onSubmit={supplement}><p>Add a clarification, a correction or an update. Your original submission remains unchanged.</p><label className="customer-field"><span>Additional details</span><textarea rows={7} value={note} maxLength={4000} onChange={event => setNote(event.target.value)} disabled={busy || requiresReload} required aria-describedby="customer-note-help"/></label><div className="customer-input-count" aria-live="off">{note.length} / 4,000</div><p className="customer-help" id="customer-note-help">Added notes become part of the inquiry history and cannot be edited here. Send drawings or sample arrangements through your project conversation.</p><button className="customer-button primary" type="submit" disabled={busy || requiresReload || !note.trim()}>{busy ? 'Saving…' : 'Add information'}<Arrow/></button></form>}{requiresReload && <><p className="customer-help">Reload clears the unsent note. Check your inquiry history before adding it again.</p><button className="customer-button secondary" type="button" disabled={busy} onClick={() => {setNote('');onReload();}}>Reload current inquiry</button></>}</section>
+        <section className="customer-project-contact"><h2>Need to discuss the project?</h2><p>Continue through your existing WhatsApp or email conversation. This workspace does not provide instant quotations or take payments.</p><a href="mailto:sales@exactmec.com" className="customer-text-link">Contact EXACTMEC <Arrow/></a></section>
+        {!inquiry.withdrawn && <section className="customer-withdraw-area"><h2>Changed your plans?</h2><p>You can withdraw this inquiry if you no longer wish to proceed.</p><button type="button" className="customer-link-button" disabled={busy || requiresReload} onClick={() => setConfirmWithdraw(true)}>Withdraw this inquiry</button></section>}
+      </aside></div>
+      {confirmWithdraw && <WithdrawDialog busy={busy} onClose={() => setConfirmWithdraw(false)} onConfirm={withdraw}/>}
+    </>}
+  </>;
+}
+
+export function CustomerPortal({ initialPath = '/account/login/', client: suppliedClient }) {
+  const clientRef = useRef(null); if (!clientRef.current) clientRef.current = suppliedClient || createCustomerClient();
+  const client = clientRef.current, alive = useRef(true), sequence = useRef(0), sessionSequence = useRef(0);
+  const [path, setPath] = useState(() => portalPath(initialPath)), [session, setSession] = useState(null), [checking, setChecking] = useState(true), [unavailable, setUnavailable] = useState(false), [error, setError] = useState(null), [success, setSuccess] = useState('');
+  const [result, setResult] = useState(null), [inquiry, setInquiry] = useState(null), [loading, setLoading] = useState(false), [busy, setBusy] = useState(false), [requiresReload, setRequiresReload] = useState(false), [refresh, setRefresh] = useState(0);
+  function go(next, replace = false) { const target = portalPath(next); if (typeof window !== 'undefined') window.history[replace ? 'replaceState' : 'pushState']({}, '', target); setPath(target); setError(null); setSuccess(''); setInquiry(null); setRequiresReload(false); }
+  function navigate(event, target) { if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || busy) return; event.preventDefault(); go(target); }
+  function fail(cause) { const failure = safeError(cause); setError(failure); setSuccess(''); if (['expired', 'csrf'].includes(failure.kind)) { client.forgetSession?.(); sequence.current++; setSession(false); setResult(null); setInquiry(null); } return failure; }
+  async function checkSession() {
+    const at = ++sessionSequence.current; setChecking(true); setError(null);
+    try { const next = await client.session(); if (alive.current && at === sessionSequence.current) { setLoading(true); setSession(next); setUnavailable(false); if (path === '/account/login/') go('/account/inquiries/', true); } }
+    catch (cause) { if (alive.current && at === sessionSequence.current) { const failure = safeError(cause); setSession(false); setUnavailable(failure.kind === 'unavailable'); if (failure.kind !== 'expired' || path !== '/account/login/') setError(failure); } }
+    finally { if (alive.current && at === sessionSequence.current) setChecking(false); }
+  }
+  useEffect(() => { alive.current = true; checkSession(); const pop = () => { sequence.current++; setPath(portalPath(window.location.pathname)); setError(null); setSuccess(''); setInquiry(null); }; window.addEventListener('popstate', pop); return () => { alive.current = false; sequence.current++; sessionSequence.current++; window.removeEventListener('popstate', pop); if (!suppliedClient) queueMicrotask(() => { if (!alive.current) client.destroy(); }); }; }, []);
+  useEffect(() => { if (!session?.expiresAt) return; const expires = Math.max(0, Date.parse(session.expiresAt) - Date.now()); const timer = setTimeout(() => { if (alive.current) fail(new CustomerApiError('expired')); }, Math.min(expires, 2147483647)); return () => clearTimeout(timer); }, [session]);
+  useEffect(() => {
+    if (!session?.authenticated || path === '/account/login/') return;
+    const at = ++sequence.current; let current = true; setLoading(true); setRequiresReload(false); setError(null);
+    const reference = path.match(/^\/account\/inquiries\/([^/]+)\/$/)?.[1];
+    (reference && isInquiryReference(reference) ? client.get(reference).then(value => { if (current && alive.current && at === sequence.current) setInquiry(value); }) : client.list().then(value => { if (current && alive.current && at === sequence.current) setResult(value); }))
+      .catch(cause => { if (current && alive.current && at === sequence.current) { setInquiry(null); setResult(null); fail(cause); } }).finally(() => { if (current && alive.current && at === sequence.current) setLoading(false); });
+    return () => { current = false; };
+  }, [path, session, refresh]);
+  async function mutate(operation) {
+    if (busy || !inquiry || requiresReload) return false;
+    const at = sequence.current; setBusy(true); setError(null); setSuccess('');
+    try { const next = await operation(); if (!alive.current || at !== sequence.current) return false; setInquiry(next); setSuccess(next.withdrawn ? 'Your withdrawal request has been recorded.' : 'Your additional information has been saved.'); return true; }
+    catch (cause) { if (alive.current) { const failure = fail(cause); if (!['invalid','rate_limit','busy'].includes(failure.kind)) setRequiresReload(true); } return false; }
+    finally { if (alive.current) setBusy(false); }
+  }
+  async function logout() {
+    if (busy) return; setBusy(true); setError(null); setSuccess('');
+    try { await client.logout(); if (alive.current) { sequence.current++; setSession(false); setResult(null); setInquiry(null); go('/account/login/', true); } }
+    catch (cause) { if (alive.current) { const failure = fail(cause); if (!['expired','csrf'].includes(failure.kind)) setError(new CustomerApiError(failure.kind, failure.status)); } }
+    finally { if (alive.current) setBusy(false); }
+  }
+  const authenticated = session?.authenticated === true, reference = path.match(/^\/account\/inquiries\/([^/]+)\/$/)?.[1];
+  return <div className="customer-portal"><a className="customer-skip-link" href="#customer-main">Skip to content</a><header className="customer-header"><a href="/" className="customer-brand" aria-label="EXACTMEC home"><img src="/brand/horizontal-web.webp" alt="EXACTMEC" width="178" height="48"/></a><span className="customer-header-label">Customer workspace</span><nav aria-label="Customer navigation">{authenticated && <><a href="/account/inquiries/" onClick={event => navigate(event, '/account/inquiries/')}>Your inquiries</a><button className="customer-link-button" type="button" disabled={busy} onClick={logout}>{busy ? 'Please wait…' : 'Sign out'}</button></>}<a href={quotePath} className="customer-header-quote">Submit an inquiry <Arrow/></a></nav></header>
+    <main id="customer-main" className="customer-main">{error && !unavailable && <Notice error>{error.message}</Notice>}{success && <Notice>{success}</Notice>}
+      {checking && session === null ? <div className="customer-loading" role="status"><span className="customer-loading-dot"/>Checking customer access…<a href={quotePath}>Submit an inquiry without signing in</a></div> : !authenticated ? <Login key={path} client={client} unavailable={unavailable} busySession={checking} onRetry={checkSession} onSignIn={value => { setLoading(true); setSession(value); setError(null); setUnavailable(false); if (path === '/account/login/') go('/account/inquiries/', true); }}/ > : reference ? <InquiryDetail key={reference} inquiry={inquiry} loading={loading} busy={busy} requiresReload={requiresReload} onReload={() => setRefresh(value => value + 1)} navigate={navigate} onSupplement={note => mutate(() => client.supplement(inquiry.reference, { revision: inquiry.revision, note }))} onWithdraw={() => mutate(() => client.withdraw(inquiry.reference, { revision: inquiry.revision }))}/> : <InquiryList result={result} loading={loading} onReload={() => setRefresh(value => value + 1)} navigate={navigate}/ >}
+    </main><footer className="customer-footer"><p>EXACTMEC · Custom aluminum die casting molds</p><nav aria-label="Customer footer"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="mailto:sales@exactmec.com">Contact us</a></nav><p className="customer-footer-note">Customer access is optional. No sign-in is needed to submit a mold inquiry.</p></footer>
+  </div>;
+}

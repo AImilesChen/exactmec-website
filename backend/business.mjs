@@ -123,11 +123,21 @@ async function contactState(db, row, payload) {
   return { whatsapp_allowed: payload.whatsapp_messages_opt_in === true && !all && !whatsapp, email_allowed: !all, stopped };
 }
 
-async function item(db, row, detail = false) {
+async function item(env, row, detail = false) {
+  const db=env.DB;
   const payload = JSON.parse(row.payload_json);
   const notification = Object.hasOwn(row, 'notification_state') ? { reference: row.reference, state: row.notification_state, attempts: row.notification_attempts, errorCode: row.notification_error ?? null } : await getNotificationJob(db, row.reference);
   const contact = Object.hasOwn(row, 'any_stopped') ? { whatsapp_allowed: payload.whatsapp_messages_opt_in === true && !row.all_stopped && !row.whatsapp_stopped, email_allowed: !row.all_stopped, stopped: !!row.any_stopped } : await contactState(db, row, payload);
   const result = { reference: row.reference, created_at: row.created_at, updated_at: row.updated_at, revision: row.revision, payload, review: JSON.parse(row.review_json), notification, contact };
+  if(enabled(env.CUSTOMER_SCHEMA_READY)){
+    const state=await stmt(db,'SELECT revision,withdrawn_at,updated_at FROM customer_inquiry_state WHERE reference=?',row.reference).first();
+    result.customer={revision:state?.revision??1,withdrawn:Boolean(state?.withdrawn_at),withdrawn_at:state?.withdrawn_at??null,updated_at:state?.updated_at??null};
+    if(result.customer.withdrawn)Object.assign(contact,{email_allowed:false,whatsapp_allowed:false,withdrawal_requested:true});
+    if(detail){
+      const supplements=await stmt(db,'SELECT id,note,created_at FROM customer_supplements WHERE reference=? ORDER BY created_at,id',row.reference).all();
+      result.customer.supplements=supplements.results;
+    }
+  }
   if (detail) {
     const receipt = await stmt(db, 'SELECT receipt_json FROM consent_receipts WHERE reference=?', row.reference).first();
     const history = await stmt(db, 'SELECT action,note,created_at FROM lead_history WHERE reference=? ORDER BY created_at,id', row.reference).all();
@@ -160,15 +170,15 @@ async function search(request, env, actor, exportCsv = false) {
   const rows = await stmt(env.DB, `${listSelect} ${query.where} ORDER BY created_at DESC,reference LIMIT ? OFFSET ?`, ...query.values, exportCsv ? 1000 : filters.pageSize, exportCsv ? 0 : (filters.page - 1) * filters.pageSize).all();
   if (!exportCsv) {
     await audit(env, actor, 'searched', null, { count: rows.results.length });
-    return json({ items: await Promise.all(rows.results.map(row => item(env.DB, row))), total, page: filters.page, pageSize: filters.pageSize });
+    return json({ items: await Promise.all(rows.results.map(row => item(env, row))), total, page: filters.page, pageSize: filters.pageSize });
   }
   const sourceFields = ['page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   const sourceColumns = ['first', 'submission'].flatMap(touch => sourceFields.map(key => `${touch}_${key}`));
-  const columns = ['reference', 'created_at', 'name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets', 'purchase_timing', 'budget_status', 'budget_min', 'budget_max', 'currency', 'status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'owner', 'next_follow_up', 'whatsapp_allowed', 'email_allowed', ...sourceColumns];
+  const columns = ['reference', 'created_at', 'name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets', 'purchase_timing', 'budget_status', 'budget_min', 'budget_max', 'currency', 'status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'owner', 'next_follow_up', 'whatsapp_allowed', 'email_allowed', 'customer_withdrawn','customer_withdrawn_at', ...sourceColumns];
   const output = [columns.map(csvCell).join(',')];
   for (const row of rows.results) {
-    const lead = await item(env.DB, row);
-    const flat = { ...lead.payload, ...lead.review, ...lead.contact, reference: lead.reference, created_at: lead.created_at };
+    const lead = await item(env, row);
+    const flat = { ...lead.payload, ...lead.review, ...lead.contact, reference: lead.reference, created_at: lead.created_at,customer_withdrawn:lead.customer?.withdrawn??false,customer_withdrawn_at:lead.customer?.withdrawn_at??null };
     for (const touch of ['first', 'submission']) for (const key of sourceFields) flat[`${touch}_${key}`] = lead.payload.source?.[touch]?.[key] ?? null;
     output.push(columns.map(key => csvCell(flat[key])).join(','));
   }
@@ -181,7 +191,7 @@ async function leadAction(request, env, context, reference, action) {
   if (!row) return error('not_found', 404);
   if (request.method === 'GET' && !action) {
     await audit(env, context.actor, 'viewed', reference);
-    return json({ lead: await item(env.DB, row, true) });
+    return json({ lead: await item(env, row, true) });
   }
   const input = await readBody(request);
   if (!input) return error('invalid_request', 400);
@@ -220,7 +230,7 @@ async function leadAction(request, env, context, reference, action) {
     ]);
   } else return error('method_not_allowed', 405);
   const updated = await stmt(env.DB, 'SELECT * FROM leads WHERE reference=?', reference).first();
-  return updated?.mutation_id === mutation ? json({ lead: await item(env.DB, updated, true) }) : error('revision_conflict', 409);
+  return updated?.mutation_id === mutation ? json({ lead: await item(env, updated, true) }) : error('revision_conflict', 409);
 }
 
 export async function handleBusiness(request, env, context = {}) {

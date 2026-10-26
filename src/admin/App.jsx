@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AdminApiError, createAdminClient } from './client.mjs';
-import { budgetOptions, canContact, contactDestination, dateText, defaultFilters, display, drawingOptions, emptyReview, labels, reviewOptions, timingOptions } from './model.mjs';
+import { budgetOptions, canContact, contactDestination, dateText, defaultFilters, display, drawingOptions, emptyReview, isReference, labels, reviewOptions, timingOptions } from './model.mjs';
 import { ContentWorkspace } from './ContentWorkspace.jsx';
 import { MetricsSummary } from './MetricsSummary.jsx';
 
@@ -17,7 +17,7 @@ const consentFields = [
   ['whatsapp_choice_text_version', 'WhatsApp 许可文本版本'], ['choice_recorded_at', '许可记录时间'], ['submitted_at', '提交时间'],
 ];
 const sourceFields = [['page', '公开页面'], ['referrer', '来源网站'], ['utm_source', 'UTM 来源'], ['utm_medium', 'UTM 媒介'], ['utm_campaign', 'UTM 活动'], ['utm_content', 'UTM 内容'], ['utm_term', 'UTM 词条']];
-const historyLabels = { created: '收到询盘', submitted: '收到询盘', reviewed: '更新审核与跟进', review_updated: '更新审核与跟进', updated: '更新审核与跟进', opt_out: '记录禁联请求', opt_out_whatsapp: '停止 WhatsApp 联系', opt_out_all: '停止所有主动联系', notification_retry: '重试内部提醒' };
+const historyLabels = { created: '收到询盘', submitted: '收到询盘', reviewed: '更新审核与跟进', review_updated: '更新审核与跟进', updated: '更新审核与跟进', opt_out: '记录禁联请求', opt_out_whatsapp: '停止 WhatsApp 联系', opt_out_all: '停止所有主动联系', notification_retry: '重试内部提醒',customer_supplement:'客户补充项目说明',customer_withdrawn:'客户撤回本条询价' };
 
 function OptionSelect({ name, value, onChange, all = false, disabled = false, label = fieldLabels[name] }) {
   return <label className="admin-field"><span>{label}</span><select name={name} value={value || ''} onChange={event => onChange(event.target.value)} disabled={disabled}>
@@ -73,7 +73,7 @@ function ContactPanel({ lead, locked }) {
   return <section className="admin-section"><div className="admin-section-heading"><h3>联系人资料</h3><button className="admin-text-button" type="button" onClick={() => setRevealed(value => !value)} disabled={locked}>{revealed ? '收起联系方式' : '显示联系方式'}</button></div>
     {!revealed ? <p className="admin-muted">联系方式默认收起，按需查看。</p> : <dl className="admin-facts">{[['name', '姓名'], ['company', '公司'], ['email', '邮箱'], ['phone', '电话号码'], ['website', '公司网站']].map(([key, label]) => <div key={key}><dt>{label}</dt><dd>{display(lead.payload?.[key])}</dd></div>)}</dl>}
     <div className="admin-permission-row"><span className={`admin-pill${canContact(lead, 'email') ? ' allowed' : ' blocked'}`}>邮箱{canContact(lead, 'email') ? '可回复本次项目' : '禁止主动联系'}</span><span className={`admin-pill${canContact(lead, 'whatsapp') ? ' allowed' : ' blocked'}`}>WhatsApp {canContact(lead, 'whatsapp') ? '项目消息已许可' : '不可主动联系'}</span></div>
-    {lead.contact?.stopped === true && <p className="admin-warning-text">此客户已有渠道禁联记录，请严格按各渠道当前权限处理。</p>}
+    {lead.contact?.withdrawal_requested===true?<p className="admin-warning-text">客户已撤回本条项目询价，暂停此项目的主动跟进。其他项目与原始许可记录单独处理。</p>:lead.contact?.stopped === true && <p className="admin-warning-text">此客户已有渠道禁联记录，请严格按各渠道当前权限处理。</p>}
     <div className="admin-actions"><button type="button" className="admin-button secondary" disabled={locked || !revealed || !contactDestination(lead, 'email')} onClick={() => openContact('email')}>打开邮件客户端</button><button type="button" className="admin-button secondary" disabled={locked || !revealed || !contactDestination(lead, 'whatsapp')} onClick={() => openContact('whatsapp')}>在 WhatsApp 打开项目对话</button></div>
     <p className="admin-help">点击只会打开对应应用，不会自动发送。WhatsApp 消息许可不包含营销或语音通话。</p>
   </section>;
@@ -89,6 +89,7 @@ function LeadDetail({ lead, busy, locked, requiresRefresh, onReload, onUpdate, o
     <div className="admin-detail-title"><div><p className="admin-eyebrow">询盘详情</p><h2>{lead.reference}</h2><p className="admin-muted">收到于 {dateText(lead.created_at)} · 更新于 {dateText(lead.updated_at)}</p></div><button type="button" className="admin-button secondary small" onClick={onReload} disabled={busy}>重新载入</button></div>
     {requiresRefresh && <Notice error>当前显示的版本可能已过期。请先重新载入并核对，再继续保存或联系客户。本地未保存的修改会在重新载入后丢弃。</Notice>}
     <ContactPanel lead={lead} locked={locked || busy || requiresRefresh} />
+    {lead.customer&&<section className="admin-section"><h3>客户自助更新</h3>{lead.customer.withdrawn&&<Notice>客户已于{dateText(lead.customer.withdrawn_at)}撤回本条询价。请核对已有邮件和WhatsApp中的项目跟进，后台不会替你删除外部对话。</Notice>}{!lead.customer.supplements?.length?<p className="admin-muted">暂无客户补充说明。</p>:<ol className="admin-history">{lead.customer.supplements.map(item=><li key={item.id}><time>{dateText(item.created_at)}</time><p>{display(item.note)}</p></li>)}</ol>}<p className="admin-help">补充说明单独保存，原始询价与内部审核保持可追溯。客户看不到内部备注和筛选结果。</p></section>}
     <details className="admin-section admin-disclosure"><summary>询价来源快照</summary><p className="admin-help">仅保留可用的公开页面、来源网站和活动标签。未知来源显示未提供；这些是浏览器提供的参考，不代表身份核验或确定的广告归因。首次来源仅限本次页面会话，不跨刷新追踪。</p>{[['first', '首次可用来源'], ['submission', '提交时来源']].map(([touch, heading]) => <section key={touch}><h4>{heading}</h4><dl className="admin-facts">{sourceFields.map(([key, label]) => <div key={key}><dt>{label}</dt><dd>{display(lead.payload?.source?.[touch]?.[key])}</dd></div>)}</dl></section>)}</details>
     <section className="admin-section"><h3>客户原始项目资料</h3><p className="admin-help">以下保留客户提交内容。自述资料不代表已经核验或收到图纸。</p><dl className="admin-facts">{originalFields.map(([key, label]) => <div className={['description', 'requirements'].includes(key) ? 'full' : ''} key={key}><dt>{label}</dt><dd>{key === 'budget_basis' && lead.payload?.[key] === 'per_mold_set' ? '每套模具' : display(lead.payload?.[key])}</dd></div>)}</dl></section>
     <section className="admin-section"><h3>审核与跟进</h3><p className="admin-help">按观察事实判断。单套模具、2D 图纸 / 样品、免费邮箱、缺少预算或未选 WhatsApp 都不应自动降级。</p>
@@ -159,6 +160,8 @@ export function AdminApp() {
       if (!alive.current) return;
       setSession(nextSession); setCredentialExpired(false);
       await loadList({ ...defaultFilters(), ...draftFilters, page: 1 });
+      const linked=window.location.pathname.match(/^\/admin\/leads\/([^/]+)\/?$/)?.[1];
+      if(alive.current&&isReference(linked))await selectLead(linked);
     } catch (cause) { fail(cause); }
     finally { if (alive.current) setAuthLoading(false); }
   }
@@ -172,6 +175,7 @@ export function AdminApp() {
       const result = await client.get(reference);
       if (alive.current && sequence === detailSequence.current) {
         setLead(result);
+        window.history.replaceState(null,'','/admin/leads/'+encodeURIComponent(reference)+'/');
         if (window.matchMedia('(max-width:760px)').matches) requestAnimationFrame(() => detailPane.current?.scrollIntoView({ block: 'start', behavior: 'auto' }));
       }
     } catch (cause) { if (sequence === detailSequence.current) fail(cause); }
@@ -255,7 +259,7 @@ export function AdminApp() {
           </div><p className="admin-help">预算和采购时间仅作辅助筛选；未填资料与未定 / 不便透露分别显示，不比较不同币种金额。</p></details>
         </form>
         <div className="admin-layout"><section className="admin-list-pane" aria-label="询盘列表" aria-busy={listLoading}><div className="admin-list-heading"><h2>询盘列表 <span>{list.total}</span></h2><span className="admin-muted">{listLoading ? '加载中…' : `第 ${list.page} / ${totalPages} 页`}</span></div>
-          {listLoading ? <div className="admin-empty" role="status">正在加载询盘…</div> : !list.items.length ? <div className="admin-empty">{error ? '尚未加载有效结果，请修复上方错误后重试。' : '没有符合条件的询盘。'}</div> : <ul className="admin-lead-list">{list.items.map(item => <li key={item.reference}><button type="button" className={`admin-lead-card${lead?.reference === item.reference ? ' selected' : ''}`} aria-pressed={lead?.reference === item.reference} onClick={() => selectLead(item.reference)} disabled={busy || credentialExpired}><span className="admin-card-top"><strong>{item.reference}</strong><span className="admin-priority">{reviewOptions.priority.includes(item.review?.priority) ? item.review.priority : '—'}</span></span><span className="admin-card-project">{display(item.payload?.component)}</span><span className="admin-card-meta"><span>{display(item.payload?.country)}</span><time>{dateText(item.created_at)}</time></span><span className="admin-card-bottom"><span className="admin-pill">{labels[item.review?.status] || '待核对'}</span><span className="admin-muted">{labels[item.notification?.state] || '通知状态待确认'}</span></span></button></li>)}</ul>}
+          {listLoading ? <div className="admin-empty" role="status">正在加载询盘…</div> : !list.items.length ? <div className="admin-empty">{error ? '尚未加载有效结果，请修复上方错误后重试。' : '没有符合条件的询盘。'}</div> : <ul className="admin-lead-list">{list.items.map(item => <li key={item.reference}><button type="button" className={`admin-lead-card${lead?.reference === item.reference ? ' selected' : ''}`} aria-pressed={lead?.reference === item.reference} onClick={() => selectLead(item.reference)} disabled={busy || credentialExpired}><span className="admin-card-top"><strong>{item.reference}</strong><span className="admin-priority">{reviewOptions.priority.includes(item.review?.priority) ? item.review.priority : '—'}</span></span><span className="admin-card-project">{display(item.payload?.component)}</span><span className="admin-card-meta"><span>{display(item.payload?.country)}</span><time>{dateText(item.created_at)}</time></span><span className="admin-card-bottom"><span className="admin-pill">{item.customer?.withdrawn?'客户已撤回':labels[item.review?.status] || '待核对'}</span><span className="admin-muted">{labels[item.notification?.state] || '通知状态待确认'}</span></span></button></li>)}</ul>}
           <nav className="admin-pagination" aria-label="询盘分页"><button type="button" className="admin-button secondary small" disabled={listLoading || list.page <= 1 || credentialExpired || busy} onClick={() => loadList({ ...appliedFilters, page: list.page - 1 })}>上一页</button><span>{list.page} / {totalPages}</span><button type="button" className="admin-button secondary small" disabled={listLoading || list.page >= totalPages || credentialExpired || busy} onClick={() => loadList({ ...appliedFilters, page: list.page + 1 })}>下一页</button></nav>
         </section><div className="admin-detail-pane" ref={detailPane}>{detailLoading ? <div className="admin-detail-placeholder" role="status">正在加载询盘详情…</div> : lead ? <LeadDetail key={lead.reference} lead={lead} busy={busy} locked={credentialExpired} requiresRefresh={requiresRefresh} onReload={() => selectLead(lead.reference)} onUpdate={saveReview} onRetry={retryNotification} onAction={type => setDialog({ type, reference: lead.reference, revision: lead.revision })} /> : <div className="admin-detail-placeholder"><span className="admin-placeholder-icon" aria-hidden="true">↗</span><h2>选择一条询盘</h2><p>查看原始项目资料、独立许可和跟进记录。</p></div>}</div></div>
       </>}

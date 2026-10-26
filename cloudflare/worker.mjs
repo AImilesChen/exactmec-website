@@ -5,6 +5,9 @@ import {cleanupRateLimits} from '../backend/business.mjs';
 import {loadPublicContent,resolvePublishedContent,publishedSitemapPages} from '../backend/content-public.mjs';
 import {loadContentPreview} from '../backend/content.mjs';
 import {renderPublishedHtml} from './cms-response.mjs';
+import {administratorLoginPage} from './login-page.mjs';
+import {resolveCustomerRoute} from '../src/customer-routes.mjs';
+import {customerCleanup} from '../backend/customer-auth.mjs';
 const handleApi=createApiHandler();
 
 const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml','/third-party-notices.txt']);
@@ -69,6 +72,23 @@ export default {
       }
     }
     if(path?.startsWith('/api/'))return handleApi(request,env,execution);
+    if(path==='/admin/login'||path==='/admin/login/'){
+      if(!['GET','HEAD'].includes(request.method))return finish(message('Method Not Allowed',405),{...options,staging:true});
+      if(path==='/admin/login')return finish(new Response(null,{status:308,headers:{Location:'/admin/login/'}}),{...options,staging:true});
+      const response=finish(administratorLoginPage(env),{...options,staging:true}),headers=new Headers(response.headers);
+      headers.set('Referrer-Policy','no-referrer');
+      return new Response(response.body,{status:response.status,headers});
+    }
+    if(path==='/account'||path?.startsWith('/account/')){
+      const privateOptions={...options,staging:true};
+      if(!['GET','HEAD'].includes(request.method))return finish(message('Method Not Allowed',405),privateOptions);
+      const customer=resolveCustomerRoute(path);
+      if(customer.redirect)return finish(new Response(null,{status:308,headers:{Location:customer.redirect}}),privateOptions);
+      if(customer.status!==200)return finish(await notFound(env,request),{...privateOptions,status:404});
+      const response=finish(await asset(env,request,'/account/index.html'),privateOptions),headers=new Headers(response.headers);
+      headers.set('Referrer-Policy','no-referrer');
+      return new Response(response.body,{status:response.status,headers});
+    }
     if(path==='/admin'||path?.startsWith('/admin/')){
       const adminOptions={...options,staging:true};
       if(!accessConfiguration(env))return finish(await notFound(env,request),{...adminOptions,status:404});
@@ -130,5 +150,5 @@ export default {
     }
     return finish(await notFound(env, request), { ...options, status: 404 });
   },
-  async scheduled(_event,env,execution){if(env.DB)execution.waitUntil(cleanupRateLimits(env.DB));},
+  async scheduled(_event,env,execution){if(env.DB)execution.waitUntil(Promise.all([cleanupRateLimits(env.DB),...(truthy(env.CUSTOMER_SCHEMA_READY)?[customerCleanup(env)]:[])]));},
 };

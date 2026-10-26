@@ -2,6 +2,7 @@ import {defineConfig,mergeConfig} from 'vite';
 import fs from 'node:fs/promises';
 import base from './vite.config.mjs';
 import {resolvePublicRoute} from './src/seo/route-contract.mjs';
+import {resolveCustomerRoute} from './src/customer-routes.mjs';
 
 // Public frontend HMR entry. The older workbench remains in dev:review.
 export function publicDevPlugin({entry='/src/entry-public.jsx'}={}) {return {
@@ -12,10 +13,11 @@ export function publicDevPlugin({entry='/src/entry-public.jsx'}={}) {return {
     const pathname=new URL(req.url,'http://localhost').pathname;
     if(/\.[^/]+$/.test(pathname)||pathname.startsWith('/@')||pathname.startsWith('/src/'))return next();
     try{
-     const route=resolvePublicRoute(pathname);
+     const customer=pathname==='/account'||pathname.startsWith('/account/');
+     const route=customer?resolveCustomerRoute(pathname):resolvePublicRoute(pathname);
      res.setHeader('X-Robots-Tag','noindex,nofollow');res.setHeader('Cache-Control','no-store');
      if(route.redirect){res.writeHead(308,{Location:route.redirect});res.end();return;}
-     const source=(await fs.readFile(new URL('./frontend.html',import.meta.url),'utf8')).replace('/src/entry-public.jsx',entry);
+     const source=customer?await fs.readFile(new URL('./customer.html',import.meta.url),'utf8'):(await fs.readFile(new URL('./frontend.html',import.meta.url),'utf8')).replace('/src/entry-public.jsx',entry);
      const html=await server.transformIndexHtml(req.url,source);
      res.statusCode=route.status;res.setHeader('Content-Type','text/html; charset=utf-8');res.end(html);
     }catch(error){next(error);}

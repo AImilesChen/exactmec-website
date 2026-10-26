@@ -3,12 +3,18 @@ import {handleBusiness} from './business.mjs';
 import {handleContent} from './content.mjs';
 import {deliverNotification} from './notifications.mjs';
 import {handleMetrics} from './metrics.mjs';
+import {handleCustomer} from './customer.mjs';
+import {customerEmailAvailable,sendCustomerLoginCode} from './portal-email.mjs';
 
 export const json=(value,status=200,headers={})=>new Response(JSON.stringify(value),{status,headers:{'Content-Type':'application/json; charset=utf-8',...headers}});
-export function secureApi(response) {
+export function secureApi(response,{customerCookie=false}={}) {
  const headers=new Headers(response.headers);
  for(const [key,value]of Object.entries({'Cache-Control':'no-store','X-Robots-Tag':'noindex,nofollow','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; frame-ancestors 'none'"}))headers.set(key,value);
- headers.delete('Access-Control-Allow-Origin');headers.delete('Set-Cookie');
+ headers.delete('Access-Control-Allow-Origin');
+ // Only the dedicated customer auth handler can issue its own HttpOnly cookie.
+ // All marketing/admin/other API responses still strip cookie headers.
+ const cookie=headers.get('Set-Cookie');
+ if(!customerCookie||!cookie||!/^(__Host-exactmec_customer|exactmec_customer_dev)=[A-Za-z0-9_-]*;/.test(cookie)||!cookie.includes('HttpOnly')||!cookie.includes('SameSite=Lax')||!cookie.includes('Path=/'))headers.delete('Set-Cookie');
  return new Response(response.body,{status:response.status,headers});
 }
 
@@ -34,7 +40,7 @@ async function boundedJsonRequest(request) {
 
 // The production Worker calls this factory with no options. Local synthetic mode
 // is only injected by the separate Node test host, never by a binding or header.
-export function createApiHandler({authenticate=authenticateAccess,localSynthetic=false}={}) {
+export function createApiHandler({authenticate=authenticateAccess,localSynthetic=false,sendCustomerCode}={}) {
  return async function handleApi(request,env={},execution={}) {
   try{
    const path=new URL(request.url).pathname;
@@ -55,6 +61,11 @@ export function createApiHandler({authenticate=authenticateAccess,localSynthetic
    if(path==='/api/admin/session'&&request.method==='GET'){
     const csrfToken=await issueCsrf(actor,env);if(!csrfToken)return secureApi(json({error:'service_unavailable'},503));
     return secureApi(json({user:{email:actor.email},csrfToken,localSynthetic}));
+   }
+   if(path.startsWith('/api/customer/')){
+    const sendCode=sendCustomerCode||(customerEmailAvailable(env)?input=>sendCustomerLoginCode(env,input):undefined);
+    const response=await handleCustomer(request,env,{localSynthetic,sendCode,waitUntil:execution.waitUntil?.bind(execution)});
+    return secureApi(response||json({error:'not_found'},404),{customerCookie:true});
    }
    const notify=reference=>deliverNotification(env,reference);
    const context={actor,localSynthetic,notify,waitUntil:execution.waitUntil?.bind(execution)};

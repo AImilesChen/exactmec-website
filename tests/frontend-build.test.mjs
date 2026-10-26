@@ -6,10 +6,21 @@ import {fileURLToPath} from 'node:url';
 import worker from '../cloudflare/worker.mjs';
 import {PUBLIC_ROUTES,resolvePublicRoute} from '../src/seo/route-contract.mjs';
 import {createSiteConfig,releaseBlockers} from '../src/site-config.mjs';
+import {resolveCustomerRoute} from '../src/customer-routes.mjs';
 
 const root=fileURLToPath(new URL('../dist/public/',import.meta.url));
 const read=p=>fs.readFile(path.join(root,p),'utf8');
 const exists=async p=>!!await fs.stat(path.join(root,p)).catch(()=>false);
+
+test('actual customer build is a separate private entry with working assets, never part of the marketing sitemap',async()=>{
+ const html=await read('account/index.html');
+ assert.match(html,/<title>My Inquiries \| EXACTMEC<\/title>/);
+ assert.match(html,/<meta name="robots" content="noindex,nofollow"/);
+ assert.doesNotMatch(html,/Synthetic|csrfToken|buyer@example|review_json|contact_suppression/);
+ for(const [,url]of html.matchAll(/<(?:script|link)\b[^>]*?(?:src|href)="(\/[^"#?]+)(?:\?[^"#]*)?"/g))assert.ok(await exists(url.slice(1)),url);
+ assert.doesNotMatch(await read('sitemap.xml'),/\/account\//);
+ assert.doesNotMatch(await read('index.html'),/customer-[A-Za-z0-9_-]+\.js/);
+});
 const fileFor=route=>route.id==='404'?'404.html':route.path==='/'?'index.html':route.path.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
 const pages=async()=>Promise.all(PUBLIC_ROUTES.map(async route=>({...route,html:await read(fileFor(route))})));
 
@@ -41,7 +52,7 @@ test('all static internal links reach a public page and an existing target ancho
  const lookup=new Map((await pages()).map(p=>[p.path,p.html]));
  for(const page of await pages())for(const [,href]of page.html.matchAll(/<a\b[^>]*href="([^"?]+)"/g)){
   if(!href.startsWith('/')&&!href.startsWith('#'))continue;
-  const [base,hash]=href.split('#'),route=resolvePublicRoute(base||page.path);
+  const [base,hash]=href.split('#'),route=base?.startsWith('/account/')?resolveCustomerRoute(base):resolvePublicRoute(base||page.path);
   assert.equal(route.status,!base&&page.id==='404'?404:200,page.path+': '+href);
   if(hash)assert.ok(lookup.get(route.path)?.includes('id="'+hash+'"'),page.path+': missing '+href);
  }

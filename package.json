@@ -11,14 +11,14 @@
     "build:frontend": "node scripts/build-frontend.mjs",
     "build:release": "node scripts/build-frontend.mjs --release",
     "preview:frontend": "node scripts/serve-frontend.mjs",
-    "test:frontend": "node --test tests/frontend-*.test.mjs tests/inquiry-*.test.mjs tests/analytics-*.test.mjs tests/cloudflare-*.test.mjs",
+    "test:frontend": "node --test tests/frontend-*.test.mjs tests/inquiry-*.test.mjs tests/analytics-*.test.mjs tests/cloudflare-*.test.mjs src/customer/customer-client.test.mjs",
     "check:frontend": "npm run build:frontend && npm run test:frontend",
     "check:cloudflare": "node scripts/check-cloudflare.mjs",
     "smoke:frontend": "node scripts/smoke-frontend.mjs",
     "dev:review": "vite",
     "build:review": "vite build && node scripts/prepare-sites-build.mjs",
     "dev:integration": "node scripts/serve-backend-local.mjs",
-    "test:backend": "node --test tests/backend-*.test.mjs tests/admin-client*.test.mjs src/admin/content-client.test.mjs"
+    "test:backend": "node --test tests/backend-*.test.mjs tests/admin-client*.test.mjs src/admin/content-client.test.mjs tests/customer-portal-integration.test.mjs"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans": "^5.3.0",
