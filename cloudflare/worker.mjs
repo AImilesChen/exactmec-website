@@ -9,21 +9,25 @@ import {administratorLoginPage} from './login-page.mjs';
 import {resolveCustomerRoute} from '../src/customer-routes.mjs';
 import {customerCleanup,customerPortalConfiguration} from '../backend/customer-auth.mjs';
 import {customerEmailAvailable,sendCustomerLoginCode} from '../backend/portal-email.mjs';
+import {isVendorMarketingRoute} from '../src/analytics/vendors.mjs';
 const handleApi=createApiHandler();
 
 const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml','/third-party-notices.txt']);
 const truthy = value => value === true || value === 'true';
 const isAsset = path => rootAssets.has(path) || /^\/(?:assets|brand)\/[a-zA-Z0-9_./-]+\.(?:css|js|mjs|woff2?|ttf|otf|png|webp|jpe?g|gif|svg|ico|avif)$/i.test(path);
 
-function finish(response, { status = response.status, robots = 'noindex,nofollow', head = false, staging = true } = {}) {
+function finish(response, { status = response.status, robots = 'noindex,nofollow', head = false, staging = true,externalAnalytics=false,noReferrer=false } = {}) {
   const headers = new Headers(response.headers);
   headers.set('X-Robots-Tag', robots);
   headers.set('X-Content-Type-Options', 'nosniff');
-  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  headers.set('Referrer-Policy', noReferrer?'no-referrer':'strict-origin-when-cross-origin');
   headers.set('X-Frame-Options', 'DENY');
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   headers.set('Strict-Transport-Security','max-age=31536000');
-  headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
+  const script=externalAnalytics?' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms':'';
+  const image=externalAnalytics?' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms https://c.bing.com':'';
+  const connect=externalAnalytics?' https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com https://*.clarity.ms https://plausible.shipsolo.io':'';
+  headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'"+script+"; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:"+image+"; font-src 'self' data:; connect-src 'self'"+connect+"; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
   if (staging) headers.set('Cache-Control', 'no-store');
   else if (headers.get('Content-Type')?.includes('text/html')) headers.set('Cache-Control', 'no-cache');
   // A public asset must never acquire a cookie through the read-only adapter.
@@ -59,7 +63,7 @@ export default {
     const path = publicPath(url.pathname);
     const release = truthy(env.RELEASE);
     const head = request.method === 'HEAD';
-    const options = { head, staging: !release };
+    const options = { head, staging: !release,externalAnalytics:truthy(env.EXTERNAL_ANALYTICS_ENABLED)&&isVendorMarketingRoute(path),noReferrer:['/request-a-quote/','/inquiry-received/'].includes(path) };
     // Only the confirmed apex and its www alias are canonicalized. API writes
     // over HTTP/aliases are rejected without forwarding customer bodies.
     if(env.SITE_ORIGIN){
@@ -137,7 +141,8 @@ export default {
           const artifact=original==='/'?'/index.html':original.replace(/\/$/,'')+'/index.html';
           let shell=await asset(env,request,artifact);if(shell.status!==200&&published?.page)shell=await asset(env,request,'/about/index.html');
           if(shell.status!==200)return finish(await notFound(env,request),{...options,status:404});
-          return finish(renderPublishedHtml(await shell.text(),published?.page?.path||ordinary.path,env,bundle,published?.page,original),{...options,robots:!release?'noindex,nofollow':ordinary.kind==='legal'?'noindex,follow':ordinary.kind==='system'&&!published?.page?'noindex,nofollow':'index,follow'});
+          const externalAnalytics=truthy(env.EXTERNAL_ANALYTICS_ENABLED)&&(published?.page?isVendorMarketingRoute(published.page.path,[published.page.path]):isVendorMarketingRoute(ordinary.path));
+          return finish(renderPublishedHtml(await shell.text(),published?.page?.path||ordinary.path,env,bundle,published?.page,original),{...options,externalAnalytics,robots:!release?'noindex,nofollow':ordinary.kind==='legal'?'noindex,follow':ordinary.kind==='system'&&!published?.page?'noindex,nofollow':'index,follow'});
         }
       }catch{return finish(message('Content temporarily unavailable.',503),options);}
     }

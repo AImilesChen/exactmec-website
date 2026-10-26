@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createAnalytics} from '../src/analytics/index.mjs';
-import {createFirstPartyTransport,readMeasurementChoice,saveMeasurementChoice} from '../src/analytics/transport.mjs';
+import {createFirstPartyTransport,readMeasurementChoice,saveMeasurementChoice,MEASUREMENT_CHOICE_KEY,readSavedMeasurementChoice,MEASUREMENT_WITHDRAWAL_HASH} from '../src/analytics/transport.mjs';
 test('no request before a measurement choice; refusal and withdrawal leave inquiry unaffected',async()=>{
  const sent=[],adapter=createFirstPartyTransport({fetchImpl:async(...args)=>{sent.push(args);return new Response(null,{status:204});}});
  const a=createAnalytics({enabled:true,adapter});
@@ -13,6 +13,12 @@ test('no request before a measurement choice; refusal and withdrawal leave inqui
 test('blocked storage cannot grant consent or break the page',()=>{
  const blocked={getItem(){throw Error();},setItem(){throw Error();}};
  assert.equal(readMeasurementChoice(blocked),false);assert.doesNotThrow(()=>saveMeasurementChoice(blocked,true));
- const store=new Map(),storage={getItem:k=>store.get(k),setItem:(k,v)=>store.set(k,v)};
- saveMeasurementChoice(storage,true);assert.equal(readMeasurementChoice(storage),true);saveMeasurementChoice(storage,false);assert.equal(readMeasurementChoice(storage),false);assert.deepEqual([...store],[['exactmec_measurement_choice','deny']]);
+ const store=new Map(),storage={getItem:k=>store.get(k),setItem:(k,v)=>store.set(k,v),removeItem:k=>store.delete(k)};
+ assert.equal(saveMeasurementChoice(storage,true),true);assert.equal(readMeasurementChoice(storage),true);saveMeasurementChoice(storage,false);assert.equal(readMeasurementChoice(storage),false);assert.deepEqual([...store],[[MEASUREMENT_CHOICE_KEY,'deny']]);
+});
+test('old notice allowance and read-only allowance cannot authorize new vendors; withdrawal marker stays denied',()=>{
+ const old={getItem:key=>key==='exactmec_measurement_choice'?'allow':null};assert.equal(readSavedMeasurementChoice(old),null);
+ const readonly={getItem:key=>key===MEASUREMENT_CHOICE_KEY?'allow':null,setItem(){throw Error('readonly');},removeItem(){throw Error('readonly');}};
+ assert.equal(readMeasurementChoice(readonly),false);assert.equal(saveMeasurementChoice(readonly,false),false);
+ assert.equal(readSavedMeasurementChoice(readonly,{hash:MEASUREMENT_WITHDRAWAL_HASH}),'deny');
 });

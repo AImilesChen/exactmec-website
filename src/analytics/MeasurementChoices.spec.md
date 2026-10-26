@@ -1,0 +1,11 @@
+# Optional analytics choice panel
+
+The widget is client-only and rendered only when the parent enables optional measurement. It uses the shared `MEASUREMENT_CHOICE_KEY` v2 and `readSavedMeasurementChoice`; earlier first-party-only permissions do not grant permission for the newly introduced providers. Startup denial is sent to the wrapped controller; SDK teardown/reload is owned by that controller.
+
+The concise notice names Google Analytics 4, Microsoft Clarity session recordings/heatmaps, and ShipSolo-hosted Plausible analytics. It discloses possible cookies and device/IP/network processing. Marketing-page scope and exclusions for RFQ forms, customer accounts and admin are explicit; inquiry field data is excluded. Privacy and cookie policies are linked. Two equal-sized actions are available: **Reject optional tracking** and **Allow analytics and recordings**. The persistent **Measurement choices** button reopens the same panel, and rejection is also withdrawal.
+
+The panel is a nonmodal, white/light-blue-gray region with a restrained red allow button. Its width is capped at 1080px; controls wrap to a full row on narrow screens and the panel scrolls within the visible height. It never traps focus or blocks the ordinary inquiry flow. Panel and controls are masked for Clarity. Existing page typography and layout remain untouched.
+
+Selection saves the shared preference before invoking `analytics.setConsent`. The parent wrapper then handles third-party permission and, on withdrawal after SDK startup, removes optional cookies and reloads with the refusal marker. A storage failure is described as page-only permission, not a saved permanent preference. Synchronization listens to the versioned storage key. A new permission emits at most one explicit pageview for a known public marketing route, never an RFQ/private/legal/system route. The UI does not install SDKs or decide vendor hostname permissions itself.
+
+`tests/analytics-measurement-choices.test.mjs` exercises write-before-controller ordering, allow-pageview scope, storage-failure wording, provider/exclusion disclosures, client-only rendering and balanced action labels. Actual browser vendor networking, consent revocation cleanup and masks require the parent integration checks.

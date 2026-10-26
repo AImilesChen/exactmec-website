@@ -11,5 +11,5 @@
     "not_found_handling": "none",
     "run_worker_first": true
   },
-  "vars": {"RELEASE": "false", "LEGAL_APPROVED": "false", "SITE_ORIGIN": "https://exactmec.com", "COLLECTION_ENABLED": "false"}
+  "vars": {"RELEASE": "false", "LEGAL_APPROVED": "false", "SITE_ORIGIN": "https://exactmec.com", "COLLECTION_ENABLED": "false", "EXTERNAL_ANALYTICS_ENABLED": "false"}
 }

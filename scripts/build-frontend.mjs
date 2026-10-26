@@ -11,7 +11,7 @@ const release=process.argv.includes('--release');
 const configured=loadEnv('frontend',root,'VITE_');
 Object.assign(process.env,configured);
 process.env.VITE_SITE_RELEASE=String(release);
-const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,contactEmailVerified:process.env.VITE_CONTACT_EMAIL_VERIFIED==='true',release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true',analyticsEnabled:process.env.VITE_METRICS_ENABLED==='true'});
+const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,contactEmailVerified:process.env.VITE_CONTACT_EMAIL_VERIFIED==='true',release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true',analyticsEnabled:process.env.VITE_METRICS_ENABLED==='true',externalAnalyticsEnabled:process.env.VITE_EXTERNAL_ANALYTICS_ENABLED==='true'});
 const blockers=releaseBlockers(config);
 if(release&&blockers.length)throw new Error('Release is not ready:\n'+blockers.map(x=>' - '+x).join('\n'));
 if(release){
@@ -72,6 +72,6 @@ for(const name of needed)await fs.copyFile(path.join(publicDir,'assets',name),pa
 const xml=config.release?generated.filter(r=>r.robots==='index,follow').map(r=>`  <url><loc>${escape(config.origin+r.path)}</loc></url>`).join('\n'):'';
 await fs.writeFile(path.join(output,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${xml}\n</urlset>\n`);
 await fs.writeFile(path.join(output,'robots.txt'),config.release?`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin/\nDisallow: /account/\nDisallow: /design-system/\nSitemap: ${config.origin}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n');
-const report={mode:release?'release':'staging',published:false,origin:config.origin||null,inquiryEnabled:config.inquiryEnabled,analyticsEnabled:false,generatedAt:new Date().toISOString(),routes:generated,marketingPages:publicCopy.length,publicAssets:[...needed],releaseBlockers:blockers,sourceContract:manifest.version};
+const report={mode:release?'release':'staging',published:false,origin:config.origin||null,inquiryEnabled:config.inquiryEnabled,analyticsEnabled:config.analyticsEnabled,externalAnalyticsEnabled:config.externalAnalyticsEnabled,generatedAt:new Date().toISOString(),routes:generated,marketingPages:publicCopy.length,publicAssets:[...needed],releaseBlockers:blockers,sourceContract:manifest.version};
 await fs.writeFile(path.join(root,'dist/frontend-report.json'),JSON.stringify(report,null,2));
-console.log(`Frontend ${report.mode}: ${generated.length} HTML pages (${publicCopy.length} marketing), no internal workbench/download assets. Online inquiry/analytics remain ${config.inquiryEnabled?'configured':'disabled'}.`);
+console.log(`Frontend ${report.mode}: ${generated.length} HTML pages (${publicCopy.length} marketing), no internal workbench/download assets. Inquiry=${config.inquiryEnabled}; first-party metrics=${config.analyticsEnabled}; external analytics opt-in=${config.externalAnalyticsEnabled}.`);

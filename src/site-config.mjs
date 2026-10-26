@@ -29,6 +29,7 @@ export function createSiteConfig(values = {}) {
     ...business, origin, contactEmail, contactEmailVerified, release, legalApproved, backendVerified,
     inquiryEnabled, inquiryEndpoint: '/api/inquiries',
     analyticsEnabled: release && values.analyticsEnabled === true,
+    externalAnalyticsEnabled: origin === business.siteOrigin && values.externalAnalyticsEnabled === true,
     whatsappUrl: 'https://wa.me/' + business.whatsappNumber,
   });
 }
@@ -43,6 +44,7 @@ export const siteConfig = createSiteConfig({
   backendVerified: env.VITE_BACKEND_VERIFIED === 'true',
   inquiryEnabled: env.VITE_INQUIRY_ENABLED === 'true',
   analyticsEnabled: env.VITE_METRICS_ENABLED === 'true',
+  externalAnalyticsEnabled: env.VITE_EXTERNAL_ANALYTICS_ENABLED === 'true',
 });
 
 export function releaseBlockers(config) {

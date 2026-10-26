@@ -4,7 +4,7 @@ import {getPageMeta} from '../src/seo/metadata.mjs';
 const yes=v=>v===true||v==='true';
 const escape=v=>String(v).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 export function publicRuntimeConfig(env,bundle){
- const config=createSiteConfig({origin:env.SITE_ORIGIN||business.siteOrigin,release:yes(env.RELEASE)&&!bundle.preview,legalApproved:yes(env.LEGAL_APPROVED),backendVerified:yes(env.BACKEND_VERIFIED),contactEmailVerified:yes(env.CONTACT_EMAIL_VERIFIED),inquiryEnabled:yes(env.COLLECTION_ENABLED),analyticsEnabled:yes(env.METRICS_ENABLED)});
+ const config=createSiteConfig({origin:env.SITE_ORIGIN||business.siteOrigin,release:yes(env.RELEASE)&&!bundle.preview,legalApproved:yes(env.LEGAL_APPROVED),backendVerified:yes(env.BACKEND_VERIFIED),contactEmailVerified:yes(env.CONTACT_EMAIL_VERIFIED),inquiryEnabled:yes(env.COLLECTION_ENABLED),analyticsEnabled:yes(env.METRICS_ENABLED),externalAnalyticsEnabled:yes(env.EXTERNAL_ANALYTICS_ENABLED)&&!bundle.preview});
  return {...config,...bundle.settings,...(bundle.settings?.address?{correspondenceAddress:bundle.settings.address}:{}),...(bundle.settings?.whatsappNumber?{whatsappDisplay:'+'+bundle.settings.whatsappNumber}:{}),whatsappUrl:'https://wa.me/'+(bundle.settings?.whatsappNumber||config.whatsappNumber)};
 }
 export function renderPublishedHtml(shell,url,env,bundle,page,originalPath){
