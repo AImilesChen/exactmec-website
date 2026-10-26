@@ -124,6 +124,12 @@ export default {
       return finish(message('Inquiry API is not connected.', 503, { 'Retry-After': '3600', 'Cache-Control': 'no-store' }), options);
     }
     if (!['GET', 'HEAD'].includes(request.method)) return finish(message('Method Not Allowed', 405, { Allow: 'GET, HEAD' }), options);
+    // A scoped review exception for the owner's Site Audit project only.
+    // Robots directives are crawl preferences, never authentication controls.
+    if(path==='/robots.txt'&&!release&&truthy(env.AHREFS_AUDIT_ENABLED)){
+      const rules='User-agent: *\nDisallow: /\n\nUser-agent: AhrefsSiteAudit\nAllow: /\nDisallow: /api\nDisallow: /admin\nDisallow: /account\nDisallow: /customer\nDisallow: /design-system\nDisallow: /inquiry-received\nCrawl-delay: 2\n';
+      return finish(message(rules,200),options);
+    }
     if(truthy(env.CMS_ENABLED)&&!isAsset(path||'')||truthy(env.CMS_ENABLED)&&path==='/sitemap.xml'){
       try{
         const bundle=await loadPublicContent(env);
