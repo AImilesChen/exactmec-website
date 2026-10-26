@@ -69,7 +69,10 @@ test('release metadata indexes exactly the eighteen marketing routes, with consi
   }
   assert.equal(getPageMeta('/request-a-quote/', { release: true, origin }).jsonLd['@graph'][2].headline, 'Tell Us About Your Mold Project');
   assert.equal(getPageMeta('/inquiry-received/').title, 'Inquiry Received | ExactMec');
-  assert.equal(getPageMeta('/privacy').description, '');
+  for (const route of PUBLIC_ROUTES.filter(route => route.kind === 'legal')) {
+    assert.ok(getPageMeta(route.path).description.length > 20, route.path);
+    assert.doesNotMatch(getPageMeta(route.path).description, /REVIEW COPY|\[[A-Z_]+\]/);
+  }
 });
 
 test('staging and non-public paths remain noindex, without published schema', () => {

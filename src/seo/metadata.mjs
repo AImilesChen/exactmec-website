@@ -43,7 +43,7 @@ export function getPageMeta(input, { origin = '', release = false, whatsappNumbe
   const policy = contract?.kind === 'legal' ? legal.find(item => item.path === path) : null;
   const system = !contract || contract.kind === 'system' ? systems.pages.find(item => item.id === (contract?.id || '404')) : null;
   const title = page?.title || (policy ? policy.title + ' | ExactMec' : system?.title || 'Page Not Found | ExactMec');
-  const description = page?.description || system?.intro || '';
+  const description = page?.description || policy?.summary || system?.intro || '';
   const indexable = !!(release && contract && contract.kind !== 'legal' && contract.kind !== 'system' && contract.phase === 'P0');
   const canonical = base && contract && contract.kind !== 'system' ? base + contract.path : null;
   return {
