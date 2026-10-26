@@ -1,6 +1,6 @@
 # Inquiry backend and protected admin · local candidate
 
-Confirmed site origin: https://exactmec.com. Business/privacy email is sales@exactmec.com; correspondence address is No. 46 Jinqing Avenue, Luqiao, Taizhou, Zhejiang, China (中国浙江台州路桥金清大道46号). Mail provisioning and send/receive verification remain pending. A separate private administrator identity has been supplied and must not be published in source, frontend bundles or public wrangler vars. Internal notification recipient is still pending. Production inquiry collection and mail sending are disabled.
+Confirmed site origin: https://exactmec.com. Business/privacy email is sales@exactmec.com; correspondence address is No. 46 Jinqing Avenue, Luqiao, Taizhou, Zhejiang, China (中国浙江台州路桥金清大道46号). Mailbox provisioning and basic incoming/outgoing verification are complete. The owner confirmed sales@exactmec.com as the inquiry-notification recipient, separately from administrator login. Personal admin setup is deferred by the owner; do not change the existing mail application login or identity providers. Production inquiry collection remains disabled.
 
 ## Implemented
 
@@ -29,7 +29,7 @@ Use only `@example.com` emails and the test phone `+1 202 555 0140`; other conta
 
 `wrangler.jsonc` remains a data-disabled configuration. `wrangler.backend.example.jsonc` is a configuration template, not evidence that a D1 database, Access policy, mail binding or production endpoint exists. Create and identify the actual account resources, set server secrets, apply migrations to the intended database, approve notices/retention/providers and verify access before opening collection. Keep secrets out of `VITE_*`, Git and browser configuration.
 
-An independent `exactmec-leads` D1 database has been created and both schema migrations applied remotely. Its reported placement is WNAM; this is not a residency or jurisdiction guarantee. No customer records have been stored there. `wrangler.staging.jsonc` identifies this empty review database and disables workers.dev, preview URLs, routes, collection and notifications. Deployment evidence is recorded separately; a configuration file alone is not deployment evidence.
+An independent `exactmec-leads` D1 database has been created and both schema migrations applied remotely. Its reported placement is WNAM; this is not a residency or jurisdiction guarantee. No customer records have been stored there. `wrangler.staging.jsonc` identifies this empty review database and disables workers.dev, preview URLs, routes and collection. Its notification transport is configured to send only from sales@exactmec.com to sales@exactmec.com, with both restrictions enforced by the native binding; the closed collection/admin endpoints cannot create or retry real jobs. Deployment evidence is recorded separately; a configuration file alone is not deployment evidence.
 
 Approved copy identifiers live in `src/data/notice-versions.json`; match them exactly to the four server notice variables. Current values are drafts. The production save handler and release build reject draft/test copy. Setting approval flags alone cannot finalize the notices. Update the actual company contact details and policy text before review.
 
@@ -37,9 +37,13 @@ Keep `CONTACT_HASH_SECRET` stable. It protects contact suppression hashes and ps
 
 Rate bucket hashes expire after a ten-minute window and are deleted on subsequent submissions. `cleanupRateLimits` is also connected to the Worker's scheduled handler; no remote schedule is currently enabled. Select and verify a maintenance schedule before production so idle buckets are physically removed as intended.
 
-Notification sending is **at least once**, not exactly once: a provider may accept a message and lose the response, so a later manual retry can generate another internal reminder. A stored `sent` state means the email service confirmed acceptance, not proof of inbox delivery. Claim attempts guard against stale completions overwriting a newer attempt. Actual sender/recipient verification and delivery/bounce testing remain unperformed.
+Notification sending is **at least once**, not exactly once: a provider may accept a message and lose the response, so a later manual retry can generate another internal reminder. A stored `sent` state means the email service confirmed acceptance, not proof of inbox delivery. Claim attempts guard against stale completions overwriting a newer attempt. The sender mailbox and notification recipient have now been confirmed. Cloud delivery evidence is recorded separately in the local delivery report, rather than inferred from a source configuration or provider acceptance.
 
 The protected admin now includes a content draft workspace backed by D1. Editors can save permitted text fields, reload drafts and export reviewed page JSON, with optimistic revisions and source-change checks. Saving a draft does not change public content or deploy the website. Public content still requires review and a repository rebuild. The old Operations workbench remains a design review mock.
+
+## Native transport verification
+
+The `scripts/fixtures/notification-binding-smoke.mjs` entry is an explicit short-lived diagnostic, never imported by the website Worker or frontend build. It sends only a `[TEST]` message to the approved sales mailbox, includes no D1 binding/customer records, and rejects alternate addresses. Its scheduled mode runs only at one exact supplied timestamp within a two-minute window. Private smoke configuration and transient tokens live under ignored `.wrangler/notification-smoke/`; remove the temporary trigger and Worker after verification. No public diagnostic route should be deployed. Backend tests separately verify atomic outbox claims, concurrent sends, failures, manual retry and customer-data exclusion.
 
 ## Primary technical references
 

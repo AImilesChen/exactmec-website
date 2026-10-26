@@ -6,6 +6,7 @@
   "main": "cloudflare/worker.mjs",
   "compatibility_date": "2026-10-01",
   "workers_dev": false,
+  "send_email": [{"name":"EMAIL","destination_address":"sales@exactmec.com","allowed_sender_addresses":["sales@exactmec.com"]}],
   "assets": {"directory":"./dist/public","binding":"ASSETS","html_handling":"none","not_found_handling":"none","run_worker_first":true},
   "d1_databases": [{"binding":"DB","database_name":"exactmec-leads","database_id":"REPLACE_WITH_CREATED_D1_ID","migrations_dir":"migrations"}],
   "vars": {
@@ -14,15 +15,15 @@
     "LEGAL_APPROVED":"false",
     "COLLECTION_ENABLED":"false",
     "NOTIFICATIONS_ENABLED":"false",
-    "NOTIFY_TO":"",
-    "NOTIFY_FROM":"",
+    "NOTIFY_TO":"sales@exactmec.com",
+    "NOTIFY_FROM":"sales@exactmec.com",
     "NOTICE_VERSION":"",
     "PRIVACY_VERSION":"",
     "PROCESSING_BASIS":"",
     "WHATSAPP_NOTICE_VERSION":""
   }
-  // Add a restricted send_email binding only after sender domain and the
-  // internal recipient have been selected, verified and approved.
+  // Sender/recipient selected and basic mailbox verification completed.
+  // Keep collection disabled until legal and protected admin release checks pass.
   // A scheduled maintenance trigger may clean expired rate buckets; select
   // and verify that schedule before enabling it in the account.
 }

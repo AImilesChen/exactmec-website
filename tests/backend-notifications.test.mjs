@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {Miniflare,convertV4MiniflareOptions} from 'miniflare';
 import {handleBusiness,getNotificationJob} from '../backend/business.mjs';
-import {deliverNotification} from '../backend/notifications.mjs';
+import {deliverNotification,notificationMessage} from '../backend/notifications.mjs';
 import {initialValues,buildInquiryPayload} from '../src/inquiry/model.mjs';
 let mf,env;
 before(async()=>{
@@ -16,3 +16,26 @@ async function create(){const payload=buildInquiryPayload({...initialValues(),na
 test('unconfigured notifications never invoke transport or turn a pending job into sent',async()=>{const ref=await create();let calls=0;const r=await deliverNotification({...env,EMAIL:{send(){calls++}}},ref);assert.equal(r.state,'disabled');assert.equal(calls,0);assert.equal((await getNotificationJob(env.DB,ref)).state,'pending');});
 test('confirmed transport accepts only a minimal reference and protected link, with no customer data',async()=>{const ref=await create();let message,calls=0;const configured={...env,NOTIFICATIONS_ENABLED:'true',EMAIL:{async send(value){message=value;calls++;return {messageId:'synthetic-message-id'}}}};assert.equal((await deliverNotification(configured,ref)).state,'sent');assert.match(message.text,/https:\/\/exactmec\.com\/admin\/leads\//);assert.doesNotMatch(JSON.stringify(message),/Synthetic Private|buyer@|1202555|confidential component|private project/);assert.equal(message.to,'internal@example.com');await deliverNotification(configured,ref);assert.equal(calls,1);});
 test('failure and timeout retain the saved inquiry and provide a bounded manual retry state',async()=>{for(const sender of [async()=>{throw new Error('private-provider-detail')},()=>new Promise(()=>{})]){const ref=await create();const r=await deliverNotification({...env,NOTIFICATIONS_ENABLED:'true',EMAIL:{send:sender}},ref,{timeoutMs:10});assert.equal(r.state,'failed');assert.equal((await getNotificationJob(env.DB,ref)).errorCode,'delivery_unconfirmed');assert.ok(await env.DB.prepare('SELECT reference FROM leads WHERE reference=?').bind(ref).first());assert.doesNotMatch(JSON.stringify(r),/private-provider-detail/);}});
+
+test('simultaneous notification attempts claim the outbox once',async()=>{
+ const ref=await create();let calls=0;
+ const configured={...env,NOTIFICATIONS_ENABLED:'true',EMAIL:{async send(){calls++;return {messageId:'synthetic-concurrent-id'};}}};
+ const results=await Promise.all(Array.from({length:6},()=>deliverNotification(configured,ref)));
+ assert.equal(calls,1);assert.ok(results.every(r=>['sent','pending'].includes(r.state)));
+ const job=await getNotificationJob(env.DB,ref);assert.equal(job.state,'sent');assert.equal(job.attempts,1);
+});
+
+test('unconfirmed provider acceptance stays retryable without resubmitting the inquiry',async()=>{
+ const ref=await create();let calls=0;
+ const configured={...env,NOTIFICATIONS_ENABLED:'true',EMAIL:{async send(){calls++;return calls===1?{messageId:''}:{messageId:'synthetic-retry-id'};}}};
+ assert.equal((await deliverNotification(configured,ref)).state,'failed');
+ assert.equal((await deliverNotification(configured,ref)).state,'sent');
+ assert.equal((await getNotificationJob(env.DB,ref)).attempts,2);
+ assert.equal((await env.DB.prepare('SELECT count(*) AS n FROM leads WHERE reference=?').bind(ref).first()).n,1);
+ await deliverNotification(configured,ref);assert.equal(calls,2);
+});
+
+test('invalid addresses, origins and references cannot create email content',()=>{
+ for(const invalid of [{...env,NOTIFY_TO:'sales@example.com\r\nBcc:other@example.com'},{...env,NOTIFY_FROM:'bad'},{...env,SITE_ORIGIN:'http://exactmec.com'},{...env,SITE_ORIGIN:'https://exactmec.com/other'},{...env,SITE_ORIGIN:'https://user:password@exactmec.com'}])assert.equal(notificationMessage(invalid,'EM_safe_reference'),null);
+ for(const ref of ['bad','EM_reference\r\nInjected','../private','EM_?email=buyer@example.com'])assert.equal(notificationMessage(env,ref),null);
+});
