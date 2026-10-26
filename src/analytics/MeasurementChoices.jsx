@@ -3,9 +3,9 @@ import {browserStorage,MEASUREMENT_CHOICE_KEY,readSavedMeasurementChoice,saveMea
 import manifest from '../data/site-manifest.json';
 
 const marketingRoutes = new Set(manifest.routes.filter(item => item.include_in_p0_plan && !['legal','system'].includes(item.kind) && item.id !== 'rfq').map(item => item.path));
-const panelStyle = {position:'fixed',bottom:16,left:'max(16px, calc((100vw - 1080px)/2))',right:'max(16px, calc((100vw - 1080px)/2))',zIndex:90,maxWidth:1080,maxHeight:'calc(100dvh - 32px)',overflowY:'auto',margin:0,padding:'clamp(20px, 3vw, 30px)',background:'#fff',border:'1px solid #cbd7df',borderRadius:6,boxShadow:'0 12px 52px #19394f26',color:'#2d4657'};
-const copyStyle = {fontSize:14,lineHeight:1.75,margin:'12px 0 0',maxWidth:940,color:'#4f6675'};
-const buttonStyle = {minHeight:48,flex:'1 1 240px',margin:0,padding:'12px 20px',fontSize:14,fontWeight:500,lineHeight:1.5,borderRadius:4,cursor:'pointer'};
+const panelStyle = {position:'fixed',bottom:16,right:16,zIndex:90,width:'min(420px, calc(100vw - 32px))',maxWidth:420,maxHeight:'calc(100dvh - 32px)',boxSizing:'border-box',overflowY:'auto',margin:0,padding:20,background:'#fff',border:'1px solid #cbd7df',borderRadius:8,boxShadow:'0 8px 32px #19394f20',color:'#2d4657'};
+const copyStyle = {fontSize:14,lineHeight:1.55,margin:'8px 0 0',color:'#4f6675'};
+const buttonStyle = {minHeight:44,minWidth:0,flex:'1 1 0',margin:0,padding:'10px 12px',fontSize:14,fontWeight:500,lineHeight:1.5,borderRadius:4,cursor:'pointer'};
 
 /** The saved refusal must reach storage before a controller may stop SDKs and reload. */
 export function applyMeasurementChoice({storage,analytics,route,previousChoice},allow){
@@ -17,14 +17,18 @@ export function applyMeasurementChoice({storage,analytics,route,previousChoice},
 
 export function MeasurementPanel({id,choice,onChoose,storageWarning=false}){
  return <section id={id} className="measurement-panel" style={panelStyle} aria-label="Optional analytics and session recording choices" data-clarity-mask="true">
-  <h2 style={{fontSize:22,lineHeight:1.35,margin:0,color:'#273f50'}}>Your choice about optional tracking</h2>
-  <p style={copyStyle}>With your permission, we use Google Analytics 4, Microsoft Clarity (session recordings and heatmaps), and ShipSolo-hosted analytics (Plausible) on public marketing pages.</p>
-  <p style={copyStyle}>These services may use cookies and process technical data such as device, IP address, and network information. Inquiry forms, customer accounts, and admin pages are excluded; inquiry fields are not sent. Your choice does not affect submitting an inquiry.</p>
-  <p style={{...copyStyle,fontSize:13}}><a href="/cookies" style={{color:'#315a74',textDecoration:'underline',textUnderlineOffset:3}}>Cookie Policy</a>{' · '}<a href="/privacy" style={{color:'#315a74',textDecoration:'underline',textUnderlineOffset:3}}>Privacy Policy</a>{choice&&<span>{' · '}Current permission: {choice==='allow'?'allowed':'rejected'}</span>}</p>
+  <h2 style={{fontSize:18,lineHeight:1.35,margin:0,color:'#273f50'}}>Analytics preferences</h2>
+  <p style={copyStyle}>We use optional cookies and masked session recordings on marketing pages. Your choice won’t affect inquiries.</p>
+  <details style={{marginTop:10,fontSize:13,lineHeight:1.55}}>
+   <summary style={{cursor:'pointer',color:'#315a74'}}>Services &amp; privacy details</summary>
+   <p style={{...copyStyle,fontSize:13}}>With your permission, we use Google Analytics 4, Microsoft Clarity (session recordings and heatmaps), and ShipSolo-hosted analytics (Plausible) on public marketing pages.</p>
+   <p style={{...copyStyle,fontSize:13}}>These services may use cookies and process technical data such as device, IP address, and network information. Inquiry forms, customer accounts, and admin pages are excluded; inquiry fields are not sent.</p>
+  </details>
+  <p style={{...copyStyle,fontSize:13}}><a href="/cookies" style={{color:'#315a74',textDecoration:'underline',textUnderlineOffset:3}}>Cookie Policy</a>{' · '}<a href="/privacy" style={{color:'#315a74',textDecoration:'underline',textUnderlineOffset:3}}>Privacy Policy</a>{choice&&<span style={{display:'block',marginTop:4}}>Current permission: {choice==='allow'?'allowed':'rejected'}</span>}</p>
   {storageWarning&&<p role="status" style={{...copyStyle,fontSize:13}}>We could not save this preference. Your choice applies to this page; you may need to choose again on a future visit.</p>}
-  <div role="group" aria-label="Optional tracking permission" style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:22}}>
-   <button type="button" onClick={()=>onChoose(false)} aria-pressed={choice==='deny'} data-clarity-mask="true" style={{...buttonStyle,background:'#fff',border:'1px solid #93a9b9',color:'#294c63'}}>Reject optional tracking</button>
-   <button type="button" onClick={()=>onChoose(true)} aria-pressed={choice==='allow'} data-clarity-mask="true" style={{...buttonStyle,background:'#c94035',border:'1px solid #c94035',color:'#fff'}}>Allow analytics and recordings</button>
+  <div role="group" aria-label="Optional tracking permission" style={{display:'flex',gap:10,marginTop:14}}>
+   <button type="button" onClick={()=>onChoose(false)} aria-label="Reject optional tracking" aria-pressed={choice==='deny'} data-clarity-mask="true" style={{...buttonStyle,background:'#fff',border:'1px solid #93a9b9',color:'#294c63'}}>Reject</button>
+   <button type="button" onClick={()=>onChoose(true)} aria-label="Allow analytics and recordings" aria-pressed={choice==='allow'} data-clarity-mask="true" style={{...buttonStyle,background:'#c94035',border:'1px solid #c94035',color:'#fff'}}>Allow</button>
   </div>
  </section>;
 }
