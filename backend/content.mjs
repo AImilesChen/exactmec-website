@@ -1,7 +1,10 @@
 import baseline from '../src/data/site-content.json' with { type: 'json' };
 import { hmac } from './domain.mjs';
+import { validateForPage, mergeContentPage, mediaLibrary } from '../src/cms/schema.mjs';
+import { contentPublicationDetail, publishContent, withdrawContent, handleContentSettings } from './content-publication.mjs';
+import { loadPublicContent } from './content-public.mjs';
 
-// Admin-only copy drafts. Neither the public build nor the public worker reads D1 drafts.
+// Drafts remain private. Only an explicit version-confirmed publication is read publicly.
 const pages = new Map(baseline.map(page => [page.id, page]));
 const hashes = new Map();
 const responseHeaders = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow', 'X-Content-Type-Options': 'nosniff' };
@@ -13,58 +16,12 @@ const sourceHashValid = value => typeof value === 'string' && /^[a-f0-9]{64}$/.t
 const stmt = (db, sql, ...values) => db.prepare(sql).bind(...values);
 const uuid = () => crypto.randomUUID();
 
-function text(value, max, multiline = false) {
-  if (typeof value !== 'string' || !value.trim() || value.length > max || /[<>\u007f-\u009f]/.test(value)) return false;
-  // Prose may contain ordinary LF; headings/metadata remain single-line plain text.
-  return !(multiline ? /[\u0000-\u0009\u000b-\u001f]/ : /[\u0000-\u001f]/).test(value);
-}
-
-function stringList(value, maxItems, maxLength) {
-  return Array.isArray(value) && value.length <= maxItems && value.every(entry => text(entry, maxLength, true));
-}
-
 function validatePatch(patch, page, stale = false) {
-  if (!exactKeys(patch, ['title', 'h1', 'description', 'sections', 'faqs'])) return null;
-  const clean = {};
-  for (const [key, limit] of [['title', 160], ['h1', 240], ['description', 500]]) if (Object.hasOwn(patch, key)) {
-    if (!text(patch[key], limit)) return null;
-    clean[key] = patch[key].trim();
-  }
-  if (Object.hasOwn(patch, 'sections')) {
-    const sectionIds = new Set((page.sections ?? []).map(section => section.id));
-    const seen = new Set();
-    if (!Array.isArray(patch.sections) || patch.sections.length > (stale ? 50 : sectionIds.size)) return null;
-    clean.sections = [];
-    for (const section of patch.sections) {
-      if (!exactKeys(section, ['id', 'heading', 'paragraphs', 'bullets']) || typeof section.id !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(section.id) || section.id.length > 120 || !stale && !sectionIds.has(section.id) || seen.has(section.id) || !text(section.heading, 240)) return null;
-      const edit = { id: section.id, heading: section.heading.trim() };
-      seen.add(section.id);
-      for (const [key, maxItems, maxLength] of [['paragraphs', 20, 4000], ['bullets', 30, 1000]]) if (Object.hasOwn(section, key)) {
-        if (!stringList(section[key], maxItems, maxLength)) return null;
-        edit[key] = section[key].map(entry => entry.trim());
-      }
-      clean.sections.push(edit);
-    }
-  }
-  if (Object.hasOwn(patch, 'faqs')) {
-    if (!Array.isArray(patch.faqs) || patch.faqs.length > 30) return null;
-    clean.faqs = [];
-    for (const faq of patch.faqs) {
-      if (!exactKeys(faq, ['q', 'a']) || !text(faq.q, 500) || !text(faq.a, 4000, true)) return null;
-      clean.faqs.push({ q: faq.q.trim(), a: faq.a.trim() });
-    }
-  }
-  return clean;
+  return validateForPage(patch, page, stale);
 }
 
 function mergedPage(page, patch) {
-  const result = structuredClone(page);
-  for (const key of ['title', 'h1', 'description', 'faqs']) if (Object.hasOwn(patch, key)) result[key] = structuredClone(patch[key]);
-  if (patch.sections) {
-    const edits = new Map(patch.sections.map(section => [section.id, section]));
-    result.sections = result.sections.map(section => ({ ...section, ...(edits.get(section.id) ?? {}) }));
-  }
-  return result;
+  return mergeContentPage(page, patch);
 }
 
 async function currentHash(page) {
@@ -100,7 +57,7 @@ async function detail(env, page, row) {
   const stale = !!row && row.source_hash !== sourceHash;
   const draft = row ? validatePatch(JSON.parse(row.patch_json), page, stale) : null;
   if (row && draft === null) throw new Error('Stored content patch invalid');
-  return { page: structuredClone(page), draft, revision: row?.revision ?? 0, sourceHash, stale };
+  return { page: structuredClone(page), draft, revision: row?.revision ?? 0, sourceHash, stale, publication: await contentPublicationDetail(env, page.id), mediaLibrary };
 }
 
 async function saveDraft(request, env, actor, page) {
@@ -132,22 +89,52 @@ async function exportDraft(request, env, actor, page) {
   return new Response(`${JSON.stringify(mergedPage(page, data.draft ?? {}), null, 2)}\n`, { headers: { ...responseHeaders, 'Content-Disposition': `attachment; filename="${page.id}.json"` } });
 }
 
+// Call only after Access authentication. This is a read-only saved-draft preview.
+export async function loadContentPreview(env, pageId) {
+  const page = pages.get(pageId);
+  if (!page || !env.DB) return null;
+  const data = await detail(env, page, await storedDraft(env, pageId));
+  if (data.stale) return null;
+  const merged = mergedPage(page, data.draft ?? {});
+  const bundle = await loadPublicContent(env);
+  bundle.pages = [...bundle.pages.filter(item => item.id !== page.id), merged];
+  bundle.routes[page.path] = merged.path;
+  bundle.withdrawn = bundle.withdrawn.filter(path => path !== page.path && path !== merged.path);
+  bundle.preview = true;
+  return { page: merged, originalPath: page.path, bundle };
+}
+
 export async function handleContent(request, env, { actor } = {}) {
   const path = new URL(request.url).pathname;
-  if (path !== '/api/admin/content' && !path.startsWith('/api/admin/content/')) return null;
+  if (path !== '/api/admin/content' && !path.startsWith('/api/admin/content/') && path !== '/api/admin/content-settings') return null;
   if (!actor || typeof actor.id !== 'string' || !actor.id) return fail('unauthorized', 401);
   if (!env.DB || typeof env.CONTACT_HASH_SECRET !== 'string' || env.CONTACT_HASH_SECRET.length < 32) return fail('service_unavailable', 503);
   try {
+    if (path === '/api/admin/content-settings') return handleContentSettings(request, env, actor);
     if (path === '/api/admin/content') {
       if (request.method !== 'GET') return fail('method_not_allowed', 405);
       const rows = await stmt(env.DB, 'SELECT page_id,updated_at FROM content_drafts').all();
       const drafts = new Map(rows.results.map(row => [row.page_id, row.updated_at]));
-      return json({ items: baseline.map(({ id, path: pagePath, h1, title, phase }) => ({ id, path: pagePath, h1, title, phase, ...(drafts.has(id) ? { draftUpdatedAt: drafts.get(id) } : {}) })) });
+      const publications = await stmt(env.DB, 'SELECT page_id,path,state,revision,published_at FROM content_publications').all();
+      const publicationMap = new Map(publications.results.map(row => [row.page_id, row]));
+      return json({ items: baseline.map(({ id, path: pagePath, h1, title, phase }) => ({ id, path: pagePath, h1, title, phase, ...(publicationMap.has(id) ? { publication: publicationMap.get(id) } : {}), ...(drafts.has(id) ? { draftUpdatedAt: drafts.get(id) } : {}) })) });
     }
-    const match = /^\/api\/admin\/content\/([a-z0-9]+(?:-[a-z0-9]+)*)(\/export)?$/.exec(path);
+    const match = /^\/api\/admin\/content\/([a-z0-9]+(?:-[a-z0-9]+)*)(\/(?:export|preview|publish|withdraw))?$/.exec(path);
     const page = match ? pages.get(match[1]) : null;
     if (!page) return fail('not_found', 404);
-    if (match[2]) return request.method === 'POST' ? await exportDraft(request, env, actor, page) : fail('method_not_allowed', 405);
+    if (match[2]) {
+      if (request.method !== 'POST') return fail('method_not_allowed', 405);
+      if (match[2] === '/export') return await exportDraft(request, env, actor, page);
+      const input = await readBody(request);
+      const data = await detail(env, page, await storedDraft(env, page.id));
+      if (match[2] === '/preview') {
+        if (!input || !exactKeys(input, ['sourceHash', 'revision']) || input.sourceHash !== data.sourceHash || input.revision !== data.revision || data.stale) return fail('source_conflict', 409);
+        return json({ page: mergedPage(page, data.draft ?? {}), publication: data.publication, preview: true });
+      }
+      const result = match[2] === '/publish' ? await publishContent(env, actor, page, data, input) : await withdrawContent(env, actor, page, data, input);
+      if (result.error) return fail(result.error, result.status);
+      return json(await detail(env, page, await storedDraft(env, page.id)));
+    }
     if (request.method === 'PATCH') return await saveDraft(request, env, actor, page);
     if (request.method !== 'GET') return fail('method_not_allowed', 405);
     const data = await detail(env, page, await storedDraft(env, page.id));

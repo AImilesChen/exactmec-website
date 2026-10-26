@@ -40,14 +40,14 @@ test('content APIs use fixed same-origin paths and authenticated CSRF writes wit
   assert.deepEqual(calls.map(call => call.url), ['/api/admin/session', '/api/admin/content', '/api/admin/content/home', '/api/admin/content/home']);
 });
 
-test('closed patch schema rejects routes, links, cards, tables, HTML and invalid controls without requests', async () => {
+test('closed patch schema rejects private routes, external links, malformed cards/tables, HTML and invalid controls without requests', async () => {
   let calls = 0;
   const client = createAdminClient({ fetchImpl: async () => { calls++; return session(); } });
   await client.session();
   const invalidPatches = [
-    { path: '/changed/' }, { title: '<script>bad</script>' }, { title: 'Title\nnot single-line' },
+    { path: '/admin/changed/' }, { title: '<script>bad</script>' }, { title: 'Title\nnot single-line' },
     { description: 'a'.repeat(501) }, { title: 'Text \u0085 control' },
-    { sections: [{ id: 'main', heading: 'Heading', cards: [] }] },
+    { sections: [{ id: 'main', heading: 'Heading', cards: [{title:'Card',text:'Copy',href:'javascript:alert(1)'}] }] },
     { sections: [{ id: 'main', heading: 'Heading', table: {} }] },
     { sections: [{ id: 'main', heading: 'Heading', paragraphs: ['Text\twith tab'] }] },
     { sections: [{ id: 'main', heading: 'Heading', paragraphs: ['a'.repeat(4001)] }] },
@@ -66,21 +66,23 @@ test('closed patch schema rejects routes, links, cards, tables, HTML and invalid
   assert.equal(calls, 1);
 });
 
-test('form conversion merges editable draft text, preserves paragraph boundaries, and excludes fixed layout fields', () => {
+test('form conversion preserves editable cards, CTA and relationships and produces the complete validated schema', () => {
   const form = createContentForm({ ...detail(), draft: { title: 'Draft title', sections: [{ id: 'main', heading: 'Draft section', paragraphs: ['Draft first', 'Draft second'] }], faqs: [{ q: 'Draft question', a: 'Draft answer' }] } });
   assert.equal(form.title, 'Draft title');
   assert.equal(form.h1, page.h1);
   assert.equal(form.sections[0].paragraphsText, 'Draft first\n\nDraft second');
-  assert.equal(form.sections[0].bulletsText, 'Source bullet');
   form.sections[0].paragraphsText = 'One line\ncontinued paragraph\n\nSecond paragraph';
   form.sections[0].bulletsText = 'First item\nSecond item\n';
-  form.sections[0].cards = [{ href: 'https://should-never-be-sent.invalid' }];
-  form.path = '/never-send/';
+  form.sections[0].cardsText = JSON.stringify([{ title: 'Reviewed card', text: 'Reviewed body.', href: '/products/' }]);
+  form.path = '/reviewed-path/';
   const patch = buildContentPatch(form);
-  assert.deepEqual(patch.sections[0], { id: 'main', heading: 'Draft section', paragraphs: ['One line\ncontinued paragraph', 'Second paragraph'], bullets: ['First item', 'Second item'] });
-  assert.deepEqual(Object.keys(patch).sort(), ['description', 'faqs', 'h1', 'sections', 'title']);
-  assert.doesNotMatch(JSON.stringify(patch), /never-send|should-never|cards|cta|href/);
+  assert.deepEqual(patch.sections[0].paragraphs, ['One line\ncontinued paragraph', 'Second paragraph']);
+  assert.deepEqual(patch.sections[0].cards, [{ title: 'Reviewed card', text: 'Reviewed body.', href: '/products/' }]);
+  assert.deepEqual(patch.sections[0].cta, page.sections[0].cta);
+  assert.equal(patch.path, '/reviewed-path/');
   assert.equal(page.sections[0].cards[0].href, '/products/');
+  form.sections[0].cardsText = '[malformed';
+  assert.equal(buildContentPatch(form), null);
 });
 
 test('every actual baseline page opens as a valid form without changing source objects', () => {
@@ -132,4 +134,26 @@ test('content failures never fall back to static baseline or expose raw backend 
   const malformed = createAdminClient({ fetchImpl: async url => url.endsWith('/session') ? session() : json({ ...detail(), sourceHash: 'untrusted' }) });
   await malformed.session();
   await assert.rejects(malformed.getContent('home'), kind('invalid_response'));
+});
+
+
+test('CMS preview/publish/withdraw require exact confirmed versions and authenticated CSRF without automatic retry', async () => {
+  const calls=[];
+  const client=createAdminClient({fetchImpl:async(url,init)=>{calls.push({url,init});if(url.endsWith('/session'))return session();if(url.endsWith('/preview'))return json({page,publication:{state:'source',revision:0},preview:true});return json({...detail(),revision:1,publication:{state:'published',revision:1}});}});
+  await client.session();
+  await client.previewContent('home',{sourceHash:hash,revision:0,unsafe:true});
+  await client.publishContent('home',{sourceHash:hash,revision:1,publicationRevision:0,collectionEnabled:true});
+  await client.withdrawContent('home',{sourceHash:hash,revision:1,publicationRevision:1});
+  assert.deepEqual(calls.slice(1).map(call=>call.url),['/api/admin/content/home/preview','/api/admin/content/home/publish','/api/admin/content/home/withdraw']);
+  assert.deepEqual(JSON.parse(calls[2].init.body),{sourceHash:hash,revision:1,publicationRevision:0});
+  for(const call of calls.slice(1)){assert.equal(call.init.method,'POST');assert.equal(call.init.headers['X-CSRF-Token'],'content-memory-csrf');}
+  await assert.rejects(client.publishContent('home',{sourceHash:hash,revision:0,publicationRevision:0}),kind('invalid'));
+  await assert.rejects(client.withdrawContent('home',{sourceHash:hash,revision:1,publicationRevision:0}),kind('invalid'));
+});
+
+test('stale-source rebase form omits removed modules and their old ordering',()=>{
+  const form=createContentForm({...detail(),stale:true,draft:{sections:[{id:'removed-module',heading:'Removed old heading'},{id:'main',heading:'Reviewed current heading'}],section_order:['removed-module','main']}});
+  assert.deepEqual(form.sections.map(section=>section.id),['main']);
+  assert.equal(form.sections[0].heading,'Reviewed current heading');
+  assert.equal(form.section_order,undefined);
 });

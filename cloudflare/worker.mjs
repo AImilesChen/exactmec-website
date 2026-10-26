@@ -2,6 +2,9 @@ import { resolvePublicRoute, publicPath } from '../src/seo/route-contract.mjs';
 import {createApiHandler} from '../backend/router.mjs';
 import {accessConfiguration,authenticateAccess} from '../backend/auth.mjs';
 import {cleanupRateLimits} from '../backend/business.mjs';
+import {loadPublicContent,resolvePublishedContent,publishedSitemapPages} from '../backend/content-public.mjs';
+import {loadContentPreview} from '../backend/content.mjs';
+import {renderPublishedHtml} from './cms-response.mjs';
 const handleApi=createApiHandler();
 
 const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml','/third-party-notices.txt']);
@@ -15,6 +18,7 @@ function finish(response, { status = response.status, robots = 'noindex,nofollow
   headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   headers.set('X-Frame-Options', 'DENY');
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  headers.set('Strict-Transport-Security','max-age=31536000');
   headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
   if (staging) headers.set('Cache-Control', 'no-store');
   else if (headers.get('Content-Type')?.includes('text/html')) headers.set('Cache-Control', 'no-cache');
@@ -52,6 +56,18 @@ export default {
     const release = truthy(env.RELEASE);
     const head = request.method === 'HEAD';
     const options = { head, staging: !release };
+    // Only the confirmed apex and its www alias are canonicalized. API writes
+    // over HTTP/aliases are rejected without forwarding customer bodies.
+    if(env.SITE_ORIGIN){
+      let canonical;try{canonical=new URL(env.SITE_ORIGIN);}catch{}
+      if(canonical?.protocol==='https:'&&['exactmec.com','www.exactmec.com'].includes(url.hostname)&&(url.protocol!=='https:'||url.origin!==canonical.origin)){
+        if(!['GET','HEAD'].includes(request.method))return finish(message('Use the HTTPS website to submit this request.',400),options);
+        const resolved=resolvePublicRoute(path||'');
+        const target=new URL(resolved.redirect||url.pathname,canonical.origin);
+        if(!target.search)target.search=url.search;
+        return finish(new Response(null,{status:308,headers:{Location:target.href}}),options);
+      }
+    }
     if(path?.startsWith('/api/'))return handleApi(request,env,execution);
     if(path==='/admin'||path?.startsWith('/admin/')){
       const adminOptions={...options,staging:true};
@@ -59,6 +75,19 @@ export default {
       const actor=await authenticateAccess(request,env);
       if(!actor)return finish(message('Administrator sign-in required.',403),adminOptions);
       if(!['GET','HEAD'].includes(request.method))return finish(message('Method Not Allowed',405),adminOptions);
+      const preview=path.match(/^\/admin\/content\/([a-z0-9]+(?:-[a-z0-9]+)*)\/preview\/?$/);
+      if(preview){
+        try{
+          const draft=await loadContentPreview(env,preview[1]);
+          if(!draft)return finish(message('Saved draft unavailable. Reload the editor.',409),adminOptions);
+          const original=draft.originalPath==='/'?'/index.html':draft.originalPath.replace(/\/$/,'')+'/index.html';
+          let shell=await asset(env,request,original);if(shell.status!==200)shell=await asset(env,request,'/about/index.html');
+          const rendered=renderPublishedHtml(await shell.text(),draft.page.path,env,draft.bundle,draft.page,draft.originalPath);
+          const response=finish(rendered,adminOptions),headers=new Headers(response.headers);
+          headers.set('X-Frame-Options','SAMEORIGIN');headers.set('Content-Security-Policy',headers.get('Content-Security-Policy').replace("frame-ancestors 'none'","frame-ancestors 'self'"));
+          return new Response(response.body,{status:response.status,headers});
+        }catch{return finish(message('Preview temporarily unavailable.',503),adminOptions);}
+      }
       if(path==='/admin')return finish(new Response(null,{status:308,headers:{Location:'/admin/leads/'}}),adminOptions);
       if(!/^\/admin\/leads(?:\/[A-Za-z0-9_-]{8,128})?\/?$/.test(path))return finish(await notFound(env,request),{...adminOptions,status:404});
       return finish(await asset(env,request,'/admin/index.html'),adminOptions);
@@ -67,6 +96,27 @@ export default {
       return finish(message('Inquiry API is not connected.', 503, { 'Retry-After': '3600', 'Cache-Control': 'no-store' }), options);
     }
     if (!['GET', 'HEAD'].includes(request.method)) return finish(message('Method Not Allowed', 405, { Allow: 'GET, HEAD' }), options);
+    if(truthy(env.CMS_ENABLED)&&!isAsset(path||'')||truthy(env.CMS_ENABLED)&&path==='/sitemap.xml'){
+      try{
+        const bundle=await loadPublicContent(env);
+        if(path==='/sitemap.xml'){
+          const esc=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+          const items=release?publishedSitemapPages(bundle).map(page=>'<url><loc>'+esc(env.SITE_ORIGIN+page.path)+'</loc>'+(page.lastmod?'<lastmod>'+page.lastmod+'</lastmod>':'')+'</url>').join('\n'):'';
+          return finish(new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+items+'</urlset>',{headers:{'Content-Type':'application/xml; charset=utf-8'}}),options);
+        }
+        const published=resolvePublishedContent(path,bundle);
+        if(published?.status===410)return finish(await notFound(env,request),{...options,status:410});
+        if(published?.redirect)return finish(new Response(null,{status:308,headers:{Location:published.redirect}}),options);
+        const ordinary=resolvePublicRoute(path||'',{allowLegalDrafts:!release||truthy(env.LEGAL_APPROVED)});
+        if(published?.page||ordinary.status===200&&(bundle.pages.length||bundle.withdrawn.length||Object.keys(bundle.settings).length)){
+          const original=published?.originalPath||ordinary.path;
+          const artifact=original==='/'?'/index.html':original.replace(/\/$/,'')+'/index.html';
+          let shell=await asset(env,request,artifact);if(shell.status!==200&&published?.page)shell=await asset(env,request,'/about/index.html');
+          if(shell.status!==200)return finish(await notFound(env,request),{...options,status:404});
+          return finish(renderPublishedHtml(await shell.text(),published?.page?.path||ordinary.path,env,bundle,published?.page,original),{...options,robots:!release?'noindex,nofollow':ordinary.kind==='legal'?'noindex,follow':ordinary.kind==='system'&&!published?.page?'noindex,nofollow':'index,follow'});
+        }
+      }catch{return finish(message('Content temporarily unavailable.',503),options);}
+    }
     const route = resolvePublicRoute(path || '', { allowLegalDrafts: !release || truthy(env.LEGAL_APPROVED) });
     if (route.redirect) return finish(new Response(null, { status: 308, headers: { Location: route.redirect } }), options);
     if (path && isAsset(path) && env.ASSETS?.fetch) {

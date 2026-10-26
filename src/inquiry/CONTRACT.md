@@ -1,6 +1,6 @@
 # Inquiry frontend contract · 07-frontend
 
-Status: **[NEEDS_REVIEW] — frontend implemented, backend absent, collection disabled by default.**
+Status: **[NEEDS_REVIEW] — frontend and backend implemented, local synthetic integration verified; live collection stays disabled until release and protected administration are ready.**
 
 Read alongside `../../../compliance/form-and-followup-spec.md`, PRD section 85, `../data/inquiry-copy.json` and `../data/form-states.json`. This is a proposed integration contract, not evidence that any service exists or a legal publication has been approved.
 
@@ -29,7 +29,13 @@ When public submission is unavailable and the host supplies a valid `whatsappNum
 - Choices: `processing_choice` (true after required purpose-limited permission), `whatsapp_messages_opt_in` (independent boolean, default false), `calls_opt_in: false`.
 - Copy versions: `notice_version`, `privacy_version`, `privacy_processing_basis`, `whatsapp_choice_text_version`. Current values explicitly identify draft copy. These must be reconciled with approved notices and the server before enabling collection. The server must own/validate timestamps, versions, processing basis and receipt records; a client value is not evidence of approval.
 
-Source/referrer/UTM, personal analytics, files, payment/account data, and arbitrary extra input keys are omitted. No real personal data, payload, reference or idempotency key is written to browser storage, logs or analytics. Values and the retry key live only in component/client memory. Navigating away or reloading loses this state; production backend deduplication must not rely on memory persistence alone.
+`source` is an independently normalized inquiry-only snapshot: `{first,submission}`, each with `page`, `referrer`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`. Missing values remain null. Pages must match known canonical public content routes; arbitrary paths, query strings and fragments are discarded. Referrers retain only a public HTTP(S) origin, never external paths, search terms, credentials, ports or local hosts. Activity labels are limited to 80 ASCII letters/digits/dots/underscores/hyphens; email addresses, long numbers, full URLs, spaces and other free text are discarded. Unrecognized labels remain unknown, never inferred as organic/direct/paid. The server repeats this cleaning and malformed optional attribution never prevents a valid inquiry.
+
+The public app supplies an in-memory `createInquirySourceTracker()` through `getSourceSnapshot={() => tracker.snapshot()}`. Its first available page is captured on construction; SSR has no source. It records no cross-page-refresh history, cookies, session/local storage, visitor identifier or ad click IDs. On SPA navigation first and current sources remain separate. The first accepted form attempt freezes its snapshot across manual retries to preserve the idempotency body. No source value enters analytics or WhatsApp drafts. The snapshot is self-reported browser context, not verified attribution or customer authenticity.
+
+Published CMS slugs extend the static page allowlist via the tracker `knownPaths` option and the Inquiry `sourceKnownPaths` prop; both are derived from the trusted public CMS bundle, not URL/input fields. Server validation independently loads published paths from D1 only when `CMS_ENABLED` is true; withdrawn current/original paths are blocked for new submissions. Client-supplied path lists are ignored. Saved source snapshots are immutable even when a page is subsequently withdrawn or a request is replayed.
+
+Personal analytics, files, payment/account data, and arbitrary extra input keys are omitted. No real personal data, payload, reference or idempotency key is written to browser storage, logs or analytics. Values and the retry key live only in component/client memory. Navigating away or reloading loses this state; production backend deduplication must not rely on memory persistence alone.
 
 The same JSON body reuses its idempotency key on manual retry. A changed body gets a new key. Concurrent submits share one in-flight request. A backend must validate all fields itself, scope/rate-limit keys, atomically deduplicate Lead creation, and decouple notification failure from a successful Lead save. Do not interpret a frontend-only validation pass as saved data.
 

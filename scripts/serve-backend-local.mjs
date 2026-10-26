@@ -10,6 +10,9 @@ import react from '@vitejs/plugin-react';
 import {Miniflare,convertV4MiniflareOptions} from 'miniflare';
 import {createApiHandler} from '../backend/router.mjs';
 import {publicDevPlugin} from '../vite.frontend.config.mjs';
+import {loadContentPreview} from '../backend/content.mjs';
+import {renderPublishedHtml} from '../cloudflare/cms-response.mjs';
+import publicWorker from '../cloudflare/worker.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const port=Number(process.env.LOCAL_BACKEND_PORT||4176);
@@ -29,6 +32,8 @@ for(const name of(await fs.readdir(path.join(root,'migrations'))).filter(n=>/^\d
 }
 const env={...secrets,DB:db,SITE_ORIGIN:origin,NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',PRIVACY_VERSION:'privacy-policy-draft',PROCESSING_BASIS:'purpose_limited_consent_draft',WHATSAPP_NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',NOTIFICATIONS_ENABLED:'false'};
 const api=createApiHandler({localSynthetic:true,authenticate:async()=>({id:'local-synthetic-admin',email:'admin@example.com'})});
+const assetRoot=path.join(root,'dist/public'),types={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.xml':'application/xml','.txt':'text/plain','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2'};
+const assets={async fetch(request){const assetPath=path.resolve(assetRoot,'.'+new URL(request.url).pathname);if(!assetPath.startsWith(assetRoot+path.sep))return new Response('Missing',{status:404});try{return new Response(await fs.readFile(assetPath),{headers:{'Content-Type':types[path.extname(assetPath)]||'application/octet-stream'}});}catch{return new Response('Missing',{status:404});}}};
 let vite;const pending=new Set();
 const execution={waitUntil(p){pending.add(p);p.catch(()=>{}).finally(()=>pending.delete(p));}};
 const server=http.createServer(async(req,res)=>{
@@ -47,9 +52,23 @@ const server=http.createServer(async(req,res)=>{
   if(url.pathname==='/admin'||url.pathname.startsWith('/admin/')){
    if(!['GET','HEAD'].includes(req.method)){res.writeHead(405);res.end();return;}
    if(url.pathname==='/admin'){res.writeHead(308,{Location:'/admin/leads/'});res.end();return;}
+   const preview=url.pathname.match(/^\/admin\/content\/([a-z0-9]+(?:-[a-z0-9]+)*)\/preview\/?$/);
+   if(preview){
+    const draft=await loadContentPreview({...env,CMS_ENABLED:'true'},preview[1]);if(!draft){res.writeHead(409);res.end('Saved draft unavailable.');return;}
+    const file=draft.originalPath==='/'?'index.html':draft.originalPath.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
+    const shell=await fs.readFile(path.join(assetRoot,file),'utf8').catch(()=>fs.readFile(path.join(assetRoot,'about/index.html'),'utf8'));
+    const response=renderPublishedHtml(shell,draft.page.path,{...env,SITE_ORIGIN:'https://exactmec.com'},draft.bundle,draft.page,draft.originalPath);
+    res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex,nofollow'});res.end(await response.text());return;
+   }
    const source=await fs.readFile(path.join(root,'admin.html'),'utf8');
    res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer'});
    res.end(await vite.transformIndexHtml(req.url,source));return;
+  }
+  // Exercise the actual published-snapshot Worker on localhost. The special
+  // RFQ integration entry below alone can submit example.com synthetic forms.
+  if(['GET','HEAD'].includes(req.method)&&!url.pathname.startsWith('/request-a-quote')&&!/^\/(?:src|local|node_modules|@)/.test(url.pathname)){
+   const response=await publicWorker.fetch(new Request('https://exactmec.com'+url.pathname+url.search,{method:req.method}),{...env,ASSETS:assets,SITE_ORIGIN:'https://exactmec.com',CMS_ENABLED:'true',RELEASE:'false',LEGAL_APPROVED:'false'});
+   res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));return;
   }
   vite.middlewares(req,res,()=>{res.writeHead(404);res.end('Not found.');});
  }catch{if(!res.headersSent)res.writeHead(503,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end('{"error":"local_service_unavailable"}');}

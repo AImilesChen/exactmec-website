@@ -13,6 +13,13 @@ function harness({ release = false, approved = false, files = {} } = {}) {
   return { calls, fetch: (path, options) => worker.fetch(new Request('https://preview.example' + path, options), env) };
 }
 const html = body => ({ body, type: 'text/html; charset=utf-8' });
+test('confirmed HTTP and www canonicalize in one step; unsafe API bodies are never forwarded',async()=>{
+ let reads=0;const env={SITE_ORIGIN:'https://exactmec.com',ASSETS:{fetch(){reads++;return new Response('not called');}}};
+ for(const start of ['http://exactmec.com/about','https://www.exactmec.com/about']){
+  const r=await worker.fetch(new Request(start+'?utm_source=example'),env);assert.equal(r.status,308);assert.equal(r.headers.get('Location'),'https://exactmec.com/about/?utm_source=example');
+ }
+ const unsafe=await worker.fetch(new Request('http://exactmec.com/api/inquiries',{method:'POST',body:'synthetic private body'}),env);assert.equal(unsafe.status,400);assert.equal(unsafe.headers.get('Location'),null);assert.equal(reads,0);
+});
 
 test('serves route-specific static HTML and keeps staging and drafts noindex', async () => {
   const app = harness({ files: { '/index.html': html('Home'), '/about/index.html': html('About'), '/privacy/index.html': html('Draft privacy') } });

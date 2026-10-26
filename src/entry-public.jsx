@@ -13,5 +13,6 @@ import './compositions.css';
 import './v3.css';
 
 const root=document.getElementById('root');
-const app=<PublicApp/>;
+let bootstrap;try{bootstrap=JSON.parse(document.getElementById('site-bootstrap')?.textContent||'null');}catch{}
+const app=<PublicApp initialUrl={bootstrap?.initialUrl} config={bootstrap?.config} cmsBundle={bootstrap?.cmsBundle}/>;
 if(root.hasChildNodes())hydrateRoot(root,app);else createRoot(root).render(app);

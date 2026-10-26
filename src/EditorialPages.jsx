@@ -1,4 +1,5 @@
 import React,{useEffect,useId,useState} from 'react';
+import {CmsPageScope,useCmsMedia,useCmsPage,useCmsOrderedCards} from './cms/Rendering.jsx';
 import {ArrowRight,Plus,Minus,FileText,Cube,CheckCircle,ArrowDown} from '@phosphor-icons/react';
 import {Link} from './Navigation.jsx';
 import pages from './data/site-content.json';
@@ -22,10 +23,10 @@ const imagery={
  'industry-tools':['tools-studio-v3.png','Illustrative power tool gearbox housing'],
  'core-mold':['mold-studio-v2.png','Illustrative custom die casting mold and housing']
 };
-export function ProductFigure({id='core-mold',className='',context=false,priority=false}){if(context&&scenes[id])return <div className={'industry-context-image '+className}><Media file={scenes[id]} priority={priority} alt={'Illustrative '+id.replace('industry-','')+' application context'}/></div>;const [file,alt]=imagery[id]||imagery['core-mold'];return <figure className={'product-figure '+className}><img src={'/assets/'+(id==='core-mold'?'mold-hero-roomy-v3.webp':file.replace('.png','.webp'))} alt={alt} loading="lazy"/><figcaption>Illustrative example · Not a delivered project</figcaption></figure>}
+export function ProductFigure({id='core-mold',className='',context=false,priority=false}){const [file,alt]=imagery[id]||imagery['core-mold'];const image=useCmsMedia('/assets/'+(id==='core-mold'?'mold-hero-roomy-v3.webp':file.replace('.png','.webp')),{alt,caption:'Illustrative example · Not a delivered project'});if(context&&scenes[id])return <div className={'industry-context-image '+className}><Media file={scenes[id]} priority={priority} alt={'Illustrative '+id.replace('industry-','')+' application context'}/></div>;return <figure className={'product-figure '+className}><img src={image.src} alt={image.alt} loading={priority?'eager':'lazy'} fetchPriority={priority?'high':undefined}/><figcaption>{image.caption}</figcaption></figure>}
 
 export function ContentCards({cards,industry=false,resources=false}){
- const ordered=industry?[...cards.filter(c=>!c.href?.includes('#')),...cards.filter(c=>c.href?.includes('#'))]:cards;
+ const candidates=useCmsOrderedCards(cards);const ordered=industry?[...candidates.filter(c=>!c.href?.includes('#')),...candidates.filter(c=>c.href?.includes('#'))]:candidates;
  return <div className={'copy-cards '+(industry?'industry-cards':resources?'guide-cards':'')}>{ordered.map((c,i)=>{
   const image=industry?({'industry-automotive':'industry-automotive','industry-motorcycle-e-mobility':'industry-motorcycle','industry-led-lighting':'industry-led','industry-motor-pump-transmission':'industry-motor','industry-electronics-telecommunications':'industry-electronics','industry-energy-power':'industry-energy','industry-industrial-automation':'industry-industrial','industry-power-tools-home-appliances':'industry-tools'}[c.anchor]):null;
   return <article className={'copy-card '+(image?'image-led':'')} key={c.title} id={c.anchor}>
@@ -55,11 +56,11 @@ function CompanyIdentity(){return <div className="company-identity"><p className
 function introParts(page){const sentences=page.intro.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g)||[page.intro];let count=0;const first=[],rest=[];for(const s of sentences){if(first.length===0||(count+s.trim().split(/\s+/).length<=30&&first.length<1)){first.push(s.trim());count+=s.trim().split(/\s+/).length}else rest.push(s.trim())}return [first.join(' '),rest.join(' ')]}
 function headerType(page){if(page.kind==='article')return 'reading';if(imagery[page.id])return 'product';if(page.id==='mold-development-process')return 'process';if(page.id==='mold-design-review')return 'documents';if(page.id==='quality-control')return 'acceptance';if(page.id==='manufacturing')return 'collaboration';if(page.id==='how-we-work')return 'communication';if(page.id==='about')return 'company';return 'directory'}
 function PageHeader({page}){
- const type=headerType(page),[lead]=introParts(page),isArticle=page.kind==='article';
+ const type=headerType(page),[lead]=introParts(page),isArticle=page.kind==='article',hero=useCmsMedia('/assets/mold-hero-roomy-v3.webp');
  const supporting=type==='product'?<ProductFigure id={page.id} context={page.kind==='industry'} priority/>:type==='documents'?<Media file="design-review-scene-v3" priority alt="Illustrative 3D mold design review"/>:type==='acceptance'?<Media file="mold-sample-detail-v3" priority alt="Illustrative aluminum trial samples"/>:type==='collaboration'?<Media file="mold-machining-scene-v3" priority alt="Illustrative mold machining"/>:type==='communication'?<Communication/>:type==='company'?<CompanyIdentity/>:isArticle?<Media file={guideImage(page.path)} priority alt={page.h1+' illustrative cover'}/>:null;
- return <header className={'editorial-header header-'+type+' header-'+page.id}>
+ return <header className={'editorial-header header-'+type+' header-'+page.id} style={page.id==='core-mold'&&hero.src!=='/assets/mold-hero-roomy-v3.webp'?{backgroundImage:`url("${hero.src}")`}:undefined}>
   <div className="container"><nav className="breadcrumbs" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span>{page.kind==='industry'?<Link href="/industries/">Applications</Link>:isArticle?<Link href="/resources/">Resources</Link>:<span>{page.eyebrow}</span>}</nav>
-   <div className="editorial-header-grid"><div className="header-copy"><p className="eyebrow">{page.eyebrow}</p><h1>{page.h1}</h1><p className="page-intro">{lead}</p>{type==='product'&&<Action/>}{['collaboration','communication'].includes(type)&&<Action secondary/>}</div>{supporting}</div>
+   <div className="editorial-header-grid"><div className="header-copy"><p className="eyebrow">{page.eyebrow}</p><h1>{page.h1}</h1><p className="page-intro">{lead}</p>{isArticle&&(page.category||page.author||page.reviewer||page.updatedAt)&&<p className="article-editorial-meta">{[page.category,page.author?'By '+page.author:'',page.reviewer?'Reviewed by '+page.reviewer:'',page.updatedAt?'Updated '+page.updatedAt.slice(0,10):''].filter(Boolean).join(' · ')}</p>}{type==='product'&&<Action/>}{['collaboration','communication'].includes(type)&&<Action secondary/>}</div>{supporting}</div>
    {type==='process'&&<StageOverview page={page}/>}
    {page.id==='core-mold'&&<div className="service-facts"><p>From one mold set</p><p>Part drawings or a sample</p><p>Sample approval before shipment</p></div>}
    {page.id==='faq'&&<nav className="topic-nav" aria-label="Question groups">{page.sections.map(s=><Link href={page.path+'#'+s.id} key={s.id}>{s.heading}<ArrowDown size={16}/></Link>)}</nav>}
@@ -71,10 +72,11 @@ function ReadingTOC({page}){return <aside className="page-toc reading-toc"><Adap
 function PageEnd({page,hideFAQs=false}){return <>{page.source_urls?.length>0&&<section className="source-notes"><h2>Further Reading</h2><ul>{page.source_urls.map((s,i)=>{const url=typeof s==='string'?s:s.url;return <li key={i}><a href={url} target="_blank" rel="noreferrer">{typeof s==='string'?new URL(s).hostname:s.title||url}</a></li>})}</ul></section>}{!hideFAQs&&page.faqs?.length>0&&<section className="copy-faq" id="questions"><div><p className="eyebrow">BEFORE YOUR INQUIRY</p><h2>Project Questions</h2></div><FAQList faqs={page.faqs}/></section>}{page.related_links?.length>0&&<section className="related-links"><h2>Continue Exploring</h2><div>{page.related_links.map(l=><Action href={l.href} secondary key={l.href}>{l.label}</Action>)}</div></section>}</>}
 export function PageCTA({page}){return page.final_cta?<section className="cta-section"><div className="container cta-inner"><div><p className="eyebrow">YOUR NEXT MOLD PROJECT</p><h2>{page.final_cta.heading}</h2><p>{page.final_cta.text}</p></div><Action href={page.final_cta.href}>{page.final_cta.label}</Action></div></section>:null}
 
-function FAQPageBody({page}){const groupIndices=[[0,1,2,3,4,8],[5,7,10],[6],[9,11]];return <div className="faq-group-list">{page.sections.map((s,i)=><section id={s.id} className="faq-group" key={s.id}><div className="faq-group-heading"><span className="section-index">{String(i+1).padStart(2,'0')}</span><h2>{s.heading}</h2></div><div><FAQList faqs={groupIndices[i].map(j=>page.faqs[j])} firstOpen={i===0}/><div className="faq-context">{s.paragraphs.map(p=><p key={p}>{p}</p>)}{s.cta&&<Action secondary href={s.cta.href}>{s.cta.label}</Action>}</div></div></section>)}</div>}
-export function ContentPage({page}){
+function FAQPageBody({page}){const groupIndices=[[0,1,2,3,4,8],[5,7,10],[6],[9,11]];return <div className="faq-group-list">{page.sections.map((s,i)=><section id={s.id} className="faq-group" key={s.id}><div className="faq-group-heading"><span className="section-index">{String(i+1).padStart(2,'0')}</span><h2>{s.heading}</h2></div><div><FAQList faqs={(groupIndices[i]||[]).map(j=>page.faqs[j]).filter(Boolean).concat(i===page.sections.length-1?page.faqs.slice(12):[])} firstOpen={i===0}/><div className="faq-context">{s.paragraphs.map(p=><p key={p}>{p}</p>)}{s.cta&&<Action secondary href={s.cta.href}>{s.cta.label}</Action>}</div></div></section>)}</div>}
+export function ContentPage({page:sourcePage}){
+ const page=useCmsPage(sourcePage);
  const article=page.kind==='article',[,rest]=introParts(page);const detail=page.id==='mold-development-process'?'timeline-page':page.id==='mold-design-review'?'document-page':page.id==='quality-control'?'quality-page':page.id==='resources'?'guide-index-page':page.id==='industries'?'application-index-page':page.id==='products'?'product-index-page':page.kind==='industry'?'industry-page':'';
- return <div className={'editorial-page page-'+page.id+' '+detail}>
+ return <CmsPageScope page={page}><div className={'editorial-page page-'+page.id+' '+detail}>
   {page.phase==='P1-prepared'&&<div className="draft-strip">Prepared industry page · Internal design preview · P0 visitors use the application overview</div>}
   <PageHeader page={page}/>{page.id==='mold-development-process'&&<section className="full-process-feature"><div className="container"><PhaseExplorer full/></div></section>}<div className={'container editorial-body '+(article?'reading-layout':'')}>
    {article&&<ReadingTOC page={page}/>}
@@ -82,5 +84,5 @@ export function ContentPage({page}){
     {page.id==='faq'?<FAQPageBody page={page}/>:<ComposedSections page={page} CopySection={CopySection} Cards={ContentCards} Table={Table} Action={Action} ProductFigure={ProductFigure}/>}<PageEnd page={page} hideFAQs={page.id==='faq'}/>
    </div>
   </div><PageCTA page={page}/>
- </div>
+ </div></CmsPageScope>
 }

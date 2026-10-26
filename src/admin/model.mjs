@@ -7,6 +7,8 @@ export const reviewOptions = Object.freeze({
   priority: ['A', 'B', 'C'],
 });
 export const drawingOptions = Object.freeze(['Clear 2D part drawings', '3D part model / drawings', 'Both 2D and 3D part drawings', 'A physical sample', 'Photos / concept only', 'Not sure yet']);
+export const timingOptions = Object.freeze(['As soon as the project is confirmed', 'Within 1–3 months', 'Within 3–6 months', 'More than 6 months from now', 'Early research / timing not decided', 'Prefer not to say']);
+export const budgetOptions = Object.freeze(['I have an estimated budget', 'Please advise / not decided', 'Prefer not to say']);
 
 export const labels = Object.freeze({
   New: '新询盘', Reviewing: '审核中', 'Need More Information': '待补充资料', Contacted: '已联系', 'Quotation Sent': '已发报价', Won: '已成交', Lost: '未成交', Spam: '垃圾信息',
@@ -16,9 +18,12 @@ export const labels = Object.freeze({
   Qualified: '符合要求', 'Not Qualified': '暂不符合', pending: '等待通知', sending: '通知处理中', sent: '通知已发送', failed: '通知失败', disabled: '通知未配置',
   'Clear 2D part drawings': '清晰的 2D 零件图', '3D part model / drawings': '3D 零件模型 / 图纸', 'Both 2D and 3D part drawings': '同时有 2D 与 3D 图纸',
   'A physical sample': '实物样品', 'Photos / concept only': '仅有照片 / 概念', 'Not sure yet': '尚未确定',
+  'As soon as the project is confirmed': '项目确认后尽快', 'Within 1–3 months': '1–3 个月内', 'Within 3–6 months': '3–6 个月内',
+  'More than 6 months from now': '6 个月以后', 'Early research / timing not decided': '前期调研 / 时间未定', 'Prefer not to say': '不便透露',
+  'I have an estimated budget': '有预计预算', 'Please advise / not decided': '请提供建议 / 预算未定', '__not_provided__': '未填写',
 });
 
-export const defaultFilters = () => ({ search: '', status: '', qualification: '', priority: '', drawing_status: '', page: 1, pageSize: 25 });
+export const defaultFilters = () => ({ search: '', status: '', authenticity: '', fit: '', readiness: '', qualification: '', priority: '', drawing_status: '', purchase_timing: '', budget_status: '', page: 1, pageSize: 25 });
 export const emptyReview = () => ({ status: 'New', authenticity: 'Unreviewed', fit: 'Needs Review', readiness: 'Self-reported', qualification: 'Unreviewed', priority: 'B', owner: '', next_follow_up: '' });
 export const isReference = value => typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9_-]{7,127}$/.test(value);
 

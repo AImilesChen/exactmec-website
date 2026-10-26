@@ -11,7 +11,7 @@ const release=process.argv.includes('--release');
 const configured=loadEnv('frontend',root,'VITE_');
 Object.assign(process.env,configured);
 process.env.VITE_SITE_RELEASE=String(release);
-const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,contactEmailVerified:process.env.VITE_CONTACT_EMAIL_VERIFIED==='true',release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true'});
+const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,contactEmailVerified:process.env.VITE_CONTACT_EMAIL_VERIFIED==='true',release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true',analyticsEnabled:process.env.VITE_METRICS_ENABLED==='true'});
 const blockers=releaseBlockers(config);
 if(release&&blockers.length)throw new Error('Release is not ready:\n'+blockers.map(x=>' - '+x).join('\n'));
 if(release){
@@ -27,6 +27,8 @@ const publicCopy=allCopy.filter(p=>marketingPaths.has(p.path));
 const filteredCopy=()=>({name:'exactmec-public-copy',enforce:'pre',resolveId(id){if(id.endsWith('data/site-content.json'))return '\0exactmec-public-copy';},load(id){if(id==='\0exactmec-public-copy')return 'export default '+JSON.stringify(publicCopy);}});
 await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{outDir:output,emptyOutDir:true,rollupOptions:{input:{frontend:path.join(root,'frontend.html'),admin:path.join(root,'admin.html')},output:{manualChunks(id){if(/node_modules[\\/](?:react|react-dom|scheduler)[\\/]/.test(id))return 'react-vendor';}}}}});
 await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build:{ssr:path.join(root,'src/entry-server.jsx'),outDir:serverOutput,emptyOutDir:true,rollupOptions:{output:{entryFileNames:'entry-server.mjs'}}}});
+// Workers-compatible renderer is bundled with the exact same UI and copy.
+await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],ssr:{target:'webworker',noExternal:true},build:{ssr:path.join(root,'src/entry-server.jsx'),outDir:path.join(root,'dist/cms-render'),emptyOutDir:true,rollupOptions:{output:{entryFileNames:'entry-server.mjs'}}}});
 const {render}=await import(pathToFileURL(path.join(serverOutput,'entry-server.mjs')).href+'?build='+Date.now());
 const shell=await fs.readFile(path.join(output,'frontend.html'),'utf8');
 const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
@@ -42,7 +44,8 @@ const generated=[];
 for(const route of PUBLIC_ROUTES){
  const meta=getPageMeta(route.path,{origin:config.origin,release:config.release});
  let html=shell.replace(/<title>.*?<\/title>/s,'').replace(/<meta name="robots"[^>]*\/>/,'');
- html=html.replace('</head>',head(meta)+'\n</head>').replace('<div id="root"></div>','<div id="root">'+render(route.path,config)+'</div>');
+ const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/mold-hero-roomy-v3.webp" fetchpriority="high"/>':'';
+ html=html.replace('</head>',head(meta)+'\n'+hero+'\n</head>').replace('<div id="root"></div>','<!--exactmec:root:start--><div id="root">'+render(route.path,config)+'</div><!--exactmec:root:end-->');
  const filename=route.id==='404'?'404.html':route.path==='/'?'index.html':route.path.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
  const dest=path.join(output,filename);await fs.mkdir(path.dirname(dest),{recursive:true});await fs.writeFile(dest,html);
  generated.push({path:route.path,id:route.id,file:filename,kind:route.kind,robots:meta.robots,canonical:meta.canonical,status:route.id==='404'?404:200});

@@ -2,6 +2,7 @@ import {authenticateAccess,issueCsrf,verifyCsrf} from './auth.mjs';
 import {handleBusiness} from './business.mjs';
 import {handleContent} from './content.mjs';
 import {deliverNotification} from './notifications.mjs';
+import {handleMetrics} from './metrics.mjs';
 
 export const json=(value,status=200,headers={})=>new Response(JSON.stringify(value),{status,headers:{'Content-Type':'application/json; charset=utf-8',...headers}});
 export function secureApi(response) {
@@ -57,7 +58,7 @@ export function createApiHandler({authenticate=authenticateAccess,localSynthetic
    }
    const notify=reference=>deliverNotification(env,reference);
    const context={actor,localSynthetic,notify,waitUntil:execution.waitUntil?.bind(execution)};
-   const response=path.startsWith('/api/admin/content')?await handleContent(request,env,context):await handleBusiness(request,env,context);
+   const response=path==='/api/events'||path==='/api/admin/metrics'?await handleMetrics(request,env,context):path.startsWith('/api/admin/content')?await handleContent(request,env,context):await handleBusiness(request,env,context);
    return secureApi(response||json({error:'not_found'},404));
   }catch{return secureApi(json({error:'service_unavailable'},503));}
  };

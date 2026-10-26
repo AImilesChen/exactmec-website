@@ -9,7 +9,7 @@ export const ANALYTICS_PLACEMENTS = Object.freeze([
 ]);
 export const ANALYTICS_STATUSES = Object.freeze([
   'started', 'valid', 'validation_failed', 'submitting', 'success', 'duplicate',
-  'failed', 'network_error', 'rate_limited', 'unavailable', 'pending',
+  'failed', 'network_error', 'rate_limited', 'unavailable', 'pending', 'saved', 'invalid', 'rate_limit',
 ]);
 
 const eventNames = new Set(ANALYTICS_EVENTS);

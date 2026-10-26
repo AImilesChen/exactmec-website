@@ -16,7 +16,7 @@ const savedAudits = async () => (await db.prepare("SELECT count(*) AS n FROM con
 before(async () => {
   mf = new Miniflare(convertV4MiniflareOptions({ modules: true, script: 'export default {fetch(){return new Response("synthetic-content-only")}}', compatibilityDate: '2026-10-01', d1Databases: { DB: 'synthetic-content-tests' } }));
   db = await mf.getD1Database('DB');
-  const migration = readFileSync(new URL('../migrations/0002_content_drafts.sql', import.meta.url), 'utf8');
+  const migration = ['0002_content_drafts.sql','0004_content_publication.sql'].map(file => readFileSync(new URL('../migrations/'+file, import.meta.url), 'utf8')).join('\n');
   await db.batch(migration.split(';').map(sql => sql.trim()).filter(Boolean).map(sql => db.prepare(sql)));
   env = { DB: db, CONTACT_HASH_SECRET: 'synthetic-content-secret-32-characters-minimum' };
 });
@@ -57,12 +57,12 @@ test('unknown page ids and traversal-like paths cannot create draft routes', asy
   assert.equal((await call('/unknown-page', 'PATCH', { revision: 0, sourceHash: '0'.repeat(64), patch: { title: 'Synthetic title' } })).status, 404);
 });
 
-test('strict patch allowlist protects paths, cards, tables, links, images and lead data envelopes', async () => {
+test('strict patch schema protects fixed identities, unsafe links, malformed collections and lead data envelopes', async () => {
   const { sourceHash } = await detail();
   const patches = [
     { path: '/invented-route/' }, { id: 'invented' }, { phase: 'P0' }, { kind: 'other' }, { email: 'private@example.invalid' }, { payload: { name: 'Synthetic lead' } },
     { sections: [{ id: 'project-facts', heading: 'Synthetic', href: 'https://example.invalid' }] },
-    { sections: [{ id: 'project-facts', heading: 'Synthetic', cards: [] }] },
+    { sections: [{ id: 'project-facts', heading: 'Synthetic', cards: [{title:'Unsafe',text:'Unsafe',href:'https://example.invalid'}] }] },
     { sections: [{ id: 'project-facts', heading: 'Synthetic', table: [] }] },
     { sections: [{ id: 'project-facts', heading: 'Synthetic', image: '/invented.webp' }] },
     { sections: [{ id: 'unknown-section', heading: 'Synthetic' }] },

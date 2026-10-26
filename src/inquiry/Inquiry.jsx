@@ -14,7 +14,7 @@ function TextLink({ href, children }) {
   return <Link href={href} className="text-link">{children}<ArrowRight size={21} aria-hidden="true" /></Link>;
 }
 
-export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '/api/inquiries', whatsappNumber = '', onEvent = () => {}, initialData }) {
+export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '/api/inquiries', whatsappNumber = '', onEvent = () => {}, initialData, getSourceSnapshot = () => undefined, sourceKnownPaths = [], heading, intro }) {
   const demo = reviewMode && typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('demo') : null;
   const [values, setValues] = useState(() => ({...initialValues(),...initialData}));
   const [errors, setErrors] = useState(() => demo === 'invalid' ? validateInquiry(initialValues(), copy.groups) : {});
@@ -28,6 +28,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
   const mounted = useRef(false);
   const submitting = useRef(false);
   const started = useRef(false);
+  const sourceSnapshot = useRef(null);
   // The canonical relative endpoint must render consistently before hydration;
   // the client still validates the actual request origin before transmitting.
   const configured = !reviewMode && submitEnabled === true && (endpoint === '/api/inquiries' || !!sameOriginEndpoint(endpoint));
@@ -80,7 +81,13 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
     }
     submitting.current = true;
     setResult({ state: 'submitting' });
-    const next = await client.submit(buildInquiryPayload(values));
+    // Freeze attribution on the first accepted attempt so manual retries use the
+    // same body/idempotency key even if the address bar changes after a timeout.
+    if (!sourceSnapshot.current) {
+      try { sourceSnapshot.current = buildInquiryPayload(values, getSourceSnapshot(), sourceKnownPaths).source; }
+      catch { sourceSnapshot.current = buildInquiryPayload(values).source; }
+    }
+    const next = await client.submit(buildInquiryPayload(values, sourceSnapshot.current, sourceKnownPaths));
     submitting.current = false;
     if (!mounted.current) return;
     setResult(next);
@@ -96,6 +103,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
   }
   function reset() {
     started.current = false;
+    sourceSnapshot.current = null;
     setValues(initialValues()); setErrors({}); setResult({ state: 'idle' }); setCopyStatus(''); setRetryAt(0); setSession(previous => previous + 1);
   }
   async function copyReference() {
@@ -129,7 +137,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
   }
   const statusMessage = result.state === 'unavailable' ? 'Online submission is not available yet. Your inquiry has not been sent.' : result.state === 'invalid' ? states.validation_summary : states[result.state];
   const manualContact = !reviewMode && !configured ? whatsappContactHref(whatsappNumber) : null;
-  return <><section className="inquiry-hero"><div className="container"><Link href={TOOL} className="back-link"><ArrowLeft size={17} aria-hidden="true" />Mold Tooling</Link><p className="eyebrow">START A MOLD INQUIRY</p><h1>Tell Us About Your Mold Project</h1><p>One mold set accepted. Budget and purchase timing are optional.</p></div></section>
+  return <><section className="inquiry-hero"><div className="container"><Link href={TOOL} className="back-link"><ArrowLeft size={17} aria-hidden="true" />Mold Tooling</Link><p className="eyebrow">START A MOLD INQUIRY</p><h1>{heading||'Tell Us About Your Mold Project'}</h1><p>{intro||'One mold set accepted. Budget and purchase timing are optional.'}</p></div></section>
     <section className="section inquiry-section"><div className="container inquiry-layout"><form ref={formRef} onSubmit={submit} noValidate aria-label="Mold inquiry form" aria-busy={busy}>
       {reviewMode ? <p className="preview-note">Design preview · No information is sent.{demo && <> Preview scenario: {demo}.</>}</p> : !configured && <p className="preview-note" role="status">Online submission is not available yet. Your inquiry has not been sent.{manualContact && <> <a className="inline-link" href={manualContact} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Contact us on WhatsApp about your mold project.</a></>}</p>}
       {failureStates.includes(result.state) && <div className="error-summary" role="alert">{reviewMode && 'Design preview scenario · No information was sent. '}{statusMessage}{waitSeconds > 0 && <p>Try again in {waitSeconds} seconds.</p>}</div>}

@@ -1,70 +1,52 @@
-export const isContentId = value => typeof value === 'string' && value.length <= 120 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
-export const isSourceHash = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
-
-const plain = (value, max, multiline = false) => typeof value === 'string' && value.trim().length > 0 && value.length <= max
-  && !/[<>\u007f-\u009f]/.test(value) && !(multiline ? /[\u0000-\u0009\u000b-\u001f]/ : /[\u0000-\u001f]/).test(value);
-const keysOnly = (object, allowed) => object && typeof object === 'object' && !Array.isArray(object) && Object.keys(object).every(key => allowed.includes(key));
-
-/** Closed editorial schema: paths, links, images, cards and tables cannot enter a patch. */
-export function validateContentPatch(input) {
-  if (!keysOnly(input, ['title', 'h1', 'description', 'sections', 'faqs'])) return null;
-  const clean = {};
-  for (const [key, max] of [['title', 160], ['h1', 240], ['description', 500]]) {
-    if (Object.hasOwn(input, key)) { if (!plain(input[key], max)) return null; clean[key] = input[key]; }
-  }
-  if (Object.hasOwn(input, 'sections')) {
-    if (!Array.isArray(input.sections) || input.sections.length > 100) return null;
-    const ids = new Set();
-    clean.sections = [];
-    for (const section of input.sections) {
-      if (!keysOnly(section, ['id', 'heading', 'paragraphs', 'bullets']) || !isContentId(section.id) || ids.has(section.id) || !plain(section.heading, 240)) return null;
-      ids.add(section.id);
-      const safe = { id: section.id, heading: section.heading };
-      for (const [key, count, max] of [['paragraphs', 20, 4000], ['bullets', 30, 1000]]) {
-        if (Object.hasOwn(section, key)) {
-          if (!Array.isArray(section[key]) || section[key].length > count || section[key].some(value => !plain(value, max, true))) return null;
-          safe[key] = [...section[key]];
-        }
-      }
-      clean.sections.push(safe);
-    }
-  }
-  if (Object.hasOwn(input, 'faqs')) {
-    if (!Array.isArray(input.faqs) || input.faqs.length > 30) return null;
-    clean.faqs = [];
-    for (const faq of input.faqs) {
-      if (!keysOnly(faq, ['q', 'a']) || !plain(faq.q, 500) || !plain(faq.a, 4000, true)) return null;
-      clean.faqs.push({ q: faq.q, a: faq.a });
-    }
-  }
-  return clean;
-}
+import { validateContentPatch, mergeContentPage, isContentId, isSourceHash } from '../cms/schema.mjs';
+export { validateContentPatch, isContentId, isSourceHash };
 
 export function createContentForm(detail) {
-  const page = detail.page;
-  const draft = detail.draft || {};
+  const patch = { ...(detail.draft || {}) };
+  if (detail.stale) {
+    if (patch.sections) patch.sections = patch.sections.filter(section => detail.page.sections.some(source => source.id === section.id));
+    if (patch.section_order && (patch.section_order.length !== detail.page.sections.length || patch.section_order.some(id => !detail.page.sections.some(source => source.id === id)))) delete patch.section_order;
+  }
+  const page = mergeContentPage(detail.page, patch);
   return {
-    title: draft.title ?? page.title ?? '', h1: draft.h1 ?? page.h1 ?? '', description: draft.description ?? page.description ?? '',
-    sections: (page.sections || []).map(section => {
-      const patch = (draft.sections || []).find(item => item.id === section.id) || {};
-      const result = { id: section.id, heading: patch.heading ?? section.heading ?? '' };
-      if (Array.isArray(patch.paragraphs ?? section.paragraphs)) result.paragraphsText = (patch.paragraphs ?? section.paragraphs).join('\n\n');
-      if (Array.isArray(patch.bullets ?? section.bullets)) result.bulletsText = (patch.bullets ?? section.bullets).join('\n');
-      return result;
-    }),
-    faqs: (draft.faqs ?? page.faqs ?? []).map(item => ({ q: item.q, a: item.a })),
+    path: page.path, title: page.title || '', h1: page.h1 || '', description: page.description || '',
+    eyebrow: page.eyebrow || '', intro: page.intro || '', order: page.order ?? '',
+    author: page.author || '', reviewer: page.reviewer || '', category: page.category || '',
+    sections: (page.sections || []).map(section => ({
+      id: section.id, heading: section.heading || '',
+      ...(Array.isArray(section.paragraphs) ? { paragraphsText: section.paragraphs.join('\n\n') } : {}),
+      ...(Array.isArray(section.bullets) ? { bulletsText: section.bullets.join('\n') } : {}),
+      ...(section.cards ? { cardsText: JSON.stringify(section.cards, null, 2) } : {}),
+      ...(section.table ? { tableText: JSON.stringify(section.table, null, 2) } : {}),
+      ...(section.cta ? { cta: { ...section.cta } } : {}),
+    })),
+    faqs: (page.faqs || []).map(item => ({ q: item.q, a: item.a })),
+    related: (page.related_links || []).map(link => ({ ...link })),
+    final_cta: page.final_cta ? { ...page.final_cta } : null,
+    media: (page.media || []).map(image => ({ ...image })),
+    ...(page.section_order ? { section_order: [...page.section_order] } : {}),
   };
 }
 
 export function buildContentPatch(form) {
   const split = (value, separator) => value.split(separator).map(item => item.trim()).filter(Boolean);
-  return validateContentPatch({
-    title: form.title.trim(), h1: form.h1.trim(), description: form.description.trim(),
-    sections: form.sections.map(section => ({
-      id: section.id, heading: section.heading.trim(),
-      ...(Object.hasOwn(section, 'paragraphsText') ? { paragraphs: split(section.paragraphsText, /\r?\n\s*\r?\n/) } : {}),
-      ...(Object.hasOwn(section, 'bulletsText') ? { bullets: split(section.bulletsText, /\r?\n/) } : {}),
-    })),
-    faqs: form.faqs.map(item => ({ q: item.q.trim(), a: item.a.trim() })),
-  });
+  try {
+    return validateContentPatch({
+      path: form.path, title: form.title.trim(), h1: form.h1.trim(), description: form.description.trim(),
+      ...(form.eyebrow ? { eyebrow: form.eyebrow.trim() } : {}), ...(form.intro ? { intro: form.intro.trim() } : {}),
+      ...(form.order !== '' ? { order: Number(form.order) } : {}), author: form.author || '', reviewer: form.reviewer || '', category: form.category || '',
+      sections: form.sections.map(section => ({
+        id: section.id, heading: section.heading.trim(),
+        ...(Object.hasOwn(section, 'paragraphsText') ? { paragraphs: split(section.paragraphsText, /\r?\n\s*\r?\n/) } : {}),
+        ...(Object.hasOwn(section, 'bulletsText') ? { bullets: split(section.bulletsText, /\r?\n/) } : {}),
+        ...(section.cardsText ? { cards: JSON.parse(section.cardsText) } : {}),
+        ...(section.tableText ? { table: JSON.parse(section.tableText) } : {}),
+        ...(section.cta ? { cta: { ...section.cta } } : {}),
+      })),
+      faqs: form.faqs.map(item => ({ q: item.q.trim(), a: item.a.trim() })),
+      related_links: form.related.map(link => ({ ...link })),
+      ...(form.final_cta ? { final_cta: { ...form.final_cta } } : {}), media: form.media.map(image => ({ ...image })),
+      ...(form.section_order ? { section_order: [...form.section_order] } : {}),
+    });
+  } catch { return null; }
 }

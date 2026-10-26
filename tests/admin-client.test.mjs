@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createAdminClient, AdminApiError } from '../src/admin/client.mjs';
-import { canContact, contactDestination, emptyReview } from '../src/admin/model.mjs';
+import { canContact, contactDestination, defaultFilters, emptyReview } from '../src/admin/model.mjs';
 
 const reference = 'EM_SYNTHETIC_00000001';
 const item = { reference, revision: 1, payload: { email: 'synthetic@example.invalid', phone: '+44 (7700) 900-123', name: 'Synthetic Person', description: 'Private project' }, contact: { whatsapp_allowed: true, email_allowed: true, stopped: false } };
@@ -28,11 +28,27 @@ test('writes require a session; search is POST with bounded allowlisted body and
   assert.equal(init.referrerPolicy, 'no-referrer');
   assert.equal(init.headers['X-CSRF-Token'], 'memory-only-csrf');
   assert.equal(init.headers['Content-Type'], 'application/json');
-  assert.deepEqual(JSON.parse(init.body), { search: 'synthetic@example.invalid', status: 'New', qualification: '', priority: '', drawing_status: '', page: 1, pageSize: 25 });
+  assert.deepEqual(JSON.parse(init.body), { ...defaultFilters(), search: 'synthetic@example.invalid', status: 'New' });
   assert.doesNotMatch(url, /example|\?|#/);
   await assert.rejects(client.search({ pageSize: 101 }), kind('invalid'));
   await assert.rejects(client.search({ search: 'a'.repeat(201) }), kind('invalid'));
   assert.equal(calls.length, 2);
+});
+
+test('review, purchase and unfilled filters are allowlisted and shared by search and export', async () => {
+  const calls = [];
+  const client = createAdminClient({ fetchImpl: async (url, init) => {
+    calls.push({ url, init });
+    return url.endsWith('/session') ? session() : url.endsWith('/export') ? new Response('reference\r\n', { headers: { 'Content-Type': 'text/csv' } }) : list();
+  } });
+  await client.session();
+  const filters = { authenticity: 'Unreviewed', fit: 'Mold Project', readiness: 'Received to Review', purchase_timing: '__not_provided__', budget_status: 'Prefer not to say' };
+  await client.search(filters);
+  await client.export(filters);
+  assert.deepEqual(JSON.parse(calls[1].init.body), JSON.parse(calls[2].init.body));
+  assert.equal(JSON.parse(calls[1].init.body).budget_status, 'Prefer not to say');
+  for (const invalid of [{ authenticity: 'verified automatically' }, { purchase_timing: "' OR 1=1 --" }, { budget_status: ['Prefer not to say'] }]) await assert.rejects(client.search(invalid), kind('invalid'));
+  assert.equal(calls.length, 3);
 });
 
 test('review, opt-out, retry and delete send exact contract bodies with revision and CSRF', async () => {

@@ -56,7 +56,17 @@ async function createInquiry(request, env, context) {
   if (input.website_check != null && (typeof input.website_check !== 'string' || input.website_check.trim() !== '')) return error('invalid_request', 400);
   const requestId = request.headers.get('Idempotency-Key');
   if (typeof requestId !== 'string' || !/^[A-Za-z0-9_-]{16,128}$/.test(requestId)) return error('idempotency_required', 400);
-  const { payload, errors } = validateSubmission(input, env);
+  // Only trusted published CMS rows extend the source-page allowlist. Inquiry
+  // fields cannot register paths, and CMS-off deployments do not query its table.
+  let sourcePolicy;
+  if (enabled(env.CMS_ENABLED)) {
+    const pages = await stmt(env.DB, 'SELECT path,original_path,state FROM content_publications').all();
+    sourcePolicy = {
+      knownPaths: pages.results.filter(row => row.state === 'published').map(row => row.path),
+      blockedPaths: pages.results.filter(row => row.state === 'withdrawn').flatMap(row => [row.path, row.original_path]),
+    };
+  }
+  const { payload, errors } = validateSubmission(input, env, sourcePolicy);
   if (Object.keys(errors).length) return json({ errors }, 422);
   const requestHash = await hmac(env.CONTACT_HASH_SECRET, `request:${canonical(input)}`);
   const previous = await stmt(env.DB, 'SELECT reference,request_hash FROM leads WHERE request_id=?', requestId).first();
@@ -133,9 +143,10 @@ function queryFilters(filters) {
     where.push('(instr(lower(reference),lower(?))>0 OR instr(lower(payload_json),lower(?))>0)');
     values.push(filters.search, filters.search);
   }
-  for (const key of ['status', 'qualification', 'priority', 'drawing_status']) if (filters[key]) {
-    where.push(`json_extract(${key === 'drawing_status' ? 'payload_json' : 'review_json'}, '$.${key}')=?`);
-    values.push(filters[key]);
+  for (const key of ['status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'drawing_status', 'purchase_timing', 'budget_status']) if (filters[key]) {
+    const expression = `json_extract(${['drawing_status', 'purchase_timing', 'budget_status'].includes(key) ? 'payload_json' : 'review_json'}, '$.${key}')`;
+    if (['purchase_timing', 'budget_status'].includes(key) && filters[key] === '__not_provided__') where.push(`(${expression} IS NULL OR ${expression}='')`);
+    else { where.push(`${expression}=?`); values.push(filters[key]); }
   }
   return { where: where.length ? `WHERE ${where.join(' AND ')}` : '', values };
 }
@@ -151,11 +162,14 @@ async function search(request, env, actor, exportCsv = false) {
     await audit(env, actor, 'searched', null, { count: rows.results.length });
     return json({ items: await Promise.all(rows.results.map(row => item(env.DB, row))), total, page: filters.page, pageSize: filters.pageSize });
   }
-  const columns = ['reference', 'created_at', 'name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets', 'purchase_timing', 'budget_status', 'budget_min', 'budget_max', 'currency', 'status', 'qualification', 'priority', 'owner', 'next_follow_up', 'whatsapp_allowed', 'email_allowed'];
+  const sourceFields = ['page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  const sourceColumns = ['first', 'submission'].flatMap(touch => sourceFields.map(key => `${touch}_${key}`));
+  const columns = ['reference', 'created_at', 'name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets', 'purchase_timing', 'budget_status', 'budget_min', 'budget_max', 'currency', 'status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'owner', 'next_follow_up', 'whatsapp_allowed', 'email_allowed', ...sourceColumns];
   const output = [columns.map(csvCell).join(',')];
   for (const row of rows.results) {
     const lead = await item(env.DB, row);
     const flat = { ...lead.payload, ...lead.review, ...lead.contact, reference: lead.reference, created_at: lead.created_at };
+    for (const touch of ['first', 'submission']) for (const key of sourceFields) flat[`${touch}_${key}`] = lead.payload.source?.[touch]?.[key] ?? null;
     output.push(columns.map(key => csvCell(flat[key])).join(','));
   }
   await audit(env, actor, 'export', null, { count: rows.results.length });

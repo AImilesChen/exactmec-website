@@ -3,17 +3,30 @@ import { AdminApiError } from './client.mjs';
 import { buildContentPatch, createContentForm } from './content-model.mjs';
 import { dateText } from './model.mjs';
 
-function ContentExportDialog({ busy, onClose, onConfirm }) {
+function Field({ label, value, onChange, multiline = false, ...props }) {
+  const Input = multiline ? 'textarea' : 'input';
+  return <label className="admin-field"><span>{label}</span><Input value={value ?? ''} onChange={event => onChange(event.target.value)} {...props}/></label>;
+}
+function Modal({ title, children, onClose, busy = false }) {
   const ref = useRef(null);
   useEffect(() => { const dialog = ref.current; dialog.showModal(); return () => { if (dialog.open) dialog.close(); }; }, []);
-  return <dialog className="admin-dialog" ref={ref} aria-labelledby="content-export-heading" onCancel={event => { if (busy) event.preventDefault(); else onClose(); }}><form onSubmit={event => { event.preventDefault(); onConfirm(); }}>
-    <p className="admin-eyebrow">内容交接文件</p><h2 id="content-export-heading">导出这份内容草稿？</h2><p>将下载当前已保存草稿与固定版式合并后的审核文件。此操作不会更新公开网站、提交代码或触发部署。编辑内容仍须完成文案、设计与合规审核。</p><div className="admin-actions"><button className="admin-button secondary" type="button" disabled={busy} onClick={onClose}>取消</button><button className="admin-button" type="submit" disabled={busy} autoFocus>{busy ? '准备中…' : '确认导出审核文件'}</button></div>
-  </form></dialog>;
+  return <dialog className="admin-dialog admin-cms-dialog" ref={ref} aria-label={title} onCancel={event => { if (busy) event.preventDefault(); else onClose(); }}><h2>{title}</h2>{children}<button type="button" className="admin-button secondary" onClick={onClose} disabled={busy}>关闭</button></dialog>;
 }
-
-function Baseline({ children }) { return <details className="admin-content-baseline"><summary>对照当前源文案</summary><div>{children}</div></details>; }
-
-function ContentEditor({ detail, busy, requiresRefresh, onSave, onExport, onReload }) {
+function LinksEditor({ links, onChange, locked }) {
+  return <div className="admin-cms-stack">{links.map((link, index) => <fieldset disabled={locked} key={index} className="admin-cms-row"><Field label="链接文字" value={link.label} onChange={value => onChange(links.map((item, at) => at === index ? { ...item, label: value } : item))}/><Field label="站内路径" value={link.href} onChange={value => onChange(links.map((item, at) => at === index ? { ...item, href: value } : item))}/><button type="button" className="admin-text-button" onClick={() => onChange(links.filter((_, at) => at !== index))}>移除链接</button></fieldset>)}<button className="admin-button secondary small" type="button" disabled={locked || links.length >= 30} onClick={() => onChange([...links, { label: '', href: '/' }])}>添加关联页面</button></div>;
+}
+function CardsEditor({ value, onChange, disabled }) {
+  let cards;
+  try { cards = JSON.parse(value); } catch { return <p role="alert">卡片资料无法读取，请重新载入。</p>; }
+  const update = (index, key, text) => onChange(JSON.stringify(cards.map((card, at) => at === index ? { ...card, [key]: text } : card)));
+  return <div className="admin-cms-stack">{cards.map((card, index) => <fieldset disabled={disabled} key={index} className="admin-cms-row"><legend>卡片 {index + 1}</legend><Field label="卡片标题" value={card.title} onChange={text => update(index, 'title', text)}/><Field label="说明" multiline rows={3} value={card.text} onChange={text => update(index, 'text', text)}/>{card.href != null && <Field label="站内链接" value={card.href} onChange={text => update(index, 'href', text)}/>}<div className="admin-actions"><button type="button" className="admin-text-button" disabled={index === 0} onClick={() => { const next = [...cards]; [next[index - 1], next[index]] = [next[index], next[index - 1]]; onChange(JSON.stringify(next)); }}>上移</button><button type="button" className="admin-text-button" disabled={index === cards.length - 1} onClick={() => { const next = [...cards]; [next[index + 1], next[index]] = [next[index], next[index + 1]]; onChange(JSON.stringify(next)); }}>下移</button></div></fieldset>)}</div>;
+}
+function TableEditor({ value, onChange, disabled }) {
+  let table; try { table = JSON.parse(value); } catch { return <p role="alert">表格无法读取，请重新载入。</p>; }
+  const set = next => onChange(JSON.stringify(next));
+  return <fieldset disabled={disabled} className="admin-cms-stack"><legend>数据表格</legend><div className="admin-cms-row">{table.columns.map((text, index) => <Field key={index} label={`列 ${index + 1} 标题`} value={text} onChange={value => set({ ...table, columns: table.columns.map((item, at) => at === index ? value : item) })}/>)}</div>{table.rows.map((row, index) => <div className="admin-cms-row" key={index}>{row.map((text, column) => <Field key={column} label={`第 ${index + 1} 行 · ${table.columns[column]}`} value={text} onChange={value => set({ ...table, rows: table.rows.map((item, at) => at === index ? item.map((cell, c) => c === column ? value : cell) : item) })}/>)}<button type="button" className="admin-text-button" onClick={() => set({ ...table, rows: table.rows.filter((_, at) => at !== index) })}>移除此行</button></div>)}<button type="button" className="admin-button secondary small" disabled={table.rows.length >= 100} onClick={() => set({ ...table, rows: [...table.rows, table.columns.map(() => '')] })}>添加一行</button></fieldset>;
+}
+function ContentEditor({ detail, busy, requiresRefresh, onSave, onAction, onReload }) {
   const [form, setForm] = useState(() => createContentForm(detail));
   const [reviewedSource, setReviewedSource] = useState(false);
   const [validation, setValidation] = useState('');
@@ -22,123 +35,77 @@ function ContentEditor({ detail, busy, requiresRefresh, onSave, onExport, onRelo
   const locked = busy || requiresRefresh;
   const page = detail.page;
   const update = (key, value) => setForm(current => ({ ...current, [key]: value }));
-  const updateSection = (index, key, value) => setForm(current => ({ ...current, sections: current.sections.map((section, at) => at === index ? { ...section, [key]: value } : section) }));
-  const updateFaq = (index, key, value) => setForm(current => ({ ...current, faqs: current.faqs.map((faq, at) => at === index ? { ...faq, [key]: value } : faq) }));
+  const sectionChange = (index, key, value) => update('sections', form.sections.map((section, at) => at === index ? { ...section, [key]: value } : section));
+  const move = (index, offset) => { const sections = [...form.sections]; [sections[index], sections[index + offset]] = [sections[index + offset], sections[index]]; setForm(current => ({ ...current, sections, section_order: sections.map(section => section.id) })); };
   const save = event => {
-    event.preventDefault();
-    if (locked || (detail.stale && !reviewedSource)) return;
+    event.preventDefault(); if (locked || (detail.stale && !reviewedSource)) return;
     const patch = buildContentPatch(form);
-    if (!patch) { setValidation('请填写全部标题与 SEO 描述；描述应为单段文字，不插入换行。正文仅支持纯文字：每模块最多 20 段、每段 4,000 字；列表最多 30 项、每项 1,000 字；FAQ 最多 30 项。请勿填入 HTML。'); return; }
-    setValidation('');
-    onSave({ revision: detail.revision, sourceHash: detail.sourceHash, patch });
+    if (!patch) { setValidation('请检查标题、路径、纯文本和站内链接。图片需填写替代文字、来源及含 Illustrative 的公开说明。不得输入 HTML、外部链接或追踪参数。'); return; }
+    setValidation(''); onSave({ revision: detail.revision, sourceHash: detail.sourceHash, patch });
   };
+  const publication = detail.publication || { state: 'source', revision: 0 };
   return <article className="admin-detail admin-content-editor" aria-busy={busy}>
-    <div className="admin-detail-title"><div><p className="admin-eyebrow">内容草稿 · {page.phase}</p><h2>{page.h1 || page.title}</h2><p className="admin-muted">固定路径：{page.path} · 草稿版本 {detail.revision}</p></div><button type="button" className="admin-button secondary small" disabled={busy} onClick={onReload}>重新载入</button></div>
-    <div className="admin-notice">编辑仅保存为内部草稿，公开网站不会自动变化。卡片、表格、链接、图片、路径与模块顺序随固定版式审核，本页不提供修改。</div>
-    {requiresRefresh && <div className="admin-notice is-error" role="alert">版本或请求结果需要核对。请先重新载入再编辑；重新载入会丢弃本地未保存修改。</div>}
-    {detail.stale && <div className="admin-notice is-error" role="alert">当前源文案已更新。这份草稿基于旧版，请逐项对照下方“当前源文案”后重新保存。源文案已经移除的旧模块不会带入新保存。完成核对前不能导出。</div>}
+    <div className="admin-detail-title"><div><p className="admin-eyebrow">页面内容 · {page.phase}</p><h2>{page.h1 || page.title}</h2><p className="admin-muted">草稿版本 {detail.revision} · {publication.state === 'published' ? `已发布版本 ${publication.revision}` : publication.state === 'withdrawn' ? '已撤回公开版本' : '使用源页面版本'}</p>{publication.publishedAt && <p className="admin-muted">发布：{dateText(publication.publishedAt)}</p>}</div><button type="button" className="admin-button secondary small" disabled={busy} onClick={onReload}>重新载入</button></div>
+    <div className="admin-notice">保存只更新草稿。先预览已保存内容，再明确发布；发布快照才会用于公开页面。法务批准、询价开关和内部提醒收件人均不在此修改。</div>
+    {requiresRefresh && <div className="admin-notice is-error" role="alert">版本或请求结果需要核对。请重新载入后再操作；不会自动重试发布。</div>}
+    {detail.stale && <div className="admin-notice is-error" role="alert">源文案已经更新，请对照当前源页面重新审核草稿。确认前不能预览或发布。</div>}{detail.stale && <details className="admin-content-baseline"><summary>对照当前源页面文字</summary><div><h3>{page.h1}</h3><p>{page.intro}</p><p>SEO：{page.title} · {page.description}</p>{page.sections.map(section => <section key={section.id}><h4>{section.heading}</h4>{section.paragraphs?.map((paragraph, index) => <p key={index}>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet, index) => <li key={index}>{bullet}</li>)}</ul>}{section.cards?.map((card, index) => <div key={index}><strong>{card.title}</strong><p>{card.text}</p><p>{card.href}</p></div>)}</section>)}</div></details>}
     {validation && <div className="admin-notice is-error" role="alert">{validation}</div>}
     <form onSubmit={save} autoComplete="off" noValidate>
-      <fieldset className="admin-content-fields" disabled={locked}><legend>页面标题与搜索摘要</legend>
-        <label className="admin-field"><span>SEO 标题 <small>{form.title.length} / 160</small></span><input value={form.title} maxLength={160} required onChange={event => update('title', event.target.value)} /></label>
-        {detail.stale && <Baseline><p>{page.title}</p></Baseline>}
-        <label className="admin-field"><span>主标题 H1 <small>{form.h1.length} / 240</small></span><input value={form.h1} maxLength={240} required onChange={event => update('h1', event.target.value)} /></label>
-        {detail.stale && <Baseline><p>{page.h1}</p></Baseline>}
-        <label className="admin-field"><span>SEO 描述 <small>{form.description.length} / 500</small></span><textarea rows={3} maxLength={500} required value={form.description} onChange={event => update('description', event.target.value)} /></label>
-        <p className="admin-help">使用单段搜索摘要，不插入换行；输入框会自然折行。</p>
-        {detail.stale && <Baseline><p>{page.description}</p></Baseline>}
+      <fieldset className="admin-content-fields" disabled={locked}><legend>页面、摘要与搜索信息</legend>
+        <Field label="页面路径 Slug" value={form.path} onChange={value => update('path', value)} disabled={['home', 'rfq'].includes(page.id)} maxLength={180}/>
+        <p className="admin-help">使用小写英文、数字和连字符，以 / 开头和结尾。发布后原路径自动跳转；首页和询价地址固定。</p>
+        <Field label="SEO 标题" value={form.title} onChange={value => update('title', value)} maxLength={160}/>
+        <Field label="主标题 H1" value={form.h1} onChange={value => update('h1', value)} maxLength={240}/>
+        <Field label="SEO 描述" multiline rows={3} value={form.description} onChange={value => update('description', value)} maxLength={500}/>
+        <Field label="引导标签" value={form.eyebrow} onChange={value => update('eyebrow', value)} maxLength={160}/>
+        <Field label="页面摘要" multiline rows={4} value={form.intro} onChange={value => update('intro', value)} maxLength={4000}/>
+        <div className="admin-cms-row"><Field label="内容排序（数字越小越靠前）" type="number" min="0" max="10000" value={form.order} onChange={value => update('order', value)}/><Field label="分类（可留空）" value={form.category} onChange={value => update('category', value)} maxLength={160}/><Field label="真实作者（没有则留空）" value={form.author} onChange={value => update('author', value)} maxLength={160}/><Field label="真实审核人（可留空）" value={form.reviewer} onChange={value => update('reviewer', value)} maxLength={160}/></div>
       </fieldset>
-      <section className="admin-section"><h3>正文模块</h3><p className="admin-help">展开需要修改的模块。段落以空行分隔，列表每行一项；仅修改已有文字区域。</p>
-        <div className="admin-content-accordions">{form.sections.map((section, index) => {
-          const source = page.sections.find(item => item.id === section.id);
-          return <details className="admin-content-module" key={section.id}><summary><span>{String(index + 1).padStart(2, '0')}</span><strong>{section.heading || '未填写模块标题'}</strong></summary><fieldset disabled={locked} className="admin-content-module-fields"><legend className="admin-sr-only">模块 {index + 1}</legend><label className="admin-field"><span>模块标题</span><input maxLength={240} required value={section.heading} onChange={event => updateSection(index, 'heading', event.target.value)} /></label>
-            {Object.hasOwn(section, 'paragraphsText') && <label className="admin-field"><span>正文段落 <small>空行分段</small></span><textarea rows={7} value={section.paragraphsText} onChange={event => updateSection(index, 'paragraphsText', event.target.value)} /></label>}
-            {Object.hasOwn(section, 'bulletsText') && <label className="admin-field"><span>要点列表 <small>每行一项</small></span><textarea rows={5} value={section.bulletsText} onChange={event => updateSection(index, 'bulletsText', event.target.value)} /></label>}
-            {(source.cards || source.table || source.cta) && <p className="admin-content-fixed">固定版式：{source.cards ? `${source.cards.length} 张卡片` : ''}{source.cards && (source.table || source.cta) ? '、' : ''}{source.table ? '表格' : ''}{source.table && source.cta ? '、' : ''}{source.cta ? '行动按钮 / 链接' : ''}。这些内容保留原样，需在版式审核中调整。</p>}
-            {detail.stale && <Baseline><h4>{source.heading}</h4>{source.paragraphs?.map((text, at) => <p key={at}>{text}</p>)}{source.bullets && <ul>{source.bullets.map((text, at) => <li key={at}>{text}</li>)}</ul>}</Baseline>}
-          </fieldset></details>;
-        })}</div>
-        {!form.sections.length && <p className="admin-muted">此页面没有可编辑正文模块。</p>}
-      </section>
-      <section className="admin-section"><h3>常见问题 FAQ</h3><p className="admin-help">问题最多 500 字，回答最多 4,000 字。没有新增承诺依据时，请保留业务与合规边界。</p><div className="admin-content-accordions">{form.faqs.map((faq, index) => <details className="admin-content-module" key={index}><summary><span>{String(index + 1).padStart(2, '0')}</span><strong>{faq.q || '未填写问题'}</strong></summary><fieldset className="admin-content-module-fields" disabled={locked}><legend className="admin-sr-only">问题 {index + 1}</legend><label className="admin-field"><span>问题</span><input maxLength={500} required value={faq.q} onChange={event => updateFaq(index, 'q', event.target.value)} /></label><label className="admin-field"><span>回答</span><textarea rows={5} maxLength={4000} required value={faq.a} onChange={event => updateFaq(index, 'a', event.target.value)} /></label></fieldset></details>)}</div>{!form.faqs.length && <p className="admin-muted">此页面没有 FAQ。</p>}{detail.stale && <Baseline>{page.faqs?.map((faq, index) => <div key={index}><h4>{faq.q}</h4><p>{faq.a}</p></div>)}</Baseline>}</section>
-      {detail.stale && <label className="admin-content-review-choice"><input type="checkbox" checked={reviewedSource} onChange={event => setReviewedSource(event.target.checked)} disabled={locked} /><span>我已对照当前源文案审阅这份草稿，将以当前源文案为基础重新保存。</span></label>}
-      <div className="admin-content-save-bar"><div><strong>{dirty ? '有未保存的修改' : '当前草稿未作本地修改'}</strong><p className="admin-help">切换页面或离开前请保存。保存和导出均不会发布。</p></div><div className="admin-actions"><button className="admin-button" type="submit" disabled={locked || (detail.stale && !reviewedSource)}>{busy ? '处理中…' : '保存草稿'}</button><button className="admin-button secondary" type="button" disabled={locked || dirty || detail.stale} onClick={onExport}>导出审核文件</button></div></div>
+      <section className="admin-section"><h3>正文模块与顺序</h3><p className="admin-help">保留既有版式；可编辑文字、卡片、表格和站内关联。段落用空行分隔，要点每行一项。</p><div className="admin-content-accordions">{form.sections.map((section, index) => <details className="admin-content-module" key={section.id}><summary><span>{String(index + 1).padStart(2, '0')}</span><strong>{section.heading}</strong></summary><fieldset disabled={locked} className="admin-content-module-fields"><legend className="admin-sr-only">模块 {index + 1}</legend><div className="admin-actions"><button className="admin-text-button" type="button" disabled={index === 0} onClick={() => move(index, -1)}>模块上移</button><button className="admin-text-button" type="button" disabled={index === form.sections.length - 1} onClick={() => move(index, 1)}>模块下移</button></div><Field label="模块标题" value={section.heading} onChange={value => sectionChange(index, 'heading', value)} maxLength={240}/>{Object.hasOwn(section, 'paragraphsText') && <Field label="正文段落" multiline rows={6} value={section.paragraphsText} onChange={value => sectionChange(index, 'paragraphsText', value)}/ >}{Object.hasOwn(section, 'bulletsText') && <Field label="要点列表" multiline rows={4} value={section.bulletsText} onChange={value => sectionChange(index, 'bulletsText', value)}/ >}{section.cardsText && <CardsEditor value={section.cardsText} onChange={value => sectionChange(index, 'cardsText', value)} disabled={locked}/ >}{section.tableText && <TableEditor value={section.tableText} onChange={value => sectionChange(index, 'tableText', value)} disabled={locked}/ >}{section.cta && <><Field label="按钮文字" value={section.cta.label} onChange={value => sectionChange(index, 'cta', { ...section.cta, label: value })}/><Field label="按钮站内链接" value={section.cta.href} onChange={value => sectionChange(index, 'cta', { ...section.cta, href: value })}/></>}</fieldset></details>)}</div></section>
+      <section className="admin-section"><h3>FAQ</h3><div className="admin-content-accordions">{form.faqs.map((faq, index) => <details className="admin-content-module" key={index}><summary><span>{index + 1}</span><strong>{faq.q || '新问题'}</strong></summary><fieldset disabled={locked} className="admin-content-module-fields"><legend className="admin-sr-only">问题 {index + 1}</legend><Field label="问题" value={faq.q} onChange={value => update('faqs', form.faqs.map((item, at) => at === index ? { ...item, q: value } : item))}/><Field label="答案" multiline rows={4} value={faq.a} onChange={value => update('faqs', form.faqs.map((item, at) => at === index ? { ...item, a: value } : item))}/><div className="admin-actions"><button type="button" className="admin-text-button" disabled={index===0} onClick={() => {const next=[...form.faqs];[next[index-1],next[index]]=[next[index],next[index-1]];update('faqs',next);}}>问题上移</button><button type="button" className="admin-text-button" disabled={index===form.faqs.length-1} onClick={() => {const next=[...form.faqs];[next[index+1],next[index]]=[next[index],next[index+1]];update('faqs',next);}}>问题下移</button><button type="button" className="admin-text-button" onClick={() => update('faqs', form.faqs.filter((_, at) => at !== index))}>移除问题</button></div></fieldset></details>)}</div><button type="button" className="admin-button secondary small" disabled={locked || form.faqs.length >= 30} onClick={() => update('faqs', [...form.faqs, { q: '', a: '' }])}>添加问题</button></section>
+      <section className="admin-section"><h3>关联页面</h3><LinksEditor links={form.related} onChange={value => update('related', value)} locked={locked}/></section>
+      {form.final_cta && <fieldset disabled={locked} className="admin-content-fields"><legend>页面结尾行动区</legend>{[['heading', '标题'], ['text', '说明'], ['label', '按钮文字'], ['href', '站内链接']].map(([key, label]) => <Field key={key} label={label} multiline={key === 'text'} value={form.final_cta[key]} onChange={value => update('final_cta', { ...form.final_cta, [key]: value })}/>)}</fieldset>}
+      <section className="admin-section"><h3>图片与来源</h3><p className="admin-help">选择已有审核媒体替换页面图片，并维护 Alt、公开说明与来源。现有图库均为生成示意图，不能标为工厂实拍或真实交付。本轮不接收客户图纸或上传文件。</p><div className="admin-cms-stack">{form.media.map((image, index) => <fieldset disabled={locked} className="admin-cms-row" key={index}><legend>图片替换 {index + 1}</legend><label className="admin-field"><span>要替换的原图</span><select value={image.original} onChange={event => update('media', form.media.map((item, at) => at === index ? { ...item, original: event.target.value } : item))}>{detail.mediaLibrary?.map(asset => <option key={asset.path} value={asset.path}>{asset.id}</option>)}</select></label><label className="admin-field"><span>使用图库图片</span><select value={image.path} onChange={event => update('media', form.media.map((item, at) => at === index ? { ...item, path: event.target.value } : item))}>{detail.mediaLibrary?.map(asset => <option key={asset.path} value={asset.path}>{asset.id}</option>)}</select></label><img className="admin-cms-media-thumb" src={image.path} alt={image.alt}/>{[['alt', '图片 Alt 替代文字'], ['caption', '公开说明（保留 Illustrative）'], ['source', '来源／授权备注']].map(([key, label]) => <Field key={key} label={label} value={image[key]} onChange={value => update('media', form.media.map((item, at) => at === index ? { ...item, [key]: value } : item))}/ >)}<button type="button" className="admin-text-button" onClick={() => update('media', form.media.filter((_, at) => at !== index))}>取消此替换</button></fieldset>)}</div><button className="admin-button secondary small" type="button" disabled={locked || !detail.mediaLibrary?.length || form.media.length >= 30} onClick={() => { const asset = detail.mediaLibrary.find(asset => !form.media.some(image => image.original === asset.path)); if (asset) update('media', [...form.media, { original: asset.path, path: asset.path, alt: 'Illustrative mold project scene', caption: 'Illustrative example · Not a delivered project', source: asset.rights, kind: 'generated' }]); }}>添加图片替换</button></section>
+      {detail.stale && <label className="admin-content-review-choice"><input type="checkbox" checked={reviewedSource} onChange={event => setReviewedSource(event.target.checked)} disabled={locked}/><span>我已对照当前源页面审阅这份草稿。</span></label>}
+      <div className="admin-content-save-bar"><div><strong>{dirty ? '有未保存的修改' : '当前草稿没有本地修改'}</strong><p className="admin-help">保存后预览，再发布；公开版本与未保存修改相互独立。</p></div><button className="admin-button" type="submit" disabled={locked || detail.stale && !reviewedSource}>{busy ? '处理中…' : '保存草稿'}</button></div>
+      <div className="admin-actions"><button type="button" className="admin-button secondary" disabled={locked || dirty || detail.stale} onClick={() => onAction('preview')}>预览已保存页面</button><button type="button" className="admin-button" disabled={locked || dirty || detail.stale || detail.revision < 1} onClick={() => onAction('publish')}>发布已保存草稿</button>{publication.state === 'published' && !['home', 'rfq'].includes(page.id) && <button type="button" className="admin-button danger-outline" disabled={locked || dirty || detail.stale} onClick={() => onAction('withdraw')}>撤回公开页面</button>}<button type="button" className="admin-text-button" disabled={locked || dirty || detail.stale} onClick={() => onAction('export')}>导出审核文件</button></div>
     </form>
   </article>;
 }
-
+function PublicSettings({ client, locked, onFailure }) {
+  const [data, setData] = useState(null), [form, setForm] = useState(null), [busy, setBusy] = useState(false), [message, setMessage] = useState('');
+  const load = async () => { setMessage(''); try { const result = await client.getContentSettings(); setData(result); setForm({ ...result.settings }); } catch (cause) { onFailure(cause); } };
+  useEffect(() => { load(); }, []);
+  return <details className="admin-content-module admin-cms-settings"><summary>官网联系方式设置</summary><div className="admin-content-module-fields"><p className="admin-help">仅维护公开邮箱、WhatsApp 和通信地址，不改变后台登录或内部提醒收件人。新邮箱需先验证并加入部署允许列表；这里不能启用询价或广告跟踪。</p>{!data ? <p>设置尚未载入。</p> : <form onSubmit={async event => { event.preventDefault(); if (busy || locked) return; setBusy(true); setMessage(''); try { const result = await client.saveContentSettings({ revision: data.revision, settings: form }); setData(result); setForm({ ...result.settings }); setMessage('公开设置已保存。联系方式变更后还需复核法律页面正文。'); } catch (cause) { onFailure(cause); } finally { setBusy(false); } }}><fieldset className="admin-content-fields" disabled={busy || locked}><legend>公开信息 · 版本 {data.revision}</legend>{[['contactEmail', '已验证官网邮箱'], ['whatsappNumber', 'WhatsApp 国际号码'], ['address', '公司公开通信地址']].map(([key, label]) => <Field key={key} label={label} value={form[key]} onChange={value => setForm(current => ({ ...current, [key]: value }))}/ >)}<div className="admin-actions"><button className="admin-button secondary small" type="button" onClick={load}>重新载入设置</button><button type="submit" className="admin-button small">保存公开设置</button></div></fieldset></form>}{message && <p role="status">{message}</p>}</div></details>;
+}
 export function ContentWorkspace({ client, locked, onAccessError, onBusyChange }) {
-  const alive = useRef(true);
-  const detailSequence = useRef(0);
-  const detailPane = useRef(null);
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState('');
-  const [detail, setDetail] = useState(null);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [requiresRefresh, setRequiresRefresh] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState('');
-  const [exporting, setExporting] = useState(false);
-
-  function fail(cause) {
-    if (!alive.current) return;
-    const safe = cause instanceof AdminApiError ? cause : new AdminApiError('failed');
-    setError(safe); setSuccess('');
-    if (['auth_required', 'forbidden', 'csrf'].includes(safe.kind)) onAccessError(safe);
-  }
-  async function loadList() {
-    setLoading(true);
-    try { const result = await client.listContent(); if (alive.current) setItems(result); }
-    catch (cause) { if (alive.current) { setItems([]); fail(cause); } }
-    finally { if (alive.current) setLoading(false); }
-  }
+  const alive = useRef(true), detailSequence = useRef(0), detailPane = useRef(null);
+  const [items, setItems] = useState([]), [loading, setLoading] = useState(true), [query, setQuery] = useState('');
+  const [detail, setDetail] = useState(null), [detailLoading, setDetailLoading] = useState(false), [busy, setBusy] = useState(false), [requiresRefresh, setRequiresRefresh] = useState(false);
+  const [error, setError] = useState(null), [success, setSuccess] = useState(''), [action, setAction] = useState(''), [preview, setPreview] = useState(false);
+  function fail(cause) { if (!alive.current) return; const safe = cause instanceof AdminApiError ? cause : new AdminApiError('failed'); setError(safe); setSuccess(''); if (['auth_required', 'forbidden', 'csrf'].includes(safe.kind)) onAccessError(safe); }
+  async function loadList() { setLoading(true); try { const result = await client.listContent(); if (alive.current) setItems(result); } catch (cause) { if (alive.current) { setItems([]); fail(cause); } } finally { if (alive.current) setLoading(false); } }
   useEffect(() => { loadList(); return () => { alive.current = false; onBusyChange(false); }; }, []);
-  async function select(id) {
-    const sequence = ++detailSequence.current;
-    setDetailLoading(true); setDetail(null); setRequiresRefresh(false); setError(null); setSuccess('');
-    try {
-      const result = await client.getContent(id);
-      if (alive.current && detailSequence.current === sequence) {
-        setDetail(result);
-        if (window.matchMedia('(max-width:760px)').matches) requestAnimationFrame(() => detailPane.current?.scrollIntoView({ block: 'start', behavior: 'auto' }));
-      }
-    } catch (cause) { if (detailSequence.current === sequence) fail(cause); }
-    finally { if (alive.current && detailSequence.current === sequence) setDetailLoading(false); }
-  }
+  async function select(id) { const sequence = ++detailSequence.current; setDetailLoading(true); setDetail(null); setRequiresRefresh(false); setError(null); setSuccess(''); try { const result = await client.getContent(id); if (alive.current && detailSequence.current === sequence) { setDetail(result); if (window.matchMedia('(max-width:760px)').matches) requestAnimationFrame(() => detailPane.current?.scrollIntoView({ block: 'start', behavior: 'auto' })); } } catch (cause) { if (detailSequence.current === sequence) fail(cause); } finally { if (alive.current && detailSequence.current === sequence) setDetailLoading(false); } }
   function setWorking(value) { setBusy(value); onBusyChange(value); }
-  async function save(input) {
-    if (busy || locked || requiresRefresh || !detail) return;
-    setWorking(true); setError(null); setSuccess('');
-    try {
-      const result = await client.saveContent(detail.page.id, input);
-      if (!alive.current) return;
-      setDetail(result); setSuccess('草稿已保存，未发布。');
-      await loadList();
-    } catch (cause) { if (alive.current) { if (!['invalid', 'rate_limit'].includes(cause.kind)) setRequiresRefresh(true); fail(cause); } }
-    finally { if (alive.current) setWorking(false); }
-  }
-  async function exportDraft() {
+  async function save(input) { if (busy || locked || requiresRefresh || !detail) return; setWorking(true); setError(null); setSuccess(''); try { const result = await client.saveContent(detail.page.id, input); if (!alive.current) return; setDetail(result); setSuccess('草稿已保存，未发布。'); await loadList(); } catch (cause) { if (alive.current) { if (!['invalid', 'invalid_links', 'rate_limit'].includes(cause.kind)) setRequiresRefresh(true); fail(cause); } } finally { if (alive.current) setWorking(false); } }
+  async function execute(name) {
     if (busy || locked || requiresRefresh || detail?.stale || !detail) return;
     setWorking(true); setError(null); setSuccess('');
     try {
-      const blob = await client.exportContent(detail.page.id, { sourceHash: detail.sourceHash });
-      if (!alive.current) return;
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement('a'); anchor.href = url; anchor.download = `exactmec-content-${detail.page.id}.json`;
-      document.body.append(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setSuccess('审核文件已准备下载，公开网站未作更改。');
-    } catch (cause) { if (alive.current) { if (['conflict', 'source_conflict'].includes(cause.kind)) setRequiresRefresh(true); fail(cause); } }
-    finally { if (alive.current) { setWorking(false); setExporting(false); } }
+      const confirmation = { sourceHash: detail.sourceHash, revision: detail.revision, publicationRevision: detail.publication?.revision ?? 0 };
+      if (name === 'preview') { await client.previewContent(detail.page.id, confirmation); if (alive.current) setPreview(true); }
+      else if (name === 'export') { const blob = await client.exportContent(detail.page.id, confirmation); if (!alive.current) return; const url = URL.createObjectURL(blob), anchor = document.createElement('a'); anchor.href = url; anchor.download = `exactmec-content-${detail.page.id}.json`; document.body.append(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); setSuccess('审核文件已准备下载；公开版本未改变。'); }
+      else { const result = await (name === 'publish' ? client.publishContent(detail.page.id, confirmation) : client.withdrawContent(detail.page.id, confirmation)); if (!alive.current) return; setDetail(result); setSuccess(name === 'publish' ? '发布快照已保存，公开内容服务启用时立即使用该版本。' : '页面已撤回，公共入口会回落且站点地图排除该页。'); await loadList(); }
+    } catch (cause) { if (alive.current) { if (!['invalid', 'invalid_links', 'rate_limit'].includes(cause.kind)) setRequiresRefresh(true); fail(cause); } }
+    finally { if (alive.current) { setWorking(false); setAction(''); } }
   }
-  const normalized = query.trim().toLowerCase();
-  const filtered = items.filter(item => `${item.h1} ${item.title} ${item.path}`.toLowerCase().includes(normalized));
-  return <section aria-label="内容草稿管理" className="admin-content-workspace">
+  const normalized = query.trim().toLowerCase(), filtered = items.filter(item => `${item.h1} ${item.title} ${item.path}`.toLowerCase().includes(normalized));
+  return <section aria-label="内容与发布管理" className="admin-content-workspace">
     {error && <div className="admin-notice is-error" role="alert">{error.message}</div>}{success && <div className="admin-notice" role="status">{success}</div>}
-    <div className="admin-layout admin-content-layout"><aside className="admin-list-pane"><div className="admin-content-list-search"><label className="admin-field"><span>查找页面</span><input type="search" maxLength={120} value={query} onChange={event => setQuery(event.target.value)} placeholder="标题或固定路径" disabled={busy || locked} /></label></div><div className="admin-list-heading"><h2>可编辑页面 <span>{filtered.length}</span></h2><button className="admin-text-button" type="button" disabled={busy || loading || locked} onClick={loadList}>刷新列表</button></div>
-      {loading ? <div className="admin-empty" role="status">正在加载页面…</div> : !filtered.length ? <div className="admin-empty">{error ? '页面尚未加载，请修复错误后重试。' : '没有匹配页面。'}</div> : <ul className="admin-lead-list">{filtered.map(item => <li key={item.id}><button className={`admin-lead-card${detail?.page.id === item.id ? ' selected' : ''}`} type="button" aria-pressed={detail?.page.id === item.id} disabled={busy || locked} onClick={() => select(item.id)}><span className="admin-card-top"><strong>{item.phase === 'P0' ? 'P0 页面' : '后续阶段页面'}</strong><span className="admin-pill">{item.draftUpdatedAt ? '有保存草稿' : '源文案'}</span></span><span className="admin-card-project">{item.h1 || item.title}</span><span className="admin-content-route">{item.path}</span>{item.draftUpdatedAt && <span className="admin-muted">草稿更新：{dateText(item.draftUpdatedAt)}</span>}</button></li>)}</ul>}
-    </aside><div className="admin-detail-pane" ref={detailPane}>{detailLoading ? <div className="admin-detail-placeholder" role="status">正在加载内容…</div> : detail ? <ContentEditor key={`${detail.page.id}-${detail.revision}`} detail={detail} busy={busy || locked} requiresRefresh={requiresRefresh} onSave={save} onExport={() => setExporting(true)} onReload={() => select(detail.page.id)} /> : <div className="admin-detail-placeholder"><span className="admin-placeholder-icon" aria-hidden="true">✎</span><h2>选择一个页面</h2><p>编辑页面文字并保存审核草稿。固定版式和公开网站保持原样。</p></div>}</div></div>
-    {exporting && <ContentExportDialog busy={busy} onClose={() => setExporting(false)} onConfirm={exportDraft} />}
+    <PublicSettings client={client} locked={locked || busy} onFailure={fail}/>
+    <div className="admin-layout admin-content-layout"><aside className="admin-list-pane"><div className="admin-content-list-search"><Field label="查找页面" type="search" maxLength={120} value={query} onChange={setQuery} disabled={busy || locked}/></div><div className="admin-list-heading"><h2>页面 <span>{filtered.length}</span></h2><button className="admin-text-button" type="button" disabled={busy || loading || locked} onClick={loadList}>刷新列表</button></div>{loading ? <div className="admin-empty" role="status">正在加载页面…</div> : !filtered.length ? <div className="admin-empty">没有可显示的页面。</div> : <ul className="admin-lead-list">{filtered.map(item => <li key={item.id}><button className={`admin-lead-card${detail?.page.id === item.id ? ' selected' : ''}`} type="button" aria-pressed={detail?.page.id === item.id} disabled={busy || locked} onClick={() => select(item.id)}><span className="admin-card-top"><strong>{item.phase === 'P0' ? '首发页面' : '预备内容'}</strong><span className="admin-pill">{item.publication?.state === 'published' ? '已发布快照' : item.publication?.state === 'withdrawn' ? '已撤回' : item.draftUpdatedAt ? '有草稿' : '源版本'}</span></span><span className="admin-card-project">{item.h1 || item.title}</span><span className="admin-content-route">{item.publication?.path || item.path}</span></button></li>)}</ul>}</aside><div className="admin-detail-pane" ref={detailPane}>{detailLoading ? <div className="admin-detail-placeholder" role="status">正在加载内容…</div> : detail ? <ContentEditor key={`${detail.page.id}-${detail.revision}-${detail.publication?.revision ?? 0}`} detail={detail} busy={busy || locked} requiresRefresh={requiresRefresh} onSave={save} onAction={name => name === 'preview' ? execute(name) : setAction(name)} onReload={() => select(detail.page.id)}/> : <div className="admin-detail-placeholder"><h2>选择一个页面</h2><p>编辑、保存、预览，再发布经审阅的页面内容。</p></div>}</div></div>
+    {action && <Modal title={action === 'publish' ? '发布已保存草稿？' : action === 'withdraw' ? '撤回公开页面？' : '导出审核文件？'} busy={busy} onClose={() => setAction('')}><p>{action === 'publish' ? '确认已核对业务事实、图片身份与授权、链接和 SEO。发布将更新公开页面；不会开放真实询价或搜索收录，也不会改动法律批准状态。' : action === 'withdraw' ? '公开页面将不可访问，并从站点地图排除。原有入口回落到相关总览；草稿和发布记录保留，可重新发布。' : '导出不会改变公开页面，也不会触发部署。'}</p><p className="admin-muted">{detail?.page.path} · 草稿 {detail?.revision}</p><div className="admin-actions"><button type="button" className="admin-button" disabled={busy} onClick={() => execute(action)}>{busy ? '处理中…' : '确认执行'}</button></div></Modal>}
+    {preview && <Modal title="已保存草稿预览" onClose={() => setPreview(false)}><p className="admin-help">受保护的页面预览，不是公开发布；仅显示已经保存的草稿。</p><iframe title="完整页面草稿预览" className="admin-cms-preview" src={`/admin/content/${detail.page.id}/preview/`} referrerPolicy="no-referrer"/><a className="admin-button secondary small" href={`/admin/content/${detail.page.id}/preview/`} target="_blank" rel="noopener noreferrer">在新标签页查看</a></Modal>}
   </section>;
 }

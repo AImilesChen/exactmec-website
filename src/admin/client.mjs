@@ -1,4 +1,4 @@
-import { defaultFilters, drawingOptions, isReference, reviewOptions } from './model.mjs';
+import { budgetOptions, defaultFilters, drawingOptions, isReference, reviewOptions, timingOptions } from './model.mjs';
 import { isContentId, isSourceHash, validateContentPatch } from './content-model.mjs';
 
 const messages = Object.freeze({
@@ -8,6 +8,8 @@ const messages = Object.freeze({
   timeout: '请求超时，结果尚未确认。请重新载入核对后再操作。', invalid_response: '服务返回了无法确认的结果，请重新载入核对。',
   rate_limit: '操作过于频繁，请稍后重试。', failed: '操作未完成，请重新载入核对后再操作。',
   source_conflict: '源文案已经更新，请重新载入并对照当前源文案审阅草稿，再保存。此草稿尚不能导出。',
+  path_conflict: '此路径已经用于另一页面。请换一个路径，并重新载入核对。',
+  invalid_links: '页面中有无效链接。请检查关联页面、卡片和按钮：目标页面及锚点必须存在，目标不能已撤回。草稿仍保留，可以修改后再发布。',
 });
 
 export class AdminApiError extends Error {
@@ -19,13 +21,18 @@ function filters(input = {}) {
   const clean = defaultFilters();
   if (input.search != null && (typeof input.search !== 'string' || input.search.length > 120)) invalid();
   clean.search = (input.search || '').trim();
-  for (const key of ['status', 'qualification', 'priority']) {
+  for (const key of ['status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority']) {
     const value = input[key] || '';
     if (value && !reviewOptions[key].includes(value)) invalid();
     clean[key] = value;
   }
   if (input.drawing_status && !drawingOptions.includes(input.drawing_status)) invalid();
   clean.drawing_status = (input.drawing_status || '').trim();
+  for (const [key, options] of [['purchase_timing', timingOptions], ['budget_status', budgetOptions]]) {
+    const value = input[key] ?? '';
+    if (typeof value !== 'string' || value && !options.includes(value) && value !== '__not_provided__') invalid();
+    clean[key] = value;
+  }
   for (const [key, fallback, max] of [['page', 1, 10000], ['pageSize', 25, 100]]) {
     const value = input[key] ?? fallback;
     if (!Number.isInteger(value) || value < 1 || value > max) invalid();
@@ -78,8 +85,8 @@ export function createAdminClient({ fetchImpl = globalThis.fetch?.bind(globalThi
           try { const data = await response.json(); code = typeof data?.error === 'string' ? data.error : typeof data?.code === 'string' ? data.code : ''; } catch { /* Generic safe error. */ }
         }
         const kind = response.status === 401 ? 'auth_required' : response.status === 403 ? (/csrf/i.test(code) ? 'csrf' : 'forbidden')
-          : response.status === 409 ? (code === 'source_conflict' ? 'source_conflict' : 'conflict') : response.status === 404 ? 'not_found'
-          : response.status === 422 || response.status === 400 ? 'invalid' : response.status === 429 ? 'rate_limit'
+          : response.status === 409 ? (code === 'source_conflict' ? 'source_conflict' : code === 'path_conflict' ? 'path_conflict' : 'conflict') : response.status === 404 ? 'not_found'
+          : response.status === 422 || response.status === 400 ? (code === 'invalid_links' ? 'invalid_links' : 'invalid') : response.status === 429 ? 'rate_limit'
           : response.status === 503 ? 'unavailable' : 'failed';
         if (['auth_required', 'forbidden', 'csrf'].includes(kind)) csrfToken = null;
         throw new AdminApiError(kind, response.status);
@@ -158,6 +165,25 @@ export function createAdminClient({ fetchImpl = globalThis.fetch?.bind(globalThi
       const path = contentPath(id);
       if (!isSourceHash(input?.sourceHash)) invalid();
       return request(`${path}/export`, { method: 'POST', body: { sourceHash: input.sourceHash }, jsonFile: true });
+    },
+    async previewContent(id, input) {
+      if (!isSourceHash(input?.sourceHash) || !Number.isSafeInteger(input?.revision) || input.revision < 0) invalid();
+      const data = await request(`${contentPath(id)}/preview`, { method: 'POST', body: { sourceHash: input.sourceHash, revision: input.revision } });
+      if (!data?.page || data.page.id !== id || data.preview !== true) throw new AdminApiError('invalid_response');
+      return data;
+    },
+    async publishContent(id, input) {
+      if (!isSourceHash(input?.sourceHash) || !Number.isSafeInteger(input?.revision) || input.revision < 1 || !Number.isSafeInteger(input?.publicationRevision) || input.publicationRevision < 0) invalid();
+      return contentResult(await request(`${contentPath(id)}/publish`, { method: 'POST', body: { sourceHash: input.sourceHash, revision: input.revision, publicationRevision: input.publicationRevision } }));
+    },
+    async withdrawContent(id, input) {
+      if (!isSourceHash(input?.sourceHash) || !Number.isSafeInteger(input?.revision) || input.revision < 1 || !Number.isSafeInteger(input?.publicationRevision) || input.publicationRevision < 1) invalid();
+      return contentResult(await request(`${contentPath(id)}/withdraw`, { method: 'POST', body: { sourceHash: input.sourceHash, revision: input.revision, publicationRevision: input.publicationRevision } }));
+    },
+    async getContentSettings() { return request('/api/admin/content-settings'); },
+    async saveContentSettings(input) {
+      if (!Number.isSafeInteger(input?.revision) || input.revision < 0 || !input.settings) invalid();
+      return request('/api/admin/content-settings', { method: 'PATCH', body: { revision: input.revision, settings: input.settings } });
     },
     destroy() { destroyed = true; csrfToken = null; for (const controller of active) controller.abort(); active.clear(); },
   });

@@ -151,6 +151,49 @@ test('direct admin routes require actor and search filters use bounded parameter
   assert.equal((await admin('/search', 'POST', { status: 'invented' })).status, 422);
 });
 
+test('source snapshots are server-cleaned, stored only with the lead and survive idempotent replay', async () => {
+  const requestKey = key();
+  const source = { first: { page: '/industries/led-lighting/', referrer: 'https://www.google.com/search?q=private-body', utm_source: 'google', utm_campaign: 'lighting-q4', utm_term: 'private@example.invalid', email: 'private@example.invalid' }, submission: { page: '/request-a-quote/', referrer: 'https://user:pass@example.invalid/', utm_medium: 'cpc' }, raw_url: 'private@example.invalid' };
+  const payload = { ...fixture('source-snapshot'), source };
+  const response = await submit(payload, requestKey);
+  assert.equal(response.status, 201);
+  const { reference } = await response.json();
+  const lead = await get(reference);
+  assert.equal(lead.payload.source.first.page, '/industries/led-lighting/');
+  assert.equal(lead.payload.source.first.referrer, 'https://www.google.com');
+  assert.equal(lead.payload.source.first.utm_campaign, 'lighting-q4');
+  assert.equal(lead.payload.source.first.utm_term, null);
+  assert.equal(lead.payload.source.submission.referrer, null);
+  assert.doesNotMatch(JSON.stringify(lead.payload.source), /private|raw_url|email|\?/);
+  assert.equal((await submit(payload, requestKey)).status, 200);
+  assert.equal((await submit({ ...payload, source: { ...source, submission: { page: '/' } } }, requestKey)).status, 409);
+  const csv = await (await admin('/export', 'POST', { search: reference })).text();
+  assert.match(csv, /"first_page"/);
+  assert.match(csv, /"lighting-q4"/);
+  assert.doesNotMatch(csv, /private-body|private@example\.invalid/);
+  const audit = await db.prepare('SELECT metadata_json FROM audit_events WHERE reference=?').bind(reference).all();
+  assert.doesNotMatch(JSON.stringify(audit.results), /google|lighting-q4|private/);
+  assert.equal((await admin(`/${reference}`, 'DELETE', { revision: 1, confirmation: reference })).status, 204);
+  assert.equal((await db.prepare('SELECT count(*) AS n FROM leads WHERE reference=?').bind(reference).first()).n, 0);
+});
+
+test('purchase and review filters preserve missing versus declined information and use the same export query', async () => {
+  const unique = `filter-${crypto.randomUUID()}`;
+  const reference = (await (await submit({ ...fixture(unique), purchase_timing: null, budget_status: null })).json()).reference;
+  const declined = (await (await submit({ ...fixture(unique + '-declined'), purchase_timing: 'Prefer not to say', budget_status: 'Prefer not to say' })).json()).reference;
+  await admin(`/${reference}`, 'PATCH', { revision: 1, review: { authenticity: 'Needs Verification', fit: 'Mold Project', readiness: 'Received to Review' } });
+  const filters = { search: unique, purchase_timing: '__not_provided__', budget_status: '__not_provided__', authenticity: 'Needs Verification', fit: 'Mold Project', readiness: 'Received to Review' };
+  const result = await (await admin('/search', 'POST', filters)).json();
+  assert.equal(result.total, 1);
+  assert.equal(result.items[0].reference, reference);
+  assert.equal(result.items[0].review.priority, 'B', 'missing budget and timing never auto-downgrade');
+  const csv = await (await admin('/export', 'POST', filters)).text();
+  assert.match(csv, new RegExp(reference));
+  assert.doesNotMatch(csv, new RegExp(declined));
+  assert.equal((await (await admin('/search', 'POST', { search: unique, budget_status: 'Prefer not to say' })).json()).total, 1);
+  for (const key of ['purchase_timing', 'budget_status', 'authenticity', 'fit', 'readiness']) assert.equal((await admin('/search', 'POST', { [key]: "' OR 1=1 --" })).status, 422, key);
+});
+
 test('review updates are optimistic, validate enums, and audit no contact body', async () => {
   const { reference } = await (await submit(fixture('review'))).json();
   const first = await admin(`/${reference}`, 'PATCH', { revision: 1, review: { status: 'Reviewing', priority: 'A', owner: 'Synthetic owner', next_follow_up: '2026-11-03' }, note: 'Synthetic review note.' });
@@ -254,4 +297,38 @@ test('an injected notification failure cannot undo a durable inquiry or fake sen
   assert.equal(calls, 1);
   assert.equal((await getNotificationJob(db, reference)).state, 'pending');
   assert.equal((await get(reference)).payload.name, 'Synthetic Buyer failed-notify-hook');
+});
+
+test('CMS source paths come only from published D1 rows; unknown, withdrawn and client-registered paths stay unknown', async () => {
+  const migration = readFileSync(new URL('../migrations/0004_content_publication.sql', import.meta.url), 'utf8');
+  await db.batch(migration.split(';').map(sql => sql.trim()).filter(Boolean).map(sql => db.prepare(sql)));
+  const published = '/industries/new-cms-source-slug/';
+  const withdrawn = '/industries/withdrawn-cms-source-slug/';
+  const time = new Date().toISOString();
+  for (const [id, path, original, state] of [['source-published', published, '/industries/new-cms-original/', 'published'], ['source-withdrawn', withdrawn, '/industries/led-lighting/', 'withdrawn']]) {
+    await db.prepare('INSERT INTO content_publications(page_id,original_path,path,source_hash,content_json,draft_revision,revision,state,mutation_id,published_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(id, original, path, '0'.repeat(64), '{}', 1, 1, state, crypto.randomUUID(), time, time).run();
+  }
+  const cmsEnv = { ...env, CMS_ENABLED: 'true' };
+  const save = (page, requestKey = key(), extra = {}) => handleBusiness(req('/api/inquiries', 'POST', { ...fixture('cms-source'), source: { first: { page, utm_source: 'google' }, submission: { page: '/request-a-quote/' }, knownPaths: [page] }, knownPaths: [page], ...extra }, { 'Idempotency-Key': requestKey, 'CF-Connecting-IP': crypto.randomUUID() }), cmsEnv, context);
+  const requestKey = key();
+  const created = await save(published, requestKey);
+  assert.equal(created.status, 201);
+  const { reference } = await created.json();
+  assert.equal((await get(reference)).payload.source.first.page, published);
+  assert.equal((await save(published, requestKey)).status, 200);
+  for (const path of [withdrawn, '/industries/led-lighting/', '/industries/client-registered-source/']) {
+    const response = await save(path);
+    assert.equal(response.status, 201);
+    const lead = await get((await response.json()).reference);
+    assert.equal(lead.payload.source.first.page, null, path);
+  }
+  await db.prepare("UPDATE content_publications SET state='withdrawn' WHERE page_id='source-published'").run();
+  const repeated = await save(published, requestKey);
+  assert.equal(repeated.status, 200, 'withdrawal does not change a saved inquiry or duplicate it');
+  assert.equal((await get(reference)).payload.source.first.page, published, 'saved source remains an immutable submission snapshot');
+  const afterWithdrawal = await save(published);
+  assert.equal((await get((await afterWithdrawal.json()).reference)).payload.source.first.page, null);
+  const cmsOff = await submit({ ...fixture('cms-off-source'), source: { first: { page: published } } });
+  assert.equal(cmsOff.status, 201);
+  assert.equal((await get((await cmsOff.json()).reference)).payload.source.first.page, null);
 });

@@ -28,7 +28,7 @@ export function createSiteConfig(values = {}) {
   return Object.freeze({
     ...business, origin, contactEmail, contactEmailVerified, release, legalApproved, backendVerified,
     inquiryEnabled, inquiryEndpoint: '/api/inquiries',
-    analyticsEnabled: false, // Remains off until a provider and actual consent flow are approved.
+    analyticsEnabled: release && values.analyticsEnabled === true,
     whatsappUrl: 'https://wa.me/' + business.whatsappNumber,
   });
 }
@@ -42,6 +42,7 @@ export const siteConfig = createSiteConfig({
   legalApproved: env.VITE_LEGAL_APPROVED === 'true',
   backendVerified: env.VITE_BACKEND_VERIFIED === 'true',
   inquiryEnabled: env.VITE_INQUIRY_ENABLED === 'true',
+  analyticsEnabled: env.VITE_METRICS_ENABLED === 'true',
 });
 
 export function releaseBlockers(config) {

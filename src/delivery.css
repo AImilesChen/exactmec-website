@@ -19,3 +19,4 @@ html:root{scroll-behavior:auto}
 
 /* Closed public RFQ: an unavailable action must not look like a live CTA. */
 .inquiry-layout .submit.is-unavailable:disabled{background:#e6eaed;border:1px solid #cbd3d9;color:#52616c;opacity:1;cursor:not-allowed;box-shadow:none;transform:none}
+.measurement-choices{position:relative;padding:12px 24px;background:#f6f7f8;color:#334655;font-size:14px}.measurement-toggle{border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer;padding:8px}.measurement-panel{max-width:640px;margin:12px auto;padding:24px;border:1px solid #cbd3d9;background:#fff}.measurement-panel h2{font-size:20px}.measurement-panel p{font-size:15px;line-height:1.6}.measurement-panel button{padding:12px 18px;border:1px solid #72808a;border-radius:4px;background:#fff;color:#233847;cursor:pointer;margin:0 12px 0 0;min-height:44px}.measurement-panel button:last-child{background:#233847;color:#fff}
