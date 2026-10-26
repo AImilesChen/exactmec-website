@@ -11,7 +11,7 @@ const release=process.argv.includes('--release');
 const configured=loadEnv('frontend',root,'VITE_');
 Object.assign(process.env,configured);
 process.env.VITE_SITE_RELEASE=String(release);
-const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,contactEmailVerified:process.env.VITE_CONTACT_EMAIL_VERIFIED==='true',release,legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true',analyticsEnabled:process.env.VITE_METRICS_ENABLED==='true',externalAnalyticsEnabled:process.env.VITE_EXTERNAL_ANALYTICS_ENABLED==='true'});
+const config=createSiteConfig({origin:process.env.VITE_SITE_ORIGIN||business.siteOrigin,contactEmail:process.env.VITE_CONTACT_EMAIL,contactEmailVerified:process.env.VITE_CONTACT_EMAIL_VERIFIED==='true',release,seoIndexingEnabled:process.env.VITE_SEO_INDEXING_ENABLED==='true',legalApproved:process.env.VITE_LEGAL_APPROVED==='true',backendVerified:process.env.VITE_BACKEND_VERIFIED==='true',inquiryEnabled:process.env.VITE_INQUIRY_ENABLED==='true',analyticsEnabled:process.env.VITE_METRICS_ENABLED==='true',externalAnalyticsEnabled:process.env.VITE_EXTERNAL_ANALYTICS_ENABLED==='true'});
 const blockers=releaseBlockers(config);
 if(release&&blockers.length)throw new Error('Release is not ready:\n'+blockers.map(x=>' - '+x).join('\n'));
 if(release){
@@ -42,7 +42,7 @@ function head(meta){return [
  ].filter(Boolean).join('\n');}
 const generated=[];
 for(const route of PUBLIC_ROUTES){
- const meta=getPageMeta(route.path,{origin:config.origin,release:config.release});
+ const meta=getPageMeta(route.path,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled});
  let html=shell.replace(/<title>.*?<\/title>/s,'').replace(/<meta name="robots"[^>]*\/>/,'');
  const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/mold-hero-roomy-v3.webp" fetchpriority="high"/>':'';
  html=html.replace('</head>',head(meta)+'\n'+hero+'\n</head>').replace('<div id="root"></div>','<!--exactmec:root:start--><div id="root">'+render(route.path,config)+'</div><!--exactmec:root:end-->');
@@ -69,9 +69,9 @@ for(const file of runtime){const text=await fs.readFile(path.join(root,'src',fil
 for(const name of [...needed])if(name.endsWith('.png')){needed.delete(name);needed.add(name.replace(/\.png$/,'.webp'));}
 for(const row of generated){const html=await fs.readFile(path.join(output,row.file),'utf8');for(const match of html.matchAll(/<img\b[^>]*src="\/assets\/([A-Za-z0-9_.-]+)"/g))needed.add(match[1]);}
 for(const name of needed)await fs.copyFile(path.join(publicDir,'assets',name),path.join(output,'assets',name));
-const xml=config.release?generated.filter(r=>r.robots==='index,follow').map(r=>`  <url><loc>${escape(config.origin+r.path)}</loc></url>`).join('\n'):'';
+const xml=config.seoIndexingEnabled?generated.filter(r=>r.robots==='index,follow').map(r=>`  <url><loc>${escape(config.origin+r.path)}</loc></url>`).join('\n'):'';
 await fs.writeFile(path.join(output,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${xml}\n</urlset>\n`);
-await fs.writeFile(path.join(output,'robots.txt'),config.release?`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin/\nDisallow: /account/\nDisallow: /design-system/\nSitemap: ${config.origin}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n');
-const report={mode:release?'release':'staging',published:false,origin:config.origin||null,inquiryEnabled:config.inquiryEnabled,analyticsEnabled:config.analyticsEnabled,externalAnalyticsEnabled:config.externalAnalyticsEnabled,generatedAt:new Date().toISOString(),routes:generated,marketingPages:publicCopy.length,publicAssets:[...needed],releaseBlockers:blockers,sourceContract:manifest.version};
+await fs.writeFile(path.join(output,'robots.txt'),config.seoIndexingEnabled?`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin/\nDisallow: /account/\nDisallow: /design-system/\nSitemap: ${config.origin}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n');
+const report={mode:release?'release':'staging',published:false,origin:config.origin||null,inquiryEnabled:config.inquiryEnabled,seoIndexingEnabled:config.seoIndexingEnabled,analyticsEnabled:config.analyticsEnabled,externalAnalyticsEnabled:config.externalAnalyticsEnabled,generatedAt:new Date().toISOString(),routes:generated,marketingPages:publicCopy.length,publicAssets:[...needed],releaseBlockers:blockers,sourceContract:manifest.version};
 await fs.writeFile(path.join(root,'dist/frontend-report.json'),JSON.stringify(report,null,2));
 console.log(`Frontend ${report.mode}: ${generated.length} HTML pages (${publicCopy.length} marketing), no internal workbench/download assets. Inquiry=${config.inquiryEnabled}; first-party metrics=${config.analyticsEnabled}; external analytics opt-in=${config.externalAnalyticsEnabled}.`);

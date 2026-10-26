@@ -72,7 +72,9 @@ export function createAdminClient({ fetchImpl = globalThis.fetch?.bind(globalThi
     active.add(controller);
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      const headers = { Accept: csv ? 'text/csv' : 'application/json' };
+      // Access returns 401 for an expired browser session on AJAX instead of
+      // redirecting this protected fetch to an HTML sign-in page.
+      const headers = { Accept: csv ? 'text/csv' : 'application/json', 'X-Requested-With': 'XMLHttpRequest' };
       if (method !== 'GET') { headers['Content-Type'] = 'application/json'; headers['X-CSRF-Token'] = csrfToken; }
       const response = await fetchImpl(path, {
         method, headers, ...(body !== undefined ? { body: JSON.stringify(body) } : {}),

@@ -2,9 +2,27 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildInquiryPayload, initialValues, notifyInquiryEvent, requiredFields, validateInquiry, whatsappContactHref, whatsappHref } from '../src/inquiry/model.mjs';
+import { validateSubmission } from '../backend/domain.mjs';
+import { budgetOptions as adminBudgets, timingOptions as adminTimings } from '../src/admin/model.mjs';
+import noticeVersions from '../src/data/notice-versions.json' with {type:'json'};
 
 const { groups } = JSON.parse(readFileSync(new URL('../src/data/inquiry-copy.json', import.meta.url), 'utf8'));
 const valid = () => ({ ...initialValues(), name: 'Sample Buyer', company: 'Individual / new business', email: 'buyer@example.com', phone: '+44 7700 900123', country: 'United Kingdom', city: 'London', component: 'Lighting housing', description: 'A custom aluminum mold inquiry.', drawing_status: 'Clear 2D part drawings', processing: true });
+
+test('optional purchase choices round-trip from form through backend and admin filters without inventing a budget answer', () => {
+  const env = { NOTICE_VERSION:noticeVersions.notice_version, PRIVACY_VERSION:noticeVersions.privacy_version, PROCESSING_BASIS:noticeVersions.privacy_processing_basis, WHATSAPP_NOTICE_VERSION:noticeVersions.whatsapp_choice_text_version };
+  assert.equal(buildInquiryPayload(valid()).budget_status, null);
+  for (const field of groups.flatMap(g=>g.fields).filter(f=>['budget_status','purchase_timing'].includes(f.key))) {
+    const adminOptions=field.key==='budget_status'?adminBudgets:adminTimings;
+    for(const choice of field.options){
+      const values={...valid(),[field.key]:choice};
+      assert.deepEqual(validateInquiry(values,groups),{});
+      assert.deepEqual(validateSubmission(buildInquiryPayload(values),env).errors,{});
+      assert.ok(adminOptions.includes(choice));
+    }
+  }
+  assert.deepEqual(validateSubmission({...buildInquiryPayload(valid()),budget_status:'Please advise / not decided'},env).errors,{});
+});
 
 test('every contact/project requirement and purpose-limited processing choice is enforced', () => {
   assert.deepEqual(validateInquiry(valid(), groups), {});

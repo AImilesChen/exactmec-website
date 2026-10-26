@@ -1,5 +1,17 @@
 # Independent Cloudflare website and API entry
 
+## Approved inquiry-form release — 2026-10-26
+
+The owner authorized the guest inquiry form, formal legal pages, protected staff dashboard, sales notification and optional WhatsApp continuation. This collects a request for a later human quotation; it does not calculate a price, take payment, upload drawings or send a WhatsApp message. Budget and purchase timing are optional.
+
+Build with `npm run build:release` and use the matching formal notice values in `src/data/notice-versions.json`. Enable the independently required collection/legal/backend/contact flags. `SEO_INDEXING_ENABLED` and `VITE_SEO_INDEXING_ENABLED` stay false for the owner's next page review; enabling the form does not enable general search indexing. Keep customer email authentication disabled for this release. Optional external analytics still require the visitor's choice and remain excluded from inquiry, account and admin pages.
+
+Cloudflare Access protects `/admin` and `/api/admin` with one audience and an explicit private administrator allowlist. Temporary prelaunch protections on `/request-a-quote` and `/api/inquiries` must be removed for guest submissions. The owner deferred personal login testing and the second administrator's authentication setup; do not add an IdP, change the existing mailbox login or invite an account member to force that test. The public sales address is only a contact and notification address, never an administrator.
+
+Deployment uses the existing EXACTMEC Worker and D1, preserving independent Worker secrets and the restricted sales-to-sales email binding. Run the full frontend/backend checks before deployment and verify a single clearly marked synthetic inquiry after deployment. Record D1 persistence and notification delivery separately from personal dashboard login. Check anonymous admin denial, guest access, exact notice versions, idempotency and the generated WhatsApp reference URL. Never treat a native mail acceptance or an outbox `sent` state alone as recipient delivery.
+
+The following defaults describe unconfigured candidates and historical review deployments; they are not evidence that the approved live form is still disabled.
+
 `worker.mjs` is separate from the protected prototype Sites worker. It serves allowlisted static assets and routes `/api/**` to the backend. Without the intended database, approved collection configuration and strong secrets, inquiry writes fail closed. Admin APIs independently require verified Access identity, an explicit allowlist and CSRF for writes. Other public write methods return 405. See `../backend/README.md` and `../backend/CONTRACT.md`.
 
 Bind static files as `ASSETS`. Set `RELEASE = "false"` and `LEGAL_APPROVED = "false"` by default. Staging can display legal drafts for review, always with `X-Robots-Tag: noindex,nofollow` and `Cache-Control: no-store`. Release mode blocks legal routes unless the independent legal approval flag is true. It does not replace build-time publication checks.

@@ -57,7 +57,7 @@ export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults,cmsBundl
  useEffect(()=>bindSiteAnalytics(document,analytics),[analytics]);
  useEffect(()=>{const change=()=>{if(config.externalAnalyticsEnabled){location.reload();return;}setUrl(location.pathname+location.search+location.hash);};addEventListener('popstate',change);return()=>removeEventListener('popstate',change)},[config.externalAnalyticsEnabled]);
  useEffect(()=>{
-  applyMetadata(getPageMeta(path,{origin:config.origin,release:config.release,whatsappNumber:config.whatsappNumber,pageOverride:mapped}));
+  applyMetadata(getPageMeta(path,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled,whatsappNumber:config.whatsappNumber,pageOverride:mapped}));
   analytics.track('pageview',{route:path});
   const hash=url.split('#')[1];
   if(hash){let id;try{id=decodeURIComponent(hash)}catch{return;}requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({behavior:'auto'}));}

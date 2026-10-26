@@ -7,8 +7,8 @@ export const reviewOptions = Object.freeze({
   priority: ['A', 'B', 'C'],
 });
 export const drawingOptions = Object.freeze(['Clear 2D part drawings', '3D part model / drawings', 'Both 2D and 3D part drawings', 'A physical sample', 'Photos / concept only', 'Not sure yet']);
-export const timingOptions = Object.freeze(['As soon as the project is confirmed', 'Within 1–3 months', 'Within 3–6 months', 'More than 6 months from now', 'Early research / timing not decided', 'Prefer not to say']);
-export const budgetOptions = Object.freeze(['I have an estimated budget', 'Please advise / not decided', 'Prefer not to say']);
+export const timingOptions = Object.freeze(['As soon as the project is confirmed', 'Within 1 month', 'Within 1–3 months', 'Within 3–6 months', 'More than 6 months from now', 'Early research / timing not decided', 'Prefer not to say']);
+export const budgetOptions = Object.freeze(['I have an estimated budget', 'Not decided yet', 'Please advise', 'Prefer not to say', 'Please advise / not decided']);
 
 export const labels = Object.freeze({
   New: '新询盘', Reviewing: '审核中', 'Need More Information': '待补充资料', Contacted: '已联系', 'Quotation Sent': '已发报价', Won: '已成交', Lost: '未成交', Spam: '垃圾信息',
@@ -20,7 +20,8 @@ export const labels = Object.freeze({
   'A physical sample': '实物样品', 'Photos / concept only': '仅有照片 / 概念', 'Not sure yet': '尚未确定',
   'As soon as the project is confirmed': '项目确认后尽快', 'Within 1–3 months': '1–3 个月内', 'Within 3–6 months': '3–6 个月内',
   'More than 6 months from now': '6 个月以后', 'Early research / timing not decided': '前期调研 / 时间未定', 'Prefer not to say': '不便透露',
-  'I have an estimated budget': '有预计预算', 'Please advise / not decided': '请提供建议 / 预算未定', '__not_provided__': '未填写',
+  'Within 1 month': '1 个月内', 'Not decided yet': '预算未定', 'Please advise': '希望获得预算建议',
+  'I have an estimated budget': '有预计预算', 'Please advise / not decided': '请提供建议 / 预算未定（旧选项）', '__not_provided__': '未填写',
 });
 
 export const defaultFilters = () => ({ search: '', status: '', authenticity: '', fit: '', readiness: '', qualification: '', priority: '', drawing_status: '', purchase_timing: '', budget_status: '', page: 1, pageSize: 25 });

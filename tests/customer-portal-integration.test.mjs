@@ -1,3 +1,4 @@
+import noticeVersions from '../src/data/notice-versions.json' with {type:'json'};
 import test, { before, beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -48,7 +49,7 @@ before(async () => {
     const sql = await fs.readFile(new URL('../migrations/' + filename, import.meta.url), 'utf8');
     await DB.batch(sql.split(';').map(value => value.trim()).filter(Boolean).map(value => DB.prepare(value)));
   }
-  env = { DB, SITE_ORIGIN: origin, CUSTOMER_AUTH_SECRET: 'synthetic-customer-auth-secret-at-least-32', RATE_LIMIT_SECRET: 'synthetic-customer-rate-secret-at-least-32', CONTACT_HASH_SECRET: 'synthetic-customer-contact-secret-at-least-32', NOTICE_VERSION: 'inquiry-copy-2026-10-25-draft', PRIVACY_VERSION: 'privacy-policy-draft', PROCESSING_BASIS: 'purpose_limited_consent_draft', WHATSAPP_NOTICE_VERSION: 'inquiry-copy-2026-10-25-draft' };
+  env = { DB, SITE_ORIGIN: origin, CUSTOMER_AUTH_SECRET: 'synthetic-customer-auth-secret-at-least-32', RATE_LIMIT_SECRET: 'synthetic-customer-rate-secret-at-least-32', CONTACT_HASH_SECRET: 'synthetic-customer-contact-secret-at-least-32', NOTICE_VERSION: noticeVersions.notice_version, PRIVACY_VERSION: noticeVersions.privacy_version, PROCESSING_BASIS: noticeVersions.privacy_processing_basis, WHATSAPP_NOTICE_VERSION: noticeVersions.whatsapp_choice_text_version };
 });
 beforeEach(async () => {
   deliveries = [];

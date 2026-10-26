@@ -1,3 +1,4 @@
+import noticeVersions from '../src/data/notice-versions.json' with {type:'json'};
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -11,7 +12,7 @@ test('owner dashboard sees customer supplements and stops contact actions only f
   try{
     const db=await mf.getD1Database('DB');
     for(const name of ['0001_inquiries.sql','0006_customer_portal.sql'])await db.batch(readFileSync(new URL('../migrations/'+name,import.meta.url),'utf8').split(';').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s)));
-    const env={DB:db,SITE_ORIGIN:'https://exactmec.com',CUSTOMER_SCHEMA_READY:'true',RATE_LIMIT_SECRET:'synthetic-rate-secret-more-than-32-characters',CONTACT_HASH_SECRET:'synthetic-contact-secret-more-than-32-characters',NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',PRIVACY_VERSION:'privacy-policy-draft',PROCESSING_BASIS:'purpose_limited_consent_draft',WHATSAPP_NOTICE_VERSION:'inquiry-copy-2026-10-25-draft'};
+    const env={DB:db,SITE_ORIGIN:'https://exactmec.com',CUSTOMER_SCHEMA_READY:'true',RATE_LIMIT_SECRET:'synthetic-rate-secret-more-than-32-characters',CONTACT_HASH_SECRET:'synthetic-contact-secret-more-than-32-characters',NOTICE_VERSION: noticeVersions.notice_version,PRIVACY_VERSION: noticeVersions.privacy_version,PROCESSING_BASIS: noticeVersions.privacy_processing_basis,WHATSAPP_NOTICE_VERSION: noticeVersions.whatsapp_choice_text_version};
     const actor={id:'synthetic-owner',email:'owner@example.invalid'},context={actor,localSynthetic:true};
     const request=(path,method='GET',body,extra={})=>new Request('https://exactmec.com'+path,{method,headers:{'Content-Type':'application/json',...extra},...(method!=='GET'?{body:JSON.stringify(body)}:{})});
     const payload=buildInquiryPayload({...initialValues(),name:'Synthetic buyer',company:'Synthetic company',email:'buyer@example.invalid',phone:'+12025550140',country:'United States',city:'Synthetic city',component:'Synthetic housing',description:'Synthetic portal test only.',drawing_status:'A physical sample',processing:true,whatsapp:true});

@@ -136,6 +136,7 @@
           "type": "select",
           "options": [
             "As soon as the project is confirmed",
+            "Within 1 month",
             "Within 1–3 months",
             "Within 3–6 months",
             "More than 6 months from now",
@@ -151,7 +152,8 @@
           "helper": "Optional. An estimate helps us discuss scope; it is not a quote or a condition for submitting your inquiry.",
           "options": [
             "I have an estimated budget",
-            "Please advise / not decided",
+            "Not decided yet",
+            "Please advise",
             "Prefer not to say"
           ]
         },

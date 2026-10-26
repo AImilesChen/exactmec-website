@@ -1,3 +1,4 @@
+import noticeVersions from '../src/data/notice-versions.json' with {type:'json'};
 import test, { before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -20,14 +21,14 @@ before(async () => {
   db = await mf.getD1Database('DB');
   const migration = readFileSync(new URL('../migrations/0001_inquiries.sql', import.meta.url), 'utf8');
   await db.batch(migration.split(';').map(sql => sql.trim()).filter(Boolean).map(sql => db.prepare(sql)));
-  env = { DB: db, SITE_ORIGIN: 'https://exactmec.com', RATE_LIMIT_SECRET: 'synthetic-rate-secret-32-characters-minimum', CONTACT_HASH_SECRET: 'synthetic-contact-secret-32-characters-minimum', NOTICE_VERSION: 'inquiry-copy-2026-10-25-draft', PRIVACY_VERSION: 'privacy-policy-draft', PROCESSING_BASIS: 'purpose_limited_consent_draft', WHATSAPP_NOTICE_VERSION: 'inquiry-copy-2026-10-25-draft' };
+  env = { DB: db, SITE_ORIGIN: 'https://exactmec.com', RATE_LIMIT_SECRET: 'synthetic-rate-secret-32-characters-minimum', CONTACT_HASH_SECRET: 'synthetic-contact-secret-32-characters-minimum', NOTICE_VERSION: noticeVersions.notice_version, PRIVACY_VERSION: noticeVersions.privacy_version, PROCESSING_BASIS: noticeVersions.privacy_processing_basis, WHATSAPP_NOTICE_VERSION: noticeVersions.whatsapp_choice_text_version };
 });
 after(async () => { await mf?.dispose(); });
 
 test('production collection is closed by default and draft configuration cannot enable it', async () => {
   const request = () => req('/api/inquiries', 'POST', fixture(), { 'Idempotency-Key': key() });
   assert.equal((await handleBusiness(request(), env, {})).status, 503);
-  assert.equal((await handleBusiness(request(), { ...env, COLLECTION_ENABLED: 'true', LEGAL_APPROVED: 'true' }, {})).status, 503);
+  for(const name of ['NOTICE_VERSION','PRIVACY_VERSION','PROCESSING_BASIS','WHATSAPP_NOTICE_VERSION'])assert.equal((await handleBusiness(request(), { ...env, COLLECTION_ENABLED: 'true', LEGAL_APPROVED: 'true', [name]:'unapproved-draft' }, {})).status, 503);
   assert.equal((await handleBusiness(request(), { ...env, LOCAL_SYNTHETIC: true }, {})).status, 503);
   assert.equal((await handleBusiness(request(), { ...env, RATE_LIMIT_SECRET: 'short' }, context)).status, 503);
 });

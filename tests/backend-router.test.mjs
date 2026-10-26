@@ -1,3 +1,4 @@
+import noticeVersions from '../src/data/notice-versions.json' with {type:'json'};
 import test, { before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -57,7 +58,7 @@ before(async () => {
   env = {
     DB: db, SITE_ORIGIN: origin, ACCESS_TEAM_DOMAIN: 'router-fixture.cloudflareaccess.com', ACCESS_AUD: 'router-fixture-policy', ADMIN_EMAILS: actor.email,
     ADMIN_CSRF_SECRET: 'synthetic-router-access-secret-32-characters', RATE_LIMIT_SECRET: 'synthetic-router-rate-secret-32-characters', CONTACT_HASH_SECRET: 'synthetic-router-contact-secret-32-characters',
-    NOTICE_VERSION: 'inquiry-copy-2026-10-25-draft', PRIVACY_VERSION: 'privacy-policy-draft', PROCESSING_BASIS: 'purpose_limited_consent_draft', WHATSAPP_NOTICE_VERSION: 'inquiry-copy-2026-10-25-draft',
+    NOTICE_VERSION: noticeVersions.notice_version, PRIVACY_VERSION: noticeVersions.privacy_version, PROCESSING_BASIS: noticeVersions.privacy_processing_basis, WHATSAPP_NOTICE_VERSION: noticeVersions.whatsapp_choice_text_version,
   };
   token = await new SignJWT({ email: actor.email, type: 'app' }).setProtectedHeader({ alg: 'RS256', kid: 'synthetic-local-key' }).setSubject(actor.id).setIssuer('https://router-fixture.cloudflareaccess.com').setAudience(env.ACCESS_AUD).setIssuedAt().setExpirationTime('1h').sign(privateKey);
   csrf = await issueCsrf(actor, env);
@@ -141,11 +142,12 @@ test('64KiB applies to actual streamed UTF8 bytes despite missing or forged Cont
   await secure(await handler(streamed, env), 413);
 });
 
-test('closed collection cannot be activated by headers, JSON, bindings or execution context', async () => {
+test('untrusted localSynthetic flags cannot bypass closed collection or draft notices', async () => {
   const count = (await db.prepare('SELECT count(*) AS n FROM leads').first()).n;
   const req = () => request('/api/inquiries', { method: 'POST', body: { ...payload('closed'), localSynthetic: true, actor }, headers: { 'Idempotency-Key': 'router_closed_' + crypto.randomUUID(), 'X-Local-Synthetic': 'true', 'X-Actor': JSON.stringify(actor) } });
-  const bindings = { ...env, LOCAL_SYNTHETIC: true, localSynthetic: true, COLLECTION_ENABLED: 'true', LEGAL_APPROVED: 'true' };
+  const bindings = { ...env, LOCAL_SYNTHETIC: true, localSynthetic: true, COLLECTION_ENABLED: 'false', LEGAL_APPROVED: 'true' };
   assert.deepEqual(await secure(await handler(req(), bindings, { localSynthetic: true, actor }), 503), { error: 'collection_unavailable' });
+  assert.deepEqual(await secure(await handler(req(), { ...bindings, COLLECTION_ENABLED:'true', NOTICE_VERSION:'unapproved-draft' }, { localSynthetic:true, actor }), 503), { error:'collection_unavailable' });
   const session = await secure(await handler(request('/api/admin/session', { authenticated: true, headers: { 'X-Local-Synthetic': 'true' } }), bindings, { localSynthetic: true }), 200);
   assert.equal(session.localSynthetic, false);
   assert.equal((await db.prepare('SELECT count(*) AS n FROM leads').first()).n, count);

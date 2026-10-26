@@ -4,11 +4,11 @@ import {getPageMeta} from '../src/seo/metadata.mjs';
 const yes=v=>v===true||v==='true';
 const escape=v=>String(v).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 export function publicRuntimeConfig(env,bundle){
- const config=createSiteConfig({origin:env.SITE_ORIGIN||business.siteOrigin,release:yes(env.RELEASE)&&!bundle.preview,legalApproved:yes(env.LEGAL_APPROVED),backendVerified:yes(env.BACKEND_VERIFIED),contactEmailVerified:yes(env.CONTACT_EMAIL_VERIFIED),inquiryEnabled:yes(env.COLLECTION_ENABLED),analyticsEnabled:yes(env.METRICS_ENABLED),externalAnalyticsEnabled:yes(env.EXTERNAL_ANALYTICS_ENABLED)&&!bundle.preview});
+ const config=createSiteConfig({origin:env.SITE_ORIGIN||business.siteOrigin,release:yes(env.RELEASE)&&!bundle.preview,seoIndexingEnabled:yes(env.SEO_INDEXING_ENABLED)&&!bundle.preview,legalApproved:yes(env.LEGAL_APPROVED),backendVerified:yes(env.BACKEND_VERIFIED),contactEmailVerified:yes(env.CONTACT_EMAIL_VERIFIED),inquiryEnabled:yes(env.COLLECTION_ENABLED),analyticsEnabled:yes(env.METRICS_ENABLED),externalAnalyticsEnabled:yes(env.EXTERNAL_ANALYTICS_ENABLED)&&!bundle.preview});
  return {...config,...bundle.settings,...(bundle.settings?.address?{correspondenceAddress:bundle.settings.address}:{}),...(bundle.settings?.whatsappNumber?{whatsappDisplay:'+'+bundle.settings.whatsappNumber}:{}),whatsappUrl:'https://wa.me/'+(bundle.settings?.whatsappNumber||config.whatsappNumber)};
 }
 export function renderPublishedHtml(shell,url,env,bundle,page,originalPath){
- const config=publicRuntimeConfig(env,bundle),meta=getPageMeta(originalPath,{origin:config.origin,release:config.release,pageOverride:page});
+ const config=publicRuntimeConfig(env,bundle),meta=getPageMeta(originalPath,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled,pageOverride:page});
  const html=render(url,config,bundle);
  let output=shell.replace(/<!--exactmec:root:start-->[\s\S]*?<!--exactmec:root:end-->/,()=>'<!--exactmec:root:start--><div id="root">'+html+'</div><!--exactmec:root:end-->');
  output=output.replace(/<title>.*?<\/title>/s,()=>'<title>'+escape(meta.title)+'</title>');

@@ -105,6 +105,10 @@ function LeadDetail({ lead, busy, locked, requiresRefresh, onReload, onUpdate, o
   </article>;
 }
 
+export function AdminAccessPanel({loading=false,onRetry}) {
+  return <section className="admin-auth-panel"><div className="admin-lock-symbol" aria-hidden="true">◎</div><h2>{loading ? '正在验证访问权限' : '需要授权访问'}</h2><p>{loading ? '验证完成后加载受保护的后台资料。' : '请先完成已配置的访问验证，再重新载入。本页不会使用示例记录替代接口结果。'}</p>{!loading && <><a className="admin-button" href="/admin/leads/">前往安全登录</a>{' '}<button className="admin-button secondary" type="button" onClick={onRetry}>重新验证并加载</button></>}</section>;
+}
+
 export function AdminApp() {
   const client = useMemo(() => createAdminClient(), []);
   const alive = useRef(true);
@@ -249,7 +253,7 @@ export function AdminApp() {
       {error && <Notice error>{error.message}{credentialExpired && ' 使用页面右上角的“重新验证”刷新凭据。'}</Notice>}
       {success && view === 'leads' && <Notice>{success}</Notice>}
       {session && view === 'leads' && <MetricsSummary/>}
-      {!session ? <section className="admin-auth-panel"><div className="admin-lock-symbol" aria-hidden="true">◎</div><h2>{authLoading ? '正在验证访问权限' : '需要授权访问'}</h2><p>{authLoading ? '验证完成后加载受保护的后台资料。' : '请先完成已配置的访问验证，再重新载入。本页不会使用示例记录替代接口结果。'}</p>{!authLoading && <button className="admin-button" type="button" onClick={authenticate}>重新验证并加载</button>}</section> : view === 'content' ? <ContentWorkspace client={client} locked={credentialExpired} onAccessError={fail} onBusyChange={setBusy} /> : <>
+      {!session ? <AdminAccessPanel loading={authLoading} onRetry={authenticate}/> : view === 'content' ? <ContentWorkspace client={client} locked={credentialExpired} onAccessError={fail} onBusyChange={setBusy} /> : <>
         <form className="admin-filter-panel" onSubmit={event => { event.preventDefault(); loadList({ ...draftFilters, page: 1 }); }} autoComplete="off"><div className="admin-search-row"><label className="admin-field admin-search"><span>搜索询盘</span><input type="search" placeholder="公司、联系人、邮箱或项目关键词" maxLength={120} value={draftFilters.search} onChange={event => updateFilter('search', event.target.value)} disabled={credentialExpired} /></label><OptionSelect name="status" value={draftFilters.status} all onChange={value => updateFilter('status', value)} disabled={credentialExpired} /><button className="admin-button" type="submit" disabled={listLoading || credentialExpired || busy}>查询</button><button className="admin-text-button" type="button" disabled={listLoading || credentialExpired || busy} onClick={() => { const fresh = defaultFilters(); setDraftFilters(fresh); loadList(fresh); }}>重置</button></div>
           <details className="admin-filter-more"><summary>更多筛选</summary><div className="admin-filter-grid">
             {['authenticity', 'fit', 'readiness', 'qualification', 'priority'].map(key => <OptionSelect key={key} name={key} value={draftFilters[key]} all onChange={value => updateFilter(key, value)} disabled={credentialExpired} />)}

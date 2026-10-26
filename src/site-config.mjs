@@ -28,6 +28,8 @@ export function createSiteConfig(values = {}) {
   return Object.freeze({
     ...business, origin, contactEmail, contactEmailVerified, release, legalApproved, backendVerified,
     inquiryEnabled, inquiryEndpoint: '/api/inquiries',
+    // Opening inquiries does not implicitly authorize search-engine indexing.
+    seoIndexingEnabled: release && values.seoIndexingEnabled === true,
     analyticsEnabled: release && values.analyticsEnabled === true,
     externalAnalyticsEnabled: origin === business.siteOrigin && values.externalAnalyticsEnabled === true,
     whatsappUrl: 'https://wa.me/' + business.whatsappNumber,
@@ -40,6 +42,7 @@ export const siteConfig = createSiteConfig({
   contactEmail: env.VITE_CONTACT_EMAIL || business.contactEmail,
   contactEmailVerified: env.VITE_CONTACT_EMAIL_VERIFIED === 'true',
   release: env.VITE_SITE_RELEASE === 'true',
+  seoIndexingEnabled: env.VITE_SEO_INDEXING_ENABLED === 'true',
   legalApproved: env.VITE_LEGAL_APPROVED === 'true',
   backendVerified: env.VITE_BACKEND_VERIFIED === 'true',
   inquiryEnabled: env.VITE_INQUIRY_ENABLED === 'true',

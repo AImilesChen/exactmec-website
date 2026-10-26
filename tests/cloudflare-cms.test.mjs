@@ -76,7 +76,7 @@ test('renaming a published page rewrites canonical, old path redirect, navigatio
   const old = await request('/about/');
   assert.equal(old.status, 308);
   assert.equal(old.headers.get('Location'), '/company-background/');
-  const response = await request('/company-background/', { RELEASE: 'true', LEGAL_APPROVED: 'true' });
+  const response = await request('/company-background/', { RELEASE: 'true', SEO_INDEXING_ENABLED: 'true', LEGAL_APPROVED: 'true' });
   assert.equal(response.status, 200);
   assert.equal(response.headers.get('X-Robots-Tag'), 'index,follow');
   const html = await response.text();
@@ -85,7 +85,7 @@ test('renaming a published page rewrites canonical, old path redirect, navigatio
   assert.equal(bootstrap(html).initialUrl, '/company-background/');
   const home = await (await request('/')).text();
   assert.match(home, /href="\/company-background\/"/);
-  const sitemap = await (await request('/sitemap.xml', { RELEASE: 'true' })).text();
+  const sitemap = await (await request('/sitemap.xml', { RELEASE: 'true', SEO_INDEXING_ENABLED: 'true' })).text();
   assert.match(sitemap, /<loc>https:\/\/exactmec\.com\/company-background\/<\/loc>/);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/exactmec\.com\/about\/<\/loc>/);
   await publish('about', { path: '/company-story/', h1: 'Synthetic second renamed heading' });
@@ -103,7 +103,7 @@ test('withdrawal returns 410 at original, current and alias paths and removes pu
   for (const path of ['/about/', '/company-background/', '/company-story/']) assert.equal((await request(path)).status, 410, path);
   const html = await (await request('/')).text();
   assert.doesNotMatch(html, /href="\/(?:about|company-background|company-story)\/"/);
-  const sitemap = await (await request('/sitemap.xml', { RELEASE: 'true' })).text();
+  const sitemap = await (await request('/sitemap.xml', { RELEASE: 'true', SEO_INDEXING_ENABLED: 'true' })).text();
   assert.doesNotMatch(sitemap, /<loc>https:\/\/exactmec\.com\/(?:about|company-background|company-story)\/<\/loc>/);
 });
 

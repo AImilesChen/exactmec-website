@@ -62,6 +62,7 @@ export default {
     const url = new URL(request.url);
     const path = publicPath(url.pathname);
     const release = truthy(env.RELEASE);
+    const seoIndexing = release && truthy(env.SEO_INDEXING_ENABLED);
     const head = request.method === 'HEAD';
     const options = { head, staging: !release,externalAnalytics:truthy(env.EXTERNAL_ANALYTICS_ENABLED)&&isVendorMarketingRoute(path),noReferrer:['/request-a-quote/','/inquiry-received/'].includes(path) };
     // Only the confirmed apex and its www alias are canonicalized. API writes
@@ -126,16 +127,19 @@ export default {
     if (!['GET', 'HEAD'].includes(request.method)) return finish(message('Method Not Allowed', 405, { Allow: 'GET, HEAD' }), options);
     // A scoped review exception for the owner's Site Audit project only.
     // Robots directives are crawl preferences, never authentication controls.
-    if(path==='/robots.txt'&&!release&&truthy(env.AHREFS_AUDIT_ENABLED)){
-      const rules='User-agent: *\nDisallow: /\n\nUser-agent: AhrefsSiteAudit\nAllow: /\nDisallow: /api\nDisallow: /admin\nDisallow: /account\nDisallow: /customer\nDisallow: /design-system\nDisallow: /inquiry-received\nCrawl-delay: 2\n';
-      return finish(message(rules,200),options);
+    if(path==='/robots.txt'&&!seoIndexing){
+      const rules='User-agent: *\nDisallow: /\n'+(truthy(env.AHREFS_AUDIT_ENABLED)?'\nUser-agent: AhrefsSiteAudit\nAllow: /\nDisallow: /api\nDisallow: /admin\nDisallow: /account\nDisallow: /customer\nDisallow: /design-system\nDisallow: /inquiry-received\nCrawl-delay: 2\n':'');
+      return finish(message(rules,200,{'Cache-Control':'no-store'}),options);
+    }
+    if(path==='/sitemap.xml'&&!seoIndexing){
+      return finish(new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>',{headers:{'Content-Type':'application/xml; charset=utf-8','Cache-Control':'no-store'}}),options);
     }
     if(truthy(env.CMS_ENABLED)&&!isAsset(path||'')||truthy(env.CMS_ENABLED)&&path==='/sitemap.xml'){
       try{
         const bundle=await loadPublicContent(env);
         if(path==='/sitemap.xml'){
           const esc=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
-          const items=release?publishedSitemapPages(bundle).map(page=>'<url><loc>'+esc(env.SITE_ORIGIN+page.path)+'</loc>'+(page.lastmod?'<lastmod>'+page.lastmod+'</lastmod>':'')+'</url>').join('\n'):'';
+          const items=seoIndexing?publishedSitemapPages(bundle).map(page=>'<url><loc>'+esc(env.SITE_ORIGIN+page.path)+'</loc>'+(page.lastmod?'<lastmod>'+page.lastmod+'</lastmod>':'')+'</url>').join('\n'):'';
           return finish(new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+items+'</urlset>',{headers:{'Content-Type':'application/xml; charset=utf-8'}}),options);
         }
         const published=resolvePublishedContent(path,bundle);
@@ -148,7 +152,7 @@ export default {
           let shell=await asset(env,request,artifact);if(shell.status!==200&&published?.page)shell=await asset(env,request,'/about/index.html');
           if(shell.status!==200)return finish(await notFound(env,request),{...options,status:404});
           const externalAnalytics=truthy(env.EXTERNAL_ANALYTICS_ENABLED)&&(published?.page?isVendorMarketingRoute(published.page.path,[published.page.path]):isVendorMarketingRoute(ordinary.path));
-          return finish(renderPublishedHtml(await shell.text(),published?.page?.path||ordinary.path,env,bundle,published?.page,original),{...options,externalAnalytics,robots:!release?'noindex,nofollow':ordinary.kind==='legal'?'noindex,follow':ordinary.kind==='system'&&!published?.page?'noindex,nofollow':'index,follow'});
+          return finish(renderPublishedHtml(await shell.text(),published?.page?.path||ordinary.path,env,bundle,published?.page,original),{...options,externalAnalytics,robots:!seoIndexing?'noindex,nofollow':ordinary.kind==='legal'?'noindex,follow':ordinary.kind==='system'&&!published?.page?'noindex,nofollow':'index,follow'});
         }
       }catch{return finish(message('Content temporarily unavailable.',503),options);}
     }
@@ -157,11 +161,11 @@ export default {
     if (path && isAsset(path) && env.ASSETS?.fetch) {
       const response = await asset(env, request, path);
       // Guard against a host-level SPA fallback answering a missing asset with HTML.
-      if (response.status === 200 && !response.headers.get('Content-Type')?.includes('text/html')) return finish(response, { ...options, robots: release ? 'index,follow' : 'noindex,nofollow' });
+      if (response.status === 200 && !response.headers.get('Content-Type')?.includes('text/html')) return finish(response, { ...options, robots: seoIndexing ? 'index,follow' : 'noindex,nofollow' });
     } else if (route.status === 200 && env.ASSETS?.fetch) {
       const artifact = route.path === '/' ? '/index.html' : route.path.replace(/\/$/, '') + '/index.html';
       const response = await asset(env, request, artifact);
-      if (response.status === 200) return finish(response, { ...options, robots: !release ? 'noindex,nofollow' : route.kind === 'legal' ? 'noindex,follow' : route.kind === 'system' ? 'noindex,nofollow' : 'index,follow' });
+      if (response.status === 200) return finish(response, { ...options, robots: !seoIndexing ? 'noindex,nofollow' : route.kind === 'legal' ? 'noindex,follow' : route.kind === 'system' ? 'noindex,nofollow' : 'index,follow' });
     }
     return finish(await notFound(env, request), { ...options, status: 404 });
   },

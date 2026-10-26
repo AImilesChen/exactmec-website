@@ -28,6 +28,8 @@ test('writes require a session; search is POST with bounded allowlisted body and
   assert.equal(init.referrerPolicy, 'no-referrer');
   assert.equal(init.headers['X-CSRF-Token'], 'memory-only-csrf');
   assert.equal(init.headers['Content-Type'], 'application/json');
+  assert.equal(init.headers['X-Requested-With'], 'XMLHttpRequest');
+  assert.equal(calls[0].init.headers['X-Requested-With'], 'XMLHttpRequest');
   assert.deepEqual(JSON.parse(init.body), { ...defaultFilters(), search: 'synthetic@example.invalid', status: 'New' });
   assert.doesNotMatch(url, /example|\?|#/);
   await assert.rejects(client.search({ pageSize: 101 }), kind('invalid'));
@@ -110,6 +112,22 @@ test('auth, CSRF, conflict and outage are distinct; raw server messages never es
       assert.equal(calls.length, 2);
     }
   }
+});
+
+test('Access AJAX session expiry returns a safe login-required error and blocks writes until a fresh session', async () => {
+  const calls=[];
+  let expired=false;
+  const client=createAdminClient({fetchImpl:async(url,init)=>{
+    calls.push({url,init});
+    if(expired)return new Response('<html>Access login PRIVATE@example.invalid</html>',{status:401,headers:{'Content-Type':'text/html'}});
+    return url.endsWith('/session')?session():list();
+  }});
+  await client.session();expired=true;
+  await assert.rejects(client.search({}),error=>error.kind==='auth_required'&&error.status===401&&!/PRIVATE|html|example/.test(error.message));
+  await assert.rejects(client.update(reference,{revision:1,review:{},note:''}),kind('csrf'));
+  assert.equal(calls.length,2,'a failed authenticated call is neither retried nor converted into a write');
+  assert.ok(calls.every(call=>call.url.startsWith('/api/admin/')&&call.init.headers['X-Requested-With']==='XMLHttpRequest'&&call.init.redirect==='error'&&call.init.credentials==='same-origin'));
+  expired=false;await client.session();await client.search({});assert.equal(calls.length,4);
 });
 
 test('malformed success, HTML auth pages and transport failures never become synthetic data', async () => {

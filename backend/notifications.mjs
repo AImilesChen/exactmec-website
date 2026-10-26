@@ -7,7 +7,7 @@ export function notificationMessage(env,reference) {
  let origin;try{const u=new URL(env.SITE_ORIGIN);if(u.protocol!=='https:'||u.origin!==env.SITE_ORIGIN)throw new Error();origin=u.origin;}catch{return null;}
  // Only the opaque reference and protected URL belong in an email. The
  // recipient and sender are fixed server settings, never submission fields.
- return {to:env.NOTIFY_TO,from:env.NOTIFY_FROM,subject:'EXACTMEC: inquiry awaiting review',text:`A mold inquiry is ready for review.\nReference: ${reference}\nOpen the protected dashboard: ${origin}/admin/leads/${encodeURIComponent(reference)}/\n`};
+ return {to:env.NOTIFY_TO,from:env.NOTIFY_FROM,subject:`EXACTMEC: inquiry awaiting review · ${reference}`,text:`A mold inquiry is ready for review.\nReference: ${reference}\nOpen the protected dashboard: ${origin}/admin/leads/${encodeURIComponent(reference)}/\n`};
 }
 export async function deliverNotification(env,reference,{timeoutMs=15000}={}) {
  const job=await getNotificationJob(env.DB,reference);

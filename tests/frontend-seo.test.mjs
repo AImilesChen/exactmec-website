@@ -55,7 +55,7 @@ test('metadata preserves source title and description and does not invent URL fi
 test('release metadata indexes exactly the eighteen marketing routes, with consistent schema URLs', () => {
   const origin = 'https://confirmed.example';
   for (const route of PUBLIC_ROUTES) {
-    const meta = getPageMeta(route.path + '?utm_source=ignored#section', { release: true, origin });
+    const meta = getPageMeta(route.path + '?utm_source=ignored#section', { release: true, indexingEnabled: true, origin });
     const marketing = !['legal', 'system'].includes(route.kind);
     assert.equal(meta.robots, marketing ? 'index,follow' : route.kind === 'legal' ? 'noindex,follow' : 'noindex,nofollow');
     assert.equal(meta.canonical, route.kind === 'system' ? null : origin + route.path);
@@ -67,7 +67,7 @@ test('release metadata indexes exactly the eighteen marketing routes, with consi
       assert.equal(meta.jsonLd['@graph'][0].name, '台州巽风贸易有限公司');
     } else assert.equal(meta.jsonLd, null);
   }
-  assert.equal(getPageMeta('/request-a-quote/', { release: true, origin }).jsonLd['@graph'][2].headline, 'Tell Us About Your Mold Project');
+  assert.equal(getPageMeta('/request-a-quote/', { release: true, indexingEnabled: true, origin }).jsonLd['@graph'][2].headline, 'Tell Us About Your Mold Project');
   assert.equal(getPageMeta('/inquiry-received/').title, 'Inquiry Received | ExactMec');
   for (const route of PUBLIC_ROUTES.filter(route => route.kind === 'legal')) {
     assert.ok(getPageMeta(route.path).description.length > 20, route.path);

@@ -5,7 +5,7 @@ export const requiredFields = ['name', 'company', 'email', 'phone', 'country', '
 export const countries = ['United Arab Emirates', 'Saudi Arabia', 'Malaysia', 'Singapore', 'Thailand', 'Vietnam', 'Indonesia', 'Philippines', 'India', 'Oman', 'Qatar', 'Kuwait', 'Bahrain', 'United States', 'Germany', 'United Kingdom', 'China', 'Other country / region'];
 export const currencies = ['USD', 'EUR', 'GBP', 'AED', 'SAR', 'SGD', 'MYR', 'CNY', 'Other currency'];
 export const moldQuantities = ['1', '2', '3', '4', '5', 'More than 5', 'Not sure'];
-export const initialValues = () => ({ mold_sets: '1', budget_status: 'Please advise / not decided', processing: false, whatsapp: false });
+export const initialValues = () => ({ mold_sets: '1', budget_status: '', processing: false, whatsapp: false });
 const text = value => typeof value === 'string' ? value.trim() : typeof value === 'number' && Number.isFinite(value) ? String(value) : '';
 const has = value => text(value) !== '';
 const positiveAmount = value => /^\d+(?:\.\d+)?$/.test(text(value)) && Number.isFinite(Number(value)) && Number(value) > 0;

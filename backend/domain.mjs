@@ -11,8 +11,9 @@ export const reviewOptions = {
 export const defaultReview = () => ({ status: 'New', authenticity: 'Unreviewed', fit: 'Needs Review', readiness: 'Self-reported', qualification: 'Unreviewed', priority: 'B', owner: '', next_follow_up: '' });
 const drawingOptions = ['Clear 2D part drawings', '3D part model / drawings', 'Both 2D and 3D part drawings', 'A physical sample', 'Photos / concept only', 'Not sure yet'];
 const industryOptions = ['Automotive', 'Motorcycle / e-mobility', 'LED lighting', 'Motors / pumps / transmission', 'Electronics / telecommunications', 'Energy / power equipment', 'Industrial automation', 'Power tools / home appliances', 'Other / not sure'];
-export const timingOptions = ['As soon as the project is confirmed', 'Within 1–3 months', 'Within 3–6 months', 'More than 6 months from now', 'Early research / timing not decided', 'Prefer not to say'];
-export const budgetOptions = ['I have an estimated budget', 'Please advise / not decided', 'Prefer not to say'];
+export const timingOptions = ['As soon as the project is confirmed', 'Within 1 month', 'Within 1–3 months', 'Within 3–6 months', 'More than 6 months from now', 'Early research / timing not decided', 'Prefer not to say'];
+// Keep the former combined value valid for existing clients and stored inquiries.
+export const budgetOptions = ['I have an estimated budget', 'Not decided yet', 'Please advise', 'Prefer not to say', 'Please advise / not decided'];
 const required = ['name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status'];
 const isObject = value => value && typeof value === 'object' && !Array.isArray(value);
 const safeString = (value, limit, empty = false) => typeof value === 'string' && (empty || value.trim().length > 0) && value.length <= limit && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value);

@@ -21,7 +21,7 @@ test('Ahrefs review exception names SiteAudit only and preserves private exclusi
 });
 
 test('the explicit audit flag does not alter default or released robots assets, indexing, collection or admin access',async()=>{
- for(const extra of [{},{AHREFS_AUDIT_ENABLED:'false'},{AHREFS_AUDIT_ENABLED:'true',RELEASE:'true'}])assert.equal(await(await request('/robots.txt',environment(extra))).text(),staticRobots);
+ for(const extra of [{},{AHREFS_AUDIT_ENABLED:'false'},{AHREFS_AUDIT_ENABLED:'true',RELEASE:'true',SEO_INDEXING_ENABLED:'true'}])assert.equal(await(await request('/robots.txt',environment(extra))).text(),staticRobots);
  const env=environment({AHREFS_AUDIT_ENABLED:'true'}),home=await request('/',env);
  assert.equal(home.headers.get('X-Robots-Tag'),'noindex,nofollow');assert.match(await home.text(),/content="noindex,nofollow"/);
  assert.equal((await request('/admin/leads/',env)).status,404);

@@ -31,7 +31,7 @@ function schema(page, origin) {
   return { '@context': 'https://schema.org', '@graph': graph };
 }
 
-export function getPageMeta(input, { origin = '', release = false, whatsappNumber = '8615990661727',pageOverride } = {}) {
+export function getPageMeta(input, { origin = '', release = false, indexingEnabled = false, whatsappNumber = '8615990661727',pageOverride } = {}) {
   // The confirmed WhatsApp channel is deliberately not an Organization telephone.
   void whatsappNumber;
   const base = confirmedOrigin(origin);
@@ -44,11 +44,12 @@ export function getPageMeta(input, { origin = '', release = false, whatsappNumbe
   const system = !contract || contract.kind === 'system' ? systems.pages.find(item => item.id === (contract?.id || '404')) : null;
   const title = page?.title || (policy ? policy.title + ' | ExactMec' : system?.title || 'Page Not Found | ExactMec');
   const description = page?.description || policy?.summary || system?.intro || '';
-  const indexable = !!(release && (pageOverride || contract && contract.kind !== 'legal' && contract.kind !== 'system' && contract.phase === 'P0'));
+  const indexing = release && indexingEnabled === true;
+  const indexable = !!(indexing && (pageOverride || contract && contract.kind !== 'legal' && contract.kind !== 'system' && contract.phase === 'P0'));
   const canonical = base && (pageOverride || contract && contract.kind !== 'system') ? base + (pageOverride?.path || contract.path) : null;
   return {
     title, description,
-    robots: !release ? 'noindex,nofollow' : indexable ? 'index,follow' : contract?.kind === 'legal' ? 'noindex,follow' : 'noindex,nofollow',
+    robots: !indexing ? 'noindex,nofollow' : indexable ? 'index,follow' : contract?.kind === 'legal' ? 'noindex,follow' : 'noindex,nofollow',
     canonical, ogUrl: canonical, image: base && (contract||pageOverride) ? base + '/og-image.png' : null,
     jsonLd: base && indexable && page ? schema(page, base) : null,
   };

@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import worker from '../cloudflare/worker.mjs';
 
-function harness({ release = false, approved = false, files = {} } = {}) {
+function harness({ release = false, approved = false, indexing = false, files = {} } = {}) {
   const calls = [];
-  const env = { RELEASE: String(release), LEGAL_APPROVED: String(approved), ASSETS: { fetch: async request => {
+  const env = { RELEASE: String(release), SEO_INDEXING_ENABLED: String(indexing), LEGAL_APPROVED: String(approved), ASSETS: { fetch: async request => {
     const path = new URL(request.url).pathname;
     calls.push(path);
     const file = files[path];
@@ -39,7 +39,7 @@ test('release approval gates legal pages and distinguishes marketing and system 
   const blocked = harness({ release: true, files });
   assert.equal((await blocked.fetch('/privacy')).status, 404);
   assert.ok(!blocked.calls.includes('/privacy/index.html'));
-  const released = harness({ release: true, approved: true, files });
+  const released = harness({ release: true, approved: true, indexing: true, files });
   assert.equal((await released.fetch('/')).headers.get('X-Robots-Tag'), 'index,follow');
   assert.equal((await released.fetch('/privacy')).headers.get('X-Robots-Tag'), 'noindex,follow');
   assert.equal((await released.fetch('/inquiry-received/')).headers.get('X-Robots-Tag'), 'noindex,nofollow');
