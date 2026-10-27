@@ -182,7 +182,7 @@ body:has(.home-v2){min-width:0}
 .home-v2-manufacturing-points svg{color:var(--home-blue);flex-shrink:0;margin-top:2px}
 .home-v2-network-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin:48px 0 0;padding-top:36px;border-top:1px solid #d4dfe8}
 .home-v2-network-stats>div{display:flex;flex-direction:column;text-align:center;align-items:center;gap:12px;min-width:0}
-.home-v2-network-stats dd{order:0;margin:0;font-family:Manrope,Arial,sans-serif;font-size:36px;line-height:1.25;font-weight:700;letter-spacing:-.04em;color:var(--home-blue)}
+.home-v2-network-stats dd{order:0;margin:0;font-family:Manrope,Arial,sans-serif;font-size:36px;line-height:1.25;font-weight:700;letter-spacing:-.04em;color:#c8322a}
 .home-v2-network-stats dt{order:1;font-size:14px;line-height:1.55;max-width:180px}
 .home-v2 .home-v2-network-note{font-size:12px;line-height:1.6;color:var(--home-muted);text-align:center;margin-top:24px}
 .home-v2-manufacturing h2{max-width:470px}

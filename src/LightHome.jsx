@@ -92,7 +92,7 @@ export function LightHome() {
     <div><p className="home-v2-eyebrow">OUR MANUFACTURING NETWORK</p><h2>{heading('resources','Manufacturing Partners. One Clear Contact.')}</h2><p className="home-v2-section-intro">Connect your mold project with an experienced manufacturing partner network in China, serving customers across dozens of countries.</p>
      <ul className="home-v2-manufacturing-points">{['Established mold-making experience','A mature manufacturing and trial process','Coordinated design, samples and mold handover'].map(text=><li key={text}><CheckCircle size={21} aria-hidden="true"/>{text}</li>)}</ul><TextLink href="/manufacturing/">Explore manufacturing resources</TextLink></div>
    </div>
-   <dl className="home-v2-network-stats" aria-label="Partner manufacturing network figures">{[['10+','Years of Mold-Making Experience'],['20+','Countries Served'],['500+','Partner Factories & Production Sites'],['100+','Component Types'],['99%','On-Time Delivery']].map(([value,label])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+   <dl className="home-v2-network-stats" aria-label="Partner manufacturing network figures">{[['10+','Years of Mold-Making Experience'],['50+','Countries Served'],['500+','Partner Factories & Production Sites'],['1000+','Component Types'],['99%','On-Time Delivery']].map(([value,label])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
    <p className="home-v2-network-note">Experience, reach and performance across our manufacturing partner network.</p>
   </div></section>
   <HomeProcess heading={heading('process','From Your Part to Your Finished Mold')}/>
