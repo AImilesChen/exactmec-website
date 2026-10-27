@@ -234,8 +234,8 @@
     "path": "/products/",
     "phase": "P0",
     "kind": "collection",
-    "title": "Die Casting Mold Tooling and Applications | ExactMec",
-    "description": "Find the right starting point for a custom aluminum die casting mold. Explore tooling, component applications and the information needed for a quote.",
+    "title": "Aluminum Die Casting Mold Tooling & Applications | ExactMec",
+    "description": "Explore custom aluminum die casting mold tooling, example component applications and the drawings or sample needed to request a mold quotation.",
     "primary_keyword": "die casting mold tooling",
     "semantic_keywords": [
       "custom mold projects",
@@ -247,8 +247,8 @@
       600
     ],
     "eyebrow": "MOLD TOOLING",
-    "h1": "Find the Starting Point for Your Mold Project",
-    "intro": "Your component defines the tooling request. Use this overview to explore the core mold service, identify a relevant application and prepare the information needed for a quotation.",
+    "h1": "Aluminum Die Casting Mold Tooling & Applications",
+    "intro": "Explore custom mold tooling for your component. Send clear 2D or 3D part drawings, or tell us about a physical sample, to start a project review.",
     "goal_cn": "产品总览是选择入口：单一核心模具服务＋应用分类＋按资料状态找路径；不复制核心产品页长正文。",
     "hero_layout_cn": "窄幅标题＋下方一张主模具卡与应用分类导航；无价格/库存/购物车。",
     "sections": [
@@ -256,7 +256,7 @@
         "id": "core",
         "heading": "Custom Aluminum Die Casting Molds",
         "paragraphs": [
-          "Request a custom mold based on clear 2D or 3D part drawings or an assessable physical sample. One mold set is accepted for consideration. The scope is mold development and delivery, with trial samples for customer testing.",
+          "We coordinate custom aluminum die casting mold projects around your component reference and agreed requirements.",
           "The core product page explains the design confirmation, manufacturing and sample approval stages. Technical details are discussed against your actual component, rather than selected from a standard mold catalog."
         ],
         "layout_cn": "主卡占全宽：模具实图左、说明右；仅一条核心服务，不伪造多SKU。",
@@ -268,31 +268,31 @@
       },
       {
         "id": "families",
-        "heading": "Identify the Component Family",
+        "heading": "Explore Mold Applications",
         "paragraphs": [],
         "layout_cn": "3列应用入口，用途示例而非保证全部可制造；此处不建额外零件产品URL。",
         "visual_cn": "",
         "cards": [
           {
-            "title": "Housings & Enclosures",
-            "text": "Describe the internal space, interfaces, mounting points and intended use.",
-            "href": "/industries/"
+            "title": "Lighting Housings",
+            "text": "Discuss a mold for an LED housing, heat-sink body or related lighting component.",
+            "href": "/industries/led-lighting/"
           },
           {
-            "title": "Covers & End Caps",
-            "text": "Share the matching component, attachment points and any important mating features.",
-            "href": "/industries/"
+            "title": "Motor & Pump Covers",
+            "text": "Share the assembly, mounting features and reference for an end cover or housing.",
+            "href": "/industries/motor-pump-transmission/"
           },
           {
-            "title": "Brackets & Mounting Components",
-            "text": "Explain the assembly location, connection features and critical requirements.",
-            "href": "/industries/"
+            "title": "Electronics Enclosures",
+            "text": "Describe the internal space, connector openings and mounting points.",
+            "href": "/industries/#industry-electronics-telecommunications"
           }
         ]
       },
       {
         "id": "information",
-        "heading": "Choose the Information Route",
+        "heading": "What to Prepare for a Mold Quote",
         "paragraphs": [],
         "layout_cn": "桌面三行对照表；手机转成3张卡；不出现上传按钮。",
         "visual_cn": "",
@@ -304,15 +304,15 @@
           "rows": [
             [
               "Clear 2D or 3D part drawings",
-              "Start an inquiry, then arrange file review with us."
+              "Upload STEP / STP or clear 2D files with your inquiry for project review."
             ],
             [
               "A physical sample",
-              "Tell us about it and arrange sample delivery after contact."
+              "Tell us about it first; we will discuss how to send the sample."
             ],
             [
               "Photos, dimensions or a concept",
-              "Describe the request first; clear drawings or a sample will still be needed before a formal quotation."
+              "Start a preliminary discussion; clear drawings or a sample are still needed for a formal quotation."
             ]
           ]
         }

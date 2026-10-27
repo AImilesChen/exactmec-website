@@ -1,6 +1,6 @@
 import React,{useEffect,useId,useState} from 'react';
 import {CmsPageScope,useCmsMedia,useCmsPage,useCmsOrderedCards} from './cms/Rendering.jsx';
-import {ArrowRight,Plus,Minus,FileText,Cube,CheckCircle,ArrowDown} from '@phosphor-icons/react';
+import {ArrowRight,Plus,Minus,FileText,Cube,Package,CheckCircle,ArrowDown} from '@phosphor-icons/react';
 import {Link} from './Navigation.jsx';
 import pages from './data/site-content.json';
 import {ComposedSections} from './PageCompositions.jsx';
@@ -74,9 +74,43 @@ function ReadingTOC({page}){return <aside className="page-toc reading-toc"><Adap
 function PageEnd({page,hideFAQs=false}){return <>{page.source_urls?.length>0&&<section className="source-notes"><h2>Further Reading</h2><ul>{page.source_urls.map((s,i)=>{const url=typeof s==='string'?s:s.url;return <li key={i}><a href={url} target="_blank" rel="noreferrer">{typeof s==='string'?new URL(s).hostname:s.title||url}</a></li>})}</ul></section>}{!hideFAQs&&page.faqs?.length>0&&<section className="copy-faq" id="questions"><div><p className="eyebrow">BEFORE YOUR INQUIRY</p><h2>Project Questions</h2></div><FAQList faqs={page.faqs}/></section>}{page.related_links?.length>0&&<section className="related-links"><h2>Continue Exploring</h2><div>{page.related_links.map(l=><Action href={l.href} secondary key={l.href}>{l.label}</Action>)}</div></section>}</>}
 export function PageCTA({page}){return page.final_cta?<section className="cta-section"><div className="container cta-inner"><div><p className="eyebrow">YOUR NEXT MOLD PROJECT</p><h2>{page.final_cta.heading}</h2><p>{page.final_cta.text}</p></div><Action href={page.final_cta.href}>{page.final_cta.label}</Action></div></section>:null}
 
+const productExampleImages={
+ '/industries/led-lighting/':'products-led-example-v1',
+ '/industries/motor-pump-transmission/':'products-motor-example-v1',
+ '/industries/#industry-electronics-telecommunications':'products-electronics-example-v1'
+};
+const productSteps=[
+ ['01','Product reference','Share clear part drawings or discuss a physical sample.'],
+ ['02','Quote & payment','Confirm the mold scope and project terms together.'],
+ ['03','Design approval','Review the 3D mold design before manufacturing.'],
+ ['04','Manufacture & trial','The mold is made and trial samples are prepared.'],
+ ['05','Test & handover','Test the samples; the mold ships after your approval.']
+];
+function ProductsPage({page}){
+ const sections=Object.fromEntries((page.sections||[]).map(section=>[section.id,section]));
+ const examples=useCmsOrderedCards(sections.families?.cards||[]);
+ const routes=sections.information?.table?.rows||[];
+ return <div className="products-page">
+  <header className="products-hero"><div className="container">
+   <nav className="breadcrumbs" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Die Casting Molds</span></nav>
+   <div className="products-hero-grid"><div className="products-hero-copy"><p className="eyebrow">CUSTOM MOLD TOOLING</p><h1>{page.h1}</h1><p className="products-intro">{page.intro}</p><div className="products-hero-actions"><Action href="/request-a-quote/">Upload Drawings for a Mold Quote</Action><Action href="/aluminum-die-casting-molds/" secondary>Explore the Mold Service</Action></div><p className="products-hero-note">One mold set welcome · No sign-in required</p></div><Media file="products-hero-v1" priority alt="Illustrative open aluminum die casting mold and an electric motor end cover" caption="Illustrative example · Not a delivered project" className="products-hero-image"/></div>
+  </div></header>
+  <section className="products-proof"><div className="container products-proof-grid"><article><Cube size={30} weight="light" aria-hidden="true"/><div><strong>1 mold set</strong><span>Custom tooling projects welcome</span></div></article><article><FileText size={30} weight="light" aria-hidden="true"/><div><strong>Drawings or sample</strong><span>The reference for a formal quote</span></div></article><article><CheckCircle size={30} weight="light" aria-hidden="true"/><div><strong>Your approval</strong><span>Before manufacturing and mold shipment</span></div></article></div></section>
+  <section id="core" className="products-service container"><Media file="products-service-v1" alt="Illustrative close-up of a machined die casting mold cavity" caption="Illustrative mold image · Not a delivered project" className="products-service-image"/><div className="products-service-copy"><p className="eyebrow">OUR MAIN TOOLING SERVICE</p><h2>{sections.core?.heading||'Custom Aluminum Die Casting Molds'}</h2><p>{sections.core?.paragraphs?.[0]||'Custom molds are assessed against your component drawings or a physical sample.'}</p><ul><li><CheckCircle size={19} aria-hidden="true"/>One mold set can be considered</li><li><CheckCircle size={19} aria-hidden="true"/>3D mold design is sent for approval after payment</li><li><CheckCircle size={19} aria-hidden="true"/>Trial samples are sent for your testing</li></ul><Action href={sections.core?.cta?.href||'/aluminum-die-casting-molds/'}>Explore Aluminum Die Casting Molds</Action></div></section>
+  <aside className="products-secondary container"><div><p className="eyebrow">ADDITIONAL PROJECT INQUIRIES</p><h2>Have an injection mold project?</h2><p>We can discuss it case by case. Aluminum die casting molds remain our main service.</p></div><Action href="/request-a-quote/" secondary>Discuss an Injection Mold</Action></aside>
+  <section id="families" className="products-applications"><div className="container"><div className="products-section-heading"><div><p className="eyebrow">APPLICATION EXAMPLES</p><h2>{sections.families?.heading||'Explore Mold Applications'}</h2><p>Different components call for different mold discussions. These images illustrate possible applications, not completed customer projects.</p></div><Action href="/industries/" secondary>View All Applications</Action></div><div className="products-example-grid">{examples.map((card,index)=><article className="products-example" key={card.title}><Media file={productExampleImages[card.href]||Object.values(productExampleImages)[index%3]} alt={'Illustrative '+card.title.toLowerCase()+' aluminum component'} caption="Illustrative application example"/><div className="products-example-copy"><h3>{card.title}</h3><p>{card.text}</p><Action href={card.href||'/industries/'} secondary>Explore Application</Action></div></article>)}</div></div></section>
+  <section id="process" className="products-process"><div className="container"><div className="products-section-heading"><div><p className="eyebrow">FROM REFERENCE TO HANDOVER</p><h2>Clear Steps for Your Mold Project</h2><p>You approve the design before manufacturing and test trial samples before the mold is shipped.</p></div><Action href="/mold-development-process/" secondary>See the Full Process</Action></div><ol className="products-process-grid">{productSteps.map(([number,title,description])=><li key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></li>)}</ol><p className="products-process-note">A typical project is approximately 30–40 days from payment; scope and milestones are confirmed for each project. This is not a guaranteed arrival date.</p></div></section>
+  <section id="information" className="products-preparation container"><div><p className="eyebrow">START WITH WHAT YOU HAVE</p><h2>{sections.information?.heading||'What to Prepare for a Mold Quote'}</h2><p>Clear product information helps us assess the mold request. Formal quotation requires clear part drawings or an assessable physical sample.</p><Action href="/request-a-quote/">Start a Mold Inquiry</Action></div><div className="products-reference-list">{routes.map(([label,description],index)=><article key={label}><span>{String(index+1).padStart(2,'0')}</span><div><h3>{label}</h3><p>{description}</p></div></article>)}</div></section>
+  <aside id="scope" className="products-scope"><div className="container"><Package size={30} weight="light" aria-hidden="true"/><div><h2>{sections.scope?.heading||'What You Are Requesting'}</h2><p>The inquiry is for a custom mold. Trial castings support sample testing; we do not currently offer ongoing die-cast parts production.</p></div><Action href={sections.scope?.cta?.href||'/resources/die-casting-mold-quotation-requirements/'} secondary>Quotation Requirements</Action></div></aside>
+  {page.faqs?.length>0&&<section className="products-faq container" id="questions"><div><p className="eyebrow">BEFORE YOU INQUIRE</p><h2>Frequently Asked Questions</h2><p>Find the right starting point for your project.</p></div><FAQList faqs={page.faqs}/></section>}
+  <PageCTA page={page}/>
+ </div>
+}
+
 function FAQPageBody({page}){const groupIndices=[[0,1,2,3,4,8],[5,7,10],[6],[9,11]];return <div className="faq-group-list">{page.sections.map((s,i)=><section id={s.id} className="faq-group" key={s.id}><div className="faq-group-heading"><span className="section-index">{String(i+1).padStart(2,'0')}</span><h2>{s.heading}</h2></div><div><FAQList faqs={(groupIndices[i]||[]).map(j=>page.faqs[j]).filter(Boolean).concat(i===page.sections.length-1?page.faqs.slice(12):[])} firstOpen={i===0}/><div className="faq-context">{s.paragraphs.map(p=><p key={p}>{p}</p>)}{s.cta&&<Action secondary href={s.cta.href}>{s.cta.label}</Action>}</div></div></section>)}</div>}
 export function ContentPage({page:sourcePage}){
  const page=useCmsPage(sourcePage);
+ if(page.id==='products')return <CmsPageScope page={page}><ProductsPage page={page}/></CmsPageScope>;
  const article=page.kind==='article',[,rest]=introParts(page);const detail=page.id==='mold-development-process'?'timeline-page':page.id==='mold-design-review'?'document-page':page.id==='quality-control'?'quality-page':page.id==='resources'?'guide-index-page':page.id==='industries'?'application-index-page':page.id==='products'?'product-index-page':page.kind==='industry'?'industry-page':'';
  return <CmsPageScope page={page}><div className={'editorial-page page-'+page.id+' '+detail}>
   {page.phase==='P1-prepared'&&<div className="draft-strip">Prepared industry page · Internal design preview · P0 visitors use the application overview</div>}

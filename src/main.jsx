@@ -6,6 +6,7 @@ import "./redesign.css";
 import "./compositions.css";
 import "./v3.css";
 import "./home-v2.css";
+import "./products.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

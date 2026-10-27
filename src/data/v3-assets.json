@@ -358,5 +358,65 @@
     "source": "frontend-delivery/homepage-optimization-v2/assets-source/home-v2-hero-mobile.png",
     "type": "AI generated illustration",
     "rights": "Original generated illustrative asset; not evidence of own factory or delivered work"
+  },
+  {
+    "id": "products-hero-v1",
+    "size": [
+      1536,
+      1024
+    ],
+    "path": "/assets/products-hero-v1.webp",
+    "bytes": 136758,
+    "source": "Built-in image generation for products page, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative only, not evidence of own factory or delivered work"
+  },
+  {
+    "id": "products-service-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/products-service-v1.webp",
+    "bytes": 167242,
+    "source": "Built-in image generation for products page, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative only, not evidence of own factory or delivered work"
+  },
+  {
+    "id": "products-led-example-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/products-led-example-v1.webp",
+    "bytes": 56406,
+    "source": "Built-in image generation for products page, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative only, not evidence of own factory or delivered work"
+  },
+  {
+    "id": "products-motor-example-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/products-motor-example-v1.webp",
+    "bytes": 142268,
+    "source": "Built-in image generation for products page, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative only, not evidence of own factory or delivered work"
+  },
+  {
+    "id": "products-electronics-example-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/products-electronics-example-v1.webp",
+    "bytes": 147710,
+    "source": "Built-in image generation for products page, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative only, not evidence of own factory or delivered work"
   }
 ]
