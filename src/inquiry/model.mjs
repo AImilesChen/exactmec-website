@@ -5,7 +5,8 @@ export const requiredFields = ['name', 'company', 'email', 'phone', 'country', '
 export const countries = ['United Arab Emirates', 'Saudi Arabia', 'Malaysia', 'Singapore', 'Thailand', 'Vietnam', 'Indonesia', 'Philippines', 'India', 'Oman', 'Qatar', 'Kuwait', 'Bahrain', 'United States', 'Germany', 'United Kingdom', 'China', 'Other country / region'];
 export const currencies = ['USD', 'EUR', 'GBP', 'AED', 'SAR', 'SGD', 'MYR', 'CNY', 'Other currency'];
 export const moldQuantities = ['1', '2', '3', '4', '5', 'More than 5', 'Not sure'];
-export const initialValues = () => ({ mold_sets: '1', budget_status: '', processing: false, whatsapp: false });
+export const moldTypes = ['Aluminum die casting mold', 'Injection mold'];
+export const initialValues = () => ({ mold_type: moldTypes[0], mold_sets: '1', budget_status: '', processing: false, whatsapp: false });
 const text = value => typeof value === 'string' ? value.trim() : typeof value === 'number' && Number.isFinite(value) ? String(value) : '';
 const has = value => text(value) !== '';
 const positiveAmount = value => /^\d+(?:\.\d+)?$/.test(text(value)) && Number.isFinite(Number(value)) && Number(value) > 0;
@@ -19,6 +20,7 @@ export function validateInquiry(values, groups = []) {
   for (const key of ['description', 'requirements']) if (text(values[key]).length > 4000) errors[key] = 'Use 4,000 characters or fewer.';
   if (has(values.email) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text(values.email))) errors.email = 'Enter an email address we can reply to.';
   if (has(values.phone) && (!/^\+[\d\s().-]+$/.test(text(values.phone)) || !/^\d{6,15}$/.test(text(values.phone).replace(/\D/g, '')))) errors.phone = 'Include your country code and a valid contact number.';
+  if (!moldTypes.includes(values.mold_type)) errors.mold_type = 'Choose a mold type.';
   if (has(values.website)) {
     try { const url = new URL(text(values.website)); if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) throw new Error(); }
     catch { errors.website = 'Enter a complete website address, such as https://example.com, or leave this optional field blank.'; }
@@ -42,6 +44,7 @@ export function validateInquiry(values, groups = []) {
 
 export function buildInquiryPayload(values, source, sourceKnownPaths = []) {
   const payload = {};
+  payload.mold_type = values.mold_type;
   for (const key of ['name', 'company', 'email', 'phone', 'city', 'website', 'component', 'description', 'drawing_status', 'industry', 'requirements', 'purchase_timing', 'budget_status']) payload[key] = text(values[key]) || null;
   payload.country = values.country === 'Other country / region' ? text(values.country_other) : text(values.country);
   payload.mold_sets = values.mold_sets === 'Not sure' ? null : Number(values.mold_sets === 'More than 5' ? values.mold_sets_other : values.mold_sets);

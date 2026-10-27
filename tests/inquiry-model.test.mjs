@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildInquiryPayload, initialValues, notifyInquiryEvent, requiredFields, validateInquiry, whatsappContactHref, whatsappHref } from '../src/inquiry/model.mjs';
+import { buildInquiryPayload, initialValues, moldTypes, notifyInquiryEvent, requiredFields, validateInquiry, whatsappContactHref, whatsappHref } from '../src/inquiry/model.mjs';
 import { validateSubmission } from '../backend/domain.mjs';
 import { budgetOptions as adminBudgets, timingOptions as adminTimings } from '../src/admin/model.mjs';
 import noticeVersions from '../src/data/notice-versions.json' with {type:'json'};
@@ -43,6 +43,18 @@ test('optional budget, timing, website and WhatsApp never prevent an ordinary in
 test('clear 2D, 3D or physical sample declarations are accepted without upload', () => {
   for (const drawing_status of ['Clear 2D part drawings', '3D part model / drawings', 'A physical sample']) assert.deepEqual(validateInquiry({ ...valid(), drawing_status }, groups), {});
   assert.ok(validateInquiry({ ...valid(), drawing_status: 'Drawings received and verified' }, groups).drawing_status);
+});
+
+test('mold selection defaults to aluminum and preserves a requested injection mold for staff review', () => {
+  assert.deepEqual(moldTypes, ['Aluminum die casting mold', 'Injection mold']);
+  assert.equal(initialValues().mold_type, moldTypes[0]);
+  for (const mold_type of moldTypes) {
+    const values = { ...valid(), mold_type };
+    assert.deepEqual(validateInquiry(values, groups), {});
+    assert.equal(buildInquiryPayload(values).mold_type, mold_type);
+  }
+  assert.ok(validateInquiry({ ...valid(), mold_type: 'Plastic mass production' }, groups).mold_type);
+  assert.ok(validateInquiry({ ...valid(), mold_type: '' }, groups).mold_type);
 });
 
 test('email, international number, safe website and field limits reject malformed values', () => {

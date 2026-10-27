@@ -86,7 +86,7 @@ async function verifyCode(request, input, env, config) {
   return json({ authenticated: true, csrfToken: await customerIssueCsrf(session, env, config), expiresAt: new Date(session.expires_at).toISOString() }, 200, { 'Set-Cookie': customerSessionCookie(config, token) });
 }
 
-const textFields = ['name', 'company', 'email', 'phone', 'country', 'city', 'website', 'component', 'description', 'drawing_status', 'industry', 'requirements', 'purchase_timing', 'budget_status', 'currency', 'budget_basis'];
+const textFields = ['mold_type', 'name', 'company', 'email', 'phone', 'country', 'city', 'website', 'component', 'description', 'drawing_status', 'industry', 'requirements', 'purchase_timing', 'budget_status', 'currency', 'budget_basis'];
 const publicStatus = { New: 'received', Reviewing: 'under_review', 'Need More Information': 'needs_information', Contacted: 'in_contact', 'Quotation Sent': 'quotation_sent', Won: 'closed', Lost: 'closed', Spam: 'closed' };
 export const CUSTOMER_SUPPLEMENT_LIMIT = 100;
 async function safeInquiry(row, env, emailHash, detail = true) {

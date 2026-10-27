@@ -145,6 +145,7 @@ async function contactState(db, row, payload) {
 async function item(env, row, detail = false) {
   const db=env.DB;
   const payload = JSON.parse(row.payload_json);
+  payload.mold_type ||= 'Aluminum die casting mold';
   const notification = Object.hasOwn(row, 'notification_state') ? { reference: row.reference, state: row.notification_state, attempts: row.notification_attempts, errorCode: row.notification_error ?? null } : await getNotificationJob(db, row.reference);
   const contact = Object.hasOwn(row, 'any_stopped') ? { whatsapp_allowed: payload.whatsapp_messages_opt_in === true && !row.all_stopped && !row.whatsapp_stopped, email_allowed: !row.all_stopped, stopped: !!row.any_stopped } : await contactState(db, row, payload);
   const result = { reference: row.reference, created_at: row.created_at, updated_at: row.updated_at, revision: row.revision, payload, review: JSON.parse(row.review_json), notification, contact };
@@ -172,8 +173,8 @@ function queryFilters(filters) {
     where.push('(instr(lower(reference),lower(?))>0 OR instr(lower(payload_json),lower(?))>0)');
     values.push(filters.search, filters.search);
   }
-  for (const key of ['status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'drawing_status', 'purchase_timing', 'budget_status']) if (filters[key]) {
-    const expression = `json_extract(${['drawing_status', 'purchase_timing', 'budget_status'].includes(key) ? 'payload_json' : 'review_json'}, '$.${key}')`;
+  for (const key of ['status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'mold_type', 'drawing_status', 'purchase_timing', 'budget_status']) if (filters[key]) {
+    const expression = key === 'mold_type' ? "COALESCE(json_extract(payload_json,'$.mold_type'),'Aluminum die casting mold')" : `json_extract(${['drawing_status', 'purchase_timing', 'budget_status'].includes(key) ? 'payload_json' : 'review_json'}, '$.${key}')`;
     if (['purchase_timing', 'budget_status'].includes(key) && filters[key] === '__not_provided__') where.push(`(${expression} IS NULL OR ${expression}='')`);
     else { where.push(`${expression}=?`); values.push(filters[key]); }
   }
@@ -193,7 +194,7 @@ async function search(request, env, actor, exportCsv = false) {
   }
   const sourceFields = ['page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   const sourceColumns = ['first', 'submission'].flatMap(touch => sourceFields.map(key => `${touch}_${key}`));
-  const columns = ['reference', 'created_at', 'name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets', 'purchase_timing', 'budget_status', 'budget_min', 'budget_max', 'currency', 'status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'owner', 'next_follow_up', 'whatsapp_allowed', 'email_allowed', 'customer_withdrawn','customer_withdrawn_at', ...sourceColumns];
+  const columns = ['reference', 'created_at', 'mold_type', 'name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets', 'purchase_timing', 'budget_status', 'budget_min', 'budget_max', 'currency', 'status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'owner', 'next_follow_up', 'whatsapp_allowed', 'email_allowed', 'customer_withdrawn','customer_withdrawn_at', ...sourceColumns];
   const output = [columns.map(csvCell).join(',')];
   for (const row of rows.results) {
     const lead = await item(env, row);

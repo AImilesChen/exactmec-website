@@ -63,6 +63,19 @@ test('Miniflare D1 atomically stores one lead, receipt and outbox with server ti
   assert.equal(response.headers.get('Cache-Control'), 'no-store');
 });
 
+test('injection mold requests retain their type and can be found in the staff list', async () => {
+  const response = await submit({ ...fixture('injection-type'), mold_type: 'Injection mold' });
+  assert.equal(response.status, 201);
+  const { reference } = await response.json();
+  assert.equal((await get(reference)).payload.mold_type, 'Injection mold');
+  const result = await (await admin('/search', 'POST', { search: 'Synthetic Buyer injection-type', mold_type: 'Injection mold' })).json();
+  assert.equal(result.total, 1);
+  assert.equal(result.items[0].reference, reference);
+  assert.equal((await (await admin('/search', 'POST', { search: 'Synthetic Buyer injection-type', mold_type: 'Aluminum die casting mold' })).json()).total, 0);
+  assert.equal((await admin('/search', 'POST', { mold_type: 'Plastic mass production' })).status, 422);
+  assert.equal((await submit({ ...fixture('invalid-type'), mold_type: '' })).status, 422);
+});
+
 test('drawing upload is linked to one saved lead, private to staff, and removed with the lead',async()=>{
   const payload={...fixture('file'),drawing_status:'3D part model / drawings'};
   const form=new FormData();form.append('payload',JSON.stringify(payload));form.append('files',new File(['SYNTHETIC CAD TEST'],'component.step',{type:'application/octet-stream'}));

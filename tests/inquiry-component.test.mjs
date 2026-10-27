@@ -14,12 +14,17 @@ const { Inquiry } = loaded.exports;
 
 const sampleData={drawing_status:'A physical sample'};
 
-test('default review form starts with drawings and visible sample/no-drawings paths without transmission', () => {
+test('default review form prioritizes aluminum molds and drawings, with sample and discreet no-drawings routes', () => {
   const html = renderToStaticMarkup(React.createElement(Inquiry));
   assert.match(html, /Design preview · No information is sent/);
-  assert.match(html,/Upload product drawings/);
+  assert.match(html, /Aluminum die casting mold<\/strong><small>Our main tooling service/);
+  assert.match(html, /Injection mold<\/strong><small>Project review available/);
+  assert.match(html, /Upload your product drawings/);
+  assert.match(html, /3D preferred: <strong>STEP \/ STP/);
   assert.match(html,/I have a physical sample/);
-  assert.match(html,/No drawings yet/);
+  assert.match(html,/class="rfq-concept-link"[^>]*>No drawings or sample/);
+  assert.match(html,/class="rfq-after-submit"/);
+  assert.ok(html.indexOf('rfq-after-submit') > html.indexOf('</form>'));
   assert.match(html,/type="file"/);
   assert.doesNotMatch(html, /type="submit"|wa\.me/);
 });
@@ -69,7 +74,7 @@ test('closed public form offers configured manual WhatsApp contact before the fi
   const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, whatsappNumber: '+8615990661727' }));
   assert.match(html, /href="https:\/\/wa\.me\/8615990661727"/);
   assert.match(html, /Contact us on WhatsApp about your mold project/);
-  assert.ok(html.indexOf('https://wa.me/8615990661727') < html.indexOf('Upload product drawings'));
+  assert.ok(html.indexOf('https://wa.me/8615990661727') < html.indexOf('Upload your product drawings'));
   assert.doesNotMatch(html, /wa\.me\/8615990661727\?/);
   assert.match(html, /Online submission is not available yet/);
 });

@@ -10,6 +10,7 @@ export const reviewOptions = {
 };
 export const defaultReview = () => ({ status: 'New', authenticity: 'Unreviewed', fit: 'Needs Review', readiness: 'Self-reported', qualification: 'Unreviewed', priority: 'B', owner: '', next_follow_up: '' });
 const drawingOptions = ['Clear 2D part drawings', '3D part model / drawings', 'Both 2D and 3D part drawings', 'A physical sample', 'Photos / concept only', 'Not sure yet'];
+export const moldTypeOptions = ['Aluminum die casting mold', 'Injection mold'];
 const industryOptions = ['Automotive', 'Motorcycle / e-mobility', 'LED lighting', 'Motors / pumps / transmission', 'Electronics / telecommunications', 'Energy / power equipment', 'Industrial automation', 'Power tools / home appliances', 'Other / not sure'];
 export const timingOptions = ['As soon as the project is confirmed', 'Within 1 month', 'Within 1–3 months', 'Within 3–6 months', 'More than 6 months from now', 'Early research / timing not decided', 'Prefer not to say'];
 // Keep the former combined value valid for existing clients and stored inquiries.
@@ -36,6 +37,10 @@ export function validateSubmission(input, env, { knownPaths = [], blockedPaths =
   if (payload.phone && (!/^\+[\d\s().-]+$/.test(payload.phone) || !/^\d{6,15}$/.test(payload.phone.replace(/\D/g, '')))) errors.phone = 'invalid';
   if (payload.website) try { const url = new URL(payload.website); if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) errors.website = 'invalid'; } catch { errors.website = 'invalid'; }
   if (!drawingOptions.includes(payload.drawing_status)) errors.drawing_status = 'invalid';
+  // Older cached inquiry clients only offered aluminum tooling. Preserve their
+  // submissions while validating every explicit selection from the new form.
+  payload.mold_type = input.mold_type == null ? moldTypeOptions[0] : input.mold_type;
+  if (!moldTypeOptions.includes(payload.mold_type)) errors.mold_type = 'invalid';
   for (const [key, options] of [['industry', industryOptions], ['purchase_timing', timingOptions], ['budget_status', budgetOptions]]) if (payload[key] && !options.includes(payload[key])) errors[key] = 'invalid';
   if (typeof input.mold_sets_unsure !== 'boolean' || !(input.mold_sets_unsure ? input.mold_sets === null : Number.isSafeInteger(input.mold_sets) && input.mold_sets >= 1)) errors.mold_sets = 'invalid';
   payload.mold_sets = input.mold_sets;
@@ -77,8 +82,8 @@ export function searchFilters(input) {
   if (!isObject(input)) return null;
   const result = { search: input.search ?? '', page: input.page ?? 1, pageSize: input.pageSize ?? 25 };
   if (!safeString(result.search, 120, true) || !Number.isSafeInteger(result.page) || result.page < 1 || result.page > 10000 || !Number.isSafeInteger(result.pageSize) || result.pageSize < 1 || result.pageSize > 100) return null;
-  const options = { ...reviewOptions, drawing_status: drawingOptions, purchase_timing: timingOptions, budget_status: budgetOptions };
-  for (const key of ['status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'drawing_status', 'purchase_timing', 'budget_status']) {
+  const options = { ...reviewOptions, mold_type: moldTypeOptions, drawing_status: drawingOptions, purchase_timing: timingOptions, budget_status: budgetOptions };
+  for (const key of ['status', 'authenticity', 'fit', 'readiness', 'qualification', 'priority', 'mold_type', 'drawing_status', 'purchase_timing', 'budget_status']) {
     result[key] = input[key] ?? '';
     if (result[key] !== '' && !(options[key].includes(result[key]) || ['purchase_timing', 'budget_status'].includes(key) && result[key] === '__not_provided__')) return null;
   }

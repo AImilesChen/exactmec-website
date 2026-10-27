@@ -1,4 +1,4 @@
-import { budgetOptions, defaultFilters, drawingOptions, isReference, reviewOptions, timingOptions } from './model.mjs';
+import { budgetOptions, defaultFilters, drawingOptions, isReference, moldTypeOptions, reviewOptions, timingOptions } from './model.mjs';
 import { isContentId, isSourceHash, validateContentPatch } from './content-model.mjs';
 
 const messages = Object.freeze({
@@ -28,6 +28,8 @@ function filters(input = {}) {
   }
   if (input.drawing_status && !drawingOptions.includes(input.drawing_status)) invalid();
   clean.drawing_status = (input.drawing_status || '').trim();
+  if (input.mold_type && !moldTypeOptions.includes(input.mold_type)) invalid();
+  clean.mold_type = (input.mold_type || '').trim();
   for (const [key, options] of [['purchase_timing', timingOptions], ['budget_status', budgetOptions]]) {
     const value = input[key] ?? '';
     if (typeof value !== 'string' || value && !options.includes(value) && value !== '__not_provided__') invalid();
