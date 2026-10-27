@@ -111,3 +111,10 @@ button[aria-pressed=true] .rfq-choice-art{background:#fceae7}
 .rfq-after-submit li p{font-size:15px;color:#445b6c;line-height:1.55;margin:0}
 .rfq-after-submit>p:last-child{font-size:13px;color:#65798a;margin-top:25px}
 @media(max-width:760px){.rfq-mold-picker>div,.rfq-route-options{grid-template-columns:1fr;max-width:none}.rfq-mold-picker button,.rfq-route-options button,.rfq-route-options button[aria-pressed=true]{min-height:82px;padding:13px 15px;grid-template-columns:48px minmax(0,1fr);gap:12px}.rfq-mold-picker button[aria-pressed=true],.rfq-route-options button[aria-pressed=true]{padding:12px 14px}.rfq-choice-art{width:48px;height:48px}.rfq-choice-art svg{width:41px;height:41px}.rfq-material-step h2{font-size:28px}.rfq-upload{min-height:285px;padding:29px 18px}.rfq-upload label strong{font-size:20px}.rfq-upload .rfq-file-format{font-size:13px}.rfq-sample-panel{padding:25px 22px;min-height:0}.rfq-after-submit{margin-top:52px}.rfq-after-submit ol{grid-template-columns:1fr;gap:16px}.rfq-after-submit li{padding-top:13px}.rfq-after-submit h2{font-size:25px}}
+
+/* Mega navigation previews use the image that belongs to the focused topic. */
+.mega-applications a{padding:4px 9px;border-radius:6px;margin-inline:-9px}
+@media(min-width:1101px){.mega-applications a[data-preview=true]{background:#fcf1ef;color:#a9332b}}
+.mega-context-media img{animation:mega-context-in .2s ease-out both}
+@keyframes mega-context-in{from{opacity:.55;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.mega-context-media img{animation:none}}
