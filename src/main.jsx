@@ -11,6 +11,7 @@ import "./core-mold.css";
 import "./quotation-guide.css";
 import "./design-review.css";
 import "./motor-industry.css";
+import "./automotive-industry.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

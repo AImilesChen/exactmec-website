@@ -17,6 +17,7 @@ import './core-mold.css';
 import './quotation-guide.css';
 import './design-review.css';
 import './motor-industry.css';
+import './automotive-industry.css';
 
 const root=document.getElementById('root');
 let bootstrap;try{bootstrap=JSON.parse(document.getElementById('site-bootstrap')?.textContent||'null');}catch{}

@@ -32,7 +32,7 @@ export function ContentCards({cards,industry=false,resources=false}){
  return <div className={'copy-cards '+(industry?'industry-cards':resources?'guide-cards':'')}>{ordered.map((c,i)=>{
   const image=industry?({'industry-automotive':'industry-automotive','industry-motorcycle-e-mobility':'industry-motorcycle','industry-led-lighting':'industry-led','industry-motor-pump-transmission':'industry-motor','industry-electronics-telecommunications':'industry-electronics','industry-energy-power':'industry-energy','industry-industrial-automation':'industry-industrial','industry-power-tools-home-appliances':'industry-tools'}[c.anchor]):null;
   return <article className={'copy-card '+(image?'image-led':'')} key={c.title} id={c.anchor}>
-   {image&&<ProductFigure id={image} context/>}{resources&&<Media file={resourceCardImage(c.href)} alt={c.title+' illustrative guide cover'} caption="Illustrative cover"/>}<div className="card-copy"><span className="card-number">{String(i+1).padStart(2,'0')}</span><h3>{c.title}</h3><p>{c.text}</p>{c.href&&<Action href={industry&&c.href.includes('#')?quotePath:c.href} secondary>{industry?(c.href.includes('#')?'Discuss Your Component':'Explore This Application'):resources?'Read the Guide':'Explore This Topic'}</Action>}</div>
+   {image&&(c.anchor==='industry-automotive'?<Media file="auto-hub-bracket-v1" alt="Illustrative isolated aluminum automotive mounting bracket" caption="Illustrative application · Not a customer case"/>:<ProductFigure id={image} context/>)}{resources&&<Media file={resourceCardImage(c.href)} alt={c.title+' illustrative guide cover'} caption="Illustrative cover"/>}<div className="card-copy"><span className="card-number">{String(i+1).padStart(2,'0')}</span><h3>{c.title}</h3><p>{c.text}</p>{c.href&&<Action href={industry&&c.href.includes('#')?quotePath:c.href} secondary>{industry?(c.href.includes('#')?'Discuss Your Component':'Explore This Application'):resources?'Read the Guide':'Explore This Topic'}</Action>}</div>
   </article>;
  })}</div>
 }
@@ -149,6 +149,34 @@ function MotorIndustryPage({page}){
  </div>;
 }
 
+function AutomotiveIndustryPage({page}){
+ const sections=Object.fromEntries((page.sections||[]).map(section=>[section.id,section]));
+ const groups=sections['component-gallery']?.groups||[];
+ const galleryDialog=useRef(null);
+ const [selectedItem,setSelectedItem]=useState(null);
+ const openItem=item=>{setSelectedItem(item);galleryDialog.current?.showModal()};
+ const steps=[
+  ['01','Product reference','Send current part drawings or discuss an assessable sample.'],
+  ['02','Quote & payment','Agree the mold scope and project terms.'],
+  ['03','Design approval','Confirm the 3D mold design before manufacturing.'],
+  ['04','Mold trial','We make the mold and send trial samples for your testing.'],
+  ['05','Mold shipment','The finished mold ships after sample approval.']
+ ];
+ return <div className="motor-industry-page auto-industry-page">
+  <header className="motor-hero auto-hero"><div className="container">
+   <nav className="breadcrumbs" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/industries/">Applications</Link><span>/</span><span>Automotive</span></nav>
+   <div className="motor-hero-grid"><div className="motor-hero-copy"><p className="eyebrow">AUTOMOTIVE MOLD TOOLING</p><h1>{page.h1}</h1><p>{page.intro}</p><div className="motor-hero-actions"><Action href={quotePath}>Upload Drawings for a Mold Quote</Action><Action href="#component-gallery" secondary>Explore Component Examples</Action></div><p className="motor-hero-note">Mold-only service · One mold set welcome</p></div><Media file="auto-hero-v1" priority alt="Illustrative open steel die casting mold and separate aluminum automotive housing sample" caption="Illustrative mold concept · Not a delivered customer project" className="motor-hero-image"/></div>
+  </div></header>
+  <section className="motor-essentials" aria-label="Automotive mold service scope"><div className="container motor-essential-grid"><div><Cube size={28} weight="light" aria-hidden="true"/><p><strong>Custom mold tooling</strong><span>For your actual automotive part</span></p></div><div><FileText size={28} weight="light" aria-hidden="true"/><p><strong>Drawings or sample</strong><span>The basis for a formal quote</span></p></div><div><Package size={28} weight="light" aria-hidden="true"/><p><strong>Trial before shipment</strong><span>You test samples before mold handover</span></p></div></div></section>
+  <section id="component-gallery" className="motor-gallery"><div className="container"><div className="motor-section-intro"><p className="eyebrow">AUTOMOTIVE APPLICATION EXAMPLES</p><h2>{sections['component-gallery']?.heading}</h2><p>{sections['component-gallery']?.paragraphs?.[0]}</p></div><div className="motor-gallery-groups">{groups.map(group=><div className="motor-gallery-group" key={group.title}><div className="motor-gallery-group-heading"><h3>{group.title}</h3><p>{group.text}</p></div><div className="motor-gallery-grid">{group.cards?.map(item=><article key={item.title}><button type="button" onClick={()=>openItem(item)} aria-label={'Enlarge illustrative image of '+item.title}><img src={'/assets/'+item.image+'.webp'} width="1448" height="1086" loading="lazy" decoding="async" alt={'Illustrative aluminum '+item.title.toLowerCase()}/><span aria-hidden="true">View larger ↗</span></button><div><h4>{item.title}</h4><p>{item.text}</p></div></article>)}</div></div>)}</div><p className="motor-gallery-note">All component images are generated illustrations, not delivered customer cases. Mold suitability and quotation depend on your drawing or assessable sample.</p></div></section>
+  <dialog ref={galleryDialog} className="motor-gallery-dialog" onClose={()=>setSelectedItem(null)} onClick={event=>{if(event.target===event.currentTarget)event.currentTarget.close()}} aria-label={selectedItem?'Illustrative '+selectedItem.title+' image':'Illustrative automotive component image'}><button type="button" className="motor-gallery-close" onClick={()=>galleryDialog.current?.close()} aria-label="Close enlarged image">×</button>{selectedItem&&<><img src={'/assets/'+selectedItem.image+'.webp'} width="1448" height="1086" alt={'Illustrative aluminum '+selectedItem.title.toLowerCase()}/><div><strong>{selectedItem.title}</strong><span>Illustrative application · Not a customer case</span></div></>}</dialog>
+  <section id="project-scope" className="auto-scope"><div className="container auto-scope-grid"><div><p className="eyebrow">MOLD PROJECT SCOPE</p><h2>{sections['project-scope']?.heading}</h2>{sections['project-scope']?.paragraphs?.map((p,i)=><p key={i}>{p}</p>)}</div><div className="auto-scope-panel"><span>01 / PART</span><strong>Part geometry & revision</strong><span>02 / ASSEMBLY</span><strong>Mating surfaces & interfaces</strong><span>03 / HANDOVER</span><strong>Receiving factory requirements</strong></div></div></section>
+  <section id="drawing-priorities" className="motor-brief auto-brief"><div className="container motor-brief-grid"><div><p className="eyebrow">PREPARE YOUR INQUIRY</p><h2>{sections['drawing-priorities']?.heading}</h2>{sections['drawing-priorities']?.paragraphs?.map((p,i)=><p key={i}>{p}</p>)}<Action href={quotePath}>Start With Your Drawings</Action></div><ol>{sections['drawing-priorities']?.bullets?.map((item,i)=><li key={item}><span>{String(i+1).padStart(2,'0')}</span><div><h3>{item}</h3></div></li>)}</ol></div></section>
+  <section id="approval" className="motor-process auto-process"><div className="container"><div className="motor-section-intro"><p className="eyebrow">FROM REFERENCE TO HANDOVER</p><h2>{sections.approval?.heading}</h2><p>{sections.approval?.paragraphs?.[0]}</p></div><ol className="motor-process-grid">{steps.map(([number,title,text])=><li key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}</ol><p className="motor-process-note">{sections.approval?.paragraphs?.[1]}</p><Action href="/mold-development-process/" secondary>See the Full Mold Process</Action></div></section>
+  <div className="container motor-end-content"><PageEnd page={page}/></div><PageCTA page={page}/>
+ </div>;
+}
+
 function CoreMoldPage({page}){
  const sections=Object.fromEntries((page.sections||[]).map(section=>[section.id,section]));
  const applications=useCmsOrderedCards(sections.components?.cards||[]);
@@ -187,6 +215,7 @@ export function ContentPage({page:sourcePage}){
  if(page.id==='products')return <CmsPageScope page={page}><ProductsPage page={page}/></CmsPageScope>;
  if(page.id==='core-mold')return <CmsPageScope page={page}><CoreMoldPage page={page}/></CmsPageScope>;
  if(page.id==='industry-motor')return <CmsPageScope page={page}><MotorIndustryPage page={page}/></CmsPageScope>;
+ if(page.id==='industry-automotive')return <CmsPageScope page={page}><AutomotiveIndustryPage page={page}/></CmsPageScope>;
  const article=page.kind==='article',[,rest]=introParts(page);const detail=page.id==='mold-development-process'?'timeline-page':page.id==='mold-design-review'?'document-page':page.id==='quality-control'?'quality-page':page.id==='resources'?'guide-index-page':page.id==='industries'?'application-index-page':page.id==='products'?'product-index-page':page.kind==='industry'?'industry-page':'';
  return <CmsPageScope page={page}><div className={'editorial-page page-'+page.id+' '+detail}>
   {page.phase==='P1-prepared'&&<div className="draft-strip">Prepared industry page · Internal design preview · P0 visitors use the application overview</div>}

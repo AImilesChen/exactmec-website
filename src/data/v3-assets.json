@@ -553,7 +553,10 @@
   },
   {
     "id": "motor-ribbed-housing-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/motor-ribbed-housing-gallery-v1.webp",
     "bytes": 98768,
     "source": "Built-in image generation, 2026-10-27",
@@ -562,7 +565,10 @@
   },
   {
     "id": "motor-terminal-enclosure-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/motor-terminal-enclosure-gallery-v1.webp",
     "bytes": 80456,
     "source": "Built-in image generation, 2026-10-27",
@@ -571,7 +577,10 @@
   },
   {
     "id": "motor-mounting-bracket-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/motor-mounting-bracket-gallery-v1.webp",
     "bytes": 68150,
     "source": "Built-in image generation, 2026-10-27",
@@ -580,7 +589,10 @@
   },
   {
     "id": "pump-backplate-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/pump-backplate-gallery-v1.webp",
     "bytes": 113772,
     "source": "Built-in image generation, 2026-10-27",
@@ -589,7 +601,10 @@
   },
   {
     "id": "pump-bearing-carrier-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/pump-bearing-carrier-gallery-v1.webp",
     "bytes": 116450,
     "source": "Built-in image generation, 2026-10-27",
@@ -598,7 +613,10 @@
   },
   {
     "id": "pump-mounting-adapter-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/pump-mounting-adapter-gallery-v1.webp",
     "bytes": 88208,
     "source": "Built-in image generation, 2026-10-27",
@@ -607,7 +625,10 @@
   },
   {
     "id": "gearbox-side-cover-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/gearbox-side-cover-gallery-v1.webp",
     "bytes": 105442,
     "source": "Built-in image generation, 2026-10-27",
@@ -616,7 +637,10 @@
   },
   {
     "id": "reducer-right-angle-housing-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/reducer-right-angle-housing-gallery-v1.webp",
     "bytes": 97030,
     "source": "Built-in image generation, 2026-10-27",
@@ -625,9 +649,144 @@
   },
   {
     "id": "transmission-oil-sump-gallery-v1",
-    "size": [1448, 1086],
+    "size": [
+      1448,
+      1086
+    ],
     "path": "/assets/transmission-oil-sump-gallery-v1.webp",
     "bytes": 60564,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-hero-v1",
+    "size": [
+      1586,
+      992
+    ],
+    "path": "/assets/auto-hero-v1.webp",
+    "bytes": 138818,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-transmission-case-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-transmission-case-v1.webp",
+    "bytes": 108866,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-differential-case-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-differential-case-v1.webp",
+    "bytes": 118594,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-gearbox-end-cover-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-gearbox-end-cover-v1.webp",
+    "bytes": 91808,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-alternator-housing-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-alternator-housing-v1.webp",
+    "bytes": 111480,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-compressor-housing-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-compressor-housing-v1.webp",
+    "bytes": 110402,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-actuator-enclosure-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-actuator-enclosure-v1.webp",
+    "bytes": 79592,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-inverter-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-inverter-v1.webp",
+    "bytes": 92696,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-onboard-charger-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-onboard-charger-v1.webp",
+    "bytes": 64042,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-controller-cover-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-controller-cover-v1.webp",
+    "bytes": 97326,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative component, not a delivered customer project"
+  },
+  {
+    "id": "auto-hub-bracket-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/auto-hub-bracket-v1.webp",
+    "bytes": 80576,
     "source": "Built-in image generation, 2026-10-27",
     "type": "AI generated illustration",
     "rights": "Original generated asset; illustrative component, not a delivered customer project"

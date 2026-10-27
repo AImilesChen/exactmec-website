@@ -5,15 +5,15 @@ import manifest from '../src/data/site-manifest.json' with { type: 'json' };
 import { getPageMeta } from '../src/seo/metadata.mjs';
 import { PUBLIC_ROUTES, resolvePublicRoute } from '../src/seo/route-contract.mjs';
 
-test('public contract contains eighteen P0 marketing pages, four legal contracts and two systems', () => {
-  assert.equal(PUBLIC_ROUTES.length, 24);
-  assert.equal(PUBLIC_ROUTES.filter(route => !['legal', 'system'].includes(route.kind)).length, 18);
+test('public contract contains nineteen P0 marketing pages, four legal contracts and two systems', () => {
+  assert.equal(PUBLIC_ROUTES.length, 25);
+  assert.equal(PUBLIC_ROUTES.filter(route => !['legal', 'system'].includes(route.kind)).length, 19);
   assert.equal(PUBLIC_ROUTES.filter(route => route.kind === 'legal').length, 4);
   assert.equal(PUBLIC_ROUTES.filter(route => route.kind === 'system').length, 2);
   for (const route of PUBLIC_ROUTES) assert.equal(resolvePublicRoute(route.path).status, route.id === '404' ? 404 : 200);
 });
 
-test('prepared industry details redirect directly to the six agreed P0 anchors', () => {
+test('prepared industry details redirect directly to the five remaining P0 anchors', () => {
   for (const [path, target] of Object.entries(manifest.p0_link_fallbacks)) {
     for (const candidate of [path, path.slice(0, -1)]) {
       const route = resolvePublicRoute(candidate);
@@ -52,7 +52,7 @@ test('metadata preserves source title and description and does not invent URL fi
   }
 });
 
-test('release metadata indexes exactly the eighteen marketing routes, with consistent schema URLs', () => {
+test('release metadata indexes exactly the nineteen marketing routes, with consistent schema URLs', () => {
   const origin = 'https://confirmed.example';
   for (const route of PUBLIC_ROUTES) {
     const meta = getPageMeta(route.path + '?utm_source=ignored#section', { release: true, indexingEnabled: true, origin });
@@ -80,7 +80,7 @@ test('staging and non-public paths remain noindex, without published schema', ()
     assert.equal(getPageMeta(path, { origin: 'https://preview.example' }).robots, 'noindex,nofollow');
     assert.equal(getPageMeta(path, { origin: 'https://preview.example' }).jsonLd, null);
   }
-  for (const path of ['/industries/automotive/', '/admin/', '/missing']) {
+  for (const path of ['/admin/', '/missing']) {
     const meta = getPageMeta(path, { origin: 'https://confirmed.example', release: true });
     assert.equal(meta.robots, 'noindex,nofollow');
     assert.equal(meta.canonical, null);

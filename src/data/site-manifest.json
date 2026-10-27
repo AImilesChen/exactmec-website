@@ -3,8 +3,8 @@
   "status": "NEEDS_REVIEW",
   "published": false,
   "marketing_pages": 24,
-  "p0_marketing_pages": 18,
-  "prepared_industry_pages": 6,
+  "p0_marketing_pages": 19,
+  "prepared_industry_pages": 5,
   "legal_drafts": 4,
   "system_templates": 2,
   "routes": [
@@ -128,14 +128,14 @@
     {
       "id": "industry-automotive",
       "path": "/industries/automotive/",
-      "phase": "P1-prepared",
+      "phase": "P0",
       "kind": "industry",
       "copy_source": "pages/10-industry-automotive.md",
       "data_source": "industries.json",
       "public_now": false,
       "index_when_released": true,
-      "include_in_p0_plan": false,
-      "p0_link_target": "/industries/#industry-automotive",
+      "include_in_p0_plan": true,
+      "p0_link_target": "/industries/automotive/",
       "canonical_template": "{SITE_ORIGIN}/industries/automotive/"
     },
     {
@@ -392,7 +392,6 @@
     }
   ],
   "p0_link_fallbacks": {
-    "/industries/automotive/": "/industries/#industry-automotive",
     "/industries/motorcycle-e-mobility/": "/industries/#industry-motorcycle-e-mobility",
     "/industries/electronics-telecommunications/": "/industries/#industry-electronics-telecommunications",
     "/industries/energy-power/": "/industries/#industry-energy-power",

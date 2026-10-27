@@ -19,7 +19,7 @@ async function check(path,status){
 }
 for(const route of PUBLIC_ROUTES)await check(route.path,route.id==='404'?404:200);
 for(const pathname of ['/unregistered-page/','/admin/leads/','/design-system/','/downloads/ExactMec-UI-v3.2.zip'])await check(pathname,404);
-for(const [from,to]of [['/products','/products/'],['/privacy-policy','/privacy'],['/industries/automotive/','/industries/#industry-automotive']]){
+for(const [from,to]of [['/products','/products/'],['/privacy-policy','/privacy']]){
  const {response}=await check(from,308);assert.equal(response.headers.get('location'),to,from);
 }
 await check('/api/inquiries',503);

@@ -51,7 +51,7 @@ test('unknown, prepared and aliases have explicit status instead of a 200 SPA fa
   assert.equal(unknown.status, 404);
   assert.equal(await unknown.text(), 'Not found');
   assert.ok(!app.calls.includes('/index.html'));
-  for (const [from, to] of [['/industries/automotive/', '/industries/#industry-automotive'], ['/about', '/about/'], ['/privacy-policy/', '/privacy']]) {
+  for (const [from, to] of [['/about', '/about/'], ['/privacy-policy/', '/privacy']]) {
     const response = await app.fetch(from);
     assert.equal(response.status, 308);
     assert.equal(response.headers.get('Location'), to);

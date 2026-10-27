@@ -118,9 +118,9 @@
         "visual_cn": "",
         "cards": [
           {
-            "title": "Automotive & Two-Wheelers",
-            "text": "Housings, covers and related component tooling to discuss.",
-            "href": "/industries/#industry-automotive"
+            "title": "Automotive",
+            "text": "Explore custom tooling for vehicle housings, covers and enclosures.",
+            "href": "/industries/automotive/"
           },
           {
             "title": "LED Lighting",
@@ -589,8 +589,8 @@
         "cards": [
           {
             "title": "Automotive",
-            "text": "Housings, covers and mounting components. Describe the vehicle application and the requirements that need to be assessed.",
-            "href": "/industries/#industry-automotive",
+            "text": "Transmission, auxiliary and vehicle electrical housings. Explore component examples and the drawing details useful for a mold quote.",
+            "href": "/industries/automotive/",
             "anchor": "industry-automotive"
           },
           {
@@ -1887,10 +1887,10 @@
   {
     "id": "industry-automotive",
     "path": "/industries/automotive/",
-    "phase": "P1-prepared",
+    "phase": "P0",
     "kind": "industry",
-    "title": "Automotive Aluminum Die Casting Molds | EXACTMEC",
-    "description": "Discuss a custom aluminum die casting mold for automotive housings, covers and brackets. Quote from clear product drawings or a physical sample.",
+    "title": "Automotive Aluminum Die Casting Molds for Housings & Covers | EXACTMEC",
+    "description": "Explore custom aluminum die casting molds for automotive transmission, auxiliary and EV enclosures. See illustrative component examples and request a mold quote with drawings or a sample.",
     "primary_keyword": "automotive die casting molds",
     "semantic_keywords": [
       "automotive die casting molds",
@@ -1903,64 +1903,133 @@
       600
     ],
     "eyebrow": "MOLD APPLICATIONS",
-    "h1": "Aluminum Die Casting Molds for Automotive Components",
-    "intro": "Plan a mold around the automotive component you need to manufacture. EXACTMEC accepts custom aluminum die casting mold inquiries from one set. Send clear product drawings or discuss a physical sample. This page covers mold development; automotive component examples show applications to discuss, rather than parts offered for sale.",
+    "h1": "Automotive Aluminum Die Casting Molds",
+    "intro": "Custom mold tooling for transmission, auxiliary and vehicle electrical housings. Start with clear 2D or 3D part drawings, or an assessable physical sample. One mold set is welcome.",
     "goal_cn": "识别汽车项目的版本、装配和客户要求，避免暗示已有汽车认证或案例。",
     "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
     "sections": [
       {
-        "id": "project-scope",
-        "heading": "Start with the Component and Its Use",
+        "id": "component-gallery",
+        "heading": "Automotive Components That Can Start a Mold Project",
         "paragraphs": [
-          "Housing, cover and bracket projects can involve very different mold requirements. Describe where your component fits and which surfaces connect to other parts. Tell us whether you are developing a new product, replacing an existing mold or seeking another mold source. These details make the first discussion more useful than a product name alone.",
-          "If your project follows a customer specification or approval process, identify it at the inquiry stage. Its requirements need separate review before a scope is agreed."
+          "Explore nine distinct component examples across three application groups. Your actual part drawing or sample determines the mold scope; these images are illustrations, not completed customer projects."
         ],
-        "layout_cn": "左标题右正文，下面三卡展示壳体、盖件、支架；手机纵排。",
-        "visual_cn": "需3张汽车零件应用示意；不使用车品牌或客户标志。"
+        "groups": [
+          {
+            "title": "Drivetrain housings",
+            "text": "Complex cast geometry, mating faces and shaft locations.",
+            "cards": [
+              {
+                "title": "Transmission case",
+                "text": "Large housing with multiple assembly interfaces.",
+                "image": "auto-transmission-case-v1"
+              },
+              {
+                "title": "Differential housing",
+                "text": "Round gear chamber and mounting features.",
+                "image": "auto-differential-case-v1"
+              },
+              {
+                "title": "Gearbox end cover",
+                "text": "Cover geometry and interface details.",
+                "image": "auto-gearbox-end-cover-v1"
+              }
+            ]
+          },
+          {
+            "title": "Automotive auxiliary housings",
+            "text": "Distinct shapes for accessory and actuation systems.",
+            "cards": [
+              {
+                "title": "Alternator housing",
+                "text": "Vented frame with mounting ears.",
+                "image": "auto-alternator-housing-v1"
+              },
+              {
+                "title": "Compressor housing",
+                "text": "Cylindrical shell and pipe connection bosses.",
+                "image": "auto-compressor-housing-v1"
+              },
+              {
+                "title": "Actuator enclosure",
+                "text": "Compact cast body with mounting and connector features.",
+                "image": "auto-actuator-enclosure-v1"
+              }
+            ]
+          },
+          {
+            "title": "Vehicle electrical enclosures",
+            "text": "Project-specific enclosures and covers for EV applications.",
+            "cards": [
+              {
+                "title": "Inverter enclosure",
+                "text": "Ribbed housing with internal compartment.",
+                "image": "auto-inverter-v1"
+              },
+              {
+                "title": "Onboard charger housing",
+                "text": "Shallow enclosure with connector openings.",
+                "image": "auto-onboard-charger-v1"
+              },
+              {
+                "title": "Motor controller cover",
+                "text": "Low-profile cast cover with reinforcement ribs.",
+                "image": "auto-controller-cover-v1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "project-scope",
+        "heading": "Start with Your Component, Not a Standard Mold",
+        "paragraphs": [
+          "An automotive housing, cover or bracket can require a very different mold from another part with a similar name. Share its current revision, intended assembly and any customer-specific acceptance requirements. We assess the mold for the component you submit.",
+          "We coordinate custom mold development through manufacturing partners. The deliverable is the finished mold, with trial samples for your testing; we do not take ongoing die casting production orders."
+        ]
       },
       {
         "id": "drawing-priorities",
-        "heading": "Make Drawing Revisions and Interfaces Clear",
+        "heading": "What to Include with Your Automotive Mold Inquiry",
         "paragraphs": [
-          "Provide the latest available 2D or 3D product drawings. Mark the revision you want quoted and identify important mounting holes, mating faces and areas with later machining. If separate documents contain different information, explain which document controls. A photo can help explain the use, but does not replace the drawing or physical sample needed for a quotation.",
-          "You can submit the initial inquiry without sending technical files. We will arrange the next exchange after reviewing your details."
+          "Clear 2D or 3D part drawings are the best starting point for a formal quote; STEP or STP is preferred when available. An assessable physical sample is another route. Photos can begin a preliminary discussion."
         ],
-        "layout_cn": "清单式两列：图纸版本、装配接口、后加工区域、外观要求；手机单列。",
-        "visual_cn": "使用自制不含真实参数的接口标注示意图，明确为说明图。"
-      },
-      {
-        "id": "production-context",
-        "heading": "Explain Where the Mold Will Run",
-        "paragraphs": [
-          "Let us know where the finished mold will be used and whether the receiving manufacturer has machine or mold interface requirements. Share those requirements when available, rather than assuming that every mold fits every production setup. Expected production volume is also useful project context, even though the order you place with us is for a mold.",
-          "We do not accept automotive die casting mass production orders. Any downstream component production remains a separate arrangement for your project."
-        ],
-        "layout_cn": "横向两段信息区，左侧模具交付、右侧接收端要求；手机按此顺序。",
-        "visual_cn": "规划模具与接收工厂的流程示意，不虚构机台参数。"
+        "bullets": [
+          "Current drawing revision and part number, if available",
+          "Mating faces, mounting holes and critical assembly interfaces",
+          "Areas planned for machining after casting",
+          "Any receiving-factory machine or mold interface requirements"
+        ]
       },
       {
         "id": "approval",
-        "heading": "Agree How Samples Will Be Reviewed",
+        "heading": "Design Approval, Trial Samples and Mold Handover",
         "paragraphs": [
-          "After payment, we prepare the 3D mold design for your confirmation. Manufacturing begins after you approve that design. When the mold is made, trial samples are sent for your testing. Tell us who will review them and what product requirements they will check. The finished mold is dispatched after you confirm the samples are acceptable.",
-          "The current indicative schedule is about 30–40 days from payment. The applicable milestones and shipping arrangements are confirmed for the individual project."
-        ],
-        "layout_cn": "四节点流程：付款、模具设计确认、制造试模、客户测样后发模；手机竖向。",
-        "visual_cn": "只做流程图；日程脚注与总流程页保持一致。"
+          "After payment, we prepare a 3D mold design for your approval. Manufacturing starts after you confirm it. We then run a mold trial and mail samples for your testing. Once you approve the samples, we ship the finished mold.",
+          "A typical mold project is approximately 30–40 days from payment. The actual scope, approval milestones and shipping arrangements are confirmed for each project."
+        ]
       }
     ],
     "faqs": [
       {
-        "q": "Can I order a mold for one automotive component?",
-        "a": "Yes. Orders can start from one mold set. Quote scope depends on the component drawing or physical sample and the requirements agreed for that project."
+        "q": "Can I order one mold for an automotive component?",
+        "a": "Yes. One mold set is welcome. We quote from clear part drawings or an assessable physical sample and agree the project scope with you."
       },
       {
-        "q": "How should I share automotive program requirements?",
-        "a": "Include the applicable specifications and approval requirements in the project discussion. We review them before agreeing the mold scope."
+        "q": "Can you quote from a photo of a vehicle part?",
+        "a": "Photos can start a preliminary discussion. A formal mold quotation needs clear 2D or 3D product drawings or an assessable physical sample."
       },
       {
-        "q": "Do you supply production quantities of the cast parts?",
-        "a": "No. Our current service is custom mold development. Trial samples are for customer testing before the finished mold is dispatched."
+        "q": "Can I send STEP or STP files?",
+        "a": "Yes. STEP or STP files are preferred when available. Clear 2D product drawings can also support the review."
+      },
+      {
+        "q": "When do I approve the mold design?",
+        "a": "After payment, we prepare the 3D mold design and send it for your approval. Manufacturing begins after you confirm the design."
+      },
+      {
+        "q": "Do you provide automotive part mass production?",
+        "a": "No. We currently supply custom molds. Trial samples are made for your testing before the finished mold is shipped."
       }
     ],
     "related_links": [
@@ -1978,9 +2047,9 @@
       }
     ],
     "final_cta": {
-      "heading": "Discuss a Mold for Your Product",
-      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
-      "label": "Request a Mold Quote",
+      "heading": "Start with Your Automotive Part",
+      "text": "Upload a clear part drawing or describe the physical sample you can provide. We will review your mold inquiry and follow up about scope.",
+      "label": "Request an Automotive Mold Quote",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [

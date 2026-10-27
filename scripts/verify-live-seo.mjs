@@ -15,8 +15,9 @@ assert.ok(robots.body.includes(`Sitemap: ${origin}/sitemap.xml`));
 const sitemap=await get('/sitemap.xml');
 assert.equal(sitemap.response.status,200);
 const urls=[...sitemap.body.matchAll(/<loc>(https:\/\/exactmec\.com\/[^<]*)<\/loc>/g)].map(match=>match[1]);
-assert.equal(urls.length,18,'Expected the 18 approved marketing pages in the sitemap');
+assert.equal(urls.length,19,'Expected the 19 approved marketing pages in the sitemap');
 assert.ok(urls.includes(origin+'/aluminum-die-casting-molds/'));
+assert.ok(urls.includes(origin+'/industries/automotive/'));
 for(const privatePath of ['/admin/','/account/','/api/','/privacy','/inquiry-received/'])assert.ok(!sitemap.body.includes(privatePath));
 
 for(const url of urls){
@@ -33,6 +34,9 @@ const core=await get('/aluminum-die-casting-molds/');
 assert.ok(core.body.includes('Custom Aluminum Die Casting Molds for Your Part'));
 for(const stem of ['hero','design','lighting','motor','electronics','trial'])assert.ok(core.body.includes(`/assets/core-mold-${stem}-v1.webp`),stem);
 
+const automotive=await get('/industries/automotive/');
+assert.ok(automotive.body.includes('Automotive Components That Can Start a Mold Project'));
+for(const stem of ['auto-hero','auto-transmission-case','auto-alternator-housing','auto-inverter'])assert.ok(automotive.body.includes('/assets/'+stem+'-v1.webp'),stem);
 const legal=await get('/privacy');
 assert.equal(legal.response.headers.get('x-robots-tag'),'noindex,follow');
 const confirmation=await get('/inquiry-received/');

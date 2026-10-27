@@ -14,7 +14,7 @@ const clientFeedback=[
  {title:'Samples Before Shipment',quote:'Receiving trial samples before mold shipment gave us the opportunity to check the parts and share our feedback.'},
 ];
 const applications=[
- {title:'Automotive & Two-Wheelers',image:'/assets/home-v2-automotive.webp',alt:'Illustrative aluminum automotive bracket',href:'/industries/#industry-automotive'},
+ {title:'Automotive',image:'/assets/home-v2-automotive.webp',alt:'Illustrative aluminum automotive bracket',href:'/industries/automotive/'},
  {title:'LED Lighting',image:'/assets/home-v2-led.webp',alt:'Illustrative finned aluminum lighting housing and LED lamp',href:'/industries/led-lighting/'},
  {title:'Motors, Pumps & Transmission',image:'/assets/home-v2-motor.webp',alt:'Illustrative aluminum motor end cover beside an electric motor',href:'/industries/motor-pump-transmission/'},
  {title:'Electronics & Telecom',image:'/assets/home-v2-electronics.webp',alt:'Illustrative aluminum electronics enclosure',href:'/industries/#industry-electronics-telecommunications'},
