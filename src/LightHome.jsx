@@ -18,8 +18,8 @@ const applications=[
  {title:'LED Lighting',image:'/assets/home-v2-led.webp',alt:'Illustrative finned aluminum lighting housing and LED lamp',href:'/industries/led-lighting/'},
  {title:'Motors, Pumps & Transmission',image:'/assets/home-v2-motor.webp',alt:'Illustrative aluminum motor end cover beside an electric motor',href:'/industries/motor-pump-transmission/'},
  {title:'Electronics & Telecom',image:'/assets/home-v2-electronics.webp',alt:'Illustrative aluminum electronics enclosure',href:'/industries/#industry-electronics-telecommunications'},
- {title:'Energy & Power Equipment',image:'/assets/energy-application-scene-v3.webp',alt:'Illustrative aluminum power equipment enclosure in an equipment setting',href:'/industries/#industry-energy-power'},
- {title:'Industrial Equipment & Automation',image:'/assets/industrial-application-scene-v3.webp',alt:'Illustrative aluminum industrial housing in an automation setting',href:'/industries/#industry-industrial-automation'},
+ {title:'Energy & Power Equipment',image:'/assets/home-energy-v1.webp',alt:'Illustrative aluminum power electronics housing on an engineering workbench',href:'/industries/#industry-energy-power'},
+ {title:'Industrial Equipment & Automation',image:'/assets/home-industrial-v1.webp',alt:'Illustrative die cast automation actuator housing at a workbench',href:'/industries/#industry-industrial-automation'},
 ];
 const guides=[
  {title:'What to Prepare for a Mold Quote',image:'/assets/home-v2-guide-quotation.webp',alt:'Illustrative part drawing and three-dimensional enclosure model',href:'/resources/die-casting-mold-quotation-requirements/'},
@@ -27,12 +27,12 @@ const guides=[
  {title:'From Design Approval to Shipment',image:'/assets/home-v2-guide-approval.webp',alt:'Illustrative trial samples, engineering drawing and inspection caliper',href:'/resources/die-casting-mold-development-process/'},
 ];
 const stages=[
- {label:'Drawings & quotation',title:'Start With Your Part',text:'Clear 2D or 3D part drawings, or a physical sample, give us the basis for a formal mold quotation.',image:guides[0].image,alt:guides[0].alt},
- {label:'Payment & mold design',title:'From Payment to Mold Design',text:'We confirm the quotation and payment arrangements with you, then prepare the 3D mold design for your review.',image:guides[1].image,alt:guides[1].alt},
- {label:'Approval & manufacturing',title:'Your Design Approval Comes First',text:'After payment, we prepare the 3D mold design for your confirmation. Manufacturing starts after you approve the design.',image:'/assets/design-review-scene-v3.webp',alt:'Illustrative workstation displaying a three-dimensional mold design for review'},
- {label:'Mold trial',title:'Trial the Completed Mold',text:'The completed mold is trialled to produce samples for your assessment before final mold delivery.',image:'/assets/mold-trial-scene-v3.webp',alt:'Illustrative mold trial setup with aluminum sample components'},
- {label:'Sample testing',title:'Test the Trial Samples',text:'We send the trial samples to you for testing. Your feedback and approval are confirmed before mold shipment.',image:guides[2].image,alt:guides[2].alt},
- {label:'Mold shipment',title:'Your Approval. Then Shipment.',text:'After you approve the trial samples, we arrange shipment of the finished mold. Delivery details are agreed for your project.',image:'/assets/mold-sample-detail-v3.webp',alt:'Illustrative aluminum trial sample components'},
+ {label:'Drawings & quotation',title:'Start With Your Part',text:'Clear 2D or 3D part drawings, or a physical sample, give us the basis for a formal mold quotation.',image:'/assets/process-reference-v1.webp',alt:'Illustrative product reference drawings and aluminum sample'},
+ {label:'Payment & mold design',title:'From Payment to Mold Design',text:'We confirm the quotation and payment arrangements with you, then prepare the 3D mold design for your review.',image:'/assets/process-payment-v1.webp',alt:'Illustrative project scope and mold design planning desk'},
+ {label:'Approval & manufacturing',title:'Your Design Approval Comes First',text:'After payment, we prepare the 3D mold design for your confirmation. Manufacturing starts after you approve the design.',image:'/assets/process-approval-v1.webp',alt:'Illustrative engineer reviewing a 3D mold design'},
+ {label:'Mold trial',title:'Trial the Completed Mold',text:'The completed mold is trialled to produce samples for your assessment before final mold delivery.',image:'/assets/process-trial-v1.webp',alt:'Illustrative die casting mold trial setup'},
+ {label:'Sample testing',title:'Test the Trial Samples',text:'We send the trial samples to you for testing. Your feedback and approval are confirmed before mold shipment.',image:'/assets/process-testing-v1.webp',alt:'Illustrative aluminum trial samples being measured'},
+ {label:'Mold shipment',title:'Your Approval. Then Shipment.',text:'After you approve the trial samples, we arrange shipment of the finished mold. Delivery details are agreed for your project.',image:'/assets/process-shipment-v1.webp',alt:'Illustrative finished mold prepared for shipment'},
 ];
 function TextLink({href,children,className=''}) {
  return <Link href={href} className={'home-v2-link '+className}>{children}<ArrowRight size={20} aria-hidden="true"/></Link>;
@@ -120,7 +120,7 @@ export function LightHome() {
    <div className="home-v2-quality-copy"><p className="home-v2-eyebrow">TRIAL & APPROVAL</p><h2>Test the Samples Before Mold Shipment</h2><p className="home-v2-section-intro">We trial the completed mold and send samples for your testing. The finished mold is shipped after your sample approval.</p>
     <ol className="home-v2-approval-steps">{['Mold trial','Your sample testing','Mold shipment'].map((text,index)=><li key={text}><span>{String(index+1).padStart(2,'0')}</span>{text}</li>)}</ol>
     <TextLink href="/quality-control/">See the trial & approval process</TextLink>
-   </div><figure><CmsImage src="/assets/home-v2-guide-approval.webp" alt="Illustrative trial samples, drawing and caliper used to explain sample review" width="1440" height="960" loading="lazy"/><figcaption>Illustrative sample review · Not a delivered project</figcaption></figure>
+   </div><figure><CmsImage src="/assets/home-quality-v1.webp" alt="Illustrative trial sample inspection before mold shipment" width="1440" height="960" loading="lazy"/><figcaption>Illustrative sample review · Not a delivered project</figcaption></figure>
   </section>
   <section className="home-v2-guides" id="guides"><div className="container">
    <div className="home-v2-section-heading"><div><p className="home-v2-eyebrow">BUYER RESOURCES</p><h2>{heading('guides','Die Casting Mold Guides')}</h2></div><TextLink href="/resources/">Explore resources</TextLink></div>

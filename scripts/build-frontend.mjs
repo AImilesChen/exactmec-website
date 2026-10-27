@@ -65,6 +65,8 @@ const runtime=['LightHome.jsx','MegaHeader.jsx','EditorialPages.jsx','PageCompos
 const assetData=JSON.parse(await fs.readFile(path.join(root,'src/data/v3-assets.json'),'utf8'));
 for(const asset of assetData)if(asset.path)needed.add(path.basename(asset.path));
 for(const file of runtime){const text=await fs.readFile(path.join(root,'src',file),'utf8');for(const match of text.matchAll(/["'(/]([A-Za-z0-9_.-]+\.(?:png|webp|jpe?g|svg))["')]/g))needed.add(match[1]);}
+// Media receives extensionless stems for the changing navigation and project-stage images.
+for(const file of ['MegaHeader.jsx','PhaseExplorer.jsx']){const text=await fs.readFile(path.join(root,'src',file),'utf8');for(const match of text.matchAll(/["']((?:menu|phase)-[a-z-]+-v\d+)["']/g))needed.add(match[1]+'.webp');}
 // ProductFigure converts legacy PNG references into runtime WebP names.
 for(const name of [...needed])if(name.endsWith('.png')){needed.delete(name);needed.add(name.replace(/\.png$/,'.webp'));}
 for(const row of generated){const html=await fs.readFile(path.join(output,row.file),'utf8');for(const match of html.matchAll(/<img\b[^>]*src="\/assets\/([A-Za-z0-9_.-]+)"/g))needed.add(match[1]);}
