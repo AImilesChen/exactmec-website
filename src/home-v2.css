@@ -172,6 +172,15 @@ body:has(.home-v2){min-width:0}
 .home-v2-picture-link:focus-visible h3{color:var(--home-blue)}
 @media(hover:hover){.home-v2-picture-link:hover{outline-color:#086dc26b}.home-v2-picture-link:hover img{transform:scale(1.04)}.home-v2-picture-link:hover h3{color:var(--home-blue)}}
 .home-v2 .home-v2-caption{font-size:12px;margin-top:24px}
+.home-v2-testimonials{padding-block:72px 88px;background:#fff}
+.home-v2-testimonials h2{text-align:center;max-width:none}
+.home-v2-review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:40px}
+.home-v2-review-card{padding:32px;border:1px solid #d8e2ec;border-radius:8px;background:#fff;min-width:0}
+.home-v2-review-stars{display:flex;gap:4px;color:#c8322a}
+.home-v2 .home-v2-review-card h3{font-size:21px;line-height:1.4;letter-spacing:-.025em;margin-top:22px;min-height:2.8em}
+.home-v2-review-card blockquote{margin:16px 0 0}
+.home-v2-review-card blockquote p{font-size:17px;line-height:1.7;color:var(--home-muted)}
+.home-v2 .home-v2-review-note{font-size:13px;line-height:1.6;color:var(--home-muted);text-align:center;margin-top:26px}
 .home-v2-manufacturing{background:#f6f8fa;padding-block:88px}
 .home-v2-manufacturing-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:64px;align-items:center}
 .home-v2-manufacturing figure{margin:0;min-width:0}
@@ -285,3 +294,5 @@ body:has(.home-v2){min-width:0}
  .home-v2-contact{padding-block:48px 250px}.home-v2-contact h2,.home-v2-contact .home-v2-section-intro{max-width:none}.home-v2-contact>img{height:230px}.home-v2-contact .home-v2-actions>.home-v2-link{align-self:flex-start}
 }
 @media(prefers-reduced-motion:reduce){.home-v2-picture-link,.home-v2-picture-link img{transition:none}.home-v2-picture-link:hover img,.home-v2-picture-link:focus-visible img{transform:none}}
+@media(max-width:900px){.home-v2-review-grid{grid-template-columns:1fr;gap:20px}.home-v2-review-card{padding:28px}.home-v2 .home-v2-review-card h3{min-height:0}}
+@media(max-width:600px){.home-v2-testimonials{padding-block:44px 56px}.home-v2-review-grid{gap:18px;margin-top:28px}.home-v2-review-card{padding:24px}.home-v2 .home-v2-review-card h3{font-size:20px;margin-top:18px}.home-v2-review-card blockquote{margin-top:14px}.home-v2 .home-v2-review-note{text-align:left;font-size:12px;margin-top:20px}}

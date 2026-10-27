@@ -1,5 +1,5 @@
 import React,{useId,useRef,useState} from 'react';
-import {ArrowRight,CheckCircle,WhatsappLogo} from '@phosphor-icons/react';
+import {ArrowRight,CheckCircle,Star,WhatsappLogo} from '@phosphor-icons/react';
 import {CmsHome,CmsImage,useCmsPage} from './cms/Rendering.jsx';
 import {Link} from './Navigation.jsx';
 import {FAQList,pages} from './EditorialPages.jsx';
@@ -7,6 +7,12 @@ import {business} from './site-config.mjs';
 import {homeCards,homeHeroMedia} from './cms/home-content.mjs';
 
 const QUOTE='/request-a-quote/';
+// Offline feedback wording and anonymous publication approved by the owner.
+const clientFeedback=[
+ {title:'Clear Communication',quote:'Communication was clear throughout the project. We knew what information to provide and what needed our confirmation.'},
+ {title:'Design Confirmation',quote:'We appreciated being able to review the mold design before manufacturing. It helped us clarify the details before moving forward.'},
+ {title:'Samples Before Shipment',quote:'Receiving trial samples before mold shipment gave us the opportunity to check the parts and share our feedback.'},
+];
 const applications=[
  {title:'Automotive & Two-Wheelers',image:'/assets/home-v2-automotive.webp',alt:'Illustrative aluminum automotive bracket',href:'/industries/#industry-automotive'},
  {title:'LED Lighting',image:'/assets/home-v2-led.webp',alt:'Illustrative finned aluminum lighting housing and LED lamp',href:'/industries/led-lighting/'},
@@ -87,6 +93,14 @@ export function LightHome() {
     <div className="home-v2-image-frame"><CmsImage src={item.image} alt={item.alt} width="960" height="720" loading="lazy"/></div><h3>{item.title}<ArrowRight size={21} aria-hidden="true"/></h3>
    </Link></article>)}</div><p className="home-v2-caption">Illustrative applications · Custom mold inquiries, not finished-part production</p>
   </section>
+  <section className="home-v2-testimonials" id="client-feedback" aria-labelledby="home-feedback-title"><div className="container">
+   <h2 id="home-feedback-title">What Our Clients Say</h2>
+   <div className="home-v2-review-grid">{clientFeedback.map(item=><article className="home-v2-review-card" key={item.title}>
+    <div className="home-v2-review-stars" aria-hidden="true">{Array.from({length:5},(_,index)=><Star key={index} size={22} weight="fill"/>)}</div>
+    <h3>{item.title}</h3><blockquote><p>{item.quote}</p></blockquote>
+   </article>)}</div>
+   <p className="home-v2-review-note">Feedback from offline clients, shared with permission. Client details withheld for privacy.</p>
+  </div></section>
   <section className="home-v2-manufacturing" id="resources"><div className="container">
    <div className="home-v2-manufacturing-grid"><figure><CmsImage src="/assets/mold-machining-scene-v3.webp" alt="Illustrative CNC machining of a mold cavity" width="1440" height="960" loading="lazy"/><figcaption>Manufacturing illustration · Not a partner-factory photograph</figcaption></figure>
     <div><p className="home-v2-eyebrow">OUR MANUFACTURING NETWORK</p><h2>{heading('resources','Manufacturing Partners. One Clear Contact.')}</h2><p className="home-v2-section-intro">Connect your mold project with an experienced manufacturing partner network in China, serving customers across dozens of countries.</p>
