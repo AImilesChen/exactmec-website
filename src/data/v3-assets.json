@@ -418,5 +418,77 @@
     "source": "Built-in image generation for products page, 2026-10-27",
     "type": "AI generated illustration",
     "rights": "Original generated asset; illustrative only, not evidence of own factory or delivered work"
+  },
+  {
+    "id": "core-mold-hero-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/core-mold-hero-v1.webp",
+    "bytes": 149106,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative, not evidence of a delivered project or owned manufacturing facility"
+  },
+  {
+    "id": "core-mold-design-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/core-mold-design-v1.webp",
+    "bytes": 126748,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative, not evidence of a delivered project or owned manufacturing facility"
+  },
+  {
+    "id": "core-mold-lighting-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/core-mold-lighting-v1.webp",
+    "bytes": 156040,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative, not evidence of a delivered project or owned manufacturing facility"
+  },
+  {
+    "id": "core-mold-motor-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/core-mold-motor-v1.webp",
+    "bytes": 138552,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative, not evidence of a delivered project or owned manufacturing facility"
+  },
+  {
+    "id": "core-mold-electronics-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/core-mold-electronics-v1.webp",
+    "bytes": 103364,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative, not evidence of a delivered project or owned manufacturing facility"
+  },
+  {
+    "id": "core-mold-trial-v1",
+    "size": [
+      1448,
+      1086
+    ],
+    "path": "/assets/core-mold-trial-v1.webp",
+    "bytes": 205150,
+    "source": "Built-in image generation, 2026-10-27",
+    "type": "AI generated illustration",
+    "rights": "Original generated asset; illustrative, not evidence of a delivered project or owned manufacturing facility"
   }
 ]

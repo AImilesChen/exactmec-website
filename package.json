@@ -14,6 +14,7 @@
     "test:frontend": "node --test tests/frontend-*.test.mjs tests/inquiry-*.test.mjs tests/analytics-*.test.mjs tests/cloudflare-*.test.mjs src/customer/*.test.mjs",
     "check:frontend": "npm run build:frontend && npm run test:frontend",
     "check:cloudflare": "node scripts/check-cloudflare.mjs",
+    "verify:live:seo": "node scripts/verify-live-seo.mjs",
     "smoke:frontend": "node scripts/smoke-frontend.mjs",
     "dev:review": "vite",
     "build:review": "vite build && node scripts/prepare-sites-build.mjs",
