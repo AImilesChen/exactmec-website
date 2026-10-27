@@ -2249,6 +2249,79 @@
         "visual_cn": "三张不同造型的生成图片，仅作应用示意，不写成交付案例。"
       },
       {
+        "id": "component-gallery",
+        "heading": "More Component Shapes to Explore",
+        "paragraphs": [
+          "A motor, pump or transmission project may start with different component shapes. Browse these illustrative examples, then share your actual part drawing or sample so we can discuss the mold you need."
+        ],
+        "groups": [
+          {
+            "title": "Motor Components",
+            "text": "Housings, connection enclosures and mounting structures.",
+            "cards": [
+              {
+                "title": "Finned Motor Housing",
+                "text": "Cooling ribs, mounting feet and the motor body interface.",
+                "image": "motor-ribbed-housing-gallery-v1"
+              },
+              {
+                "title": "Motor Terminal Enclosure",
+                "text": "Cable entry, lid fit and mounting bosses.",
+                "image": "motor-terminal-enclosure-gallery-v1"
+              },
+              {
+                "title": "Motor Mounting Bracket",
+                "text": "Base slots, structural ribs and frame fit.",
+                "image": "motor-mounting-bracket-gallery-v1"
+              }
+            ]
+          },
+          {
+            "title": "Pump Components",
+            "text": "Covers, support housings and connection structures.",
+            "cards": [
+              {
+                "title": "Pump Backplate Cover",
+                "text": "Shaft opening, mounting flange and bolt circle.",
+                "image": "pump-backplate-gallery-v1"
+              },
+              {
+                "title": "Bearing Carrier Housing",
+                "text": "Bearing seats, end flanges and mounting base.",
+                "image": "pump-bearing-carrier-gallery-v1"
+              },
+              {
+                "title": "Pump-to-Motor Adapter",
+                "text": "Connection flanges, open ribs and bolt patterns.",
+                "image": "pump-mounting-adapter-gallery-v1"
+              }
+            ]
+          },
+          {
+            "title": "Transmission Components",
+            "text": "Covers, reducer housings and sump structures.",
+            "cards": [
+              {
+                "title": "Gearbox Side Cover",
+                "text": "Shaft openings, perimeter joint and bolt points.",
+                "image": "gearbox-side-cover-gallery-v1"
+              },
+              {
+                "title": "Right-Angle Reducer Housing",
+                "text": "Perpendicular bores, ribs and base mounts.",
+                "image": "reducer-right-angle-housing-gallery-v1"
+              },
+              {
+                "title": "Transmission Oil Sump",
+                "text": "Wide mounting flange, internal ribs and drain boss.",
+                "image": "transmission-oil-sump-gallery-v1"
+              }
+            ]
+          }
+        ],
+        "visual_cn": "电机、泵、传动各三张不同零件生成图；所有图片标注为示意，不作为已交付案例。"
+      },
+      {
         "id": "interfaces",
         "heading": "Show the Features That Matter to Your Assembly",
         "paragraphs": [
