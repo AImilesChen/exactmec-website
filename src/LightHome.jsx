@@ -84,8 +84,8 @@ export function LightHome() {
    </div></div><p className="home-v2-hero-caption">{hero.caption}</p>
   </section>
   <section className="home-v2-facts" id="project-facts" aria-label="Mold project rules"><div className="container">
-   <dl className="home-v2-fact-grid">{[['1 Set','Minimum Mold Order','One mold set accepted.'],['30–40 Days','Typical Project Schedule','From payment; confirmed for each project.'],['2 Approvals','Before Final Delivery','Mold design and trial samples.']].map(([value,label,note])=><div key={value}><dt>{label}</dt><dd>{value}</dd><p>{note}</p></div>)}</dl>
-   <p className="home-v2-schedule-note">The project schedule covers the agreed scope and approval stages; it is not a guaranteed arrival date. <Link href="/mold-development-process/">See the process</Link>.</p>
+   <dl className="home-v2-fact-grid">{[['1 Set','Minimum Mold Order','Start with one custom mold.'],['30–40 Days','Typical Mold Lead Time','Estimated from payment; confirmed per project.'],['2 Approvals','Design & Sample Approval','Approve the design before manufacturing, and samples before shipment.']].map(([value,label,note])=><div key={value}><dt>{label}</dt><dd>{value}</dd><p>{note}</p></div>)}</dl>
+   <p className="home-v2-schedule-note">Lead time is indicative; delivery arrangements are agreed per project. <Link href="/mold-development-process/">See the process</Link>.</p>
   </div></section>
   <section className="home-v2-applications container" id="applications">
    <div className="home-v2-section-heading"><div><p className="home-v2-eyebrow">APPLICATIONS</p><h2>{heading('applications','Die Casting Molds for Your Application')}</h2><p className="home-v2-section-intro">Explore component types for your custom mold project.</p></div><TextLink href="/industries/">View all applications</TextLink></div>
