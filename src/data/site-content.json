@@ -1477,8 +1477,8 @@
     "path": "/mold-design-review/",
     "phase": "P0",
     "kind": "service",
-    "title": "3D Mold Design Review and Approval | EXACTMEC",
-    "description": "Understand how product information becomes a 3D mold design for your approval after payment, before EXACTMEC coordinates mold manufacturing.",
+    "title": "Aluminum Die Casting Mold Design Review & Approval | EXACTMEC",
+    "description": "See how a custom aluminum die casting mold design is prepared after payment, reviewed with you and confirmed before manufacturing. Learn what to check and what follows.",
     "primary_keyword": "3D die casting mold design approval",
     "semantic_keywords": [
       "mold design review",
@@ -1491,32 +1491,32 @@
       750
     ],
     "eyebrow": "DESIGN CONFIRMATION",
-    "h1": "Review the 3D mold design before manufacturing starts",
-    "intro": "Your product information is the starting point for quotation. After payment, we prepare the 3D mold design and send it to you for confirmation. This page explains the difference between those two inputs and how to make the approval stage clear before the mold enters manufacturing.",
+    "h1": "Approve Your 3D Mold Design Before Manufacturing",
+    "intro": "After payment, we prepare a 3D mold design for your review. Manufacturing starts only after you confirm the agreed design.",
     "goal_cn": "避免产品图纸与模具3D设计混淆，明确付款后的设计审批机制、客户应确认的信息及变更沟通；不宣传未确认的独立工程报告。",
     "hero_layout_cn": "左文右图，右侧为“产品资料→付款→模具3D设计→客户确认”示意；主按钮去询价，不设置设计下载。",
     "sections": [
       {
         "id": "different-documents",
-        "heading": "Your product drawing and the mold design serve different purposes",
+        "heading": "Product Reference vs. 3D Mold Design",
         "paragraphs": [
-          "A product drawing describes the item you want to make. A clear 2D or 3D drawing, or a physical sample, gives us information to assess the mold project and prepare a quotation. A general product photo alone is not the stated basis for a mold quotation.",
-          "The 3D mold design is prepared after customer payment. It describes the mold that will be made for the agreed project and is sent to you for confirmation. Manufacturing follows that confirmation; it does not begin simply because an initial inquiry was submitted."
+          "For a formal quotation, share clear 2D or 3D product drawings or an assessable physical sample. This describes the part you want to make; a product photo alone may not show enough detail.",
+          "The 3D mold design is a separate document prepared after payment. It describes the mold to be made and is sent to you for confirmation before manufacturing."
         ],
         "layout_cn": "左右对照两张卡片，分别为产品资料与模具设计；每卡标明用途与出现阶段。手机先产品资料再模具设计。",
         "visual_cn": "使用不含真实客户数据的两个线框示意，强调两者不同而非呈现虚构工程成果。"
       },
       {
         "id": "initial-information",
-        "heading": "Make the starting information easy to identify",
+        "heading": "Start With a Clear Product Reference",
         "paragraphs": [
-          "Give the product drawing a clear reference and tell us which revision is current. If several files describe the same product, explain how they relate. For a physical sample, discuss the delivery arrangements with us before sending it.",
-          "Highlight requirements that your team considers essential. These might concern the product's fit, visible surfaces, intended use or the equipment on which the mold will run. We review project requirements with you rather than assuming that a photograph captures every acceptance condition."
+          "Tell us which drawing or sample version is current. Flag the product features and requirements your team considers essential, including fit or equipment information where relevant.",
+          "If you have a physical sample, discuss shipping arrangements before sending it. Open requirements can be clarified during the project discussion."
         ],
         "bullets": [
-          "Identify the product and current information.",
-          "Explain requirements that may not be obvious from a picture.",
-          "Keep later changes separate from the original submission."
+          "Current product drawing or assessable sample",
+          "Known requirements and equipment interfaces, if relevant",
+          "Questions still open for discussion"
         ],
         "layout_cn": "上方一段引导，下方三条带编号要点，右侧可放文件版本标签示意。手机单列。",
         "visual_cn": "可视化示意文件名与版本关联，勿编造公差、设备接口标准或检测能力。",
@@ -1526,31 +1526,39 @@
         }
       },
       {
-        "id": "customer-review",
-        "heading": "Review with the people who will approve and use the mold",
+        "id": "approval-steps",
+        "heading": "From Payment to Approved Design",
         "paragraphs": [
-          "When you receive the mold design, involve the people responsible for the product and its production use. Collect their questions and return clear, consolidated feedback. This helps keep the approval decision understandable for both teams.",
-          "You do not need to approve something you do not understand. Ask for clarification before confirming the design. If the mold must work with equipment at your facility, discuss the required equipment information during the project instead of leaving the matter until delivery."
+          "Once the mold scope and payment are agreed, we prepare the 3D mold design and send it to your team. Review it, ask questions and confirm the version you approve.",
+          "Mold manufacturing begins after that confirmation. Design approval is a project decision, not an online checkout or automatic CAD sign-off."
+        ]
+      },
+      {
+        "id": "customer-review",
+        "heading": "What to Check Before You Approve",
+        "paragraphs": [
+          "Have the people responsible for the product and its intended use review the design. Consolidate their feedback so both sides can see which points need an answer.",
+          "Check the product version, agreed requirements, important interfaces and any open questions. Ask for clarification before you confirm the design."
         ],
         "layout_cn": "左侧正文，右侧简短合作示意：客户采购/工程集中反馈→EXACTMEC；手机正文在先。",
         "visual_cn": "用角色与反馈箭头图，不使用假客户头像或证言。"
       },
       {
         "id": "confirmation",
-        "heading": "Keep the approval and any changes clear",
+        "heading": "Confirm the Version, Then Manufacture",
         "paragraphs": [
-          "Confirmation marks the step from design review to manufacturing. Make clear which mold design version you are approving and whether any open questions remain. EXACTMEC coordinates manufacturing after that confirmation.",
-          "If your product, intended use or requirements change, tell us before asking the project to proceed. The effect on the design, quotation or schedule needs discussion for that order. The website does not promise unrestricted changes or assume that every revision has no effect on manufacturing."
+          "Identify the 3D mold design version you approve and resolve any open points before manufacturing. EXACTMEC coordinates the next stage after your confirmation.",
+          "If your product or requirements change, contact us. We will discuss the effect on design, quotation and schedule for that project."
         ],
         "layout_cn": "以批准节点为主的整宽信息区，下方两列“确认内容”“变更沟通”；手机垂直展开。",
         "visual_cn": "采用流程审批图标，避免伪造签署文件或技术认证章。"
       },
       {
         "id": "schedule",
-        "heading": "Design approval sits inside the project timeline",
+        "heading": "Manufacture, Trial, Samples and Handover",
         "paragraphs": [
-          "The approximate 30–40 day timing starts from customer payment, while mold manufacturing begins after design approval. These are different milestones. Confirm how the proposed schedule applies to your project and communicate any internal approval constraints early.",
-          "After manufacturing, the mold is trialed and samples are sent for customer testing. The completed mold is shipped after the samples are accepted. Design approval supports a clear next step, but it does not replace the later sample review."
+          "The indicative 30–40 day project period starts from payment; timing and milestones are confirmed for each order. Mold manufacturing follows design approval.",
+          "After the mold is made, we trial it and mail samples for your testing. The finished mold is shipped after you approve the samples. We do not currently take die-cast parts mass-production orders."
         ],
         "layout_cn": "水平时间线串联付款、设计确认、制造、测样、发模；手机纵向且所有节点文字完整。",
         "visual_cn": "无需照片，可用统一流程组件；30–40天作为付款旁的估计提示。",
@@ -1562,20 +1570,28 @@
     ],
     "faqs": [
       {
-        "q": "Do you design the mold before I pay?",
-        "a": "The 3D mold design is prepared after payment. Product drawings or a physical sample are used first to assess and quote the project."
+        "q": "When is the 3D mold design prepared?",
+        "a": "After customer payment. We use clear product drawings or an assessable physical sample first to assess and quote the mold project."
       },
       {
-        "q": "Does my product drawing count as mold design approval?",
-        "a": "No. Your product drawing is an input for the project. The 3D mold design is a separate approval stage after payment."
+        "q": "Will manufacturing start before I approve the design?",
+        "a": "No. We send the 3D mold design for your confirmation, and manufacturing starts after you approve the agreed version."
       },
       {
-        "q": "Can I ask questions before confirming the design?",
-        "a": "Yes. Raise questions and clarify the design before you approve it for manufacturing."
+        "q": "What should I check in the design?",
+        "a": "Check the product version, agreed requirements, important interfaces where applicable, and any open questions. Ask us about anything unclear before approving."
       },
       {
-        "q": "What if my product changes after approval?",
-        "a": "Contact us to discuss the change. Its effect on the mold, quotation and project schedule must be considered for the order."
+        "q": "What if my product changes after design approval?",
+        "a": "Contact us to discuss the change. Its effect on the mold design, quotation and project timing is reviewed for that order."
+      },
+      {
+        "q": "Does the 30–40 day period start after design approval?",
+        "a": "No. The indicative project period starts from payment. Manufacturing follows design approval, and milestones are confirmed for each order."
+      },
+      {
+        "q": "Is design approval the final acceptance?",
+        "a": "No. After manufacturing and mold trial, samples are mailed for your testing. The finished mold ships after you approve the samples."
       }
     ],
     "related_links": [
@@ -1593,8 +1609,8 @@
       }
     ],
     "final_cta": {
-      "heading": "Start with the product you want to make",
-      "text": "Tell us whether you have clear product drawings or a physical sample. We will discuss the quotation information first, then the design approval stage for an agreed order.",
+      "heading": "Start With Your Product Drawing or Sample",
+      "text": "Share a clear product reference for the mold quotation. We will discuss the project before payment and send the 3D mold design for your approval afterward.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },
