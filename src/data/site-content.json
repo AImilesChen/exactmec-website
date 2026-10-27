@@ -4,8 +4,8 @@
     "path": "/",
     "phase": "P0",
     "kind": "home",
-    "title": "ExactMec | Custom Aluminum Die Casting Molds",
-    "description": "Custom aluminum die casting molds from clear part drawings or a physical sample. One mold set accepted, with design confirmation and trial samples.",
+    "title": "Custom Aluminum Die Casting Molds | EXACTMEC",
+    "description": "Request a custom aluminum die casting mold quote with clear 2D/3D part drawings or a sample. One set accepted. Design and trial sample approval before shipment.",
     "primary_keyword": "ExactMec aluminum die casting molds",
     "semantic_keywords": [
       "mold tooling",
@@ -180,20 +180,28 @@
     ],
     "faqs": [
       {
-        "q": "Can I order just one mold?",
-        "a": "Yes. One custom mold set can be considered; a batch order for finished parts is not required."
+        "q": "What do you need for a mold quotation?",
+        "a": "We need clear 2D or 3D part drawings, or a physical sample, to assess your mold requirements and prepare a quotation."
       },
       {
-        "q": "Do I need a 3D file before I contact you?",
-        "a": "No. Clear 2D part drawings or a physical sample can also provide a quotation basis. You can submit basic information first and discuss what is needed next."
+        "q": "Can I order just one mold set?",
+        "a": "Yes. We accept orders for one custom mold set."
       },
       {
-        "q": "When is the 3D mold design prepared?",
-        "a": "After payment. The mold design is sent for your confirmation, and manufacturing starts after that confirmation."
+        "q": "When will I receive the 3D mold design?",
+        "a": "We prepare the 3D mold design after payment and send it to you for confirmation before manufacturing."
       },
       {
-        "q": "How long does a mold project take?",
-        "a": "The indicative period is approximately 30–40 days from payment. The project schedule needs to clarify design confirmation, trial samples, testing and logistics; this is not a guaranteed arrival date."
+        "q": "What is the typical lead time?",
+        "a": "The typical schedule is around 30–40 days from payment. The scope, approval stages, testing and logistics are confirmed for each project; this is not a guaranteed arrival date."
+      },
+      {
+        "q": "How are trial samples approved?",
+        "a": "We send trial samples for your testing. The finished mold is shipped after you approve the samples."
+      },
+      {
+        "q": "Do you offer die casting mass production?",
+        "a": "We currently supply custom molds. Trial samples are produced for mold validation; mass production is not offered."
       }
     ],
     "related_links": [
