@@ -1,4 +1,5 @@
 import { csvCell, defaultReview, hmac, searchFilters, validNote, validReference, validRevision, validateReviewPatch, validateSubmission } from './domain.mjs';
+import {fileKey,fileMetadata,readInquiryRequest,removeInquiryFiles} from './inquiry-files.mjs';
 
 const headers = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow', 'X-Content-Type-Options': 'nosniff' };
 const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(value), { status, headers: { ...headers, ...extra } });
@@ -51,7 +52,12 @@ async function rateAllowed(request, env) {
 
 async function createInquiry(request, env, context) {
   if (!ready(env, context)) return error('collection_unavailable', 503);
-  const input = await readBody(request);
+  const multipart=/^multipart\/form-data(?:\s*;|$)/i.test(request.headers.get('Content-Type')||'');
+  const parsed=multipart?await readInquiryRequest(request):null;
+  if(parsed?.error)return json({errors:{files:'invalid'}},422);
+  const input=multipart?parsed.input:await readBody(request);
+  const files=parsed?.files||[];
+  if(files.length&&!env.INQUIRY_FILES)return error('uploads_unavailable',503);
   if (!input) return error('invalid_request', 400);
   if (input.website_check != null && (typeof input.website_check !== 'string' || input.website_check.trim() !== '')) return error('invalid_request', 400);
   const requestId = request.headers.get('Idempotency-Key');
@@ -68,7 +74,9 @@ async function createInquiry(request, env, context) {
   }
   const { payload, errors } = validateSubmission(input, env, sourcePolicy);
   if (Object.keys(errors).length) return json({ errors }, 422);
-  const requestHash = await hmac(env.CONTACT_HASH_SECRET, `request:${canonical(input)}`);
+  const metadata=files.length?await fileMetadata(files):[];
+  payload.files=metadata.map(({name,size,extension})=>({name,size,extension}));
+  const requestHash = await hmac(env.CONTACT_HASH_SECRET, `request:${canonical({...input,files:metadata})}`);
   const previous = await stmt(env.DB, 'SELECT reference,request_hash FROM leads WHERE request_id=?', requestId).first();
   if (previous) return previous.request_hash === requestHash ? json({ saved: true, status: 'duplicate', reference: previous.reference }) : error('idempotency_conflict', 409);
   const rate = await rateAllowed(request, env);
@@ -78,14 +86,25 @@ async function createInquiry(request, env, context) {
   const [emailHash, phoneHash] = await Promise.all([hmac(env.CONTACT_HASH_SECRET, `email:${payload.email.toLowerCase()}`), hmac(env.CONTACT_HASH_SECRET, `phone:${payload.phone.replace(/\D/g, '')}`)]);
   const receipt = Object.fromEntries(['processing_choice', 'whatsapp_messages_opt_in', 'calls_opt_in', 'notice_version', 'privacy_version', 'privacy_processing_basis', 'whatsapp_choice_text_version'].map(key => [key, payload[key]]));
   Object.assign(receipt, { submitted_at: timestamp, choice_recorded_at: timestamp });
-  await env.DB.batch([
+  let uploaded=0;
+  try{
+   for(const [index,file] of files.entries()){
+    await env.INQUIRY_FILES.put(fileKey(reference,index),await file.arrayBuffer(),{httpMetadata:{contentType:'application/octet-stream'},customMetadata:{extension:metadata[index].extension}});
+    uploaded++;
+   }
+   await env.DB.batch([
     stmt(env.DB, 'INSERT INTO leads(reference,request_id,request_hash,payload_json,email_hash,phone_hash,review_json,mutation_id,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?) ON CONFLICT(request_id) DO NOTHING', reference, requestId, requestHash, JSON.stringify(payload), emailHash, phoneHash, JSON.stringify(defaultReview()), uuid(), timestamp, timestamp),
     stmt(env.DB, 'INSERT INTO consent_receipts(reference,receipt_json) SELECT reference,? FROM leads WHERE reference=?', JSON.stringify(receipt), reference),
     stmt(env.DB, 'INSERT INTO notification_outbox(reference,state,attempts,updated_at) SELECT reference,\'pending\',0,? FROM leads WHERE reference=?', timestamp, reference),
     stmt(env.DB, 'INSERT INTO lead_history(id,reference,action,note,actor_hash,created_at) SELECT ?,reference,\'created\',\'\',\'public\',? FROM leads WHERE reference=?', uuid(), timestamp, reference)
-  ]);
+   ]);
+  }catch{
+   await removeInquiryFiles(env.INQUIRY_FILES,reference,uploaded);
+   return error('service_unavailable',503);
+  }
   const saved = await stmt(env.DB, 'SELECT reference,request_hash FROM leads WHERE request_id=?', requestId).first();
-  if (!saved) return error('save_unconfirmed', 503);
+  if (!saved){await removeInquiryFiles(env.INQUIRY_FILES,reference,uploaded);return error('save_unconfirmed', 503);}
+  if(saved.reference!==reference)await removeInquiryFiles(env.INQUIRY_FILES,reference,uploaded);
   if (saved.request_hash !== requestHash) return error('idempotency_conflict', 409);
   // Outbox creation is durable. Delivery never changes the successful receipt.
   if (saved.reference === reference && typeof context.notify === 'function') {
@@ -209,7 +228,13 @@ async function leadAction(request, env, context, reference, action) {
       stmt(env.DB, 'INSERT INTO audit_events(id,action,reference,actor_hash,metadata_json,created_at) SELECT ?,\'deleted\',reference,?,\'{}\',? FROM leads WHERE reference=? AND revision=?', uuid(), hash, timestamp, reference, input.revision),
       stmt(env.DB, 'DELETE FROM leads WHERE reference=? AND revision=? RETURNING reference', reference, input.revision)
     ]);
-    return batch[1].results?.length === 1 ? new Response(null, { status: 204, headers }) : error('revision_conflict', 409);
+    if(batch[1].results?.length!==1)return error('revision_conflict',409);
+    const fileCount=Array.isArray(JSON.parse(row.payload_json).files)?JSON.parse(row.payload_json).files.length:0;
+    if(fileCount&&env.INQUIRY_FILES){
+      const cleanup=removeInquiryFiles(env.INQUIRY_FILES,reference,fileCount);
+      if(typeof context.waitUntil==='function')context.waitUntil(cleanup);else await cleanup;
+    }
+    return new Response(null, { status: 204, headers });
   }
   if (request.method === 'PATCH' && !action) {
     const review = validateReviewPatch(input, JSON.parse(row.review_json));
@@ -242,6 +267,20 @@ export async function handleBusiness(request, env, context = {}) {
     if (!env.DB || !strong(env.CONTACT_HASH_SECRET)) return error('service_unavailable', 503);
     if (path === '/api/admin/leads/search' && request.method === 'POST') return await search(request, env, context.actor);
     if (path === '/api/admin/leads/export' && request.method === 'POST') return await search(request, env, context.actor, true);
+    const fileMatch=/^\/api\/admin\/leads\/([^/]+)\/files\/([0-4])$/.exec(path);
+    if(fileMatch){
+      if(request.method!=='GET'||!validReference(fileMatch[1]))return error('not_found',404);
+      const row=await stmt(env.DB,'SELECT payload_json FROM leads WHERE reference=?',fileMatch[1]).first();
+      const files=row?JSON.parse(row.payload_json).files:null;
+      const index=Number(fileMatch[2]);
+      if(!Array.isArray(files)||!files[index]||!env.INQUIRY_FILES)return error('not_found',404);
+      const object=await env.INQUIRY_FILES.get(fileKey(fileMatch[1],index));
+      if(!object)return error('not_found',404);
+      await audit(env,context.actor,'file_downloaded',fileMatch[1],{index});
+      const fallback=`drawing-${index+1}.${files[index].extension}`;
+      const name=typeof files[index].name==='string'?files[index].name:fallback;
+      return new Response(object.body,{headers:{'Content-Type':'application/octet-stream','Content-Disposition':`attachment; filename="${fallback}"; filename*=UTF-8''${encodeURIComponent(name)}`,'Content-Length':String(object.size),'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer'}});
+    }
     const match = /^\/api\/admin\/leads\/([^/]+)(?:\/(opt-out|retry-notification))?$/.exec(path);
     if (!match || !validReference(match[1])) return error('not_found', 404);
     return await leadAction(request, env, context, match[1], match[2]);

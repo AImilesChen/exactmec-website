@@ -13,6 +13,8 @@ import {publicDevPlugin} from '../vite.frontend.config.mjs';
 import {loadContentPreview} from '../backend/content.mjs';
 import {renderPublishedHtml} from '../cloudflare/cms-response.mjs';
 import publicWorker from '../cloudflare/worker.mjs';
+import {MAX_MULTIPART_BYTES} from '../backend/inquiry-files.mjs';
+import noticeVersions from '../src/data/notice-versions.json' with {type:'json'};
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const port=Number(process.env.LOCAL_BACKEND_PORT||4176);
@@ -22,8 +24,9 @@ await fs.mkdir(state,{recursive:true});
 const secretsFile=path.join(state,'secrets.json');let secrets;
 try{secrets=JSON.parse(await fs.readFile(secretsFile,'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;secrets=Object.fromEntries(['RATE_LIMIT_SECRET','CONTACT_HASH_SECRET','ADMIN_CSRF_SECRET'].map(k=>[k,randomBytes(48).toString('hex')]));await fs.writeFile(secretsFile,JSON.stringify(secrets),{mode:0o600});}
 if(typeof secrets.CUSTOMER_AUTH_SECRET!=='string'||secrets.CUSTOMER_AUTH_SECRET.length<32){secrets.CUSTOMER_AUTH_SECRET=randomBytes(48).toString('hex');await fs.writeFile(secretsFile,JSON.stringify(secrets),{mode:0o600});}
-const mf=new Miniflare(convertV4MiniflareOptions({modules:true,script:'export default {fetch(){return new Response("local-only")}}',compatibilityDate:'2026-10-01',d1Databases:{DB:'exactmec-synthetic-local'},d1Persist:path.join(state,'d1')}));
+const mf=new Miniflare(convertV4MiniflareOptions({modules:true,script:'export default {fetch(){return new Response("local-only")}}',compatibilityDate:'2026-10-01',d1Databases:{DB:'exactmec-synthetic-local'},d1Persist:path.join(state,'d1'),r2Buckets:{INQUIRY_FILES:'exactmec-synthetic-files'},r2Persist:path.join(state,'r2')}));
 const db=await mf.getD1Database('DB');
+const inquiryFiles=await mf.getR2Bucket('INQUIRY_FILES');
 await db.exec('CREATE TABLE IF NOT EXISTS local_migrations(name TEXT PRIMARY KEY)');
 for(const name of(await fs.readdir(path.join(root,'migrations'))).filter(n=>/^\d+.*\.sql$/.test(n)).sort()){
  if(await db.prepare('SELECT name FROM local_migrations WHERE name=?').bind(name).first())continue;
@@ -31,7 +34,7 @@ for(const name of(await fs.readdir(path.join(root,'migrations'))).filter(n=>/^\d
  const statements=sql.split(';').map(s=>s.trim()).filter(Boolean).map(s=>db.prepare(s));
  await db.batch([...statements,db.prepare('INSERT INTO local_migrations(name) VALUES(?)').bind(name)]);
 }
-const env={...secrets,DB:db,SITE_ORIGIN:origin,NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',PRIVACY_VERSION:'privacy-policy-draft',PROCESSING_BASIS:'purpose_limited_consent_draft',WHATSAPP_NOTICE_VERSION:'inquiry-copy-2026-10-25-draft',NOTIFICATIONS_ENABLED:'false',CUSTOMER_SCHEMA_READY:'true'};
+const env={...secrets,DB:db,INQUIRY_FILES:inquiryFiles,SITE_ORIGIN:origin,NOTICE_VERSION:noticeVersions.notice_version,PRIVACY_VERSION:noticeVersions.privacy_version,PROCESSING_BASIS:noticeVersions.privacy_processing_basis,WHATSAPP_NOTICE_VERSION:noticeVersions.whatsapp_choice_text_version,NOTIFICATIONS_ENABLED:'false',CUSTOMER_SCHEMA_READY:'true'};
 const api=createApiHandler({localSynthetic:true,authenticate:async()=>({id:'local-synthetic-admin',email:'admin@example.com'}),sendCustomerCode:async({email,code,expiresMinutes})=>{
  if(!/^[^@\s]+@example\.com$/i.test(email))throw new Error('synthetic_only');
  // Disposable local test outbox, never a real email service or public route.
@@ -48,7 +51,8 @@ const server=http.createServer(async(req,res)=>{
   const url=new URL(req.url,origin);
   if(url.pathname.startsWith('/api/')){
    const chunks=[];let size=0;
-   for await(const chunk of req){size+=chunk.length;if(size>65536){res.writeHead(413,{'Content-Type':'application/json'});res.end('{"error":"body_too_large"}');return;}chunks.push(chunk);}
+   const limit=url.pathname==='/api/inquiries'&&/^multipart\/form-data/i.test(req.headers['content-type']||'')?MAX_MULTIPART_BYTES:65536;
+   for await(const chunk of req){size+=chunk.length;if(size>limit){res.writeHead(413,{'Content-Type':'application/json'});res.end('{"error":"body_too_large"}');return;}chunks.push(chunk);}
    const headers=new Headers(Object.entries(req.headers).filter(([,v])=>typeof v==='string'));
    headers.set('CF-Connecting-IP',req.socket.remoteAddress||'127.0.0.1');
    const request=new Request(url,{method:req.method,headers,...(!['GET','HEAD'].includes(req.method)?{body:Buffer.concat(chunks)}:{})});
@@ -76,7 +80,7 @@ const server=http.createServer(async(req,res)=>{
   }
   // Exercise the actual published-snapshot Worker on localhost. The special
   // RFQ integration entry below alone can submit example.com synthetic forms.
-  if(['GET','HEAD'].includes(req.method)&&!url.pathname.startsWith('/request-a-quote')&&!/^\/(?:src|local|node_modules|@)/.test(url.pathname)){
+  if(['GET','HEAD'].includes(req.method)&&!url.pathname.startsWith('/request-a-quote')&&!/^\/(?:src|local|backend|node_modules|@)/.test(url.pathname)){
    const response=await publicWorker.fetch(new Request('https://exactmec.com'+url.pathname+url.search,{method:req.method}),{...env,ASSETS:assets,SITE_ORIGIN:'https://exactmec.com',CMS_ENABLED:'true',RELEASE:'false',LEGAL_APPROVED:'false'});
    if(url.pathname==='/account'||url.pathname.startsWith('/account/')){
     // This loopback-only host enables the UI against its injected synthetic

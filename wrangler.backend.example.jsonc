@@ -9,6 +9,7 @@
   "send_email": [{"name":"EMAIL","destination_address":"sales@exactmec.com","allowed_sender_addresses":["sales@exactmec.com"]}],
   "assets": {"directory":"./dist/public","binding":"ASSETS","html_handling":"none","not_found_handling":"none","run_worker_first":true},
   "d1_databases": [{"binding":"DB","database_name":"exactmec-leads","database_id":"REPLACE_WITH_CREATED_D1_ID","migrations_dir":"migrations"}],
+  "r2_buckets": [{"binding":"INQUIRY_FILES","bucket_name":"exactmec-inquiry-files"}],
   "vars": {
     "SITE_ORIGIN":"https://exactmec.com",
     "RELEASE":"false",

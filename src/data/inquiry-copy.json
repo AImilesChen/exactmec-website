@@ -92,7 +92,7 @@
           "required": true,
           "type": "textarea",
           "placeholder": "What does the component do, and what mold do you need?",
-          "helper": "Include the intended use and any requirements you already know. Please do not paste sensitive drawing data into this form."
+          "helper": "Include the intended use and any requirements you already know. Do not include unrelated personal or payment information."
         },
         {
           "key": "drawing_status",
@@ -184,8 +184,8 @@
       ]
     }
   ],
-  "drawing_note": "No file upload is needed to send this first inquiry. We will discuss how to share clear 2D or 3D part drawings, or how to arrange a physical sample, before preparing a formal quotation.",
-  "notice": "Your inquiry is handled by 台州巽风贸易有限公司, the operator of ExactMec. We use your contact and project details, together with available page and campaign source information, to review your mold request and follow up about this inquiry. Please see our Privacy Policy for how we handle your information. Budget and purchase timing are optional. Clear 2D or 3D part drawings, or a physical sample, are needed before a formal quotation.",
+  "drawing_note": "Your selected product drawings will be sent with this inquiry for review. We will confirm the next quotation steps after assessing them.",
+  "notice": "Your inquiry is handled by 台州巽风贸易有限公司, the operator of ExactMec. We use your contact and project details, any product drawings or photos you upload, and available page and campaign source information to review your mold request and follow up. Please see our Privacy Policy for how we handle your information. Budget and purchase timing are optional. Clear 2D or 3D part drawings, or a physical sample, are needed before a formal quotation.",
   "processing_checkbox": {
     "default": false,
     "label": "I agree to 台州巽风贸易有限公司 using the information I provide to assess and respond to this mold inquiry as described in the Privacy Policy. I can withdraw my consent using the contact details in that policy."

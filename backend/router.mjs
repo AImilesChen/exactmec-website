@@ -5,6 +5,7 @@ import {deliverNotification} from './notifications.mjs';
 import {handleMetrics} from './metrics.mjs';
 import {handleCustomer} from './customer.mjs';
 import {customerEmailAvailable,sendCustomerLoginCode} from './portal-email.mjs';
+import {MAX_MULTIPART_BYTES} from './inquiry-files.mjs';
 
 export const json=(value,status=200,headers={})=>new Response(JSON.stringify(value),{status,headers:{'Content-Type':'application/json; charset=utf-8',...headers}});
 export function secureApi(response,{customerCookie=false}={}) {
@@ -38,6 +39,16 @@ async function boundedJsonRequest(request) {
  return {request:new Request(request.url,{method:request.method,headers:request.headers,body:text})};
 }
 
+async function boundedInquiryMultipart(request) {
+ if(!/^multipart\/form-data(?:\s*;|$)/i.test(request.headers.get('Content-Type')||''))return {error:json({error:'invalid_request'},415)};
+ if(Number(request.headers.get('Content-Length')||0)>MAX_MULTIPART_BYTES)return {error:json({error:'files_too_large'},413)};
+ const reader=request.body?.getReader();if(!reader)return {error:json({error:'invalid_request'},400)};
+ let size=0;const chunks=[];
+ for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>MAX_MULTIPART_BYTES){await reader.cancel();return {error:json({error:'files_too_large'},413)}}chunks.push(value);}
+ const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.length;}
+ return {request:new Request(request.url,{method:request.method,headers:request.headers,body:bytes})};
+}
+
 // The production Worker calls this factory with no options. Local synthetic mode
 // is only injected by the separate Node test host, never by a binding or header.
 export function createApiHandler({authenticate=authenticateAccess,localSynthetic=false,sendCustomerCode}={}) {
@@ -52,9 +63,10 @@ export function createApiHandler({authenticate=authenticateAccess,localSynthetic
    if(request.method!=='GET'){
     if(!writeOriginAllowed(request,env,{localSynthetic}))return secureApi(json({error:'origin_denied'},403));
     if(admin&&!await verifyCsrf(request.headers.get('X-CSRF-Token'),actor,env))return secureApi(json({error:'csrf_required'},403));
-    const body=await boundedJsonRequest(request);if(body.error)return secureApi(body.error);request=body.request;
+    const multipart=path==='/api/inquiries'&&/^multipart\/form-data(?:\s*;|$)/i.test(request.headers.get('Content-Type')||'');
+    const body=multipart?await boundedInquiryMultipart(request):await boundedJsonRequest(request);if(body.error)return secureApi(body.error);request=body.request;
     if(localSynthetic&&path==='/api/inquiries'){
-     const fixture=await request.clone().json();
+     const fixture=multipart?JSON.parse((await request.clone().formData()).get('payload')):await request.clone().json();
      if(!/^[^@\s]+@example\.com$/i.test(fixture.email||'')||String(fixture.phone||'').replace(/\D/g,'')!=='12025550140')return secureApi(json({errors:{email:'synthetic_only',phone:'synthetic_only'}},422));
     }
    }

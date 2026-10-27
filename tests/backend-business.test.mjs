@@ -17,11 +17,11 @@ const admin = (path, method = 'GET', body = {}, ctx = context) => handleBusiness
 const get = async reference => (await (await admin(`/${reference}`)).json()).lead;
 
 before(async () => {
-  mf = new Miniflare(convertV4MiniflareOptions({ modules: true, script: 'export default {fetch(){return new Response("synthetic-only")}}', compatibilityDate: '2026-10-01', d1Databases: { DB: 'synthetic-business-tests' } }));
+  mf = new Miniflare(convertV4MiniflareOptions({ modules: true, script: 'export default {fetch(){return new Response("synthetic-only")}}', compatibilityDate: '2026-10-01', d1Databases: { DB: 'synthetic-business-tests' },r2Buckets:{INQUIRY_FILES:'synthetic-inquiry-files'} }));
   db = await mf.getD1Database('DB');
   const migration = readFileSync(new URL('../migrations/0001_inquiries.sql', import.meta.url), 'utf8');
   await db.batch(migration.split(';').map(sql => sql.trim()).filter(Boolean).map(sql => db.prepare(sql)));
-  env = { DB: db, SITE_ORIGIN: 'https://exactmec.com', RATE_LIMIT_SECRET: 'synthetic-rate-secret-32-characters-minimum', CONTACT_HASH_SECRET: 'synthetic-contact-secret-32-characters-minimum', NOTICE_VERSION: noticeVersions.notice_version, PRIVACY_VERSION: noticeVersions.privacy_version, PROCESSING_BASIS: noticeVersions.privacy_processing_basis, WHATSAPP_NOTICE_VERSION: noticeVersions.whatsapp_choice_text_version };
+  env = { DB: db, INQUIRY_FILES:await mf.getR2Bucket('INQUIRY_FILES'), SITE_ORIGIN: 'https://exactmec.com', RATE_LIMIT_SECRET: 'synthetic-rate-secret-32-characters-minimum', CONTACT_HASH_SECRET: 'synthetic-contact-secret-32-characters-minimum', NOTICE_VERSION: noticeVersions.notice_version, PRIVACY_VERSION: noticeVersions.privacy_version, PROCESSING_BASIS: noticeVersions.privacy_processing_basis, WHATSAPP_NOTICE_VERSION: noticeVersions.whatsapp_choice_text_version };
 });
 after(async () => { await mf?.dispose(); });
 
@@ -61,6 +61,33 @@ test('Miniflare D1 atomically stores one lead, receipt and outbox with server ti
   assert.equal(lead.contact.whatsapp_allowed, true);
   assert.equal(lead.contact.email_allowed, true);
   assert.equal(response.headers.get('Cache-Control'), 'no-store');
+});
+
+test('drawing upload is linked to one saved lead, private to staff, and removed with the lead',async()=>{
+  const payload={...fixture('file'),drawing_status:'3D part model / drawings'};
+  const form=new FormData();form.append('payload',JSON.stringify(payload));form.append('files',new File(['SYNTHETIC CAD TEST'],'component.step',{type:'application/octet-stream'}));
+  const requestKey=key();
+  const request=()=>new Request('https://exactmec.com/api/inquiries',{method:'POST',headers:{'Idempotency-Key':requestKey,'CF-Connecting-IP':crypto.randomUUID()},body:form});
+  const first=await handleBusiness(request(),env,context);assert.equal(first.status,201);
+  const {reference}=await first.json();
+  const lead=await get(reference);assert.deepEqual(lead.payload.files.map(({name,size})=>({name,size})),[{name:'component.step',size:18}]);
+  assert.equal((await env.INQUIRY_FILES.get(`inquiries/${reference}/0`)).size,18);
+  const download=await admin(`/${reference}/files/0`);assert.equal(download.status,200);assert.equal(download.headers.get('Content-Type'),'application/octet-stream');assert.equal(await download.text(),'SYNTHETIC CAD TEST');
+  assert.equal((await admin(`/${reference}/files/0`,'GET',{},{})).status,401);
+  const replay=await handleBusiness(request(),env,context);assert.equal(replay.status,200);assert.equal((await replay.json()).reference,reference);
+  assert.equal((await admin(`/${reference}`,'DELETE',{revision:lead.revision,confirmation:reference})).status,204);
+  assert.equal(await env.INQUIRY_FILES.get(`inquiries/${reference}/0`),null);
+});
+
+test('upload route rejects photos disguised as drawings and drawing files on the photo path',async()=>{
+  for(const [status,name] of [['Clear 2D part drawings','component.jpg'],['Photos / concept only','component.step'],['A physical sample','component.jpg']]){
+    const form=new FormData();
+    form.append('payload',JSON.stringify({...fixture(`invalid-${status}`),drawing_status:status}));
+    form.append('files',new File(['SYNTHETIC'],name,{type:'application/octet-stream'}));
+    const response=await handleBusiness(new Request('https://exactmec.com/api/inquiries',{method:'POST',headers:{'Idempotency-Key':key(),'CF-Connecting-IP':crypto.randomUUID()},body:form}),env,context);
+    assert.equal(response.status,422,status);
+    assert.deepEqual(await response.json(),{errors:{files:'invalid'}});
+  }
 });
 
 test('server validates requirements, versions and optional purchase information independently', async () => {

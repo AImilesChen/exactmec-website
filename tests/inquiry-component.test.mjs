@@ -12,10 +12,22 @@ const loaded = { exports: {} };
 new Function('require', 'module', 'exports', compiled.outputFiles[0].text)(createRequire(import.meta.url), loaded, loaded.exports);
 const { Inquiry } = loaded.exports;
 
-test('default review form clearly marks no transmission and keeps all required inquiry controls', () => {
+const sampleData={drawing_status:'A physical sample'};
+
+test('default review form starts with drawings and visible sample/no-drawings paths without transmission', () => {
   const html = renderToStaticMarkup(React.createElement(Inquiry));
   assert.match(html, /Design preview · No information is sent/);
+  assert.match(html,/Upload product drawings/);
+  assert.match(html,/I have a physical sample/);
+  assert.match(html,/No drawings yet/);
+  assert.match(html,/type="file"/);
+  assert.doesNotMatch(html, /type="submit"|wa\.me/);
+});
+
+test('details step retains all screening fields and separate contact choices', () => {
+  const html = renderToStaticMarkup(React.createElement(Inquiry,{initialData:sampleData}));
   for (const name of ['name', 'company', 'email', 'phone', 'country', 'city', 'component', 'description', 'drawing_status', 'mold_sets']) {
+    if(name==='drawing_status')continue;
     const control = html.match(new RegExp(`<(?:input|select|textarea)[^>]*name="${name}"[^>]*>`))?.[0];
     assert.ok(control, name);
     assert.match(control, /required=""/, name);
@@ -23,11 +35,12 @@ test('default review form clearly marks no transmission and keeps all required i
   const whatsapp = html.match(/<input[^>]*id="whatsapp"[^>]*>/)?.[0];
   assert.ok(whatsapp);
   assert.doesNotMatch(whatsapp, /required|checked/);
+  assert.match(html,/Physical sample · shipping details to be discussed/);
   assert.doesNotMatch(html, /type="file"|type="password"|wa\.me/);
 });
 
 test('production mode remains unavailable until parent explicitly enables collection', () => {
-  const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false }));
+  const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false,initialData:sampleData }));
   assert.match(html, /Online submission is not available yet/);
   assert.match(html, /<button[^>]*type="submit"[^>]*disabled=""/);
   assert.match(html, /class="button primary submit is-unavailable"/);
@@ -36,7 +49,7 @@ test('production mode remains unavailable until parent explicitly enables collec
 });
 
 test('an enabled inquiry form retains the submission action without the unavailable state', () => {
-  const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, submitEnabled: true }));
+  const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, submitEnabled: true,initialData:sampleData }));
   const button = html.match(/<button[^>]*type="submit"[^>]*>/)?.[0];
   assert.ok(button);
   assert.doesNotMatch(button, /disabled|is-unavailable/);
@@ -46,7 +59,7 @@ test('an enabled inquiry form retains the submission action without the unavaila
 
 test('enabling the form does not enable an untrusted or parameterized endpoint', () => {
   for (const endpoint of ['https://untrusted.example/api/inquiries', '//untrusted.example/api/inquiries', '/api/inquiries?email=private']) {
-    const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, submitEnabled: true, endpoint }));
+    const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, submitEnabled: true, endpoint,initialData:sampleData }));
     assert.match(html, /<button[^>]*type="submit"[^>]*disabled=""/);
     assert.match(html, />Online submission unavailable<\/button>/);
   }
@@ -56,9 +69,9 @@ test('closed public form offers configured manual WhatsApp contact before the fi
   const html = renderToStaticMarkup(React.createElement(Inquiry, { reviewMode: false, whatsappNumber: '+8615990661727' }));
   assert.match(html, /href="https:\/\/wa\.me\/8615990661727"/);
   assert.match(html, /Contact us on WhatsApp about your mold project/);
-  assert.ok(html.indexOf('https://wa.me/8615990661727') < html.indexOf('id="name"'));
+  assert.ok(html.indexOf('https://wa.me/8615990661727') < html.indexOf('Upload product drawings'));
   assert.doesNotMatch(html, /wa\.me\/8615990661727\?/);
-  assert.match(html, /<button[^>]*type="submit"[^>]*disabled=""/);
+  assert.match(html, /Online submission is not available yet/);
 });
 
 test('configured WhatsApp does not turn a review form into live contact or invoke an event', () => {

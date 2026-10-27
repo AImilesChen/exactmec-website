@@ -15,7 +15,7 @@ export function createInquiryClient({ endpoint = '/api/inquiries', submitEnabled
   let idempotencyKey;
   let inFlight;
   return {
-    submit(payload) {
+    submit(payload, files = []) {
       const url = sameOriginEndpoint(endpoint, origin);
       if (submitEnabled !== true || !url || typeof fetchImpl !== 'function') return Promise.resolve({ state: 'unavailable' });
       // Synchronous guard protects against two submits before React renders busy state.
@@ -24,14 +24,19 @@ export function createInquiryClient({ endpoint = '/api/inquiries', submitEnabled
       try { body = JSON.stringify(payload); }
       catch { return Promise.resolve({ state: 'unavailable' }); }
       if (typeof body !== 'string') return Promise.resolve({ state: 'unavailable' });
-      try { if (body !== previousBody) { idempotencyKey = createId(); previousBody = body; } }
+      const signatures=Array.isArray(files)?files.map(file=>`${file.name}\u0000${file.size}\u0000${file.lastModified}`).join('\u0001'):'';
+      const identity=body+'\u0002'+signatures;
+      try { if (identity !== previousBody) { idempotencyKey = createId(); previousBody = identity; } }
       catch { return Promise.resolve({ state: 'unavailable' }); }
       if (typeof idempotencyKey !== 'string' || !/^[A-Za-z0-9_-]{16,128}$/.test(idempotencyKey)) return Promise.resolve({ state: 'unavailable' });
       const controller = new AbortController();
       let timer;
       const request = (async () => {
         try {
-          const response = await fetchImpl(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey }, body, signal: controller.signal, credentials: 'same-origin', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer' });
+          const multipart=Array.isArray(files)&&files.length>0;
+          const form=multipart?new FormData():null;
+          if(form){form.append('payload',body);for(const file of files)form.append('files',file,file.name);}
+          const response = await fetchImpl(url, { method: 'POST', headers: { ...(multipart?{}:{'Content-Type':'application/json'}), 'Idempotency-Key': idempotencyKey }, body:form||body, signal: controller.signal, credentials: 'same-origin', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer' });
           if (response.status === 429) {
             const seconds = Number(response.headers?.get('Retry-After'));
             return { state: 'rate_limit', retryAfter: Number.isFinite(seconds) && seconds > 0 ? Math.min(Math.ceil(seconds), 3600) : null };
@@ -41,6 +46,7 @@ export function createInquiryClient({ endpoint = '/api/inquiries', submitEnabled
             const fields = data?.errors && typeof data.errors === 'object' && !Array.isArray(data.errors) ? Object.keys(data.errors) : [];
             return { state: 'invalid', fields };
           }
+          if (response.status === 413) return { state:'invalid', fields:['files'] };
           // A transport failure may follow a database save; never report it as unsaved.
           if (response.status >= 500 || response.status === 408) return { state: 'pending' };
           if (![200, 201, 409].includes(response.status)) return { state: response.ok ? 'pending' : 'failed' };
@@ -49,7 +55,7 @@ export function createInquiryClient({ endpoint = '/api/inquiries', submitEnabled
           return { state: 'pending' };
         } catch { return { state: 'pending' }; }
       })();
-      const timeout = new Promise(resolve => { timer = setTimeout(() => { controller.abort(); resolve({ state: 'pending' }); }, Math.max(1, timeoutMs)); });
+      const timeout = new Promise(resolve => { timer = setTimeout(() => { controller.abort(); resolve({ state: 'pending' }); }, Math.max(1, files.length ? Math.max(timeoutMs,60000) : timeoutMs)); });
       inFlight = Promise.race([request, timeout]).finally(() => { clearTimeout(timer); inFlight = null; });
       return inFlight;
     }

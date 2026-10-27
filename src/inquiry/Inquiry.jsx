@@ -6,6 +6,8 @@ import { Link } from '../Navigation.jsx';
 import { Media } from '../Media.jsx';
 import { buildInquiryPayload, countries, currencies, initialValues, moldQuantities, notifyInquiryEvent, validateInquiry, whatsappContactHref, whatsappHref } from './model.mjs';
 import { createInquiryClient, sameOriginEndpoint } from './client.mjs';
+import {checkInquiryFiles,fileExtension,MAX_FILES,MAX_FILE_BYTES,MAX_TOTAL_BYTES} from '../../backend/inquiry-files.mjs';
+import {formatFileSize} from './file-size.mjs';
 
 const TOOL = '/aluminum-die-casting-molds/';
 const failureStates = ['failed', 'pending', 'rate_limit', 'invalid', 'unavailable'];
@@ -14,9 +16,13 @@ function TextLink({ href, children }) {
   return <Link href={href} className="text-link">{children}<ArrowRight size={21} aria-hidden="true" /></Link>;
 }
 
-export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '/api/inquiries', whatsappNumber = '', onEvent = () => {}, initialData, getSourceSnapshot = () => undefined, sourceKnownPaths = [], heading, intro }) {
+export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '/api/inquiries', whatsappNumber = '', onEvent = () => {}, initialData, startAtMaterials = false, getSourceSnapshot = () => undefined, sourceKnownPaths = [], heading, intro }) {
   const demo = reviewMode && typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('demo') : null;
   const [values, setValues] = useState(() => ({...initialValues(),...initialData}));
+  const [step, setStep] = useState(initialData && !startAtMaterials ? 'details' : 'materials');
+  const [materialRoute, setMaterialRoute] = useState(initialData?.drawing_status === 'A physical sample' ? 'sample' : ['Photos / concept only','Not sure yet'].includes(initialData?.drawing_status) ? 'concept' : 'drawings');
+  const [files, setFiles] = useState([]);
+  const [fileError, setFileError] = useState('');
   const [errors, setErrors] = useState(() => demo === 'invalid' ? validateInquiry(initialValues(), copy.groups) : {});
   const [result, setResult] = useState({ state: demo === 'loading' ? 'submitting' : 'idle' });
   const [copyStatus, setCopyStatus] = useState('');
@@ -36,7 +42,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
   const client = useMemo(() => createInquiryClient({ endpoint, submitEnabled: !reviewMode && submitEnabled === true }), [endpoint, submitEnabled, reviewMode, session]);
   const busy = result.state === 'submitting';
   const confirmed = ['saved', 'duplicate'].includes(result.state);
-  const dirty = JSON.stringify(values) !== JSON.stringify(initialValues());
+  const dirty = files.length > 0 || JSON.stringify(values) !== JSON.stringify(initialValues());
 
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
   useEffect(() => {
@@ -72,6 +78,9 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
     if (submitting.current || busy || waitSeconds > 0) return;
     notifyInquiryEvent(onEvent, reviewMode, 'inquiry_submit_attempt');
     const found = validateInquiry(values, copy.groups);
+    const checked=checkInquiryFiles(files,values.drawing_status);
+    if(materialRoute==='drawings'&&checked.error){setStep('materials');setFileError('Add at least one product drawing before continuing. You can choose the sample or no-drawings path instead.');return;}
+    if(checked.error){setStep('materials');setFileError('Check file type, count and size before submitting.');return;}
     setErrors(found);
     if (Object.keys(found).length) { notifyInquiryEvent(onEvent, reviewMode, 'inquiry_submit_failed', 'invalid'); focusError(); return; }
     if (!reviewMode && !configured) { setResult({ state: 'unavailable' }); return; }
@@ -87,7 +96,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
       try { sourceSnapshot.current = buildInquiryPayload(values, getSourceSnapshot(), sourceKnownPaths).source; }
       catch { sourceSnapshot.current = buildInquiryPayload(values).source; }
     }
-    const next = await client.submit(buildInquiryPayload(values, sourceSnapshot.current, sourceKnownPaths));
+    const next = await client.submit(buildInquiryPayload(values, sourceSnapshot.current, sourceKnownPaths),files);
     submitting.current = false;
     if (!mounted.current) return;
     setResult(next);
@@ -95,6 +104,7 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
     else notifyInquiryEvent(onEvent, reviewMode, 'inquiry_submit_failed', next.state);
     if (next.state === 'rate_limit' && next.retryAfter) setRetryAt(Date.now() + next.retryAfter * 1000);
     if (next.state === 'invalid') {
+      if(next.fields.includes('files')){setStep('materials');setFileError('The files could not be accepted. Check their format and size, then try again.');return;}
       const allowed = new Set([...copy.groups.flatMap(group => group.fields.map(field => field.key)), 'country_other', 'mold_sets_other', 'currency_other', 'processing']);
       const mapped = Object.fromEntries(next.fields.filter(key => allowed.has(key)).map(key => [key, 'Please check this field and try again.']));
       setErrors(mapped);
@@ -104,7 +114,28 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
   function reset() {
     started.current = false;
     sourceSnapshot.current = null;
-    setValues(initialValues()); setErrors({}); setResult({ state: 'idle' }); setCopyStatus(''); setRetryAt(0); setSession(previous => previous + 1);
+    setValues(initialValues());setFiles([]);setStep('materials');setMaterialRoute('drawings');setFileError('');setErrors({}); setResult({ state: 'idle' }); setCopyStatus(''); setRetryAt(0); setSession(previous => previous + 1);
+  }
+  function chooseRoute(route){
+    setMaterialRoute(route);setFiles([]);setFileError('');
+    update('drawing_status',route==='sample'?'A physical sample':route==='concept'?'Not sure yet':'Clear 2D part drawings');
+  }
+  function chooseFiles(incoming){
+    const selected=Array.from(incoming||[]);
+    const checked=checkInquiryFiles(selected,materialRoute==='drawings'?'Clear 2D part drawings':materialRoute==='sample'?'A physical sample':'Photos / concept only');
+    if(checked.error){setFileError(`Choose up to ${MAX_FILES} supported files, each under ${Math.round(MAX_FILE_BYTES/1048576)} MB and ${Math.round(MAX_TOTAL_BYTES/1048576)} MB total.`);return;}
+    setFiles(selected);setFileError('');
+    if(materialRoute==='drawings')update('drawing_status',drawingStatusFor(selected));
+    else if(materialRoute==='concept')update('drawing_status',selected.length?'Photos / concept only':'Not sure yet');
+  }
+  function drawingStatusFor(selected){
+    const kinds=new Set(selected.map(file=>['pdf','dwg','dxf'].includes(fileExtension(file.name))?'2d':'3d'));
+    return kinds.size===2?'Both 2D and 3D part drawings':kinds.has('3d')?'3D part model / drawings':'Clear 2D part drawings';
+  }
+  function continueToDetails(){
+    const checked=checkInquiryFiles(files,values.drawing_status);
+    if(checked.error){setFileError(materialRoute==='drawings'?'Add a product drawing, or choose another route.':'Check the selected files and try again.');return;}
+    setFileError('');setStep('details');requestAnimationFrame(()=>formRef.current?.scrollIntoView({block:'start'}));
   }
   async function copyReference() {
     try { await navigator.clipboard.writeText(result.reference); setCopyStatus(states.reference_copied); }
@@ -137,22 +168,38 @@ export function Inquiry({ reviewMode = true, submitEnabled = false, endpoint = '
   }
   const statusMessage = result.state === 'unavailable' ? 'Online submission is not available yet. Your inquiry has not been sent.' : result.state === 'invalid' ? states.validation_summary : states[result.state];
   const manualContact = !reviewMode && !configured ? whatsappContactHref(whatsappNumber) : null;
-  return <><section className="inquiry-hero"><div className="container"><Link href={TOOL} className="back-link"><ArrowLeft size={17} aria-hidden="true" />Mold Tooling</Link><p className="eyebrow">START A MOLD INQUIRY</p><h1>{heading||'Tell Us About Your Mold Project'}</h1><p>{intro||'No sign in required. One mold set accepted. Budget and purchase timing are optional.'}</p></div></section>
+  return <><section className="inquiry-hero"><div className="container"><Link href={TOOL} className="back-link"><ArrowLeft size={17} aria-hidden="true" />Mold Tooling</Link><p className="eyebrow">START A MOLD INQUIRY</p><h1>{heading||'Request a Custom Mold Quote'}</h1><p>{intro||'Start with clear 2D or 3D product drawings, or a physical sample. No sign in required.'}</p></div></section>
     <section className="section inquiry-section"><div className="container inquiry-layout"><form ref={formRef} onSubmit={submit} noValidate aria-label="Mold inquiry form" aria-busy={busy}>
       {reviewMode ? <p className="preview-note">Design preview · No information is sent.{demo && <> Preview scenario: {demo}.</>}</p> : !configured && <p className="preview-note" role="status">Online submission is not available yet. Your inquiry has not been sent.{manualContact && <> <a className="inline-link" href={manualContact} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Contact us on WhatsApp about your mold project.</a></>}</p>}
       {failureStates.includes(result.state) && <div className="error-summary" role="alert">{reviewMode && 'Design preview scenario · No information was sent. '}{statusMessage}{waitSeconds > 0 && <p>Try again in {waitSeconds} seconds.</p>}</div>}
       <div className="rfq-honeypot" aria-hidden="true"><label>Leave this field empty<input name="website_check" value={values.website_check||''} onChange={event=>update('website_check',event.target.value)} autoComplete="off" tabIndex={-1}/></label></div>
+      <nav className="rfq-steps" aria-label="Inquiry steps"><span aria-current={step==='materials'?'step':undefined}>01 &nbsp; Drawings or sample</span><span aria-current={step==='details'?'step':undefined}>02 &nbsp; Project &amp; contact</span></nav>
+      {step==='materials' ? <div className="rfq-material-step"><h2>What can you share about your part?</h2><p>Product drawings help us review your mold request. A physical sample is also a valid starting point.</p>
+        <div className="rfq-route-options" role="group" aria-label="Available project information">
+          <button type="button" aria-pressed={materialRoute==='drawings'} onClick={()=>chooseRoute('drawings')} disabled={busy}><strong>I have 2D or 3D drawings</strong><small>Upload product drawings</small></button>
+          <button type="button" aria-pressed={materialRoute==='sample'} onClick={()=>chooseRoute('sample')} disabled={busy}><strong>I have a physical sample</strong><small>Discuss how to send it</small></button>
+          <button type="button" aria-pressed={materialRoute==='concept'} onClick={()=>chooseRoute('concept')} disabled={busy}><strong>No drawings yet</strong><small>Start with a description or photos</small></button>
+        </div>
+        {materialRoute!=='sample' ? <div className="rfq-upload" onDragOver={event=>event.preventDefault()} onDrop={event=>{event.preventDefault();chooseFiles(event.dataTransfer.files);}}><label htmlFor="inquiry-files"><strong>{materialRoute==='drawings'?'Upload product drawings':'Add reference photos (optional)'}</strong><span>Drag files here or choose from your device</span><span className="button primary">Choose files</span></label><input id="inquiry-files" name="files" type="file" multiple accept={materialRoute==='drawings'?'.pdf,.dwg,.dxf,.step,.stp,.igs,.iges,.x_t,.sat,.sldprt,.prt':'.jpg,.jpeg,.png,.webp'} onChange={event=>chooseFiles(event.target.files)} disabled={busy}/><p>{materialRoute==='drawings'?'2D: PDF, DWG, DXF · 3D: STEP, STP, IGS, IGES, X_T, SAT, SLDPRT, PRT':'Photos: JPG, PNG, WEBP'} · up to 5 files, 20 MB each, 25 MB total.</p></div> : <p className="rfq-material-note">Tell us about your sample in the next step. We will discuss shipping details with you before you send it.</p>}
+        {files.length>0 && <ul className="rfq-file-list" aria-label="Selected files">{files.map((file,index)=><li key={`${file.name}-${index}`}><span>{file.name} · {formatFileSize(file.size)}</span><button type="button" onClick={()=>{const next=files.filter((_,i)=>i!==index);setFiles(next);if(materialRoute==='drawings'){update('drawing_status',drawingStatusFor(next));if(next.length===0)setFileError('Add a product drawing, or choose another route.');}else if(materialRoute==='concept')update('drawing_status',next.length?'Photos / concept only':'Not sure yet');}} disabled={busy}>Remove</button></li>)}</ul>}
+        {fileError&&<p className="field-error" role="alert">{fileError}</p>}
+        <p className="rfq-material-note">Photos alone can start a discussion; a formal quotation needs clear product drawings or a physical sample.</p>
+        <button type="button" className="button primary rfq-next" onClick={continueToDetails}>Continue to project details<ArrowRight size={21} aria-hidden="true" /></button>
+      </div> : <>
+      <button type="button" className="rfq-back" onClick={()=>setStep('materials')} disabled={busy}><ArrowLeft size={17} aria-hidden="true" />Edit drawings or sample</button>
+      <p className="rfq-material-summary">{materialRoute==='drawings'?`${files.length} drawing file${files.length===1?'':'s'} selected`:materialRoute==='sample'?'Physical sample · shipping details to be discussed':files.length?`${files.length} reference photo${files.length===1?'':'s'} selected`:'Early project discussion · no drawings yet'}</p>
       <p className="required-note">No sign in is required. Fields marked <span className="required">*</span> are required.</p>
       {Object.values(errors).some(Boolean) && <div className="error-summary" role="alert">{states.validation_summary}</div>}
-      {copy.groups.map((group, index) => <fieldset key={group.heading}><legend><span>{String(index + 1).padStart(2, '0')}</span>{group.heading.replace(/^\d\. /, '')}</legend><div className="field-grid">{group.fields.map(renderField)}</div></fieldset>)}
-      <p className="drawing-note">{copy.drawing_note} <Link href="/project-information" className="inline-link" target="_blank" rel="noopener">Project information and sample arrangements</Link></p>
+      {[copy.groups[1],copy.groups[0],copy.groups[2]].map((group,index) => <fieldset key={group.heading}><legend><span>{String(index + 1).padStart(2, '0')}</span>{group.heading.replace(/^\d\. /, '')}</legend><div className="field-grid">{group.fields.filter(field=>field.key!=='drawing_status').map(renderField)}</div></fieldset>)}
+      <p className="drawing-note">{materialRoute==='drawings'?copy.drawing_note:materialRoute==='sample'?'We will discuss how to send your physical sample after reviewing your project details.':'This starts an early discussion. Clear product drawings or a physical sample will be needed before a formal quotation.'} <Link href="/project-information" className="inline-link" target="_blank" rel="noopener">Project information and sample arrangements</Link></p>
       <div className="inquiry-permissions"><p>{copy.notice.replace('Please see our Privacy Policy for how we handle your information.', '')} <Link href="/privacy" className="inline-link" target="_blank" rel="noopener">Privacy Policy</Link></p>
         <label className="check-row"><input id="processing" name="processing" disabled={busy} type="checkbox" checked={values.processing} onChange={event => update('processing', event.target.checked)} required aria-invalid={!!errors.processing} aria-describedby={errors.processing ? 'processing-error' : undefined} /><span>{copy.processing_checkbox.label}<span className="required"> *</span></span></label>{errors.processing && <p id="processing-error" className="field-error">{errors.processing}</p>}
         <label className="check-row"><input id="whatsapp" name="whatsapp" disabled={busy} type="checkbox" checked={values.whatsapp} onChange={event => update('whatsapp', event.target.checked)} /><span>{copy.whatsapp_checkbox.label}<small>{copy.whatsapp_checkbox.helper}</small></span></label>
       </div>
       <button className={'button primary submit' + (unavailable ? ' is-unavailable' : '')} type="submit" disabled={busy || unavailable || waitSeconds > 0}>{busy ? reviewMode ? 'Previewing your inquiry…' : states.submitting : unavailable ? 'Online submission unavailable' : copy.submit}{!busy && !unavailable && <ArrowRight size={21} aria-hidden="true" />}</button>
       <p className="submit-note" role="status">{reviewMode ? busy ? 'Preparing the design preview. Your details are not being sent.' : 'This preview demonstrates the form only. No real inquiry is submitted.' : busy ? states.submitting : 'Your inquiry is received only after the server confirms a reference.'}</p>
-    </form><aside className="inquiry-aside"><div><p className="eyebrow">THE NEXT STEP</p><h2>What Happens After You Submit</h2><p className="field-help">After a confirmed submission:</p><ol>{['Your inquiry is saved.', 'We review your project details.', 'We follow up by email, or WhatsApp if you choose.'].map((step, index) => <li key={step}><span>{index + 1}</span><p>{step}</p></li>)}</ol><Media file="mold-cavity-detail-v3" alt="Illustrative steel mold detail" caption="Illustrative example" /><hr /><h3>Drawings or a Sample?</h3><p>Keep your clear product drawings or physical sample available. We arrange the next information exchange during follow-up.</p><TextLink href="/resources/die-casting-mold-quotation-requirements/">Quotation Requirements</TextLink></div></aside></div></section>
+      </>}
+    </form><aside className="inquiry-aside"><div><p className="eyebrow">THE NEXT STEP</p><h2>What Happens After You Submit</h2><p className="field-help">After a confirmed submission:</p><ol>{['Your inquiry and any uploaded files are saved.', 'We review your project details.', 'We follow up by email, or WhatsApp if you choose.'].map((step, index) => <li key={step}><span>{index + 1}</span><p>{step}</p></li>)}</ol><Media file="mold-cavity-detail-v3" alt="Illustrative steel mold detail" caption="Illustrative example" /><hr /><h3>Drawings or a Sample?</h3><p>Upload clear product drawings here, or describe your physical sample. We will discuss sample shipping during follow-up.</p><TextLink href="/resources/die-casting-mold-quotation-requirements/">Quotation Requirements</TextLink></div></aside></div></section>
   </>;
 }
 

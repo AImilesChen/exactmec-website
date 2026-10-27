@@ -1039,7 +1039,7 @@
       },
       {
         "q": "Do I upload drawings in the inquiry form?",
-        "a": "No. The initial form records what information you have. We arrange file review or sample delivery during the follow-up conversation."
+        "a": "Yes. Start with clear 2D or 3D product drawings, or choose the physical-sample or no-drawings path. We review uploaded files after submission."
       },
       {
         "q": "When do you prepare the 3D mold design?",
@@ -1113,8 +1113,8 @@
       650
     ],
     "eyebrow": "START A MOLD INQUIRY",
-    "h1": "Tell Us About the Component You Need to Tool",
-    "intro": "Share your contact details and the mold project. We will review your inquiry and follow up about clear part drawings or a physical sample for quotation. One mold set can be considered.",
+    "h1": "Request a Custom Mold Quote",
+    "intro": "Start with clear 2D or 3D product drawings, or a physical sample. No sign in required.",
     "goal_cn": "先保存可主动跟进线索，不以客户发WhatsApp为前提；完整表单及状态文案另见data/form.json和04-全局导航与表单交互文案.md。",
     "hero_layout_cn": "桌面左8/12表单，右4/12粘性简短资料说明；手机先简短说明再单列表单，法律提示临近提交；无需强制5步。",
     "sections": [
@@ -1133,7 +1133,7 @@
         "heading": "The Component and the Mold",
         "paragraphs": [
           "Name the component and briefly explain its use and main requirements. State whether you have 2D drawings, a 3D file, both, a physical sample, photos and dimensions, or information that is not yet ready.",
-          "Choose the number of mold sets. One set is accepted. The form records your current information; it does not require you to upload a drawing or prove that a sample has already been received."
+          "Choose the number of mold sets. One set is accepted. Upload drawings if you have them; a physical sample or early project description can also start the conversation."
         ],
         "layout_cn": "产品名全宽、需求textarea、资料单选、套数+应用分类；材料和关键要求可选。",
         "visual_cn": ""
@@ -1162,7 +1162,7 @@
     "faqs": [
       {
         "q": "Do I need to upload drawings here?",
-        "a": "No. Select the information you have and describe the part. We arrange drawings or physical sample assessment during follow-up."
+        "a": "If you have clear product drawings, upload them first. You can also choose a physical sample or start with a description and photos when drawings are not ready."
       },
       {
         "q": "Can I submit without a budget?",
@@ -1788,7 +1788,7 @@
         "id": "quotation-info",
         "heading": "Provide the information needed for a quotation",
         "paragraphs": [
-          "Quotation requires clear 2D or 3D product drawings, or a physical sample. Tell us what you have first; we will discuss how to provide it. The initial form does not require a file upload.",
+          "Quotation requires clear 2D or 3D product drawings, or a physical sample. Upload available product drawings in the inquiry form, or choose the sample route and discuss delivery with us.",
           "Explain the product's intended use and any requirements that are important to the mold project. If the mold will run on equipment at your facility, mention that context during the discussion. One mold set can be considered, and our current service does not include volume die casting production."
         ],
         "layout_cn": "三列资料卡：2D产品图、3D产品图、实体样品，下面一段要求说明；手机单列。",
@@ -2827,7 +2827,7 @@
         "heading": "Prepare a Quote Request You Can Follow Up",
         "paragraphs": [
           "Start with your name, company, country and city, email and a usable contact number. Describe the product, tell us whether you have 2D drawings, 3D drawings or a physical sample, and give the number of mold sets required. Add your planned purchase timing and an approximate budget if available.",
-          "The initial form does not upload files. After submission, we use the contact details you provide to discuss the project and arrange the next information exchange. You can also continue through WhatsApp when appropriate. Your inquiry remains recorded even if you do not start a WhatsApp chat."
+          "Start by uploading available product drawings or choosing the sample or no-drawings path. Then provide your project and contact details. You can continue through WhatsApp after submission; your inquiry remains recorded even if you do not start a chat."
         ],
         "layout_cn": "正文末尾放一枚主CTA，旁边小字解释先填基本信息再沟通资料；不在文章中嵌完整长表单。",
         "visual_cn": "不需要图片，CTA以品牌强调色呈现。",
@@ -2913,7 +2913,7 @@
         "heading": "Start With One Clear Product Reference",
         "paragraphs": [
           "Clear 2D drawings, 3D drawings or an actual sample give us a basis for evaluating the mold request. If you have more than one type, tell us which information is current and whether the files describe the same product. Make the units and revision clear.",
-          "An image of a drawing may be difficult to interpret when dimensions or notes are blurred. Check readability before sending files during follow-up. If you only have a sample, explain whether it represents the exact product you want or a reference that needs changes. We can then discuss the next assessment steps."
+          "An image of a drawing may be difficult to interpret when dimensions or notes are blurred. Check readability before uploading files. If you only have a sample, explain whether it represents the exact product you want or a reference that needs changes. We can then discuss the next assessment steps."
         ],
         "cards": [
           {
@@ -2976,7 +2976,7 @@
         "id": "submission",
         "heading": "Submit Basic Details First, Then Arrange the Files",
         "paragraphs": [
-          "The initial inquiry form records your contact and project details. It asks which drawings or samples you have; it does not upload files. After reviewing the inquiry, we contact you using the details provided to discuss the project and arrange the appropriate information exchange.",
+          "The inquiry begins with product drawing upload, a physical-sample route or a no-drawings route. It then records your project and contact details. After reviewing the inquiry, we contact you using the details provided to discuss the project and arrange the appropriate information exchange.",
           "Keep the original files available and avoid sending different revisions through several conversations without explanation. For a physical sample, discuss the receiving details and shipping arrangements first. You may continue through WhatsApp when appropriate, but a WhatsApp chat is not required to preserve the inquiry. We can follow up by email."
         ],
         "layout_cn": "三步横排：Basic inquiry → Follow-up → Drawings or sample arrangements；手机改纵向，有箭头但不嵌外部聊天浮窗。",
@@ -3012,7 +3012,7 @@
       },
       {
         "q": "Where do I upload the drawings?",
-        "a": "The initial website form has no file upload. Tell us what you have, and we will arrange the next information exchange during follow-up."
+        "a": "Start the inquiry by uploading product drawings. If you have a physical sample or no drawings yet, choose that path and tell us what you can provide."
       }
     ],
     "related_links": [
@@ -3071,7 +3071,7 @@
         "heading": "1. Agree on the Product Reference Before Comparing Offers",
         "paragraphs": [
           "Begin with the product the mold needs to make. Clear product 2D or 3D drawings, or an actual sample, provide the starting basis for an EXACTMEC quotation. Explain whether the reference is final and identify any changes still being considered.",
-          "Ask your purchasing and technical teams to use the same revision. If a sample is the reference, state which details must be reproduced and which need discussion. A simple list of open points helps prevent an early estimate being mistaken for agreement on an unfinished specification. Submit basic project details first; the website form does not upload files."
+          "Ask your purchasing and technical teams to use the same revision. If a sample is the reference, state which details must be reproduced and which need discussion. A simple list of open points helps prevent an early estimate being mistaken for agreement on an unfinished specification. Upload available drawings first, then provide project and contact details."
         ],
         "layout_cn": "编号H2+两段正文；侧注框提示产品图不是模具图。手机侧注移到段后。",
         "visual_cn": "原创产品参考/项目要求/未定问题三格清单，不能冒充客户实物。"

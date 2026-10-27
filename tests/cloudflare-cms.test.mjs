@@ -117,7 +117,7 @@ test('CMS rendering cannot bypass legal gate or independently enable RFQ collect
   assert.match(html, /<h1[^>]*>Synthetic edited inquiry heading<\/h1>/);
   assert.match(html, /Synthetic edited inquiry introduction\./);
   assert.equal(bootstrap(html).config.inquiryEnabled, false);
-  assert.match(html, /Online submission unavailable/);
+  assert.match(html, /Online submission is not available yet/);
   assert.equal((await request('/api/inquiries', {}, { method: 'POST', headers: { Origin: 'https://exactmec.com', 'Content-Type': 'application/json' }, body: '{}' })).status, 503);
 });
 

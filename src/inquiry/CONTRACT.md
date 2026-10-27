@@ -1,6 +1,6 @@
 # Inquiry frontend contract · 07-frontend
 
-Status: **[NEEDS_REVIEW] — frontend and backend implemented, local synthetic integration verified; live collection stays disabled until release and protected administration are ready.**
+Status: **Upload-first inquiry flow implemented locally. The existing live inquiry remains available; the new file-upload release requires a private R2 bucket and deployment verification.**
 
 Read alongside `../../../compliance/form-and-followup-spec.md`, PRD section 85, `../data/inquiry-copy.json` and `../data/form-states.json`. This is a proposed integration contract, not evidence that any service exists or a legal publication has been approved.
 
@@ -19,12 +19,14 @@ When public submission is unavailable and the host supplies a valid `whatsappNum
 
 ## Request
 
-`POST /api/inquiries`, JSON body, `Content-Type: application/json`, `Idempotency-Key: <cryptographically generated UUID>`. Credentials are same-origin; redirects fail; requests are uncached and omit a referrer. Endpoint query/fragment/userinfo and cross-origin destinations are rejected. Default AbortController timeout is 15 seconds, covering fetch and response parsing. There are no automatic retries.
+`POST /api/inquiries` sends JSON when no file is selected, or `multipart/form-data` with one `payload` JSON field and `files` fields when files are selected. Both require `Idempotency-Key: <cryptographically generated UUID>`. Credentials are same-origin; redirects fail; requests are uncached and omit a referrer. Endpoint query/fragment/userinfo and cross-origin destinations are rejected. Timeout is 15 seconds for JSON and 60 seconds for multipart, covering fetch and response parsing. There are no automatic retries.
+
+Step 1 offers product drawings, a physical sample, or an early project without drawings. Drawings are required only on the drawing path; sample shipment is arranged later. An early project can have optional reference photos, but a formal quotation still needs assessable drawings or a physical sample. Step 2 collects project/contact details and optional purchasing information. Selected files live only in page memory until submission. Allowed formats are PDF, DWG, DXF, STEP, STP, IGS, IGES, X_T, SAT, SLDPRT and PRT for drawings, or JPG, JPEG, PNG and WEBP for reference photos. Maximum: five files, 20 MB each, 25 MB total. The server repeats these limits and requires private R2 storage before accepting any file.
 
 `buildInquiryPayload(values)` emits only:
 
 - Contact: `name`, `company`, `email`, `phone`, `country` (resolved custom country), `city`, `website` (nullable).
-- Project: `component`, `description`, `drawing_status`, `industry`/`requirements` (nullable), `mold_sets` (positive integer or null), `mold_sets_unsure` (boolean). Drawing status remains a declaration, not proof of files received or quotation readiness. No uploads.
+- Project: `component`, `description`, `drawing_status`, `industry`/`requirements` (nullable), `mold_sets` (positive integer or null), `mold_sets_unsure` (boolean). Drawing status remains a declaration; uploaded files are separately recorded as private object metadata after durable save.
 - Purchase: `purchase_timing`, `budget_status`, `budget_min`, `budget_max`, `currency` (nullable), `budget_basis: "per_mold_set"`. Hidden budget amounts/currency are discarded; no budget or timing is required. A single entered budget remains a single bound for the server to normalize according to its model.
 - Choices: `processing_choice` (true after required purpose-limited permission), `whatsapp_messages_opt_in` (independent boolean, default false), `calls_opt_in: false`.
 - Copy versions: `notice_version`, `privacy_version`, `privacy_processing_basis`, `whatsapp_choice_text_version`. The formal 2026-10-26 values in `src/data/notice-versions.json` must match the Worker configuration. The server owns and validates timestamps, versions, processing basis and receipt records; a client value is not evidence of approval. Optional budget and timing remain null until the visitor chooses an answer.
@@ -35,7 +37,7 @@ The public app supplies an in-memory `createInquirySourceTracker()` through `get
 
 Published CMS slugs extend the static page allowlist via the tracker `knownPaths` option and the Inquiry `sourceKnownPaths` prop; both are derived from the trusted public CMS bundle, not URL/input fields. Server validation independently loads published paths from D1 only when `CMS_ENABLED` is true; withdrawn current/original paths are blocked for new submissions. Client-supplied path lists are ignored. Saved source snapshots are immutable even when a page is subsequently withdrawn or a request is replayed.
 
-Personal analytics, files, payment/account data, and arbitrary extra input keys are omitted. No real personal data, payload, reference or idempotency key is written to browser storage, logs or analytics. Values and the retry key live only in component/client memory. Navigating away or reloading loses this state; production backend deduplication must not rely on memory persistence alone.
+Personal analytics, payment/account data, and arbitrary extra input keys are omitted. File bytes are sent only to the same-origin inquiry API and stored in a private R2 bucket; they are not included in analytics, notification email or WhatsApp URLs. No real personal data, payload, reference or idempotency key is written to browser storage, logs or analytics. Values, selected files and the retry key live only in component/client memory. Navigating away or reloading loses this state; production backend deduplication must not rely on memory persistence alone.
 
 The same JSON body reuses its idempotency key on manual retry. A changed body gets a new key. Concurrent submits share one in-flight request. A backend must validate all fields itself, scope/rate-limit keys, atomically deduplicate Lead creation, and decouple notification failure from a successful Lead save. Do not interpret a frontend-only validation pass as saved data.
 
