@@ -2889,8 +2889,8 @@
     "path": "/resources/die-casting-mold-quotation-requirements/",
     "phase": "P0",
     "kind": "article",
-    "title": "Die Casting Mold Quotation Requirements | EXACTMEC",
-    "description": "Prepare product drawings or a physical sample, company details and purchase timing for a custom aluminum die casting mold quotation. One mold set accepted.",
+    "title": "Aluminum Die Casting Mold Quote Requirements | ExactMec",
+    "description": "What do you need for an aluminum die casting mold quote? Prepare clear 2D drawings, a STEP/STP part model or an assessable sample, plus basic project details.",
     "primary_keyword": "die casting mold quotation requirements",
     "semantic_keywords": [
       "mold quotation checklist",
@@ -2903,10 +2903,10 @@
       1050
     ],
     "eyebrow": "QUOTATION CHECKLIST",
-    "h1": "What to Prepare for a Die Casting Mold Quotation",
-    "intro": "You do not need a finished mold design to ask about a custom mold. You do need a clear reference for the product the mold will make. For EXACTMEC, that means clear product 2D or 3D drawings, or a physical sample. This checklist explains what to prepare now, what can follow in conversation and how to avoid mixing product information with the mold design we prepare after payment.",
-    "goal_cn": "承接询价资料搜索并降低误填。讲清客户提供产品图、不是先自行设计模具；基本表单不上传；实体样品可报价。",
-    "hero_layout_cn": "文章页单栏标题摘要，下方三张资料卡2D/3D/Sample；桌面右侧目录，手机目录折叠。禁止写Upload按钮。",
+    "h1": "What You Need for an Aluminum Die Casting Mold Quote",
+    "intro": "Start with a clear 2D product drawing, a 3D part model or an assessable physical sample. You do not need to design the mold yourself. This guide shows which project details help us review your request, and how product information differs from the 3D mold design prepared after payment.",
+    "goal_cn": "承接铝压铸模具报价资料搜索并降低误填。讲清客户提供产品图或样品，不需自行设计模具；询价表优先上传图纸，也提供样品与无图纸初步沟通路径。",
+    "hero_layout_cn": "首屏突出三种产品参考资料与询价按钮；专用示意图表现2D图纸、3D产品模型和实物样品。正文用资料卡、检查清单及流程图，桌面目录与手机折叠目录保持。",
     "sections": [
       {
         "id": "minimum-reference",
@@ -2921,8 +2921,8 @@
             "text": "Provide a readable current drawing with the dimensions and notes you already have."
           },
           {
-            "title": "3D product drawing",
-            "text": "Identify the current product model and any accompanying requirements."
+            "title": "3D part model",
+            "text": "Upload the current product model, preferably STEP or STP, and identify its revision."
           },
           {
             "title": "Physical sample",
@@ -2974,12 +2974,12 @@
       },
       {
         "id": "submission",
-        "heading": "Submit Basic Details First, Then Arrange the Files",
+        "heading": "Choose Your Reference, Then Add Project Details",
         "paragraphs": [
           "The inquiry begins with product drawing upload, a physical-sample route or a no-drawings route. It then records your project and contact details. After reviewing the inquiry, we contact you using the details provided to discuss the project and arrange the appropriate information exchange.",
           "Keep the original files available and avoid sending different revisions through several conversations without explanation. For a physical sample, discuss the receiving details and shipping arrangements first. You may continue through WhatsApp when appropriate, but a WhatsApp chat is not required to preserve the inquiry. We can follow up by email."
         ],
-        "layout_cn": "三步横排：Basic inquiry → Follow-up → Drawings or sample arrangements；手机改纵向，有箭头但不嵌外部聊天浮窗。",
+        "layout_cn": "三步横排：选择图纸或样品 → 填项目与联系资料 → 提交后跟进；手机改纵向，不嵌外部聊天浮窗。",
         "visual_cn": "开发用HTML步骤图，链接到唯一正式询价页。",
         "cta": {
           "label": "Complete the Basic Inquiry",
@@ -3031,7 +3031,7 @@
     ],
     "final_cta": {
       "heading": "Have Drawings or a Sample? Tell Us About the Mold",
-      "text": "Send your basic project details first. We will follow up to discuss the quotation reference and any information still needed.",
+      "text": "Upload clear product drawings, choose the sample route or start a preliminary discussion. Add your project details and we will follow up about anything still needed.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },

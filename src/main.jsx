@@ -8,6 +8,7 @@ import "./v3.css";
 import "./home-v2.css";
 import "./products.css";
 import "./core-mold.css";
+import "./quotation-guide.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

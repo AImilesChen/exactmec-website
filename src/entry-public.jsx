@@ -14,6 +14,7 @@ import './v3.css';
 import './home-v2.css';
 import './products.css';
 import './core-mold.css';
+import './quotation-guide.css';
 
 const root=document.getElementById('root');
 let bootstrap;try{bootstrap=JSON.parse(document.getElementById('site-bootstrap')?.textContent||'null');}catch{}
