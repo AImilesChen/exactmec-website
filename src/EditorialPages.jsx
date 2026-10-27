@@ -107,6 +107,42 @@ function ProductsPage({page}){
  </div>
 }
 
+function MotorIndustryPage({page}){
+ const sections=Object.fromEntries((page.sections||[]).map(section=>[section.id,section]));
+ const applications=useCmsOrderedCards(sections.applications?.cards||[]);
+ const featureDescriptions=[
+  'Show where the component meets other parts and how it is mounted.',
+  'Identify openings and bearing-related features your team will review.',
+  'Describe project-specific passage, joint or sealing requirements.',
+  'Separate the current part version from later machining or changes.'
+ ];
+ const briefItems=[
+  ['01','Current part reference','Clear 2D / 3D drawings or an assessable physical sample.'],
+  ['02','Assembly context','Related parts, relevant interfaces and intended use.'],
+  ['03','Receiving requirements','Mold connection or machine information, if applicable.']
+ ];
+ const steps=[
+  ['01','Product reference','Share drawings or discuss an assessable sample.'],
+  ['02','Quote & payment','Agree the custom mold scope and project terms.'],
+  ['03','Design approval','Confirm the 3D mold design before manufacturing.'],
+  ['04','Trial & testing','Review the trial samples mailed to your team.'],
+  ['05','Mold handover','The finished mold ships after sample approval.']
+ ];
+ return <div className="motor-industry-page">
+  <header className="motor-hero"><div className="container">
+   <nav className="breadcrumbs" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/industries/">Applications</Link><span>/</span><span>Motors, Pumps & Gearboxes</span></nav>
+   <div className="motor-hero-grid"><div className="motor-hero-copy"><p className="eyebrow">MOTOR · PUMP · GEARBOX TOOLING</p><h1>{page.h1}</h1><p>{page.intro}</p><div className="motor-hero-actions"><Action href={quotePath}>Upload Drawings for a Mold Quote</Action><Action href="#applications" secondary>Explore Applications</Action></div><p className="motor-hero-note">One mold set welcome · No sign-in required</p></div><ProductFigure id="industry-motor" priority className="motor-hero-image"/></div>
+  </div></header>
+  <section className="motor-essentials" aria-label="Service scope"><div className="container motor-essential-grid"><div><Cube size={28} weight="light" aria-hidden="true"/><p><strong>Custom mold tooling</strong><span>Built around your component</span></p></div><div><FileText size={28} weight="light" aria-hidden="true"/><p><strong>Drawings or sample</strong><span>For a formal mold quotation</span></p></div><div><Package size={28} weight="light" aria-hidden="true"/><p><strong>Mold-only service</strong><span>Trial samples support your testing</span></p></div></div></section>
+  <section id="applications" className="motor-applications"><div className="container"><div className="motor-section-intro"><p className="eyebrow">APPLICATION EXAMPLES</p><h2>{sections.applications?.heading}</h2><p>{sections.applications?.paragraphs?.[0]}</p></div><div className="motor-application-grid">{applications.map(card=><article key={card.title}><Media file={card.image} alt={'Illustrative aluminum '+card.title.toLowerCase()+' component'} caption="Illustrative application · Not a customer case"/><div><h3>{card.title}</h3><p>{card.text}</p></div></article>)}</div><p className="motor-application-note">These images show component types that can start a mold discussion. Project suitability is confirmed from your requirements.</p></div></section>
+  <section id="interfaces" className="motor-interfaces"><div className="container motor-interfaces-grid"><div className="motor-interfaces-copy"><p className="eyebrow">ENGINEERING CONTEXT</p><h2>{sections.interfaces?.heading}</h2>{sections.interfaces?.paragraphs?.map((paragraph,i)=><p key={i}>{paragraph}</p>)}</div><ol className="motor-feature-grid">{sections.interfaces?.bullets?.map((feature,i)=><li key={feature}><span>{String(i+1).padStart(2,'0')}</span><h3>{feature}</h3><p>{featureDescriptions[i]}</p></li>)}</ol></div></section>
+  <section id="project-brief" className="motor-brief"><div className="container motor-brief-grid"><div><p className="eyebrow">PREPARE YOUR INQUIRY</p><h2>{sections['project-brief']?.heading}</h2>{sections['project-brief']?.paragraphs?.map((paragraph,i)=><p key={i}>{paragraph}</p>)}<Action href={quotePath}>Start With Your Drawings</Action></div><ol>{briefItems.map(([number,title,text])=><li key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol></div></section>
+  <section id="example-brief" className="motor-example"><div className="container motor-example-grid"><div><p className="eyebrow">ILLUSTRATIVE INQUIRY SCENARIO</p><h2>{sections['example-brief']?.heading}</h2>{sections['example-brief']?.paragraphs?.map((paragraph,i)=><p key={i}>{paragraph}</p>)}</div><div className="motor-example-steps"><div><span>01</span><strong>Existing reference</strong><p>Current drawing or physical sample</p></div><div><span>02</span><strong>Points to clarify</strong><p>Related parts, passages and changes</p></div><div><span>03</span><strong>Customer review</strong><p>Agreed features on trial samples</p></div></div></div></section>
+  <section id="process" className="motor-process"><div className="container"><div className="motor-section-intro"><p className="eyebrow">MOLD PROJECT STAGES</p><h2>{sections.process?.heading}</h2><p>{sections.process?.paragraphs?.[0]}</p></div><ol className="motor-process-grid">{steps.map(([number,title,text])=><li key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}</ol><p className="motor-process-note">{sections.process?.paragraphs?.[1]}</p><Action href="/mold-design-review/" secondary>How design approval works</Action></div></section>
+  <div className="container motor-end-content"><PageEnd page={page}/></div><PageCTA page={page}/>
+ </div>;
+}
+
 function CoreMoldPage({page}){
  const sections=Object.fromEntries((page.sections||[]).map(section=>[section.id,section]));
  const applications=useCmsOrderedCards(sections.components?.cards||[]);
@@ -144,6 +180,7 @@ export function ContentPage({page:sourcePage}){
  const page=useCmsPage(sourcePage);
  if(page.id==='products')return <CmsPageScope page={page}><ProductsPage page={page}/></CmsPageScope>;
  if(page.id==='core-mold')return <CmsPageScope page={page}><CoreMoldPage page={page}/></CmsPageScope>;
+ if(page.id==='industry-motor')return <CmsPageScope page={page}><MotorIndustryPage page={page}/></CmsPageScope>;
  const article=page.kind==='article',[,rest]=introParts(page);const detail=page.id==='mold-development-process'?'timeline-page':page.id==='mold-design-review'?'document-page':page.id==='quality-control'?'quality-page':page.id==='resources'?'guide-index-page':page.id==='industries'?'application-index-page':page.id==='products'?'product-index-page':page.kind==='industry'?'industry-page':'';
  return <CmsPageScope page={page}><div className={'editorial-page page-'+page.id+' '+detail}>
   {page.phase==='P1-prepared'&&<div className="draft-strip">Prepared industry page · Internal design preview · P0 visitors use the application overview</div>}

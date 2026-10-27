@@ -10,6 +10,7 @@ import "./products.css";
 import "./core-mold.css";
 import "./quotation-guide.css";
 import "./design-review.css";
+import "./motor-industry.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -2204,78 +2204,109 @@
     "path": "/industries/motor-pump-transmission/",
     "phase": "P0",
     "kind": "industry",
-    "title": "Motor, Pump & Transmission Die Casting Molds | EXACTMEC",
-    "description": "Discuss molds for motor end covers, pump housings and transmission casings. Define mating surfaces, machining and sample review requirements.",
-    "primary_keyword": "motor pump transmission die casting molds",
+    "title": "Motor, Pump & Gearbox Die Casting Mold Applications | EXACTMEC",
+    "description": "Explore custom aluminum die casting molds for motor end covers, pump housings and gearbox casings. See application examples, project details to share and how to request a mold quote.",
+    "primary_keyword": "motor pump gearbox die casting molds",
     "semantic_keywords": [
-      "motor pump transmission die casting molds",
-      "custom aluminum die casting molds",
-      "single mold orders",
-      "product drawing review"
+      "motor end cover die casting mold",
+      "pump housing die casting mold",
+      "gearbox casing die casting mold",
+      "custom aluminum die casting molds"
     ],
     "target_words": [
       400,
       600
     ],
     "eyebrow": "MOLD APPLICATIONS",
-    "h1": "Aluminum Die Casting Molds for Motors, Pumps and Transmissions",
-    "intro": "Plan a custom mold for a motor, pump or transmission component using your own product reference. End covers, pump housings and gearbox casings are examples to discuss. We accept one mold set and quote from clear 2D or 3D product drawings or a physical sample. Production quantities of cast components are not part of our current service.",
+    "h1": "Aluminum Die Casting Molds for Motor, Pump & Gearbox Components",
+    "intro": "Explore custom mold applications for motor end covers, pump housings and gearbox casings. Share clear 2D or 3D product drawings, or an assessable sample, to discuss your mold project.",
     "goal_cn": "以装配接口与后加工边界筛选工程采购，区别电机、泵、传动项目。",
-    "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
+    "hero_layout_cn": "左侧标题、两句简介与询价入口，右侧独立壳体示意图；首屏紧凑。手机先文案和动作再图片。",
     "sections": [
       {
-        "id": "assembly",
-        "heading": "Begin with the Assembly Function",
+        "id": "applications",
+        "heading": "Which Component Needs a Mold?",
         "paragraphs": [
-          "Tell us whether the component supports a motor, contains a pump passage or forms part of a transmission enclosure. Explain how it fits with nearby parts and where alignment or clearance matters. These uses raise different questions, even when the components look similar in a product photograph.",
-          "For a replacement mold, identify the current issue you want to address. Separate a mold replacement from a product redesign so that the intended drawing version and quotation scope remain clear."
+          "These are different application starting points. Each project is assessed against your product reference and agreed requirements, rather than a standard off-the-shelf mold."
         ],
-        "layout_cn": "三列应用卡：电机端盖、泵壳、传动壳；手机纵排。",
-        "visual_cn": "三种无品牌壳体示意，均标为应用示例。"
+        "cards": [
+          {
+            "title": "Motor End Covers",
+            "text": "Discuss the cover geometry, bearing-related features, mounting points and the part that it must fit.",
+            "image": "motor-end-cover-application-v1"
+          },
+          {
+            "title": "Pump Housings",
+            "text": "Show inlet and outlet geometry, mating faces and any passage or sealing requirements that matter to your project.",
+            "image": "pump-housing-application-v1"
+          },
+          {
+            "title": "Gearbox & Transmission Casings",
+            "text": "Identify shaft openings, cover joints, mounting faces and differences between product versions.",
+            "image": "gearbox-casing-application-v1"
+          }
+        ],
+        "visual_cn": "三张不同造型的生成图片，仅作应用示意，不写成交付案例。"
       },
       {
         "id": "interfaces",
-        "heading": "Identify Mating Faces and Later Operations",
+        "heading": "Show the Features That Matter to Your Assembly",
         "paragraphs": [
-          "Highlight mounting faces, bearing-related features, shaft openings and any other interfaces your team considers critical. Indicate which features are defined in the casting and which are intended for later machining. If seals, internal passages or operating conditions affect your requirements, describe them and provide the relevant product documents.",
-          "This information helps frame the review; it does not establish a general promise of sealing performance, pressure capability or dimensional results. Requirements and acceptance checks must be agreed for the specific project."
+          "A motor end cover, pump housing and gearbox casing can look similar in a catalogue, yet their mating parts and review priorities differ. Mark the features your team needs us to understand on the product drawing.",
+          "Describe planned downstream machining where relevant. The mold quote does not include ongoing casting or standalone component machining, and this page makes no general performance or tolerance guarantee."
         ],
-        "layout_cn": "左图右清单，重点区域采用编号关联；手机先要点后图。",
-        "visual_cn": "说明性剖面或接口示意，不包含未经确认的压力、公差数据。"
+        "bullets": [
+          "Mounting and mating faces",
+          "Bearing or shaft-related openings",
+          "Passages, cover joints or sealing requirements, if relevant",
+          "Product versions and planned later operations"
+        ]
       },
       {
-        "id": "handover",
-        "heading": "Define the Mold Receiving Requirements",
+        "id": "project-brief",
+        "heading": "What to Share for a Useful Mold Discussion",
         "paragraphs": [
-          "Let us know where the finished mold will be used. If the receiving manufacturer has machine interface, handling or mold connection requirements, include them in the discussion. Do not assume the same mold arrangement suits every facility. Your expected production volume is useful context for planning, even though you are ordering a mold rather than a batch of castings.",
-          "For sample-based inquiries, identify wear, repairs or modifications in the reference part. We may need clarification before preparing a quotation."
-        ],
-        "layout_cn": "接收端信息按位置、设备要求、样品状态分三行；手机卡片化。",
-        "visual_cn": "模具交付清单图示，不用未经证实的生产设备照片。"
+          "Start with the current 2D or 3D product drawing, preferably a STEP/STP file where available, or discuss an assessable physical sample. Tell us which part version is current and where the finished mold will be used.",
+          "If the receiving manufacturer has machine or mold connection requirements, raise them during project discussion. Photos can explain the application, but a formal quotation needs clear product drawings or an assessable sample."
+        ]
       },
       {
-        "id": "review",
-        "heading": "Use Trial Samples to Check the Agreed Product",
+        "id": "example-brief",
+        "heading": "An Example Project Brief",
         "paragraphs": [
-          "After payment, we design the mold in 3D and send the design for your confirmation. Manufacturing follows approval. We then trial the mold and send samples for your testing. Tell us which assembly checks, measurements or other agreed checks your team will perform. Once you confirm the samples are acceptable, the finished mold is dispatched.",
-          "The indicative schedule is about 30–40 days from payment. Confirm which milestones it covers and agree sample and mold transport arrangements during project discussion."
-        ],
-        "layout_cn": "四阶段流程配样品验收提示；手机按时间纵向。",
-        "visual_cn": "仅显示客户测试节点，不暗示自有检测设备或特定测试服务。"
+          "For a replacement pump-housing mold, a useful starting brief might include the current product drawing or sample, the related inlet and outlet components, known changes from the previous version and the features your team will check on trial samples.",
+          "This is an illustrative inquiry scenario, not a completed customer case. A real case study will be added only when project information and publication permission are available."
+        ]
+      },
+      {
+        "id": "process",
+        "heading": "From Product Reference to Mold Handover",
+        "paragraphs": [
+          "We assess the mold request from your product drawings or sample and discuss the quote. After payment, we prepare the 3D mold design for your approval. Manufacturing starts after you confirm the design.",
+          "The completed mold is trialed and samples are mailed for your testing. We ship the mold after you approve the samples. The indicative project period is 30–40 days from payment, with scope and milestones confirmed for each order."
+        ]
       }
     ],
     "faqs": [
       {
-        "q": "Can you make a mold for a pump housing?",
-        "a": "A pump housing project can be reviewed. Provide clear product drawings or a physical sample and explain any relevant sealing, passage or operating requirements."
+        "q": "Can you discuss a custom mold for a pump housing?",
+        "a": "Yes. Share clear product drawings or an assessable physical sample, and explain the related components and any passage or sealing requirements that matter to your project."
       },
       {
-        "q": "Does your service include machining finished components?",
-        "a": "No standalone component machining or casting production orders are offered here. Identify planned downstream machining so that the mold scope can be discussed."
+        "q": "Can you quote from a STEP or STP part model?",
+        "a": "Yes. STEP/STP product models can help us review geometry. Clear 2D drawings or an assessable physical sample are also valid starting references."
       },
       {
-        "q": "Do you guarantee pressure-tight castings?",
-        "a": "No blanket performance guarantee is made. Product requirements and the applicable sample acceptance checks need project-specific agreement."
+        "q": "Do you supply finished motor, pump or gearbox castings in volume?",
+        "a": "No. Our current service is custom mold tooling. Trial samples support your testing before the completed mold is shipped."
+      },
+      {
+        "q": "Does the mold include a guarantee of pressure-tight pump castings?",
+        "a": "We make no blanket performance guarantee. Relevant product requirements and sample checks must be discussed and agreed for the specific project."
+      },
+      {
+        "q": "When do you begin manufacturing the mold?",
+        "a": "After payment, we prepare the 3D mold design and send it for your approval. Mold manufacturing begins after you confirm the agreed design."
       }
     ],
     "related_links": [
@@ -2293,14 +2324,15 @@
       }
     ],
     "final_cta": {
-      "heading": "Discuss a Mold for Your Product",
-      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
-      "label": "Request a Mold Quote",
+      "heading": "Discuss a Mold for Your Motor, Pump or Gearbox Component",
+      "text": "Upload the current part drawings or choose the physical-sample route. One mold set can be considered; no sign-in is required to send an inquiry.",
+      "label": "Start a Mold Inquiry",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
-      "不承诺气密、水压或传动精度结果。",
-      "项目接受与否取决于具体图纸和合作制造能力确认。"
+      "三张产品图均为生成的应用示意，不作为已交付客户案例或生产能力证明。",
+      "案例情境明确标为假设，不编造客户、性能、公差、试验结果或机器配置。",
+      "项目能否承接以具体图纸、要求和合作制造能力确认为准。"
     ],
     "source_urls": []
   },
