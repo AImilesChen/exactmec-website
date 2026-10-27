@@ -106,9 +106,15 @@ export function LightHome() {
     <div><p className="home-v2-eyebrow">OUR MANUFACTURING NETWORK</p><h2>{heading('resources','Manufacturing Partners. One Clear Contact.')}</h2><p className="home-v2-section-intro">Connect your mold project with an experienced manufacturing partner network in China, serving customers across dozens of countries.</p>
      <ul className="home-v2-manufacturing-points">{['Established mold-making experience','A mature manufacturing and trial process','Coordinated design, samples and mold handover'].map(text=><li key={text}><CheckCircle size={21} aria-hidden="true"/>{text}</li>)}</ul><TextLink href="/manufacturing/">Explore manufacturing resources</TextLink></div>
    </div>
-   <dl className="home-v2-network-stats" aria-label="Partner manufacturing network figures">{[['10+','Years of Mold-Making Experience'],['50+','Countries Served'],['500+','Partner Factories & Production Sites'],['1000+','Component Types'],['99%','On-Time Delivery']].map(([value,label])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-   <p className="home-v2-network-note">Experience, reach and performance across our manufacturing partner network.</p>
   </div></section>
+  <section className="home-v2-global" id="global-service" aria-labelledby="home-global-title">
+   <CmsImage className="home-v2-global-map" src="/assets/global-service-map-v1.webp" alt="" aria-hidden="true" width="1600" height="800" loading="lazy"/>
+   <div className="container"><h2 id="home-global-title">Mold Manufacturing in China.<br/>Serving Customers Worldwide.</h2>
+    <p className="home-v2-section-intro">We coordinate custom mold projects through our manufacturing partner network in China, serving customers in 50+ countries.</p>
+    <dl className="home-v2-network-stats" aria-label="Partner manufacturing network figures">{[['10+','Years of Mold-Making Experience'],['50+','Countries Served'],['500+','Partner Factories & Sites'],['1000+','Component Types'],['99%','On-Time Delivery']].map(([value,label])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+    <p className="home-v2-network-note">Experience, reach and performance across our manufacturing partner network.</p>
+   </div>
+  </section>
   <HomeProcess heading={heading('process','From Your Part to Your Finished Mold')}/>
   <section className="home-v2-quality container" id="sample-approval">
    <div className="home-v2-quality-copy"><p className="home-v2-eyebrow">TRIAL & APPROVAL</p><h2>Test the Samples Before Mold Shipment</h2><p className="home-v2-section-intro">We trial the completed mold and send samples for your testing. The finished mold is shipped after your sample approval.</p>

@@ -296,3 +296,14 @@ body:has(.home-v2){min-width:0}
 @media(prefers-reduced-motion:reduce){.home-v2-picture-link,.home-v2-picture-link img{transition:none}.home-v2-picture-link:hover img,.home-v2-picture-link:focus-visible img{transform:none}}
 @media(max-width:900px){.home-v2-review-grid{grid-template-columns:1fr;gap:20px}.home-v2-review-card{padding:28px}.home-v2 .home-v2-review-card h3{min-height:0}}
 @media(max-width:600px){.home-v2-testimonials{padding-block:44px 56px}.home-v2-review-grid{gap:18px;margin-top:28px}.home-v2-review-card{padding:24px}.home-v2 .home-v2-review-card h3{font-size:20px;margin-top:18px}.home-v2-review-card blockquote{margin-top:14px}.home-v2 .home-v2-review-note{text-align:left;font-size:12px;margin-top:20px}}
+
+/* Global reach: decorative geography, readable live text, one set of network facts. */
+.home-v2-global{position:relative;isolation:isolate;overflow:hidden;background:#fff;padding-block:96px;min-height:550px;display:flex;align-items:center}
+.home-v2-global-map{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(95%,1280px);height:calc(100% - 40px);object-fit:contain;opacity:.6;z-index:-1;pointer-events:none}
+.home-v2-global>.container{position:relative}
+.home-v2-global h2{max-width:850px}
+.home-v2 .home-v2-global .home-v2-section-intro{max-width:780px;margin-top:24px}
+.home-v2-global .home-v2-network-stats{margin-top:48px;padding-top:0;border-top:0;grid-template-columns:repeat(5,minmax(0,1fr))}
+.home-v2-global .home-v2-network-note{margin-top:28px}
+@media(max-width:900px){.home-v2-global{padding-block:72px;min-height:520px}.home-v2-global-map{width:100%;height:90%;opacity:.5}.home-v2-global .home-v2-network-stats{gap:20px}.home-v2-global .home-v2-network-stats dd{font-size:32px}.home-v2-global .home-v2-network-stats dt{font-size:13px}}
+@media(max-width:600px){.home-v2-global{padding-block:56px;min-height:0}.home-v2-global-map{width:170%;max-width:none;height:80%;opacity:.38}.home-v2 .home-v2-global .home-v2-section-intro{margin-top:20px}.home-v2-global .home-v2-network-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 20px;margin-top:32px}.home-v2-global .home-v2-network-stats dd{font-size:30px}.home-v2-global .home-v2-network-stats dt{font-size:14px}.home-v2-global .home-v2-network-note{margin-top:24px;text-align:left}}
