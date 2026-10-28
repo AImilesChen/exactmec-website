@@ -12,7 +12,7 @@ const applications=[
  ['LED Lighting','/industries/led-lighting/',Lightbulb,'menu-led-v1'],
  ['Motors & Pumps','/industries/motor-pump-transmission/',Gear,'menu-motor-v1'],
  ['Automotive','/industries/automotive/',Car,'menu-automotive-v1'],
- ['Two-Wheelers','/industries/#industry-motorcycle-e-mobility',Motorcycle,'menu-motorcycle-v1'],
+ ['Two-Wheelers','/industries/motorcycle-e-mobility/',Motorcycle,'menu-motorcycle-v1'],
  ['Electronics','/industries/#industry-electronics-telecommunications',Cpu,'menu-electronics-v1'],
  ['Energy & Power','/industries/#industry-energy-power',Lightning,'menu-energy-v1'],
  ['Industrial Equipment','/industries/#industry-industrial-automation',Factory,'menu-industrial-v1'],

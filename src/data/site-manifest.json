@@ -141,14 +141,14 @@
     {
       "id": "industry-motorcycle",
       "path": "/industries/motorcycle-e-mobility/",
-      "phase": "P1-prepared",
+      "phase": "P0",
       "kind": "industry",
       "copy_source": "pages/11-industry-motorcycle.md",
       "data_source": "industries.json",
-      "public_now": false,
+      "public_now": true,
       "index_when_released": true,
-      "include_in_p0_plan": false,
-      "p0_link_target": "/industries/#industry-motorcycle-e-mobility",
+      "include_in_p0_plan": true,
+      "p0_link_target": "/industries/motorcycle-e-mobility/",
       "canonical_template": "{SITE_ORIGIN}/industries/motorcycle-e-mobility/"
     },
     {
@@ -392,7 +392,6 @@
     }
   ],
   "p0_link_fallbacks": {
-    "/industries/motorcycle-e-mobility/": "/industries/#industry-motorcycle-e-mobility",
     "/industries/electronics-telecommunications/": "/industries/#industry-electronics-telecommunications",
     "/industries/energy-power/": "/industries/#industry-energy-power",
     "/industries/industrial-automation/": "/industries/#industry-industrial-automation",

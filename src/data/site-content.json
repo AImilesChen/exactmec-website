@@ -596,7 +596,7 @@
           {
             "title": "Motorcycle & E-Mobility",
             "text": "Engine-side covers, motor housings and transmission enclosures are examples to discuss, subject to the part design.",
-            "href": "/industries/#industry-motorcycle-e-mobility",
+            "href": "/industries/motorcycle-e-mobility/",
             "anchor": "industry-motorcycle-e-mobility"
           },
           {
@@ -2061,27 +2061,51 @@
   {
     "id": "industry-motorcycle",
     "path": "/industries/motorcycle-e-mobility/",
-    "phase": "P1-prepared",
+    "phase": "P0",
     "kind": "industry",
     "title": "Motorcycle & E-Mobility Die Casting Molds | EXACTMEC",
-    "description": "Plan aluminum die casting molds for motorcycle and electric two-wheeler components. Share product drawings or a sample for project review.",
+    "description": "Explore 9 motorcycle and electric two-wheeler component examples for custom aluminum die casting molds. Share STEP/STP, 2D drawings or a sample to request a mold quote.",
     "primary_keyword": "motorcycle die casting molds",
     "semantic_keywords": [
       "motorcycle die casting molds",
       "custom aluminum die casting molds",
       "single mold orders",
+      "motorcycle engine cover mold",
+      "electric motor housing mold",
       "product drawing review"
     ],
     "target_words": [
-      400,
-      600
+      650,
+      950
     ],
     "eyebrow": "MOLD APPLICATIONS",
-    "h1": "Molds for Motorcycle and Electric Two-Wheeler Components",
-    "intro": "Bring us the component you want to develop, from an engine side cover to an electric drive housing. We quote custom aluminum die casting molds using clear 2D or 3D product drawings or a physical sample. One mold set is welcome. The focus is your mold project, rather than a catalogue of finished motorcycle parts.",
+    "h1": "Custom Die Casting Molds for Motorcycle & E-Mobility Parts",
+    "intro": "Custom aluminum mold tooling for engine covers, motor housings and electric two-wheeler components. Share clear 2D or 3D part drawings, or an assessable sample, for a mold quote. One mold set is welcome.",
     "goal_cn": "围绕燃油与电动两轮车的匹配接口、外观及样品版本展开，区分修复和重新开模。",
     "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
     "sections": [
+      {
+        "id": "component-gallery",
+        "heading": "Explore Motorcycle & Electric Two-Wheeler Components",
+        "paragraphs": ["Nine distinct component examples show where a custom aluminum die casting mold may fit. The images are illustrations, not delivered customer projects. We assess your actual part from drawings or a sample."],
+        "groups": [
+          {"title": "Fuel Motorcycle Components", "text": "Covers and housings around the engine and drivetrain.", "cards": [
+            {"title": "Engine Side Cover", "text": "An outer cover with a mating edge, fastener positions and visible surfaces.", "image": "moto-engine-side-cover-v1"},
+            {"title": "Crankcase Half", "text": "A deeper housing with bearing openings, ribs and multiple assembly faces.", "image": "moto-crankcase-half-v1"},
+            {"title": "Transmission Cover", "text": "A shaped gearbox cover with shaft openings and sealing interfaces.", "image": "moto-transmission-cover-v1"}
+          ]},
+          {"title": "Electric Drive Components", "text": "Different drive layouts call for different component references.", "cards": [
+            {"title": "Hub Motor End Cover", "text": "A circular end cover with central opening and perimeter attachment features.", "image": "moto-hub-end-cover-v1"},
+            {"title": "Mid-Drive Motor Housing", "text": "A compact housing with ribbing, mounting feet and motor interfaces.", "image": "moto-mid-drive-housing-v1"},
+            {"title": "Reduction Gearbox Housing", "text": "A reducer body with separate cavities, shaft openings and mating edges.", "image": "moto-reducer-housing-v1"}
+          ]},
+          {"title": "Control & Mounting Parts", "text": "Review each casting as an individual mold project.", "cards": [
+            {"title": "Controller Enclosure", "text": "An electronics housing with attachment points and cover interface.", "image": "moto-controller-enclosure-v1"},
+            {"title": "Battery Pack End Caps", "text": "End components with mating lips and fastener positions.", "image": "moto-battery-end-cap-v1"},
+            {"title": "Motor Mount Bracket", "text": "A structural mounting concept with bolt positions and open geometry.", "image": "moto-motor-mount-bracket-v1"}
+          ]}
+        ]
+      },
       {
         "id": "component",
         "heading": "Define Which Component You Need to Make",
@@ -2135,6 +2159,22 @@
       {
         "q": "Do you develop a full vehicle system?",
         "a": "No. The discussion concerns a custom mold for your component. Vehicle design, system approval and road-use requirements are outside the website service offer."
+      },
+      {
+        "q": "Can I order only one motorcycle component mold?",
+        "a": "Yes. We accept a custom project starting from one mold set. We review the part drawing or assessable sample before quoting."
+      },
+      {
+        "q": "What files help you quote an electric motor housing mold?",
+        "a": "Clear 3D product files such as STEP or STP are useful, along with dimensioned 2D drawings where available. Show the current revision, mating features and planned machining. An assessable physical sample is another starting point."
+      },
+      {
+        "q": "Can one mold make left and right covers?",
+        "a": "We cannot assume that from the product names. Share drawings of both parts so the geometry and tooling approach can be assessed for your project."
+      },
+      {
+        "q": "When is the mold shipped?",
+        "a": "After payment, we prepare the 3D mold design for your approval before manufacturing. We trial the mold and mail samples for your testing, then ship the finished mold after you approve the samples. Typical mold production is around 30–40 days from payment, subject to the agreed project scope and approvals."
       }
     ],
     "related_links": [

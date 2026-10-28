@@ -1,0 +1,26 @@
+.motorcycle-hero{background:linear-gradient(112deg,#f8fafb,#eaf2f7)}
+.motorcycle-hero .motor-hero-grid{grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr)}
+.motorcycle-hero .motor-hero-copy h1{max-width:15ch}
+.motorcycle-hero .motor-hero-image img{aspect-ratio:1.38;object-position:66% center}
+.motorcycle-page .motor-gallery-group:nth-child(2){background:#f6f9fb;margin-inline:-24px;padding:30px 24px;border-radius:5px}
+.motorcycle-page .motor-gallery-group:nth-child(2)+div{border-top:0;padding-top:0}
+.moto-interfaces{background:#edf5f9;padding:94px 0 92px}
+.moto-interfaces-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(36px,5vw,80px);align-items:center}
+.moto-interface-diagram{margin:0;background:linear-gradient(145deg,#fff,#e8f0f5);padding:30px 23px 15px;border:1px solid #d6e3eb;border-radius:5px;box-shadow:0 20px 48px rgba(18,48,69,.06)}
+.moto-interface-diagram svg{width:100%;height:auto;display:block}
+.moto-interface-diagram figcaption{font-size:11px;color:#63788b;text-align:right;margin-top:7px}
+.moto-interfaces .led-feature-list li{padding:12px 0}
+.moto-interfaces .led-assembly-note{max-width:105ch}
+.moto-quote{padding:94px 0;background:#fff}
+.moto-quote-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.moto-quote-grid article{background:#f5f8fa;border:1px solid #e0e8ed;border-top:4px solid #c8322a;padding:32px 34px 34px}
+.moto-quote-grid article:nth-child(2){border-top-color:#6b8291}
+.moto-quote-grid svg{color:#c8322a}
+.moto-quote-grid h3{font:700 23px/1.3 Manrope,Arial,sans-serif;margin:20px 0 12px}
+.moto-quote-grid p{color:#52687a;font-size:16px;max-width:56ch;margin:0 0 25px}
+.moto-quote-grid .button{margin:0}
+.moto-quote-note{font-size:14px;color:#5a7081;margin:23px 0 0;max-width:95ch}
+.moto-process{background:#f6f9fb}
+@media(max-width:850px){.moto-interfaces-grid{grid-template-columns:1fr}.moto-quote-grid{gap:15px}.moto-quote-grid article{padding:25px}}
+@media(max-width:750px){.motorcycle-hero .motor-hero-grid,.moto-quote-grid{grid-template-columns:1fr}.motorcycle-hero .motor-hero-image img{aspect-ratio:1.55}.motorcycle-page .motor-gallery-group:nth-child(2){margin-inline:-16px;padding:24px 16px}.moto-interfaces,.moto-quote{padding:55px 0}.moto-interface-diagram{padding:15px 10px 9px}}
+@media(max-width:500px){.moto-quote-grid article{padding:22px}.moto-quote-grid .button{width:100%;justify-content:center}}
