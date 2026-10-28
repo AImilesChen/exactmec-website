@@ -19,6 +19,7 @@ import "./led-industry.css";
 import "./motorcycle-industry.css";
 import "./automotive-industry.css";
 import "./industries-index.css";
+import "./mold-process.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
