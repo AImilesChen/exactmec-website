@@ -1757,8 +1757,8 @@
     "path": "/how-we-work/",
     "phase": "P0",
     "kind": "service",
-    "title": "How to Work With EXACTMEC on a Mold Project",
-    "description": "Start a custom mold inquiry, share your project information, discuss a quotation, and stay involved through mold design approval and sample testing.",
+    "title": "How We Work on Your Custom Mold Project | EXACTMEC",
+    "description": "See how to start a custom aluminum die casting mold inquiry, work with ExactMec and its manufacturing partners, and approve the design and trial samples.",
     "primary_keyword": "custom die casting mold supplier inquiry",
     "semantic_keywords": [
       "mold quotation process",
@@ -1771,17 +1771,17 @@
       750
     ],
     "eyebrow": "WORKING TOGETHER",
-    "h1": "A practical way to discuss your next mold project",
-    "intro": "You bring the product requirement. EXACTMEC coordinates the discussion, mold design confirmation and manufacturing communication. Start with a short inquiry so we know who to contact, which product the mold will make, and what drawings or sample you have available.",
+    "h1": "One Contact for Your Custom Mold Project",
+    "intro": "Bring your part drawing or sample. ExactMec coordinates the conversation with manufacturing partners and keeps your approvals clear from quotation to mold handover.",
     "goal_cn": "解释客户的每个合作触点和沟通责任，保留表单留资与后续人工联系；与制造时间线页分工，重点为如何发起与协作。",
     "hero_layout_cn": "左侧标题与介绍，右侧三张叠卡：客户信息、产品需求、资料状态；主CTA去表单，辅助链接去流程。手机单列。",
     "sections": [
       {
         "id": "first-inquiry",
-        "heading": "Send a basic inquiry before opening a detailed discussion",
+        "heading": "Start with your product reference",
         "paragraphs": [
-          "The inquiry form records your name, company, country and city, email and project information. Tell us what the mold will produce, how many mold sets you need, whether you have product drawings or a physical sample, and when you plan to purchase.",
-          "A budget can help explain your expectations, but it is optional. You can say that it is not yet decided. A company website or other useful context can also help us understand the project. The aim is to start an informed conversation, not to make you complete every technical detail at once."
+          "Share a clear part drawing or choose the physical-sample route. A few project and contact details help us understand the custom mold you need.",
+          "If your reference is still being prepared, you can start a preliminary discussion. A formal quotation still needs clear product drawings or an assessable sample."
         ],
         "layout_cn": "左侧介绍，右侧静态字段概览，不嵌入第二份复杂表单；手机先文后清单。",
         "visual_cn": "使用简洁表单字段示意，不显示真实个人信息或虚构询盘。",
@@ -1792,17 +1792,17 @@
       },
       {
         "id": "follow-up",
-        "heading": "Choose how to continue the conversation",
+        "heading": "Stay in touch after your inquiry",
         "paragraphs": [
-          "You can continue on WhatsApp after submitting the form, or wait for us to follow up through the contact details you provided for your inquiry. Your inquiry remains recorded even if you do not start a WhatsApp chat.",
-          "We use the initial information to understand whether the request fits our mold supply service and what needs clarification. If you have given permission for WhatsApp contact, we can discuss the project there. You can also continue by email when that is more suitable for your team."
+          "Your inquiry remains recorded after submission. We can follow up by email using the contact details you provide; WhatsApp is optional if you prefer to continue the project conversation there.",
+          "We review the information you share and ask about any missing product or mold requirements before a quotation can be discussed."
         ],
         "layout_cn": "两列渠道卡：表单后WhatsApp与邮箱跟进；卡片必须说明WhatsApp非提交前置条件。手机上下排列。",
         "visual_cn": "只使用渠道图标；不得添加虚构联系人头像、在线状态或秒回承诺。"
       },
       {
         "id": "quotation-info",
-        "heading": "Provide the information needed for a quotation",
+        "heading": "What we need for a quotation",
         "paragraphs": [
           "Quotation requires clear 2D or 3D product drawings, or a physical sample. Upload available product drawings in the inquiry form, or choose the sample route and discuss delivery with us.",
           "Explain the product's intended use and any requirements that are important to the mold project. If the mold will run on equipment at your facility, mention that context during the discussion. One mold set can be considered, and our current service does not include volume die casting production."
@@ -1816,19 +1816,19 @@
       },
       {
         "id": "agree",
-        "heading": "Agree the scope before payment and design work",
+        "heading": "Agree the scope, then approve the design",
         "paragraphs": [
-          "Discuss the quotation, payment arrangements and project details directly with us. Matters such as sample quantities, shipping and changes need to be clear for your order; the website does not set a single payment plan for every customer.",
-          "After payment, we prepare the 3D mold design for your confirmation. Manufacturing begins after you approve it. Keep your team's feedback together, identify the version being discussed, and tell us if your product requirements change."
+          "Discuss the quotation, payment arrangements, sample scope and shipping directly with us for your project. The website does not take online orders or payments.",
+          "After payment, we prepare the 3D mold design for your confirmation. Manufacturing begins after you approve it. Keep the version and any requested changes clear."
         ],
         "layout_cn": "左侧订单沟通，右侧付款后设计确认；中间用项目确认节点衔接。手机按顺序展开。",
         "visual_cn": "使用信息确认示意，不放付款比例、订阅套餐或在线结账界面。"
       },
       {
         "id": "customer-actions",
-        "heading": "Stay involved through sample testing and handover",
+        "heading": "Test samples before the mold is shipped",
         "paragraphs": [
-          "We trial the finished mold and send samples to you. Your team tests them and tells us whether they meet the agreed requirements. When you confirm the samples are acceptable, we arrange shipment of the completed mold.",
+          "We trial the finished mold and send samples for your testing. When you confirm that the samples meet the agreed requirements, we arrange shipment of the completed mold.",
           "The approximate timing of 30–40 days starts from customer payment. Confirm the milestones that apply to your project rather than treating that estimate as a guaranteed arrival date. Your internal design approval and sample testing plans are useful parts of the scheduling conversation."
         ],
         "layout_cn": "三张客户行动卡：批准设计、测试样品、确认发模；底部链接完整流程。手机纵向排列。",
@@ -1872,15 +1872,15 @@
       }
     ],
     "final_cta": {
-      "heading": "Give us enough context to start a useful conversation",
-      "text": "Introduce your company and the product, tell us which drawings or sample are available, and leave reliable contact details. We will discuss the mold project with you from there.",
-      "label": "Request a Mold Quote",
+      "heading": "Start with your component",
+      "text": "Tell us what the mold needs to produce and what drawings or sample you have. We will follow up about the next step.",
+      "label": "Start a Mold Inquiry",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
       "WhatsApp主动联系依主任务的渠道许可组件实施，页面不得以勾选WhatsApp联系许可作为提交门槛。",
-      "前台不上传文件已确认；图纸和样品的具体传递方式在后续沟通确定。",
-      "实际收件邮箱、WhatsApp号码和服务商尚待配置，公开文案不写占位联系方式。"
+      "前台可通过私有上传入口提交图纸；样品寄送方式在后续沟通确定。",
+      "公开文案使用已核实的业务邮箱和WhatsApp号码，不展示占位联系方式。"
     ],
     "source_urls": []
   },
