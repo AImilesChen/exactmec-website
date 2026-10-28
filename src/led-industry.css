@@ -1,0 +1,41 @@
+.led-industry-page .led-hero{background:linear-gradient(112deg,#f9fbfc 0%,#e9f2f7 100%)}
+.led-industry-page .led-hero .motor-hero-grid{grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr)}
+.led-industry-page .led-hero .motor-hero-copy h1{max-width:13ch}
+.led-industry-page .led-hero .motor-hero-image img{aspect-ratio:1.35;object-position:71% center}
+.led-industry-page .led-gallery{background:#fff}
+.led-industry-page .led-gallery .motor-gallery-group:nth-child(2){background:#f5f8fa;margin-inline:-26px;padding:30px 26px;border-radius:5px}
+.led-industry-page .led-gallery .motor-gallery-group:nth-child(2)+div{border-top:0;padding-top:0}
+.led-assembly{background:#edf5f9;padding:94px 0 92px}
+.led-assembly-heading{max-width:790px;margin-bottom:36px}
+.led-assembly-heading>p:last-child{font-size:17px;color:#4e6577;margin:0;max-width:72ch}
+.led-assembly-grid{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(0,.86fr);gap:clamp(35px,5vw,78px);align-items:center}
+.led-assembly-diagram{margin:0;background:linear-gradient(145deg,#fff,#e8f0f5);padding:28px 22px 16px;border:1px solid #d7e3eb;border-radius:5px;box-shadow:0 20px 48px rgba(18,48,69,.06)}
+.led-assembly-diagram svg{display:block;width:100%;height:auto}
+.led-assembly-diagram figcaption{font-size:11px;color:#617789;text-align:right;line-height:1.5;margin-top:5px}
+.led-feature-list{list-style:none;padding:0;margin:0;display:grid;gap:0}
+.led-feature-list li{display:flex;gap:17px;padding:13px 0;border-bottom:1px solid #cfdee7}
+.led-feature-list li:first-child{border-top:1px solid #cfdee7}
+.led-feature-list li>span{font:700 15px Manrope,Arial,sans-serif;color:#c8322a;min-width:28px}
+.led-feature-list h3{font-size:17px;line-height:1.35;margin:0 0 3px}
+.led-feature-list p{font-size:14px;line-height:1.55;color:#536a7b;margin:0}
+.led-assembly-note{font-size:14px;color:#5b7081;max-width:100ch;margin:28px 0 0;padding-left:18px;border-left:3px solid #c8322a}
+.led-variants{background:#f9f7f5;padding:82px 0;border-block:1px solid #ede5df}
+.led-variants-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(45px,7vw,110px);align-items:center}
+.led-variants-grid>div:first-child>p:last-child{font-size:17px;color:#526779;max-width:63ch;margin:0}
+.led-variants-panel{background:#fff;border-left:4px solid #c8322a;padding:30px 35px;box-shadow:0 18px 38px rgba(24,46,65,.06)}
+.led-variants-panel strong{font:700 22px/1.3 Manrope,Arial,sans-serif}
+.led-variants-panel p{font-size:16px;color:#536a7b;margin:13px 0 0}
+.led-quote-prep{padding:96px 0}
+.led-quote-grid{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:0;padding:0}
+.led-quote-grid li{background:#f4f8fa;border-top:3px solid #d1e1e9;padding:25px 21px 26px;min-height:208px}
+.led-quote-grid li:first-child{border-top-color:#c8322a}
+.led-quote-grid span{font:700 15px Manrope,Arial,sans-serif;color:#c8322a}
+.led-quote-grid h3{font-size:19px;line-height:1.3;margin:20px 0 10px}
+.led-quote-grid p{font-size:14px;color:#586f81;margin:0}
+.led-quote-actions{display:flex;align-items:center;justify-content:space-between;gap:26px;margin-top:28px}
+.led-quote-actions p{font-size:14px;color:#637788;max-width:78ch;margin:0}
+.led-quote-actions .button{flex:none;margin:0}
+.led-industry-page .led-process{background:#f6f9fb}
+@media(max-width:950px){.led-assembly-grid{grid-template-columns:1fr}.led-feature-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.led-quote-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.led-quote-grid li{min-height:0}.led-quote-actions{align-items:flex-start;flex-direction:column}}
+@media(max-width:750px){.led-industry-page .led-hero .motor-hero-grid,.led-variants-grid{grid-template-columns:1fr}.led-industry-page .led-hero .motor-hero-image img{aspect-ratio:1.55;object-position:65% center}.led-industry-page .led-gallery .motor-gallery-group:nth-child(2){margin-inline:-16px;padding:24px 16px}.led-assembly,.led-quote-prep{padding:57px 0}.led-variants{padding:54px 0}.led-assembly-heading{margin-bottom:24px}.led-assembly-heading>p:last-child,.led-variants-grid>div:first-child>p:last-child{font-size:16px}.led-variants-grid{gap:26px}.led-assembly-diagram{padding:12px 9px 8px}.led-feature-list{grid-template-columns:1fr}.led-feature-list li:first-child{border-top:0}.led-quote-grid{gap:12px}}
+@media(max-width:500px){.led-quote-grid{grid-template-columns:1fr}.led-quote-grid li{padding:19px}.led-quote-grid h3{margin:12px 0 6px}.led-variants-panel{padding:25px}.led-quote-actions .button{width:100%;justify-content:center}}

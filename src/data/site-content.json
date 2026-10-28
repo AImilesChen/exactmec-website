@@ -2168,14 +2168,15 @@
     "path": "/industries/led-lighting/",
     "phase": "P0",
     "kind": "industry",
-    "title": "LED Lighting Aluminum Die Casting Molds | EXACTMEC",
-    "description": "Request a mold quote for LED lighting housings and related aluminum components. Explain appearance, assembly and thermal design requirements.",
+    "title": "LED Lighting Housing Die Casting Molds | EXACTMEC",
+    "description": "Explore aluminum die casting mold applications for LED streetlight, floodlight and industrial lighting housings. See component examples and request a mold quote with drawings or a sample.",
     "primary_keyword": "LED lighting die casting molds",
     "semantic_keywords": [
       "LED lighting die casting molds",
       "custom aluminum die casting molds",
-      "single mold orders",
-      "product drawing review"
+      "street light housing mold",
+      "floodlight housing mold",
+      "industrial lighting housing mold"
     ],
     "target_words": [
       400,
@@ -2183,55 +2184,95 @@
     ],
     "eyebrow": "MOLD APPLICATIONS",
     "h1": "Custom Aluminum Die Casting Molds for LED Lighting",
-    "intro": "Develop a mold for the lighting component your product needs. Street light housings, floodlight bodies and industrial light housings are examples of projects to discuss. EXACTMEC accepts mold orders from one set. Clear product drawings or a physical sample are required for quotation; an initial inquiry can start with your project details.",
+    "intro": "Custom mold tooling for streetlight, floodlight and industrial lighting housings. Share clear 2D or 3D part drawings, or an assessable physical sample, to discuss your project. One mold set is welcome.",
     "goal_cn": "面向灯具采购方说明壳体结构、外观与安装需求，避免承诺散热或防护等级。",
     "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
     "sections": [
       {
-        "id": "housing",
-        "heading": "Describe the Housing as Part of a Light Assembly",
+        "id": "component-gallery",
+        "heading": "Lighting Components That Can Start a Mold Project",
         "paragraphs": [
-          "A lighting housing needs to be discussed together with the parts it meets. Explain where the lens, cover, driver compartment, bracket or other hardware sits. Identify the housing version you want quoted, especially if your product range includes several wattage or body size options. A family of related products does not necessarily use one identical mold.",
-          "Start with the component that is closest to purchase. Further versions can be reviewed once their differences are clear."
+          "Explore distinct housing and structural part types. These images illustrate possible applications, not delivered customer projects; mold suitability is assessed from your part reference."
         ],
-        "layout_cn": "左侧项目说明，右侧灯体拆分应用示意；手机文字先行。",
-        "visual_cn": "需路灯或投光灯铝壳示意，不配虚构照明效果认证。"
+        "groups": [
+          {
+            "title": "Outdoor Lighting Housings",
+            "text": "Street, flood and area-light body concepts.",
+            "cards": [
+              {"title": "Streetlight Housing", "text": "An elongated body with a driver cavity, mounting socket and fin geometry.", "image": "led-streetlight-housing-v1"},
+              {"title": "Floodlight Rear Housing", "text": "A wider body with defined perimeter, fastener and rear-fin features.", "image": "led-floodlight-housing-v1"},
+              {"title": "Area Light Housing", "text": "A compact rounded body with assembly and mounting interfaces.", "image": "led-area-light-housing-v1"}
+            ]
+          },
+          {
+            "title": "Industrial Lighting Bodies",
+            "text": "Different envelopes need different product references.",
+            "cards": [
+              {"title": "High-Bay Heat-Sink Body", "text": "A circular housing with radial fins and a central assembly opening.", "image": "led-high-bay-housing-v1"},
+              {"title": "Linear Light Body", "text": "A long housing with channels, fastening points and end interfaces.", "image": "led-linear-housing-v1"},
+              {"title": "Tunnel Light Housing", "text": "A robust linear housing with fins and mounting features.", "image": "led-tunnel-housing-v1"}
+            ]
+          },
+          {
+            "title": "Assembly & Mounting Parts",
+            "text": "Discuss the individual metal component, not a complete lamp.",
+            "cards": [
+              {"title": "Driver Compartment Body", "text": "A separate enclosure body and cover with joint and fastener features.", "image": "led-driver-body-v1"},
+              {"title": "Mounting Arm Adapter", "text": "A die-cast support component with clamp and bolt interfaces.", "image": "led-mount-adapter-v1"},
+              {"title": "Housing End Covers", "text": "End components with mating edges and attachment points.", "image": "led-end-covers-v1"}
+            ]
+          }
+        ]
       },
       {
-        "id": "requirements",
-        "heading": "Tell Us Which Surfaces and Features Matter",
+        "id": "assembly-context",
+        "heading": "Show How the Housing Fits the Light Assembly",
         "paragraphs": [
-          "Show visible surfaces, planned coatings, fastener positions and areas used for assembly. If your design includes ribs or fins, provide their geometry in the product drawings. Explain any requirements associated with heat management or environmental protection, and identify the documents that define them. Those needs must be reviewed for the individual project.",
-          "We do not infer a thermal rating or an ingress protection rating from a housing image. State the intended product requirements instead of relying on appearance alone."
-        ],
-        "layout_cn": "两列清单：外观与装配、项目技术要求；手机单列。",
-        "visual_cn": "规划表面与结构标注图，标题为客户应说明事项，不展示测试承诺。"
+          "The mold is designed for your specific aluminum component. Identify the cover or lens relationship, driver compartment, mounting interface, visible surfaces and any ribs or fins in your product drawings.",
+          "Thermal and environmental protection targets belong to the finished product requirements. Share the relevant specifications and planned sample checks; a housing image alone cannot establish a rating."
+        ]
       },
       {
-        "id": "quotation",
-        "heading": "Prepare Product Information for a Quote",
+        "id": "family-variants",
+        "heading": "One Product Family Does Not Always Mean One Mold",
         "paragraphs": [
-          "Send clear 2D or 3D product drawings, or discuss a physical sample. Include overall dimensions and indicate which surfaces will receive later machining or finishing. If the sample is coated, explain whether the drawing represents the underlying casting or the finished product. That distinction can affect what needs clarification before a mold price is prepared.",
-          "Also tell us where the mold will run and whether the receiving manufacturer has interface requirements. We quote the mold; we do not offer lighting component mass production."
-        ],
-        "layout_cn": "按图纸、样品、补充要求三块排布；手机依次阅读。",
-        "visual_cn": "图纸与样品占位仅写素材计划，实际配图需有使用权。"
+          "Different wattages, body sizes or mounting versions can change the casting geometry. Start with the version nearest purchase and identify which features vary across the family.",
+          "We assess whether related parts can share a tooling approach after reviewing their drawings. No single-mold compatibility is assumed from product names alone."
+        ]
+      },
+      {
+        "id": "quote-prep",
+        "heading": "What to Share for a Lighting Mold Quote",
+        "paragraphs": [
+          "Upload clear 2D or 3D part drawings, ideally STEP or STP for a 3D model, or discuss an assessable physical sample. Show the current revision, key dimensions, intended appearance and any planned machining or coating.",
+          "Tell us where the mold will run and whether the receiving manufacturer has interface requirements. We quote the mold, not ongoing production of lighting components."
+        ]
       },
       {
         "id": "approval",
-        "heading": "Confirm the Mold Design, Then Test Samples",
+        "heading": "Approve the Design, Then Test Trial Samples",
         "paragraphs": [
-          "After payment, we prepare a 3D mold design for your review. Mold manufacturing starts only after your design confirmation. Once the mold is made, we trial it and send samples for your testing. Before that stage, tell us which assembly and appearance checks your team plans to make. The mold is sent after you confirm that the samples are acceptable.",
-          "About 30–40 days from payment is the current indicative schedule. Exact milestones, sample transport and final shipment are agreed for your project."
-        ],
-        "layout_cn": "付款到发模的五步流程，样品测试提示放在右侧；手机提示跟随节点。",
-        "visual_cn": "无品牌灯壳样品与流程线，避免散热温度数值。"
+          "After payment we prepare a 3D mold design for your confirmation. Manufacturing begins only after you approve it. We then trial the mold and mail samples for your testing; the finished mold is shipped after you approve the samples.",
+          "Typical mold production is approximately 30–40 days from payment, subject to project scope and approval timing. This is not a guaranteed delivery date."
+        ]
       }
     ],
     "faqs": [
       {
+        "q": "Which drawings are useful for an LED housing mold quote?",
+        "a": "Clear 2D drawings or a 3D product model can be used; STEP/STP files are especially helpful for 3D geometry. Include the current revision, dimensions and relevant assembly interfaces. An assessable physical sample is another starting point."
+      },
+      {
         "q": "Can you quote a mold from a lighting housing sample?",
         "a": "Yes, a physical sample can be reviewed for quotation. Tell us about any intended changes, coatings and surfaces that differ from the sample."
+      },
+      {
+        "q": "Can I order just one LED housing mold?",
+        "a": "Yes. One mold set can be considered. We assess the tooling for your actual part drawings or an assessable physical sample."
+      },
+      {
+        "q": "Can one mold cover several wattages or housing sizes?",
+        "a": "That depends on the actual part geometry and variant differences. Share drawings for each version; we do not assume a single mold will suit an entire product family."
       },
       {
         "q": "Does the mold quote include LED electronics?",
@@ -2257,9 +2298,9 @@
       }
     ],
     "final_cta": {
-      "heading": "Discuss a Mold for Your Product",
-      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
-      "label": "Request a Mold Quote",
+      "heading": "Start with Your Lighting Housing Drawing",
+      "text": "Upload your current part drawing or choose the physical-sample route. We will review the custom mold inquiry and discuss the next steps with you.",
+      "label": "Upload Drawings for a Mold Quote",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
