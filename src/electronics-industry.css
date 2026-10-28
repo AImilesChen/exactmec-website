@@ -1,0 +1,25 @@
+.electronics-page .electronics-hero{background:linear-gradient(115deg,#f9fbfc 0%,#eaf3f9 100%);padding-bottom:76px}
+.electronics-page .electronics-hero .motor-hero-grid{grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr)}
+.electronics-page .electronics-hero .motor-hero-image img{aspect-ratio:16/9;object-position:center}
+.electronics-page .electronics-interfaces{background:#edf5fa;padding:96px 0}
+.electronics-page .electronics-interfaces-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:clamp(40px,6vw,90px)}
+.electronics-interface-diagram{margin:0;background:#fff;border:1px solid #dce7ee;border-radius:5px;padding:22px}
+.electronics-interface-diagram svg{display:block;width:100%;height:auto}
+.electronics-interface-diagram figcaption{font-size:12px;color:#64798b;text-align:center;padding:4px 8px 6px}
+.electronics-feature-list{list-style:none;margin:0;padding:0}
+.electronics-feature-list li{display:flex;gap:18px;padding:17px 0;border-bottom:1px solid #d2e0e8}
+.electronics-feature-list li:first-child{border-top:1px solid #d2e0e8}
+.electronics-feature-list li>span{color:#c8322a;font:700 17px Manrope,Arial,sans-serif;min-width:34px}
+.electronics-feature-list h3{font-size:17px;margin:0 0 5px}
+.electronics-feature-list p{font-size:14px;color:#5b7182;margin:0}
+.electronics-interface-note{font-size:13px;color:#5b7182;max-width:96ch;margin:24px 0 0}
+.electronics-quote{padding:100px 0;background:#faf9f8}
+.electronics-quote-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);align-items:center;gap:clamp(48px,8vw,128px)}
+.electronics-quote-grid>div:first-child>p:not(.eyebrow){font-size:17px;color:#526879;max-width:58ch;margin:0 0 25px}
+.electronics-revision-card{background:#fff;border:1px solid #e0e8ee;padding:26px 36px;display:grid;gap:7px;box-shadow:0 14px 35px rgba(21,50,71,.05)}
+.electronics-revision-card span{font-size:12px;color:#c8322a;letter-spacing:.09em;font-weight:700;margin-top:17px}
+.electronics-revision-card span:first-child{margin-top:0}
+.electronics-revision-card strong{font:700 19px/1.4 Manrope,Arial,sans-serif;color:#173047;padding-bottom:12px;border-bottom:1px solid #e5ebef}
+.electronics-revision-card strong:last-child{border:0}
+@media(max-width:800px){.electronics-page .electronics-interfaces-grid,.electronics-quote-grid{grid-template-columns:1fr;gap:30px}.electronics-page .electronics-interfaces,.electronics-quote{padding:70px 0}}
+@media(max-width:750px){.electronics-page .electronics-hero .motor-hero-grid{grid-template-columns:1fr}.electronics-page .electronics-hero{padding-bottom:50px}.electronics-page .electronics-hero .motor-hero-image img{aspect-ratio:4/3}.electronics-interface-diagram{padding:10px}.electronics-revision-card{padding:22px}}

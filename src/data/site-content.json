@@ -135,7 +135,7 @@
           {
             "title": "Electronics & Communication",
             "text": "Bring enclosure, mounting and interface requirements.",
-            "href": "/industries/#industry-electronics-telecommunications"
+            "href": "/industries/electronics-telecommunications/"
           },
           {
             "title": "Energy & Power Equipment",
@@ -286,7 +286,7 @@
           {
             "title": "Electronics Enclosures",
             "text": "Describe the internal space, connector openings and mounting points.",
-            "href": "/industries/#industry-electronics-telecommunications"
+            "href": "/industries/electronics-telecommunications/"
           }
         ]
       },
@@ -614,7 +614,7 @@
           {
             "title": "Electronics & Telecommunications",
             "text": "Instrument and communication equipment housings. Identify mounting features, connectors and assembly interfaces.",
-            "href": "/industries/#industry-electronics-telecommunications",
+            "href": "/industries/electronics-telecommunications/",
             "anchor": "industry-electronics-telecommunications"
           },
           {
@@ -2562,10 +2562,10 @@
   {
     "id": "industry-electronics",
     "path": "/industries/electronics-telecommunications/",
-    "phase": "P1-prepared",
+    "phase": "P0",
     "kind": "industry",
     "title": "Electronic Enclosure Die Casting Molds | EXACTMEC",
-    "description": "Plan custom aluminum molds for electronics and telecommunications enclosures. Clarify board fit, connectors, assembly and appearance requirements.",
+    "description": "Custom aluminum die casting molds for electronic and communication enclosures. Explore controller, gateway, sensor and heat-sink applications; upload drawings for a mold quote.",
     "primary_keyword": "electronic enclosure die casting molds",
     "semantic_keywords": [
       "electronic enclosure die casting molds",
@@ -2578,11 +2578,83 @@
       600
     ],
     "eyebrow": "MOLD APPLICATIONS",
-    "h1": "Die Casting Molds for Electronic and Communication Enclosures",
-    "intro": "Turn your enclosure requirements into a clearly defined mold inquiry. Instrument housings, communication equipment covers and electronic module enclosures are examples to discuss. EXACTMEC supplies custom aluminum die casting molds from one set. Provide clear product drawings or a physical sample for quotation. We do not sell completed electronic devices or offer casting mass production.",
+    "h1": "Custom Die Casting Molds for Electronic Enclosures",
+    "intro": "Custom aluminum molds for controller, communications and instrument enclosures. Share your part drawings or an assessable sample to discuss the mold you need.",
     "goal_cn": "强调板件空间、接口与外观版本，避免把金属外壳等同于认证屏蔽或防护产品。",
     "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
     "sections": [
+      {
+        "id": "component-gallery",
+        "heading": "Enclosure and Component Examples",
+        "paragraphs": [
+          "Explore nine different aluminum component types across electronics and telecommunications. Each example is illustrative; your mold is quoted against your own part reference."
+        ],
+        "groups": [
+          {
+            "title": "Control & Instrument Housings",
+            "text": "Parts around board fit, access and mounting.",
+            "cards": [
+              {
+                "title": "Controller housing",
+                "text": "Board cavity and connector opening.",
+                "image": "electronics-controller-housing-v1"
+              },
+              {
+                "title": "Instrument enclosure",
+                "text": "Display opening and mounting bosses.",
+                "image": "electronics-instrument-housing-v1"
+              },
+              {
+                "title": "Sensor housing",
+                "text": "Compact body with a sensor opening.",
+                "image": "electronics-sensor-housing-v1"
+              }
+            ]
+          },
+          {
+            "title": "Communication Equipment Enclosures",
+            "text": "Distinct forms for communication modules and network equipment.",
+            "cards": [
+              {
+                "title": "Communication module enclosure",
+                "text": "Multiple connector positions and board supports.",
+                "image": "electronics-communications-enclosure-v1"
+              },
+              {
+                "title": "Network gateway housing",
+                "text": "Port openings and side mounting ears.",
+                "image": "electronics-gateway-housing-v1"
+              },
+              {
+                "title": "Antenna equipment cover",
+                "text": "Elongated cover and attachment flange.",
+                "image": "electronics-antenna-cover-v1"
+              }
+            ]
+          },
+          {
+            "title": "Cooling, Interface & Structural Parts",
+            "text": "Specific surfaces and interfaces to mark on your drawings.",
+            "cards": [
+              {
+                "title": "Heat-sink enclosure",
+                "text": "Cooling fins and an underside cavity.",
+                "image": "electronics-heat-sink-v1"
+              },
+              {
+                "title": "Interface cover",
+                "text": "Connector cutouts and a mating rim.",
+                "image": "electronics-interface-cover-v1"
+              },
+              {
+                "title": "Mounting frame",
+                "text": "Open frame with attachment points.",
+                "image": "electronics-mounting-frame-v1"
+              }
+            ]
+          }
+        ]
+      },
       {
         "id": "enclosure",
         "heading": "Define the Enclosure Boundary",
@@ -2653,8 +2725,8 @@
       }
     ],
     "final_cta": {
-      "heading": "Discuss a Mold for Your Product",
-      "text": "Tell us what you want to make, what information you have, and when you plan to purchase. We will review your inquiry and follow up by email or your permitted contact channel.",
+      "heading": "Discuss a Mold for Your Electronic Enclosure",
+      "text": "Upload clear product drawings or describe an assessable physical sample. We review the mold scope with you and follow up through your chosen contact details.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },

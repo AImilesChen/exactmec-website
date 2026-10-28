@@ -180,14 +180,14 @@
     {
       "id": "industry-electronics",
       "path": "/industries/electronics-telecommunications/",
-      "phase": "P1-prepared",
+      "phase": "P0",
       "kind": "industry",
       "copy_source": "pages/14-industry-electronics.md",
       "data_source": "industries.json",
-      "public_now": false,
+      "public_now": true,
       "index_when_released": true,
-      "include_in_p0_plan": false,
-      "p0_link_target": "/industries/#industry-electronics-telecommunications",
+      "include_in_p0_plan": true,
+      "p0_link_target": "/industries/electronics-telecommunications/",
       "canonical_template": "{SITE_ORIGIN}/industries/electronics-telecommunications/"
     },
     {
@@ -392,7 +392,6 @@
     }
   ],
   "p0_link_fallbacks": {
-    "/industries/electronics-telecommunications/": "/industries/#industry-electronics-telecommunications",
     "/industries/energy-power/": "/industries/#industry-energy-power",
     "/industries/industrial-automation/": "/industries/#industry-industrial-automation",
     "/industries/power-tools-home-appliances/": "/industries/#industry-power-tools-home-appliances"

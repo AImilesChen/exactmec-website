@@ -24,7 +24,7 @@ test('actual customer build is a separate private entry with working assets, nev
 const fileFor=route=>route.id==='404'?'404.html':route.path==='/'?'index.html':route.path.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
 const pages=async()=>Promise.all(PUBLIC_ROUTES.map(async route=>({...route,html:await read(fileFor(route))})));
 
-test('actual static build has one H1/title/robots and substantive HTML on all 26 routes',async()=>{
+test('actual static build has one H1/title/robots and substantive HTML on all 27 routes',async()=>{
  const titles=new Set();
  const indexingEnabled=(await read('robots.txt')).includes('Allow: /\n');
  for(const page of await pages()){
@@ -39,7 +39,7 @@ test('actual static build has one H1/title/robots and substantive HTML on all 26
   if(page.kind!=='system')assert.ok(page.html.includes('href="https://exactmec.com'+page.path+'"'),page.path);
   titles.add(page.html.match(/<title>(.*?)<\/title>/)[1]);
  }
- assert.equal(titles.size,26);
+ assert.equal(titles.size,27);
 });
 
 test('every rendered local image/style/script and CSS background is packaged',async()=>{
