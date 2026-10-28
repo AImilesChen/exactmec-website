@@ -193,14 +193,14 @@
     {
       "id": "industry-energy",
       "path": "/industries/energy-power/",
-      "phase": "P1-prepared",
+      "phase": "P0",
       "kind": "industry",
       "copy_source": "pages/15-industry-energy.md",
       "data_source": "industries.json",
-      "public_now": false,
+      "public_now": true,
       "index_when_released": true,
-      "include_in_p0_plan": false,
-      "p0_link_target": "/industries/#industry-energy-power",
+      "include_in_p0_plan": true,
+      "p0_link_target": "/industries/energy-power/",
       "canonical_template": "{SITE_ORIGIN}/industries/energy-power/"
     },
     {
@@ -392,7 +392,6 @@
     }
   ],
   "p0_link_fallbacks": {
-    "/industries/energy-power/": "/industries/#industry-energy-power",
     "/industries/industrial-automation/": "/industries/#industry-industrial-automation",
     "/industries/power-tools-home-appliances/": "/industries/#industry-power-tools-home-appliances"
   }

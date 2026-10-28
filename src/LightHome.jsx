@@ -18,7 +18,7 @@ const applications=[
  {title:'LED Lighting',image:'/assets/home-v2-led.webp',alt:'Illustrative finned aluminum lighting housing and LED lamp',href:'/industries/led-lighting/'},
  {title:'Motors, Pumps & Transmission',image:'/assets/home-v2-motor.webp',alt:'Illustrative aluminum motor end cover beside an electric motor',href:'/industries/motor-pump-transmission/'},
  {title:'Electronics & Telecom',image:'/assets/home-v2-electronics.webp',alt:'Illustrative aluminum electronics enclosure',href:'/industries/electronics-telecommunications/'},
- {title:'Energy & Power Equipment',image:'/assets/home-energy-v1.webp',alt:'Illustrative aluminum power electronics housing on an engineering workbench',href:'/industries/#industry-energy-power'},
+ {title:'Energy & Power Equipment',image:'/assets/home-energy-v1.webp',alt:'Illustrative aluminum power electronics housing on an engineering workbench',href:'/industries/energy-power/'},
  {title:'Industrial Equipment & Automation',image:'/assets/home-industrial-v1.webp',alt:'Illustrative die cast automation actuator housing at a workbench',href:'/industries/#industry-industrial-automation'},
 ];
 const guides=[

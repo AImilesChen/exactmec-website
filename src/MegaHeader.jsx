@@ -14,7 +14,7 @@ const applications=[
  ['Automotive','/industries/automotive/',Car,'menu-automotive-v1'],
  ['Two-Wheelers','/industries/motorcycle-e-mobility/',Motorcycle,'menu-motorcycle-v1'],
  ['Electronics','/industries/electronics-telecommunications/',Cpu,'menu-electronics-v1'],
- ['Energy & Power','/industries/#industry-energy-power',Lightning,'menu-energy-v1'],
+ ['Energy & Power','/industries/energy-power/',Lightning,'menu-energy-v1'],
  ['Industrial Equipment','/industries/#industry-industrial-automation',Factory,'menu-industrial-v1'],
  ['Tools & Appliances','/industries/#industry-power-tools-home-appliances',Wrench,'menu-tools-v1']
 ];
