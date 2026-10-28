@@ -20,6 +20,7 @@ import './motor-industry.css';
 import './led-industry.css';
 import './motorcycle-industry.css';
 import './automotive-industry.css';
+import './industries-index.css';
 
 const root=document.getElementById('root');
 let bootstrap;try{bootstrap=JSON.parse(document.getElementById('site-bootstrap')?.textContent||'null');}catch{}

@@ -14,6 +14,7 @@ import "./motor-industry.css";
 import "./led-industry.css";
 import "./motorcycle-industry.css";
 import "./automotive-industry.css";
+import "./industries-index.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

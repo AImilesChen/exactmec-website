@@ -27,13 +27,26 @@ export function ProductFigure({id='core-mold',className='',context=false,priorit
 
 function resourceCardImage(href=''){return href.includes('quotation')?'resource-quotation-v1':href.includes('cost')?'resource-cost-v1':'resource-process-v1'}
 
+const overviewApplications={
+ 'industry-automotive':{image:'industries-auto-v1',examples:['Transmission housing','Vehicle bracket','Electrical enclosure']},
+ 'industry-motorcycle-e-mobility':{image:'industries-moto-v1',examples:['Engine cover','Electric drive housing','Controller enclosure']},
+ 'industry-led-lighting':{image:'industries-led-v1',examples:['Lamp housing','Heat-sink body','End cap']},
+ 'industry-motor-pump-transmission':{image:'industries-motor-v1',examples:['Pump body','Motor end cover','Gearbox case']},
+ 'industry-electronics-telecommunications':{image:'industries-electronics-v1',examples:['Communications enclosure','Instrument body','Connector cover']},
+ 'industry-energy-power':{image:'industries-energy-v1',examples:['Inverter housing','Power enclosure','Terminal cover']},
+ 'industry-industrial-automation':{image:'industries-automation-v1',examples:['Actuator housing','Sensor body','Mounting component']},
+ 'industry-power-tools-home-appliances':{image:'industries-tools-v1',examples:['Gearbox shell','Appliance housing','End cover']}
+};
+
 export function ContentCards({cards,industry=false,resources=false}){
  const candidates=useCmsOrderedCards(cards);const ordered=industry?[...candidates.filter(c=>!c.href?.includes('#')),...candidates.filter(c=>c.href?.includes('#'))]:candidates;
  return <div className={'copy-cards '+(industry?'industry-cards':resources?'guide-cards':'')}>{ordered.map((c,i)=>{
-  const image=industry?({'industry-automotive':'industry-automotive','industry-motorcycle-e-mobility':'industry-motorcycle','industry-led-lighting':'industry-led','industry-motor-pump-transmission':'industry-motor','industry-electronics-telecommunications':'industry-electronics','industry-energy-power':'industry-energy','industry-industrial-automation':'industry-industrial','industry-power-tools-home-appliances':'industry-tools'}[c.anchor]):null;
-  const motorcycleCard=industry&&c.anchor==='industry-motorcycle-e-mobility';
-  return <article className={'copy-card '+(image?'image-led':'')+(motorcycleCard?' moto-overview-card':'')} key={c.title} id={c.anchor}>
-   {motorcycleCard?<figure className="moto-overview-figure"><Link href={c.href} className="moto-overview-gallery" aria-label="Explore nine motorcycle and electric two-wheeler component examples">{[['moto-engine-side-cover-v1','Engine side cover'],['moto-mid-drive-housing-v1','Electric motor housing'],['moto-controller-enclosure-v1','Controller enclosure']].map(([file,label])=><span key={file}><img src={'/assets/'+file+'.webp'} alt={'Illustrative aluminum '+label.toLowerCase()} width="1448" height="1086" loading="lazy" decoding="async"/><small>{label}</small></span>)}</Link><figcaption>Illustrative components · Not customer cases</figcaption></figure>:image&&(c.anchor==='industry-automotive'?<Media file="auto-hub-bracket-v1" alt="Illustrative isolated aluminum automotive mounting bracket" caption="Illustrative application · Not a customer case"/>:<ProductFigure id={image} context/>)}{resources&&<Media file={resourceCardImage(c.href)} alt={c.title+' illustrative guide cover'} caption="Illustrative cover"/>}<div className="card-copy"><span className="card-number">{String(i+1).padStart(2,'0')}</span>{motorcycleCard&&<span className="moto-overview-kicker">FUEL & ELECTRIC TWO-WHEELERS</span>}<h3>{c.title}</h3><p>{c.text}</p>{c.href&&<Action href={industry&&c.href.includes('#')?quotePath:c.href} secondary={!motorcycleCard}>{motorcycleCard?'Explore 9 Component Examples':industry?(c.href.includes('#')?'Discuss Your Component':'Explore This Application'):resources?'Read the Guide':'Explore This Topic'}</Action>}</div>
+  const application=industry?overviewApplications[c.anchor]:null;
+  const target=industry&&c.href?.includes('#')?quotePath:c.href;
+  return <article className={'copy-card '+(application?'image-led':'')} key={c.title} id={c.anchor}>
+   {application&&<Link href={target} className="industries-card-image" aria-label={'Explore '+c.title+' mold applications'}><Media file={application.image} alt={'Illustrative aluminum '+c.title.toLowerCase()+' component'} caption="Illustrative component · Not a customer case"/></Link>}
+   {resources&&<Media file={resourceCardImage(c.href)} alt={c.title+' illustrative guide cover'} caption="Illustrative cover"/>}
+   <div className="card-copy"><span className="card-number">{String(i+1).padStart(2,'0')}</span><h3>{c.title}</h3><p>{c.text}</p>{application&&<ul className="industries-card-examples" aria-label="Possible component types">{application.examples.map(example=><li key={example}>{example}</li>)}</ul>}{c.href&&<Action href={target} secondary>{industry?(c.href.includes('#')?'Discuss Your Component':'View Component Examples'):resources?'Read the Guide':'Explore This Topic'}</Action>}</div>
   </article>;
  })}</div>
 }
@@ -254,9 +267,25 @@ function CoreMoldPage({page}){
  </div>
 }
 
+function IndustriesPage({page}){
+ const sections=Object.fromEntries((page.sections||[]).map(section=>[section.id,section]));
+ const applications=useCmsOrderedCards(sections['application-list']?.cards||[]);
+ return <div className="industries-index">
+  <header className="industries-index-hero"><div className="container"><nav className="breadcrumbs" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Applications</span></nav><div className="industries-index-hero-grid"><div><p className="eyebrow">CUSTOM ALUMINUM TOOLING</p><h1>{page.h1}</h1><p className="industries-index-lead">{page.intro}</p><div className="industries-index-actions"><Action href="#application-list">Explore Applications</Action><Action href={quotePath} secondary>Start a Mold Inquiry</Action></div></div><Media file="industries-overview-hero-v1" priority alt="Illustrative aluminum motor end cover, LED heat-sink housing and pump body" caption="Illustrative applications · Not customer cases"/></div></div></header>
+  <section className="industries-index-facts" aria-label="Mold project essentials"><div className="container"><div><Cube size={29} weight="light" aria-hidden="true"/><p><strong>8 application areas</strong><span>Find a component close to yours</span></p></div><div><Package size={29} weight="light" aria-hidden="true"/><p><strong>1 mold set</strong><span>Custom tooling projects welcome</span></p></div><div><FileText size={29} weight="light" aria-hidden="true"/><p><strong>Drawings or sample</strong><span>The basis for a formal quote</span></p></div></div></section>
+  <nav className="industries-index-jump container" aria-label="Jump to an application"><p className="eyebrow">BROWSE BY COMPONENT</p><div>{applications.map(card=><Link href={'#'+card.anchor} key={card.anchor}>{card.title}<ArrowDown size={16} aria-hidden="true"/></Link>)}</div></nav>
+  <section id="application-list" className="industries-index-applications"><div className="container"><div className="industries-index-heading"><p className="eyebrow">APPLICATION EXAMPLES</p><h2>{sections['application-list']?.heading||'Explore Component Applications'}</h2><p>Start with a similar component. Each mold is reviewed against your own drawings or sample.</p></div><ContentCards cards={applications} industry/></div></section>
+  <section id="evaluate" className="industries-index-evaluate"><div className="container industries-index-evaluate-grid"><div><p className="eyebrow">BEYOND THE INDUSTRY NAME</p><h2>{sections.evaluate?.heading}</h2><p>{sections.evaluate?.paragraphs?.[0]}</p></div><div className="industries-index-evaluate-list"><div><span>01</span><strong>Geometry & interfaces</strong><p>Show the mounting points, mating faces and internal spaces.</p></div><div><span>02</span><strong>Assembly context</strong><p>Explain where the part fits and what it must do.</p></div><div><span>03</span><strong>Defined requirements</strong><p>{sections.evaluate?.paragraphs?.[1]}</p></div></div></div></section>
+  <section id="scope" className="industries-index-scope"><div className="container industries-index-scope-grid"><div><p className="eyebrow">MOLD-ONLY SERVICE</p><h2>{sections.scope?.heading}</h2><p>{sections.scope?.paragraphs?.[0]}</p><p>{sections.scope?.paragraphs?.[1]}</p><Action href={sections.scope?.cta?.href||'/aluminum-die-casting-molds/'} secondary>{sections.scope?.cta?.label||'View the Mold Service'}</Action></div><Media file="products-service-v1" alt="Illustrative machined aluminum die casting mold cavity" caption="Illustrative mold · Not a customer project"/></div></section>
+  <section id="prepare" className="industries-index-prepare"><div className="container"><div><p className="eyebrow">READY TO DISCUSS YOUR PART?</p><h2>{sections.prepare?.heading}</h2><p>These details help us understand your component before quoting.</p></div><ul>{sections.prepare?.bullets?.map((item,i)=><li key={item}><span>{String(i+1).padStart(2,'0')}</span>{item}</li>)}</ul><Action href={quotePath}>Start Your Mold Inquiry</Action></div></section>
+  <div className="container industries-index-end"><PageEnd page={page}/></div><PageCTA page={page}/>
+ </div>;
+}
+
 function FAQPageBody({page}){const groupIndices=[[0,1,2,3,4,8],[5,7,10],[6],[9,11]];return <div className="faq-group-list">{page.sections.map((s,i)=><section id={s.id} className="faq-group" key={s.id}><div className="faq-group-heading"><span className="section-index">{String(i+1).padStart(2,'0')}</span><h2>{s.heading}</h2></div><div><FAQList faqs={(groupIndices[i]||[]).map(j=>page.faqs[j]).filter(Boolean).concat(i===page.sections.length-1?page.faqs.slice(12):[])} firstOpen={i===0}/><div className="faq-context">{s.paragraphs.map(p=><p key={p}>{p}</p>)}{s.cta&&<Action secondary href={s.cta.href}>{s.cta.label}</Action>}</div></div></section>)}</div>}
 export function ContentPage({page:sourcePage}){
  const page=useCmsPage(sourcePage);
+ if(page.id==='industries')return <CmsPageScope page={page}><IndustriesPage page={page}/></CmsPageScope>;
  if(page.id==='products')return <CmsPageScope page={page}><ProductsPage page={page}/></CmsPageScope>;
  if(page.id==='core-mold')return <CmsPageScope page={page}><CoreMoldPage page={page}/></CmsPageScope>;
  if(page.id==='industry-motor')return <CmsPageScope page={page}><MotorIndustryPage page={page}/></CmsPageScope>;
