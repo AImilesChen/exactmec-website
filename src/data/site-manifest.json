@@ -219,14 +219,14 @@
     {
       "id": "industry-tools",
       "path": "/industries/power-tools-home-appliances/",
-      "phase": "P1-prepared",
+      "phase": "P0",
       "kind": "industry",
       "copy_source": "pages/17-industry-tools.md",
       "data_source": "industries.json",
-      "public_now": false,
+      "public_now": true,
       "index_when_released": true,
-      "include_in_p0_plan": false,
-      "p0_link_target": "/industries/#industry-power-tools-home-appliances",
+      "include_in_p0_plan": true,
+      "p0_link_target": "/industries/power-tools-home-appliances/",
       "canonical_template": "{SITE_ORIGIN}/industries/power-tools-home-appliances/"
     },
     {
@@ -391,7 +391,5 @@
       "note": "这是404模板标识，实际未命中URL返回HTTP404和noindex；不得统一重定向首页或返回200。"
     }
   ],
-  "p0_link_fallbacks": {
-    "/industries/power-tools-home-appliances/": "/industries/#industry-power-tools-home-appliances"
-  }
+  "p0_link_fallbacks": {}
 }

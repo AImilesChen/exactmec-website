@@ -632,7 +632,7 @@
           {
             "title": "Power Tools & Home Appliances",
             "text": "Tool gearbox housings, equipment covers and appliance mounting components. Explain use, handling and fit requirements.",
-            "href": "/industries/#industry-power-tools-home-appliances",
+            "href": "/industries/power-tools-home-appliances/",
             "anchor": "industry-power-tools-home-appliances"
           }
         ]
@@ -3065,27 +3065,64 @@
   {
     "id": "industry-tools",
     "path": "/industries/power-tools-home-appliances/",
-    "phase": "P1-prepared",
+    "phase": "P0",
     "kind": "industry",
     "title": "Power Tool & Appliance Die Casting Molds | EXACTMEC",
-    "description": "Discuss aluminum molds for tool gear housings, appliance supports and covers. Prepare drawings, appearance requirements and sample review details.",
-    "primary_keyword": "power tool appliance die casting molds",
+    "description": "Custom aluminum die casting molds for power tool gearbox housings, cleaning equipment and appliance metal parts. Send part drawings or a sample for a mold quote.",
+    "primary_keyword": "power tool die casting molds",
     "semantic_keywords": [
-      "power tool appliance die casting molds",
+      "power tool gearbox housing mold",
+      "appliance die casting mold",
       "custom aluminum die casting molds",
-      "single mold orders",
-      "product drawing review"
+      "cleaning equipment housing mold"
     ],
     "target_words": [
       400,
       600
     ],
-    "eyebrow": "MOLD APPLICATIONS",
-    "h1": "Aluminum Die Casting Molds for Tools and Home Appliances",
-    "intro": "Plan the mold behind your tool or appliance component. Gear housings, structural supports and equipment covers are examples of aluminum die casting applications to discuss. We accept one mold set. Clear 2D or 3D product drawings or a physical sample are required for quotation. Our current service does not include finished appliance supply or cast component mass production.",
+    "eyebrow": "POWER TOOL & APPLIANCE TOOLING",
+    "h1": "Aluminum Die Casting Molds for Power Tool & Appliance Parts",
+    "intro": "Need a mold for a tool gearbox housing, cleaning equipment part or appliance metal support? Start with your component drawing or an assessable sample. We make custom molds from one set; each part is reviewed for fit and casting feasibility.",
     "goal_cn": "区分外观件和内部结构件，说明模具采购输入，避免工具/家电整机认证承诺。",
     "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
     "sections": [
+      {
+        "id": "component-gallery",
+        "heading": "Explore Power Tool & Appliance Component Types",
+        "paragraphs": ["These nine illustrations show different aluminum parts that may be discussed for custom mold tooling. Your part drawing or sample determines the actual mold scope."],
+        "groups": [
+          {
+            "title": "Power Tool Drive Components",
+            "text": "Gear and bearing housings for individual tool assemblies.",
+            "image": "tools-drive-triptych-v1",
+            "cards": [
+              {"title": "Drill gearbox housing", "text": "Identify the gear cavity, bearing seat and fastening pattern."},
+              {"title": "Angle grinder gear head", "text": "Show shaft position, joining faces and planned machining."},
+              {"title": "Saw drive end cover", "text": "Mark the bearing interface and cover attachment points."}
+            ]
+          },
+          {
+            "title": "Cleaning Equipment Structures",
+            "text": "Motor supports and drive housings for cleaning equipment.",
+            "image": "tools-cleaning-triptych-v1",
+            "cards": [
+              {"title": "Scrubber motor mount", "text": "Define the motor seat and equipment mounting points."},
+              {"title": "Washer drive housing", "text": "Show the internal space and connection to other parts."},
+              {"title": "Vacuum motor support", "text": "Identify ring geometry, ribs and fastener locations."}
+            ]
+          },
+          {
+            "title": "Home Appliance Metal Parts",
+            "text": "Internal drive parts and structural supports for appliance projects.",
+            "image": "tools-appliance-triptych-v1",
+            "cards": [
+              {"title": "Mixer gearcase", "text": "Show shaft opening, cover joint and visible surfaces."},
+              {"title": "Appliance motor end cover", "text": "Mark the bearing seat and motor mounting pattern."},
+              {"title": "Appliance mounting base", "text": "Define mating faces, fixing holes and overall envelope."}
+            ]
+          }
+        ]
+      },
       {
         "id": "part",
         "heading": "Separate Visible Parts from Internal Components",
@@ -3129,8 +3166,16 @@
     ],
     "faqs": [
       {
+        "q": "Can I order just one mold set for a power tool part?",
+        "a": "Yes. We can discuss a single custom mold set. Please send a clear 2D or 3D part drawing, or describe an assessable physical sample."
+      },
+      {
         "q": "Can you quote from a finished appliance component?",
         "a": "A physical component sample can be reviewed. Explain its finish, condition and any changes needed for your intended product."
+      },
+      {
+        "q": "Is a photo of the complete tool enough for a formal quote?",
+        "a": "A complete product photo helps explain use, but a formal mold quotation needs clear drawings of the individual part or an assessable physical sample."
       },
       {
         "q": "Does the mold order include assembled tools or appliances?",

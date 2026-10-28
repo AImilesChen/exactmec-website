@@ -20,6 +20,7 @@ import './motor-industry.css';
 import './electronics-industry.css';
 import './energy-industry.css';
 import './industrial-industry.css';
+import './tools-industry.css';
 import './led-industry.css';
 import './motorcycle-industry.css';
 import './automotive-industry.css';

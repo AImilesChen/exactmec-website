@@ -5,9 +5,9 @@ import manifest from '../src/data/site-manifest.json' with { type: 'json' };
 import { getPageMeta } from '../src/seo/metadata.mjs';
 import { PUBLIC_ROUTES, resolvePublicRoute } from '../src/seo/route-contract.mjs';
 
-test('public contract contains twenty-three P0 marketing pages, four legal contracts and two systems', () => {
-  assert.equal(PUBLIC_ROUTES.length, 29);
-  assert.equal(PUBLIC_ROUTES.filter(route => !['legal', 'system'].includes(route.kind)).length, 23);
+test('public contract contains twenty-four P0 marketing pages, four legal contracts and two systems', () => {
+  assert.equal(PUBLIC_ROUTES.length, 30);
+  assert.equal(PUBLIC_ROUTES.filter(route => !['legal', 'system'].includes(route.kind)).length, 24);
   assert.equal(PUBLIC_ROUTES.filter(route => route.kind === 'legal').length, 4);
   assert.equal(PUBLIC_ROUTES.filter(route => route.kind === 'system').length, 2);
   for (const route of PUBLIC_ROUTES) assert.equal(resolvePublicRoute(route.path).status, route.id === '404' ? 404 : 200);
@@ -52,7 +52,7 @@ test('metadata preserves source title and description and does not invent URL fi
   }
 });
 
-test('release metadata indexes exactly the twenty-three marketing routes, with consistent schema URLs', () => {
+test('release metadata indexes exactly the twenty-four marketing routes, with consistent schema URLs', () => {
   const origin = 'https://confirmed.example';
   for (const route of PUBLIC_ROUTES) {
     const meta = getPageMeta(route.path + '?utm_source=ignored#section', { release: true, indexingEnabled: true, origin });
