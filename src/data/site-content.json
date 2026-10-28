@@ -1448,21 +1448,21 @@
     ],
     "related_links": [
       {
-        "label": "How We Communicate During a Project",
-        "href": "/how-we-work/"
+        "label": "Prepare Your Quotation Reference",
+        "href": "/resources/die-casting-mold-quotation-requirements/"
       },
       {
-        "label": "Custom Aluminum Die Casting Molds",
+        "label": "Review the Mold Design",
+        "href": "/mold-design-review/"
+      },
+      {
+        "label": "Explore Aluminum Die Casting Molds",
         "href": "/aluminum-die-casting-molds/"
-      },
-      {
-        "label": "Mold Development Guide",
-        "href": "/resources/die-casting-mold-development-process/"
       }
     ],
     "final_cta": {
-      "heading": "Start with your product and project plan",
-      "text": "Tell us what the mold needs to produce, what information you have, and when you plan to purchase. We will discuss the next step through your chosen contact details.",
+      "heading": "Have a drawing or sample?",
+      "text": "Share your part drawings or tell us about a physical sample. We will review the mold scope and follow up.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },
