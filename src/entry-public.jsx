@@ -27,6 +27,7 @@ import './automotive-industry.css';
 import './industries-index.css';
 import './mold-process.css';
 import './how-we-work.css';
+import './manufacturing.css';
 
 const root=document.getElementById('root');
 let bootstrap;try{bootstrap=JSON.parse(document.getElementById('site-bootstrap')?.textContent||'null');}catch{}

@@ -21,6 +21,7 @@ import "./automotive-industry.css";
 import "./industries-index.css";
 import "./mold-process.css";
 import "./how-we-work.css";
+import "./manufacturing.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

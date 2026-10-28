@@ -1210,7 +1210,7 @@
     "phase": "P0",
     "kind": "service",
     "title": "Aluminum Die Casting Mold Manufacturing | EXACTMEC",
-    "description": "Explore how EXACTMEC coordinates custom aluminum die casting mold manufacturing, from approved mold design through trial samples and mold shipment.",
+    "description": "See how EXACTMEC coordinates aluminum die casting mold manufacturing with partners: mold machining, assembly, trial samples and customer-approved handover.",
     "primary_keyword": "aluminum die casting mold manufacturing",
     "semantic_keywords": [
       "custom die casting molds",
@@ -1222,21 +1222,21 @@
       450,
       750
     ],
-    "eyebrow": "MANUFACTURING",
-    "h1": "Custom mold manufacturing, with a clear path to handover",
-    "intro": "EXACTMEC coordinates the manufacture of custom aluminum die casting molds through manufacturing partners. We supply molds, starting from one set. Your product drawings or physical sample guide the quotation, and your approval of the 3D mold design comes before manufacturing begins.",
-    "goal_cn": "解释实际制造交付边界及合作制造模式，回答谁协调制造、交付什么、如何进入下一步；不以无依据设备清单代替制造能力。",
-    "hero_layout_cn": "桌面左侧标题与介绍占6列，右侧6列预留真实模具制造照片；图片下配简短流程标注。手机依次为标题、介绍、主询价按钮、图片。",
+    "eyebrow": "MOLD MANUFACTURING",
+    "h1": "Aluminum Die Casting Mold Manufacturing",
+    "intro": "Custom molds are made through manufacturing partners in China, with EXACTMEC coordinating the agreed project. See what is made, how the mold is machined and assembled, and how trial samples lead to mold handover.",
+    "goal_cn": "以模具制造范围、加工装配、试模验收和交付为主线解释合作制造能力；与合作沟通页、完整开发流程页分工。不得把示意图写成真实工厂证据。",
+    "hero_layout_cn": "浅色首屏左文右模具图，红色主询价按钮；下方三条项目要点卡与首屏交叠。手机按标题、简述、按钮、图片顺序排。",
     "sections": [
       {
         "id": "scope",
-        "heading": "A mold supply service, starting from one set",
+        "heading": "The mold is the deliverable",
         "paragraphs": [
           "Our service is for buyers who need a custom mold for an aluminum die cast product. The order can be one mold set. We do not currently accept die casting volume production orders or separate orders for machined parts.",
           "Photos of automotive, lighting, electrical or industrial components help illustrate possible mold applications. They are not a catalog of finished parts for sale. Tell us which product you need to make, then provide the product information needed to assess the mold project."
         ],
-        "layout_cn": "两栏：左侧服务范围正文，右侧用两张等宽卡片说明交付物为模具、起订为1套；手机单列。",
-        "visual_cn": "优先使用真实模具整体图；零件应用图须说明为应用示意，不代表供货案例。",
+        "layout_cn": "短说明加三张等宽卡片，分别说明定制模具、试模样品、模具交付；上方首屏要点条单独说明1套起订。手机单列。",
+        "visual_cn": "使用统一线性图标；现有场景图均明确标为示意，不代表真实工厂或客户案例。",
         "cta": {
           "label": "Explore Aluminum Die Casting Molds",
           "href": "/aluminum-die-casting-molds/"
@@ -1244,7 +1244,7 @@
       },
       {
         "id": "coordination",
-        "heading": "One contact across the manufacturing stages",
+        "heading": "A clear scope across partner workshops",
         "paragraphs": [
           "EXACTMEC is your contact for project information, mold design confirmation, manufacturing communication and sample feedback. Manufacturing is coordinated with partners rather than presented as production in a factory owned by EXACTMEC.",
           "Before an order, we discuss the requested mold, the available drawings or sample, and the intended use. Project specific requirements must be reviewed before they become part of the quotation. This includes requirements for the receiving production equipment when the mold will be used at your facility."
@@ -1254,8 +1254,8 @@
           "Identify customer requirements that affect mold acceptance.",
           "Confirm the agreed scope through the quotation and project communication."
         ],
-        "layout_cn": "全文段落在上，下方横向三条清单；手机垂直排列。",
-        "visual_cn": "使用简洁协调关系示意：客户→EXACTMEC→制造合作方；不用暗示工厂产权的厂区主视觉。"
+        "layout_cn": "浅蓝底双栏：左侧说明EXACTMEC负责协调，右侧白色面板列出零件资料、接收要求和已确认的模具设计三项共同依据。手机单列。",
+        "visual_cn": "以编号、层级和留白表达合作关系；不用暗示工厂产权的厂区主视觉。"
       },
       {
         "id": "approved-design",
@@ -1264,8 +1264,8 @@
           "After payment, we prepare the 3D mold design and send it to you for confirmation. The product drawing used for quotation and the mold design prepared for approval are different documents.",
           "Manufacturing begins after you confirm the mold design. Review the design with the people who will use or approve the mold. If a requirement changes during the project, raise it with us so we can discuss its effect on the scope and schedule before proceeding."
         ],
-        "layout_cn": "左侧两段说明，右侧上下两张流程卡：付款后设计、确认后制造；手机先文后卡。",
-        "visual_cn": "可用自制流程图表达批准节点；实际设计截图需脱敏并获使用许可。",
+        "layout_cn": "在加工与装配图文卡下方用一条浅色提示带说明付款后设计、客户确认后制造，链接至设计确认详情页。",
+        "visual_cn": "加工与装配使用两张不同工序的示意图，均标示非真实客户项目；实际设计截图需脱敏并获使用许可。",
         "cta": {
           "label": "See the Design Approval Stage",
           "href": "/mold-design-review/"
@@ -1273,13 +1273,13 @@
       },
       {
         "id": "trial-handover",
-        "heading": "Trial samples come before mold shipment",
+        "heading": "Test the samples before mold shipment",
         "paragraphs": [
           "Once the mold has been made, it is trialed to produce samples. We send samples to you for testing. You assess them against the product requirements agreed for the project and share the result with us.",
           "When you confirm that the samples are acceptable, the completed mold is shipped. This sample stage supports mold acceptance; it is not the start of a volume production service. Sample quantities, acceptance details and shipping arrangements are discussed for the individual order."
         ],
-        "layout_cn": "横向三步卡：试模、客户测样、确认后发模；每步下放一段完整说明。手机为纵向编号列表。",
-        "visual_cn": "规划真实试模样品照片和包装图位置；未取得素材前用流程线图。",
+        "layout_cn": "试模验收使用左文右图，三条短句说明试模、客户测样、确认后发模；交付另用左图右文，手机单列。",
+        "visual_cn": "分别使用测量试模零件与模具包装的两张不同示意图并显著标注；取得授权后可替换为真实项目素材。",
         "cta": {
           "label": "Understand Trial and Sample Review",
           "href": "/quality-control/"
@@ -1292,8 +1292,8 @@
           "A clear product 2D or 3D drawing, or a physical sample, is needed for quotation. If you are still gathering these, you can send a basic inquiry first and tell us what is available.",
           "The typical project timing discussed is about 30–40 days from customer payment. This is an estimate, not a guaranteed arrival date. Confirm the applicable milestones and the effects of design approval, sample testing and transport in your project discussion."
         ],
-        "layout_cn": "浅色整宽信息区，左侧资料说明，右侧交期说明；下方主按钮。",
-        "visual_cn": "仅用图纸/实体样品图标，不使用虚构交期仪表盘。"
+        "layout_cn": "左侧图纸或样品的询价引导和按钮，右侧以窄信息卡说明付款后约30–40天的估计工期。",
+        "visual_cn": "以简洁排版呈现交期说明，不使用虚构交期仪表盘。"
       }
     ],
     "faqs": [
@@ -1329,13 +1329,13 @@
       }
     ],
     "final_cta": {
-      "heading": "Tell us which mold you need",
-      "text": "Share your product, available drawings or sample, and intended purchasing time. We will use your inquiry to discuss the project and the information needed for a quotation.",
+      "heading": "Start with the part you need to make",
+      "text": "Upload clear product drawings, or tell us about a physical sample. We will discuss the mold scope and quotation with you.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
-      "需补充可公开且获授权的真实模具制造、试模、包装照片；不以生成图作为制造实证。",
+      "现有加工、装配、试模检查和包装图片均为明确标注的示意场景；后续应补充获授权的真实合作工厂与项目照片作为制造实证。",
       "无已核实设备与参数，不设置设备吨位、精度、模具寿命或认证模块。",
       "制造资源与合作工厂表述仅采用已确认的合作制造模式。"
     ],
