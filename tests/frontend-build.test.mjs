@@ -26,13 +26,16 @@ const pages=async()=>Promise.all(PUBLIC_ROUTES.map(async route=>({...route,html:
 
 test('actual static build has one H1/title/robots and substantive HTML on all 26 routes',async()=>{
  const titles=new Set();
+ const indexingEnabled=(await read('robots.txt')).includes('Allow: /\n');
  for(const page of await pages()){
   assert.equal((page.html.match(/<h1(?:\s|>)/g)||[]).length,1,page.path);
   assert.equal((page.html.match(/<title>/g)||[]).length,1,page.path);
   assert.equal((page.html.match(/<meta name="robots"/g)||[]).length,1,page.path);
-  assert.match(page.html,/<meta name="robots" content="noindex,nofollow"/);
+  const expectedRobots=indexingEnabled?(page.kind==='legal'?'noindex,follow':page.kind==='system'?'noindex,nofollow':'index,follow'):'noindex,nofollow';
+  assert.ok(page.html.includes('<meta name="robots" content="'+expectedRobots+'"'),page.path+': '+expectedRobots);
   assert.ok(page.html.split('<main id="main-content">')[1]?.split('</main>')[0].length>(page.kind==='system'?100:500),page.path);
-  assert.doesNotMatch(page.html,/application\/ld\+json/);
+  if(indexingEnabled&& !['legal','system'].includes(page.kind))assert.match(page.html,/application\/ld\+json/);
+  else assert.doesNotMatch(page.html,/application\/ld\+json/);
   if(page.kind!=='system')assert.ok(page.html.includes('href="https://exactmec.com'+page.path+'"'),page.path);
   titles.add(page.html.match(/<title>(.*?)<\/title>/)[1]);
  }
@@ -66,8 +69,15 @@ test('read-only Worker serves real built HTML, 308 aliases and hard 404 without 
   if(status===404)assert.match(await response.text(),/<h1/);
  }
  assert.equal(await exists('design-system'),false);assert.equal(await exists('downloads'),false);
- assert.equal(await read('robots.txt'),'User-agent: *\nDisallow: /\n');
- assert.doesNotMatch(await read('sitemap.xml'),/<url>/);
+ const robots=await read('robots.txt');
+ assert.match(robots,/^User-agent: \*/);
+ if(robots.includes('Allow: /\n')){
+  assert.match(robots,/Sitemap: https:\/\/exactmec\.com\/sitemap\.xml/);
+  assert.match(await read('sitemap.xml'),/\/industries\/motorcycle-e-mobility\//);
+ }else{
+  assert.equal(robots,'User-agent: *\nDisallow: /\n');
+  assert.doesNotMatch(await read('sitemap.xml'),/<url>/);
+ }
  assert.match(await read('third-party-notices.txt'),/Copyright 2019 The Manrope Project Authors/);
  assert.match(await read('third-party-notices.txt'),/Copyright \(c\) 2020 Phosphor Icons/);
 });
