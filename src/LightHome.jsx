@@ -19,7 +19,7 @@ const applications=[
  {title:'Motors, Pumps & Transmission',image:'/assets/home-v2-motor.webp',alt:'Illustrative aluminum motor end cover beside an electric motor',href:'/industries/motor-pump-transmission/'},
  {title:'Electronics & Telecom',image:'/assets/home-v2-electronics.webp',alt:'Illustrative aluminum electronics enclosure',href:'/industries/electronics-telecommunications/'},
  {title:'Energy & Power Equipment',image:'/assets/home-energy-v1.webp',alt:'Illustrative aluminum power electronics housing on an engineering workbench',href:'/industries/energy-power/'},
- {title:'Industrial Equipment & Automation',image:'/assets/home-industrial-v1.webp',alt:'Illustrative die cast automation actuator housing at a workbench',href:'/industries/#industry-industrial-automation'},
+ {title:'Industrial Equipment & Automation',image:'/assets/home-industrial-v1.webp',alt:'Illustrative die cast automation actuator housing at a workbench',href:'/industries/industrial-automation/'},
 ];
 const guides=[
  {title:'What to Prepare for a Mold Quote',image:'/assets/home-v2-guide-quotation.webp',alt:'Illustrative part drawing and three-dimensional enclosure model',href:'/resources/die-casting-mold-quotation-requirements/'},

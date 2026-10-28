@@ -145,7 +145,7 @@
           {
             "title": "Industrial Equipment",
             "text": "Discuss covers, mounting components and automation housings.",
-            "href": "/industries/#industry-industrial-automation"
+            "href": "/industries/industrial-automation/"
           }
         ],
         "cta": {
@@ -626,7 +626,7 @@
           {
             "title": "Industrial Equipment & Automation",
             "text": "Sensor and actuator housings, covers and equipment mounting components. Provide the assembly context.",
-            "href": "/industries/#industry-industrial-automation",
+            "href": "/industries/industrial-automation/",
             "anchor": "industry-industrial-automation"
           },
           {
@@ -2920,10 +2920,10 @@
   {
     "id": "industry-industrial",
     "path": "/industries/industrial-automation/",
-    "phase": "P1-prepared",
+    "phase": "P0",
     "kind": "industry",
     "title": "Industrial Automation Die Casting Molds | EXACTMEC",
-    "description": "Plan molds for actuator housings, sensor enclosures and industrial supports. Explain installation interfaces, variants and sample checks.",
+    "description": "Explore custom aluminum die casting molds for actuator housings, sensor enclosures and machine mounting parts. Send drawings or a sample for a mold quote.",
     "primary_keyword": "industrial automation die casting molds",
     "semantic_keywords": [
       "industrial automation die casting molds",
@@ -2936,11 +2936,47 @@
       600
     ],
     "eyebrow": "MOLD APPLICATIONS",
-    "h1": "Molds for Industrial Equipment and Automation Components",
-    "intro": "Define a custom mold for the component inside your industrial product. Actuator housings, sensor enclosures, mounting supports and equipment covers are examples to discuss. EXACTMEC accepts aluminum die casting mold orders from one set. We use clear product drawings or a physical sample for quotation and coordinate the mold development process through sample confirmation.",
+    "h1": "Aluminum Die Casting Molds for Industrial Automation Parts",
+    "intro": "From actuator housings to sensor enclosures and machine mounts, we coordinate custom molds for your defined aluminum part. Share clear 2D/3D drawings or an assessable sample to start a quotation. One mold set is welcome.",
     "goal_cn": "针对自动化非标件询价，强调使用环境、接口及版本管理，不扩展为整机服务。",
     "hero_layout_cn": "桌面左侧约55%放标题、短介绍及询价主按钮，右侧放单件代表产品示意；手机先标题介绍和按钮，再显示图片。图片标注应用示意，不做交付案例。",
     "sections": [
+      {
+        "id": "component-gallery",
+        "heading": "Explore Industrial Automation Component Types",
+        "paragraphs": [
+          "These distinct examples show the types of aluminum components a custom die casting mold can be discussed for. They are generated illustrations, not delivered customer projects."
+        ],
+        "groups": [
+          {
+            "title": "Actuation & Motion",
+            "text": "Housings and structures around controlled movement.",
+            "cards": [
+              {"title": "Rotary actuator housing", "text": "A compact body around a rotary output and mounting interface.", "image": "industrial-rotary-actuator-v1"},
+              {"title": "Gripper chassis", "text": "A structural body for an end effector assembly.", "image": "industrial-gripper-chassis-v1"},
+              {"title": "Actuator end cap", "text": "An end cover with mounting and mating features.", "image": "industrial-actuator-endcap-v1"}
+            ]
+          },
+          {
+            "title": "Sensing & Control",
+            "text": "Enclosures where openings and mating surfaces matter.",
+            "cards": [
+              {"title": "Sensor enclosure body", "text": "A small housing with connection and fixing points.", "image": "industrial-sensor-enclosure-v1"},
+              {"title": "Machine-vision housing", "text": "A camera enclosure form with lens and assembly interfaces.", "image": "industrial-vision-housing-v1"},
+              {"title": "Encoder housing", "text": "A protective body around a shaft-sensing assembly.", "image": "industrial-encoder-housing-v1"}
+            ]
+          },
+          {
+            "title": "Machine Mounting & Protection",
+            "text": "Supports and covers that must fit the surrounding equipment.",
+            "cards": [
+              {"title": "End-effector mounting block", "text": "A compact mechanical interface for tooling attachment.", "image": "industrial-mounting-block-v1"},
+              {"title": "Machine mounting bracket", "text": "A rigid support with defined fastener and locating faces.", "image": "industrial-mounting-bracket-v1"},
+              {"title": "Equipment end cover", "text": "A protective cover with a defined mating rim and openings.", "image": "industrial-end-cover-v1"}
+            ]
+          }
+        ]
+      },
       {
         "id": "component",
         "heading": "Describe the Job of the Component",
@@ -2994,6 +3030,10 @@
       {
         "q": "Can several component variants be included?",
         "a": "List each variant for review. The quotation must identify the drawings and mold scope it includes rather than assuming all versions are covered."
+      },
+      {
+        "q": "What do you need for a formal automation mold quote?",
+        "a": "Share clear 2D or 3D drawings for the aluminum component, or an assessable physical sample. Identify the current version, mounting interfaces and intended use so we can review the mold scope."
       }
     ],
     "related_links": [
