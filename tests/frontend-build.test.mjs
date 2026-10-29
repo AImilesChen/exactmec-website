@@ -62,6 +62,25 @@ test('every rendered local image/style/script and CSS background is packaged',as
  }
 });
 
+test('public routes load only their own page styles and responsive image candidates exist',async()=>{
+ const home=await read('index.html');
+ const products=await read('products/index.html');
+ const about=await read('about/index.html');
+ assert.match(home,/<link rel="stylesheet" href="\/assets\/route-home-v2-[a-f0-9]+\.css"/);
+ assert.doesNotMatch(home,/<link rel="stylesheet" href="\/assets\/route-products-/);
+ assert.match(products,/<link rel="stylesheet" href="\/assets\/route-products-[a-f0-9]+\.css"/);
+ assert.doesNotMatch(products,/<link rel="stylesheet" href="\/assets\/route-about-/);
+ assert.match(about,/<link rel="stylesheet" href="\/assets\/route-about-[a-f0-9]+\.css"/);
+ assert.match(home,/<link rel="preload" as="image"[^>]+media="\(max-width:900px\)"/);
+ assert.match(home,/<link rel="preload" as="image"[^>]+media="\(min-width:901px\)"/);
+ for(const page of await pages())for(const [,srcset]of page.html.matchAll(/\bsrcset="([^"]+)"/g)){
+  for(const candidate of srcset.split(',')){
+   const url=candidate.trim().split(/\s+/,1)[0];
+   if(url.startsWith('/assets/'))assert.ok(await exists(url.slice(1)),page.path+': '+url);
+  }
+ }
+});
+
 test('all static internal links reach a public page and an existing target anchor',async()=>{
  const lookup=new Map((await pages()).map(p=>[p.path,p.html]));
  for(const page of await pages())for(const [,href]of page.html.matchAll(/<a\b[^>]*href="([^"?]+)"/g)){

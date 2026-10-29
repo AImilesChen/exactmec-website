@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import { cmsHref, orderCmsCards } from './navigation.mjs';
+import {responsiveImageProps} from '../responsive-image.mjs';
 
 export const CmsContext = createContext({ pages: [], routes: {}, withdrawn: [], settings: {} });
 export function CmsProvider({ value, children }) { return <CmsContext.Provider value={value || { pages: [], routes: {}, withdrawn: [], settings: {} }}>{children}</CmsContext.Provider>; }
@@ -18,7 +19,7 @@ export function useCmsMedia(original, defaults = {}) {
   return override ? { src: override.path, alt: override.alt, caption: override.caption, source: override.source } : { src: original, ...defaults };
 }
 export function CmsPageScope({ page, children }) { const cms = useContext(CmsContext); return <CmsContext.Provider value={{ ...cms, currentPage: page }}>{children}</CmsContext.Provider>; }
-export function CmsImage({ src, alt, ...props }) { const image = useCmsMedia(src, { alt }); return <img {...props} src={image.src} alt={image.alt} />; }
+export function CmsImage({ src, alt, ...props }) { const image = useCmsMedia(src, { alt }); return <img {...responsiveImageProps(image.src)} {...props} src={image.src} alt={image.alt} />; }
 export function CmsHome({ page, children, ...props }) {
   let ordered = React.Children.toArray(children);
   if (page.section_order) {

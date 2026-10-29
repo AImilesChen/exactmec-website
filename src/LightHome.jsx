@@ -2,7 +2,8 @@ import React,{useId,useRef,useState} from 'react';
 import {ArrowRight,CheckCircle,Star,WhatsappLogo} from '@phosphor-icons/react';
 import {CmsHome,CmsImage,useCmsPage} from './cms/Rendering.jsx';
 import {Link} from './Navigation.jsx';
-import {FAQList,pages} from './EditorialPages.jsx';
+import {FAQList} from './FAQList.jsx';
+import pages from './data/site-content.json';
 import {business} from './site-config.mjs';
 import {homeCards,homeHeroMedia} from './cms/home-content.mjs';
 
@@ -74,7 +75,7 @@ export function LightHome() {
  };
  return <CmsHome page={page} className="light-home home-v2">
   <section className="home-v2-hero" aria-labelledby="home-v2-title">
-   <picture className="home-v2-hero-picture">{hero.src==='/assets/home-v2-hero.webp'&&<source media="(max-width:900px)" srcSet="/assets/home-v2-hero-mobile.webp"/>}<CmsImage className="home-v2-hero-image" src={hero.src} alt={hero.alt} width="1912" height="823" loading="eager" fetchPriority="high"/></picture>
+   <picture className="home-v2-hero-picture">{hero.src==='/assets/home-v2-hero.webp'&&<source media="(max-width:900px)" srcSet="/assets/home-v2-hero-mobile-720.webp 720w, /assets/home-v2-hero-mobile.webp 1364w" sizes="100vw"/>}<CmsImage className="home-v2-hero-image" src={hero.src} alt={hero.alt} width="1912" height="823" sizes="100vw" loading="eager" fetchPriority="high"/></picture>
    <div className="container"><div className="home-v2-hero-copy">
     <p className="home-v2-eyebrow">Custom aluminum die casting molds</p>
     <h1 id="home-v2-title">{page.h1===source.h1?<>Custom <span>Die Casting<br/>Molds</span> for Your Part</>:page.h1}</h1>

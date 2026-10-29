@@ -1,13 +1,14 @@
 import React,{useState,useEffect,useMemo} from 'react';
 import {MegaHeader} from './MegaHeader.jsx';
-import {LightHome} from './LightHome.jsx';
-import {ContentPage,LegalPage,SystemPage,pages,legal} from './SitePages.jsx';
+import pages from './data/site-content.json';
+import legal from './data/legal-drafts.json';
 import {SiteFooter} from './SiteFooter.jsx';
-import {Inquiry} from './inquiry/Inquiry.jsx';
 import {Route} from './Navigation.jsx';
 import {siteConfig} from './site-config.mjs';
 import {getPageMeta} from './seo/metadata.mjs';
 import {resolvePublicRoute} from './seo/route-contract.mjs';
+import {PUBLIC_ROUTES} from './seo/route-contract.mjs';
+import {ensureRouteStyles} from './route-styles.mjs';
 import {bindSiteAnalytics} from './analytics/index.mjs';
 import {createFirstPartyTransport} from './analytics/transport.mjs';
 import {createVendorAnalytics} from './analytics/vendors.mjs';
@@ -16,6 +17,24 @@ import {MeasurementChoices} from './analytics/MeasurementChoices.jsx';
 import {createInquirySourceTracker} from './source/inquiry-source.mjs';
 import {CmsProvider} from './cms/Rendering.jsx';
 import './delivery.css';
+
+// Eager on the server so every URL retains complete crawlable HTML; loaded by
+// route in the browser so a visitor does not download every page's UI at once.
+const pageModules=import.meta.env.SSR
+ ? import.meta.glob(['./LightHome.jsx','./EditorialPages.jsx','./SitePages.jsx','./inquiry/Inquiry.jsx'],{eager:true})
+ : {};
+const pageLoaders=import.meta.env.SSR
+ ? {}
+ : import.meta.glob(['./LightHome.jsx','./EditorialPages.jsx','./SitePages.jsx','./inquiry/Inquiry.jsx']);
+function pageComponent(path,name){
+ if(import.meta.env.SSR)return pageModules[path][name];
+ return React.lazy(()=>pageLoaders[path]().then(module=>({default:module[name]})));
+}
+const LightHome=pageComponent('./LightHome.jsx','LightHome');
+const ContentPage=pageComponent('./EditorialPages.jsx','ContentPage');
+const LegalPage=pageComponent('./SitePages.jsx','LegalPage');
+const SystemPage=pageComponent('./SitePages.jsx','SystemPage');
+const Inquiry=pageComponent('./inquiry/Inquiry.jsx','Inquiry');
 
 export function applyMetadata(meta) {
  document.title=meta.title;
@@ -55,7 +74,7 @@ export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults,cmsBundl
  const measurementEnabled=config.analyticsEnabled||config.externalAnalyticsEnabled===true;
  useEffect(()=>()=>analytics.destroy(),[analytics]);
  useEffect(()=>bindSiteAnalytics(document,analytics),[analytics]);
- useEffect(()=>{const change=()=>{if(analytics.requiresDocumentNavigation()){location.reload();return;}setUrl(location.pathname+location.search+location.hash);};addEventListener('popstate',change);return()=>removeEventListener('popstate',change)},[analytics]);
+ useEffect(()=>{const change=()=>{if(analytics.requiresDocumentNavigation()){location.reload();return;}const next=location.pathname+location.search+location.hash;ensureRouteStyles(location.pathname,PUBLIC_ROUTES).then(()=>{if(location.pathname+location.search+location.hash===next)setUrl(next);});};addEventListener('popstate',change);return()=>removeEventListener('popstate',change)},[analytics]);
  useEffect(()=>{
   applyMetadata(getPageMeta(path,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled,whatsappNumber:config.whatsappNumber,pageOverride:mapped}));
   analytics.track('pageview',{route:path});
@@ -70,10 +89,15 @@ export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults,cmsBundl
   if(analytics.requiresDocumentNavigation()){
    navigateForExternalMeasurement(window,target);return;
   }
-  history.pushState({},'',target);setUrl(location.pathname+location.search+location.hash);
-  if(!target.includes('#')){window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{const heading=document.querySelector('main h1');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}});}
+  history.pushState({},'',target);
+  const nextUrl=location.pathname+location.search+location.hash;
+  ensureRouteStyles(location.pathname,PUBLIC_ROUTES).then(()=>{
+   if(location.pathname+location.search+location.hash!==nextUrl)return;
+   setUrl(nextUrl);
+   if(!target.includes('#')){window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{const heading=document.querySelector('main h1');if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}});}
+  });
  }
  const sourcePage=pages.find(p=>p.path===path),page=mapped||sourcePage,policy=legal.find(p=>p.path===path);
  const body=resolution.status===404?<SystemPage notFound/>:path==='/request-a-quote/'?<Inquiry key={path} heading={mapped&&mapped.h1!==sourcePage?.h1?mapped.h1:undefined} intro={mapped&&mapped.intro!==sourcePage?.intro?mapped.intro:undefined} reviewMode={false} initialData={inquiryDefaults} startAtMaterials={config.localSynthetic===true} getSourceSnapshot={()=>sourceTracker.snapshot()} sourceKnownPaths={sourceKnownPaths} submitEnabled={config.inquiryEnabled} endpoint={config.inquiryEndpoint} whatsappNumber={config.whatsappNumber} onEvent={(name,payload={})=>analytics.track(name,{route:path,...payload})}/>:path==='/'?<LightHome/>:policy?<LegalPage page={policy} reviewMode={!config.release||!config.legalApproved}/>:path==='/inquiry-received/'?<SystemPage/>:page?<ContentPage page={page}/>:<SystemPage notFound/>;
- return <CmsProvider value={cmsBundle}><Route.Provider value={go}><a className="skip-link" href="#main-content">Skip to content</a><MegaHeader url={url} compactHome={path==='/'}/><main id="main-content">{body}</main><SiteFooter reviewMode={false} config={config} compactHome={path==='/'}/><MeasurementChoices enabled={measurementEnabled} analytics={analytics} route={path}/></Route.Provider></CmsProvider>;
+ return <CmsProvider value={cmsBundle}><Route.Provider value={go}><a className="skip-link" href="#main-content">Skip to content</a><MegaHeader url={url} compactHome={path==='/'}/><main id="main-content"><React.Suspense fallback={<p className="container" role="status">Loading page…</p>}>{body}</React.Suspense></main><SiteFooter reviewMode={false} config={config} compactHome={path==='/'}/><MeasurementChoices enabled={measurementEnabled} analytics={analytics} route={path}/></Route.Provider></CmsProvider>;
 }

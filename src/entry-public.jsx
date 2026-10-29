@@ -11,31 +11,8 @@ import './styles.css';
 import './redesign.css';
 import './compositions.css';
 import './v3.css';
-import './home-v2.css';
-import './products.css';
-import './core-mold.css';
-import './quotation-guide.css';
-import './cost-guide.css';
-import './buyer-planning.css';
-import './design-review.css';
-import './motor-industry.css';
-import './electronics-industry.css';
-import './energy-industry.css';
-import './industrial-industry.css';
-import './tools-industry.css';
-import './led-industry.css';
-import './motorcycle-industry.css';
-import './automotive-industry.css';
-import './industries-index.css';
-import './mold-process.css';
-import './how-we-work.css';
-import './about.css';
-import './manufacturing.css';
-import './quality-control.css';
 
 const root=document.getElementById('root');
 let bootstrap;try{bootstrap=JSON.parse(document.getElementById('site-bootstrap')?.textContent||'null');}catch{}
 const app=<PublicApp initialUrl={bootstrap?.initialUrl} config={bootstrap?.config} cmsBundle={bootstrap?.cmsBundle}/>;
 if(root.hasChildNodes())hydrateRoot(root,app);else createRoot(root).render(app);
-
-import './mold-handover.css';

@@ -1,0 +1,977 @@
+{
+  "auto-actuator-enclosure-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-actuator-enclosure-v1-720.webp"
+  },
+  "auto-alternator-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-alternator-housing-v1-720.webp"
+  },
+  "auto-compressor-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-compressor-housing-v1-720.webp"
+  },
+  "auto-controller-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-controller-cover-v1-720.webp"
+  },
+  "auto-differential-case-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-differential-case-v1-720.webp"
+  },
+  "auto-gearbox-end-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-gearbox-end-cover-v1-720.webp"
+  },
+  "auto-hero-v1.webp": {
+    "width": 1586,
+    "height": 992,
+    "small": "auto-hero-v1-720.webp"
+  },
+  "auto-hub-bracket-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-hub-bracket-v1-720.webp"
+  },
+  "auto-inverter-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-inverter-v1-720.webp"
+  },
+  "auto-onboard-charger-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-onboard-charger-v1-720.webp"
+  },
+  "auto-transmission-case-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "auto-transmission-case-v1-720.webp"
+  },
+  "automotive-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "automotive-application-scene-v3-720.webp"
+  },
+  "automotive-studio-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "automotive-studio-v3-720.webp"
+  },
+  "buyer-planning-review-desk-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "buyer-planning-review-desk-v1-720.webp"
+  },
+  "buyer-planning-sample-test-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "buyer-planning-sample-test-v1-720.webp"
+  },
+  "core-mold-design-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "core-mold-design-v1-720.webp"
+  },
+  "core-mold-electronics-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "core-mold-electronics-v1-720.webp"
+  },
+  "core-mold-hero-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "core-mold-hero-v1-720.webp"
+  },
+  "core-mold-lighting-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "core-mold-lighting-v1-720.webp"
+  },
+  "core-mold-motor-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "core-mold-motor-v1-720.webp"
+  },
+  "core-mold-trial-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "core-mold-trial-v1-720.webp"
+  },
+  "cost-guide-modular-tooling-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "cost-guide-modular-tooling-v1-720.webp"
+  },
+  "design-review-approval-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "design-review-approval-v1-720.webp"
+  },
+  "design-review-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "design-review-scene-v3-720.webp"
+  },
+  "electronics-antenna-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-antenna-cover-v1-720.webp"
+  },
+  "electronics-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "electronics-application-scene-v3-720.webp"
+  },
+  "electronics-communications-enclosure-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-communications-enclosure-v1-720.webp"
+  },
+  "electronics-controller-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-controller-housing-v1-720.webp"
+  },
+  "electronics-gateway-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-gateway-housing-v1-720.webp"
+  },
+  "electronics-heat-sink-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-heat-sink-v1-720.webp"
+  },
+  "electronics-hero-v1.webp": {
+    "width": 1672,
+    "height": 941,
+    "small": "electronics-hero-v1-720.webp"
+  },
+  "electronics-instrument-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-instrument-housing-v1-720.webp"
+  },
+  "electronics-interface-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-interface-cover-v1-720.webp"
+  },
+  "electronics-mounting-frame-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-mounting-frame-v1-720.webp"
+  },
+  "electronics-sensor-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-sensor-housing-v1-720.webp"
+  },
+  "electronics-studio-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "electronics-studio-v3-720.webp"
+  },
+  "energy-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "energy-application-scene-v3-720.webp"
+  },
+  "energy-charging-module-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-charging-module-v1-720.webp"
+  },
+  "energy-drive-enclosure-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-drive-enclosure-v1-720.webp"
+  },
+  "energy-heat-sink-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-heat-sink-v1-720.webp"
+  },
+  "energy-hero-v1.webp": {
+    "width": 1672,
+    "height": 941,
+    "small": "energy-hero-v1-720.webp"
+  },
+  "energy-junction-box-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-junction-box-v1-720.webp"
+  },
+  "energy-module-baseplate-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-module-baseplate-v1-720.webp"
+  },
+  "energy-mounting-frame-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-mounting-frame-v1-720.webp"
+  },
+  "energy-power-supply-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-power-supply-v1-720.webp"
+  },
+  "energy-solar-inverter-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-solar-inverter-v1-720.webp"
+  },
+  "energy-studio-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-studio-v3-720.webp"
+  },
+  "energy-terminal-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "energy-terminal-cover-v1-720.webp"
+  },
+  "gearbox-casing-application-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "gearbox-casing-application-v1-720.webp"
+  },
+  "gearbox-side-cover-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "gearbox-side-cover-gallery-v1-720.webp"
+  },
+  "global-service-map-v1.webp": {
+    "width": 1600,
+    "height": 800,
+    "small": "global-service-map-v1-720.webp"
+  },
+  "guide-cost-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "guide-cost-v3-720.webp"
+  },
+  "guide-process-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "guide-process-v3-720.webp"
+  },
+  "guide-quotation-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "guide-quotation-v3-720.webp"
+  },
+  "handover-protective-packing-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "handover-protective-packing-v1-720.webp"
+  },
+  "home-energy-v1.webp": {
+    "width": 1200,
+    "height": 800,
+    "small": "home-energy-v1-720.webp"
+  },
+  "home-industrial-v1.webp": {
+    "width": 1200,
+    "height": 800,
+    "small": "home-industrial-v1-720.webp"
+  },
+  "home-quality-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "home-quality-v1-720.webp"
+  },
+  "home-v2-automotive.webp": {
+    "width": 1341,
+    "height": 1173,
+    "small": "home-v2-automotive-720.webp"
+  },
+  "home-v2-cta.webp": {
+    "width": 1983,
+    "height": 793,
+    "small": "home-v2-cta-720.webp"
+  },
+  "home-v2-electronics.webp": {
+    "width": 1340,
+    "height": 1174,
+    "small": "home-v2-electronics-720.webp"
+  },
+  "home-v2-guide-approval.webp": {
+    "width": 1672,
+    "height": 941,
+    "small": "home-v2-guide-approval-720.webp"
+  },
+  "home-v2-guide-cost.webp": {
+    "width": 1672,
+    "height": 941,
+    "small": "home-v2-guide-cost-720.webp"
+  },
+  "home-v2-guide-quotation.webp": {
+    "width": 1672,
+    "height": 941,
+    "small": "home-v2-guide-quotation-720.webp"
+  },
+  "home-v2-hero-mobile.webp": {
+    "width": 1364,
+    "height": 1153,
+    "small": "home-v2-hero-mobile-720.webp"
+  },
+  "home-v2-hero.webp": {
+    "width": 1912,
+    "height": 823,
+    "small": "home-v2-hero-720.webp"
+  },
+  "home-v2-led.webp": {
+    "width": 1340,
+    "height": 1174,
+    "small": "home-v2-led-720.webp"
+  },
+  "home-v2-motor.webp": {
+    "width": 1341,
+    "height": 1173,
+    "small": "home-v2-motor-720.webp"
+  },
+  "home-v2-process.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "home-v2-process-720.webp"
+  },
+  "how-we-work-design-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "how-we-work-design-v1-720.webp"
+  },
+  "how-we-work-hero-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "how-we-work-hero-v1-720.webp"
+  },
+  "how-we-work-samples-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "how-we-work-samples-v1-720.webp"
+  },
+  "industrial-actuator-endcap-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-actuator-endcap-v1-720.webp"
+  },
+  "industrial-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "industrial-application-scene-v3-720.webp"
+  },
+  "industrial-encoder-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-encoder-housing-v1-720.webp"
+  },
+  "industrial-end-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-end-cover-v1-720.webp"
+  },
+  "industrial-gripper-chassis-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-gripper-chassis-v1-720.webp"
+  },
+  "industrial-hero-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-hero-v1-720.webp"
+  },
+  "industrial-interface-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-interface-v1-720.webp"
+  },
+  "industrial-mounting-block-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-mounting-block-v1-720.webp"
+  },
+  "industrial-mounting-bracket-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-mounting-bracket-v1-720.webp"
+  },
+  "industrial-overview-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-overview-v1-720.webp"
+  },
+  "industrial-rotary-actuator-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-rotary-actuator-v1-720.webp"
+  },
+  "industrial-sensor-enclosure-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-sensor-enclosure-v1-720.webp"
+  },
+  "industrial-studio-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-studio-v3-720.webp"
+  },
+  "industrial-vision-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industrial-vision-housing-v1-720.webp"
+  },
+  "industries-auto-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-auto-v1-720.webp"
+  },
+  "industries-automation-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-automation-v1-720.webp"
+  },
+  "industries-electronics-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-electronics-v1-720.webp"
+  },
+  "industries-energy-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-energy-v1-720.webp"
+  },
+  "industries-led-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-led-v1-720.webp"
+  },
+  "industries-moto-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-moto-v1-720.webp"
+  },
+  "industries-motor-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-motor-v1-720.webp"
+  },
+  "industries-overview-hero-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "industries-overview-hero-v1-720.webp"
+  },
+  "industries-tools-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "industries-tools-v1-720.webp"
+  },
+  "led-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "led-application-scene-v3-720.webp"
+  },
+  "led-area-light-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-area-light-housing-v1-720.webp"
+  },
+  "led-driver-body-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-driver-body-v1-720.webp"
+  },
+  "led-end-covers-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-end-covers-v1-720.webp"
+  },
+  "led-floodlight-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-floodlight-housing-v1-720.webp"
+  },
+  "led-hero-mold-v1.webp": {
+    "width": 1672,
+    "height": 941,
+    "small": "led-hero-mold-v1-720.webp"
+  },
+  "led-high-bay-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-high-bay-housing-v1-720.webp"
+  },
+  "led-linear-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-linear-housing-v1-720.webp"
+  },
+  "led-mount-adapter-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-mount-adapter-v1-720.webp"
+  },
+  "led-streetlight-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-streetlight-housing-v1-720.webp"
+  },
+  "led-tunnel-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "led-tunnel-housing-v1-720.webp"
+  },
+  "lighting-studio-v2.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "lighting-studio-v2-720.webp"
+  },
+  "manufacturing-assembly-v2.webp": {
+    "width": 1586,
+    "height": 992,
+    "small": "manufacturing-assembly-v2-720.webp"
+  },
+  "manufacturing-handover-v2.webp": {
+    "width": 1586,
+    "height": 992,
+    "small": "manufacturing-handover-v2-720.webp"
+  },
+  "manufacturing-hero-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "manufacturing-hero-v1-720.webp"
+  },
+  "manufacturing-machining-v2.webp": {
+    "width": 1586,
+    "height": 992,
+    "small": "manufacturing-machining-v2-720.webp"
+  },
+  "manufacturing-trial-inspection-v2.webp": {
+    "width": 1586,
+    "height": 992,
+    "small": "manufacturing-trial-inspection-v2-720.webp"
+  },
+  "menu-about-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-about-v1-720.webp"
+  },
+  "menu-automotive-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-automotive-v1-720.webp"
+  },
+  "menu-design-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-design-v1-720.webp"
+  },
+  "menu-electronics-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-electronics-v1-720.webp"
+  },
+  "menu-energy-v1.webp": {
+    "width": 1200,
+    "height": 749,
+    "small": "menu-energy-v1-720.webp"
+  },
+  "menu-guide-cost-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-guide-cost-v1-720.webp"
+  },
+  "menu-guide-process-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-guide-process-v1-720.webp"
+  },
+  "menu-guide-quotation-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-guide-quotation-v1-720.webp"
+  },
+  "menu-industrial-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-industrial-v1-720.webp"
+  },
+  "menu-led-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-led-v1-720.webp"
+  },
+  "menu-manufacturing-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-manufacturing-v1-720.webp"
+  },
+  "menu-molds-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-molds-v1-720.webp"
+  },
+  "menu-motor-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-motor-v1-720.webp"
+  },
+  "menu-motorcycle-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-motorcycle-v1-720.webp"
+  },
+  "menu-tools-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-tools-v1-720.webp"
+  },
+  "menu-trial-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "menu-trial-v1-720.webp"
+  },
+  "mold-assembly-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "mold-assembly-scene-v3-720.webp"
+  },
+  "mold-cavity-detail-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "mold-cavity-detail-v3-720.webp"
+  },
+  "mold-hero-roomy-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "mold-hero-roomy-v3-720.webp"
+  },
+  "mold-machining-scene-v3.webp": {
+    "width": 1374,
+    "height": 1145,
+    "small": "mold-machining-scene-v3-720.webp"
+  },
+  "mold-sample-detail-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "mold-sample-detail-v3-720.webp"
+  },
+  "mold-studio-portrait-v2.webp": {
+    "width": 1254,
+    "height": 1254,
+    "small": "mold-studio-portrait-v2-720.webp"
+  },
+  "mold-studio-v2.webp": {
+    "width": 1416,
+    "height": 1111,
+    "small": "mold-studio-v2-720.webp"
+  },
+  "mold-trial-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "mold-trial-scene-v3-720.webp"
+  },
+  "moto-battery-end-cap-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-battery-end-cap-v1-720.webp"
+  },
+  "moto-controller-enclosure-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-controller-enclosure-v1-720.webp"
+  },
+  "moto-crankcase-half-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-crankcase-half-v1-720.webp"
+  },
+  "moto-engine-side-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-engine-side-cover-v1-720.webp"
+  },
+  "moto-hero-mold-v1.webp": {
+    "width": 1983,
+    "height": 793,
+    "small": "moto-hero-mold-v1-720.webp"
+  },
+  "moto-hub-end-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-hub-end-cover-v1-720.webp"
+  },
+  "moto-mid-drive-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-mid-drive-housing-v1-720.webp"
+  },
+  "moto-motor-mount-bracket-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-motor-mount-bracket-v1-720.webp"
+  },
+  "moto-reducer-housing-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-reducer-housing-v1-720.webp"
+  },
+  "moto-transmission-cover-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "moto-transmission-cover-v1-720.webp"
+  },
+  "motor-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "motor-application-scene-v3-720.webp"
+  },
+  "motor-end-cover-application-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "motor-end-cover-application-v1-720.webp"
+  },
+  "motor-mounting-bracket-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "motor-mounting-bracket-gallery-v1-720.webp"
+  },
+  "motor-ribbed-housing-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "motor-ribbed-housing-gallery-v1-720.webp"
+  },
+  "motor-studio-v2.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "motor-studio-v2-720.webp"
+  },
+  "motor-terminal-enclosure-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "motor-terminal-enclosure-gallery-v1-720.webp"
+  },
+  "motorcycle-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "motorcycle-application-scene-v3-720.webp"
+  },
+  "motorcycle-studio-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "motorcycle-studio-v3-720.webp"
+  },
+  "paired-surface-background-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "paired-surface-background-v3-720.webp"
+  },
+  "phase-design-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "phase-design-v1-720.webp"
+  },
+  "phase-manufacture-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "phase-manufacture-v1-720.webp"
+  },
+  "phase-reference-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "phase-reference-v1-720.webp"
+  },
+  "phase-sample-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "phase-sample-v1-720.webp"
+  },
+  "phase-scope-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "phase-scope-v1-720.webp"
+  },
+  "process-approval-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "process-approval-v1-720.webp"
+  },
+  "process-design-heat-sink-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "process-design-heat-sink-v1-720.webp"
+  },
+  "process-handover-crate-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "process-handover-crate-v1-720.webp"
+  },
+  "process-handover-packing-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "process-handover-packing-v1-720.webp"
+  },
+  "process-hero-heat-sink-v1.webp": {
+    "width": 1672,
+    "height": 941,
+    "small": "process-hero-heat-sink-v1-720.webp"
+  },
+  "process-payment-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "process-payment-v1-720.webp"
+  },
+  "process-reference-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "process-reference-v1-720.webp"
+  },
+  "process-shipment-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "process-shipment-v1-720.webp"
+  },
+  "process-testing-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "process-testing-v1-720.webp"
+  },
+  "process-trial-heat-sink-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "process-trial-heat-sink-v1-720.webp"
+  },
+  "process-trial-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "process-trial-v1-720.webp"
+  },
+  "products-electronics-example-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "products-electronics-example-v1-720.webp"
+  },
+  "products-hero-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "products-hero-v1-720.webp"
+  },
+  "products-led-example-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "products-led-example-v1-720.webp"
+  },
+  "products-motor-example-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "products-motor-example-v1-720.webp"
+  },
+  "products-service-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "products-service-v1-720.webp"
+  },
+  "pump-backplate-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "pump-backplate-gallery-v1-720.webp"
+  },
+  "pump-bearing-carrier-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "pump-bearing-carrier-gallery-v1-720.webp"
+  },
+  "pump-housing-application-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "pump-housing-application-v1-720.webp"
+  },
+  "pump-mounting-adapter-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "pump-mounting-adapter-gallery-v1-720.webp"
+  },
+  "quality-sample-shipment-v1.webp": {
+    "width": 1586,
+    "height": 992,
+    "small": "quality-sample-shipment-v1-720.webp"
+  },
+  "quality-trial-samples-v1.webp": {
+    "width": 1586,
+    "height": 992,
+    "small": "quality-trial-samples-v1-720.webp"
+  },
+  "quotation-reference-guide-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "quotation-reference-guide-v1-720.webp"
+  },
+  "quotation-valve-sample-v1.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "quotation-valve-sample-v1-720.webp"
+  },
+  "reducer-right-angle-housing-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "reducer-right-angle-housing-gallery-v1-720.webp"
+  },
+  "resource-cost-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "resource-cost-v1-720.webp"
+  },
+  "resource-process-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "resource-process-v1-720.webp"
+  },
+  "resource-quotation-v1.webp": {
+    "width": 1200,
+    "height": 751,
+    "small": "resource-quotation-v1-720.webp"
+  },
+  "tools-appliance-triptych-v1.webp": {
+    "width": 2172,
+    "height": 724,
+    "small": "tools-appliance-triptych-v1-720.webp"
+  },
+  "tools-application-scene-v3.webp": {
+    "width": 1536,
+    "height": 1024,
+    "small": "tools-application-scene-v3-720.webp"
+  },
+  "tools-cleaning-triptych-v1.webp": {
+    "width": 2172,
+    "height": 724,
+    "small": "tools-cleaning-triptych-v1-720.webp"
+  },
+  "tools-drive-triptych-v1.webp": {
+    "width": 2172,
+    "height": 724,
+    "small": "tools-drive-triptych-v1-720.webp"
+  },
+  "tools-mold-hero-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "tools-mold-hero-v1-720.webp"
+  },
+  "tools-studio-v3.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "tools-studio-v3-720.webp"
+  },
+  "transmission-oil-sump-gallery-v1.webp": {
+    "width": 1448,
+    "height": 1086,
+    "small": "transmission-oil-sump-gallery-v1-720.webp"
+  }
+}

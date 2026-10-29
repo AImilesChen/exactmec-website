@@ -1,6 +1,9 @@
-import React,{useEffect,useId,useRef,useState} from 'react';
+import React,{useEffect,useRef,useState} from 'react';
 import {CmsPageScope,useCmsMedia,useCmsPage,useCmsOrderedCards} from './cms/Rendering.jsx';
-import {ArrowRight,Plus,Minus,FileText,Cube,Package,CheckCircle,ArrowDown} from '@phosphor-icons/react';
+import {ArrowRight,FileText,Cube,Package,CheckCircle,ArrowDown} from '@phosphor-icons/react';
+import {FAQList} from './FAQList.jsx';
+import {responsiveImageProps} from './responsive-image.mjs';
+export {FAQList};
 import {Link} from './Navigation.jsx';
 import pages from './data/site-content.json';
 import {ComposedSections} from './PageCompositions.jsx';
@@ -18,7 +21,6 @@ export {pages};
 export const quotePath='/request-a-quote/';
 export function Action({href=quotePath,children='Request a Mold Quote',secondary=false}){return <Link className={secondary?'text-link':'button primary'} href={href}>{children}{secondary&&<ArrowRight size={19} aria-hidden="true"/>}</Link>}
 export function Table({table}){return <div className="data-table-wrap"><table className="data-table"><thead><tr>{table.columns.map(c=><th key={c} scope="col">{c}</th>)}</tr></thead><tbody>{table.rows.map((r,i)=><tr key={i}>{r.map((c,j)=>j===0?<th scope="row" data-label={table.columns[j]} key={j}>{c}</th>:<td data-label={table.columns[j]} key={j}>{c}</td>)}</tr>)}</tbody></table></div>}
-export function FAQList({faqs,firstOpen=false}){const [open,setOpen]=useState(firstOpen?0:null);const uid=useId();return <div className="faq-list">{faqs.map(({q,a},i)=><div className="faq-item" key={q}><h3><button onClick={()=>setOpen(open===i?null:i)} aria-expanded={open===i} aria-controls={uid+'-'+i}>{q}{open===i?<Minus size={20} aria-hidden="true"/>:<Plus size={20} aria-hidden="true"/>}</button></h3><div id={uid+'-'+i} hidden={open!==i}><p>{a}</p></div></div>)}</div>}
 
 const imagery={
  'industry-led':['lighting-studio-v2.png','Illustrative aluminum LED lighting housing'],
@@ -31,7 +33,7 @@ const imagery={
  'industry-tools':['tools-studio-v3.png','Illustrative power tool gearbox housing'],
  'core-mold':['mold-studio-v2.png','Illustrative custom die casting mold and housing']
 };
-export function ProductFigure({id='core-mold',className='',context=false,priority=false,fileOverride}){const [file,alt]=imagery[id]||imagery['core-mold'];const image=useCmsMedia('/assets/'+(fileOverride||file.replace('.png','.webp')),{alt,caption:'Illustrative example · Not a delivered project'});if(context&&scenes[id])return <div className={'industry-context-image '+className}><Media file={scenes[id]} priority={priority} alt={'Illustrative '+id.replace('industry-','')+' application context'}/></div>;return <figure className={'product-figure '+className}><img src={image.src} alt={image.alt} loading={priority?'eager':'lazy'} fetchPriority={priority?'high':undefined}/><figcaption>{image.caption}</figcaption></figure>}
+export function ProductFigure({id='core-mold',className='',context=false,priority=false,fileOverride}){const [file,alt]=imagery[id]||imagery['core-mold'];const image=useCmsMedia('/assets/'+(fileOverride||file.replace('.png','.webp')),{alt,caption:'Illustrative example · Not a delivered project'});if(context&&scenes[id])return <div className={'industry-context-image '+className}><Media file={scenes[id]} priority={priority} alt={'Illustrative '+id.replace('industry-','')+' application context'}/></div>;return <figure className={'product-figure '+className}><img {...responsiveImageProps(image.src)} src={image.src} alt={image.alt} loading={priority?'eager':'lazy'} fetchPriority={priority?'high':undefined}/><figcaption>{image.caption}</figcaption></figure>}
 
 function resourceCardImage(href=''){return href.includes('quotation')?'resource-quotation-v1':href.includes('cost')?'resource-cost-v1':'resource-process-v1'}
 

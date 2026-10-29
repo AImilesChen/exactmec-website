@@ -1,9 +1,13 @@
 import {build,loadEnv} from 'vite';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {createHash} from 'node:crypto';
 import {fileURLToPath,pathToFileURL} from 'node:url';
+import {transform} from 'esbuild';
 import {business,createSiteConfig,releaseBlockers} from '../src/site-config.mjs';
 import {PUBLIC_ROUTES} from '../src/seo/route-contract.mjs';
+import {routeStyleFiles,routeStylesFor} from '../src/route-styles.mjs';
+import imageVariants from '../src/data/image-variants.json' with {type:'json'};
 import {getPageMeta} from '../src/seo/metadata.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -31,6 +35,17 @@ await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],build
 await build({root,mode:'frontend',publicDir:false,plugins:[filteredCopy()],ssr:{target:'webworker',noExternal:true},build:{ssr:path.join(root,'src/entry-server.jsx'),outDir:path.join(root,'dist/cms-render'),emptyOutDir:true,rollupOptions:{output:{entryFileNames:'entry-server.mjs'}}}});
 const {render}=await import(pathToFileURL(path.join(serverOutput,'entry-server.mjs')).href+'?build='+Date.now());
 const shell=await fs.readFile(path.join(output,'frontend.html'),'utf8');
+const styleFiles=[...new Set(Object.values(routeStyleFiles).flat())];
+const routeStyleUrls={};
+for(const file of styleFiles){
+ const source=await fs.readFile(path.join(root,'src',file),'utf8');
+ const {code}=await transform(source,{loader:'css',minify:true});
+ const hash=createHash('sha256').update(code).digest('hex').slice(0,10);
+ const name=`route-${file.replace(/\.css$/,'')}-${hash}.css`;
+ await fs.writeFile(path.join(output,'assets',name),code);
+ routeStyleUrls[file]='/assets/'+name;
+}
+const styleManifest=`<script id="route-style-manifest" type="application/json">${JSON.stringify(routeStyleUrls)}</script>`;
 const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 const tag=(name,content,property=false)=>content?`<meta ${property?'property':'name'}="${name}" content="${escape(content)}"/>`:'';
 function head(meta){return [
@@ -44,8 +59,9 @@ const generated=[];
 for(const route of PUBLIC_ROUTES){
  const meta=getPageMeta(route.path,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled});
  let html=shell.replace(/<title>.*?<\/title>/s,'').replace(/<meta name="robots"[^>]*\/>/,'');
- const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/home-v2-hero.webp" fetchpriority="high"/>':'';
- html=html.replace('</head>',head(meta)+'\n'+hero+'\n</head>').replace('<div id="root"></div>','<!--exactmec:root:start--><div id="root">'+render(route.path,config)+'</div><!--exactmec:root:end-->');
+ const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/home-v2-hero-mobile.webp" imagesrcset="/assets/home-v2-hero-mobile-720.webp 720w, /assets/home-v2-hero-mobile.webp 1364w" imagesizes="100vw" media="(max-width:900px)" fetchpriority="high"/><link rel="preload" as="image" href="/assets/home-v2-hero.webp" imagesrcset="/assets/home-v2-hero-720.webp 720w, /assets/home-v2-hero.webp 1912w" imagesizes="100vw" media="(min-width:901px)" fetchpriority="high"/>':'';
+ const pageStyles=routeStylesFor(route.path,PUBLIC_ROUTES,routeStyleUrls).map(href=>`<link rel="stylesheet" href="${href}"/>`).join('');
+ html=html.replace('</head>',head(meta)+'\n'+hero+pageStyles+styleManifest+'\n</head>').replace('<div id="root"></div>','<!--exactmec:root:start--><div id="root">'+render(route.path,config)+'</div><!--exactmec:root:end-->');
  const filename=route.id==='404'?'404.html':route.path==='/'?'index.html':route.path.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
  const dest=path.join(output,filename);await fs.mkdir(path.dirname(dest),{recursive:true});await fs.writeFile(dest,html);
  generated.push({path:route.path,id:route.id,file:filename,kind:route.kind,robots:meta.robots,canonical:meta.canonical,status:route.id==='404'?404:200});
@@ -70,6 +86,7 @@ for(const file of ['MegaHeader.jsx','PhaseExplorer.jsx']){const text=await fs.re
 // ProductFigure converts legacy PNG references into runtime WebP names.
 for(const name of [...needed])if(name.endsWith('.png')){needed.delete(name);needed.add(name.replace(/\.png$/,'.webp'));}
 for(const row of generated){const html=await fs.readFile(path.join(output,row.file),'utf8');for(const match of html.matchAll(/<img\b[^>]*src="\/assets\/([A-Za-z0-9_.-]+)"/g))needed.add(match[1]);}
+for(const name of [...needed])if(imageVariants[name]?.small)needed.add(imageVariants[name].small);
 for(const name of needed)await fs.copyFile(path.join(publicDir,'assets',name),path.join(output,'assets',name));
 const xml=config.seoIndexingEnabled?generated.filter(r=>r.robots==='index,follow').map(r=>`  <url><loc>${escape(config.origin+r.path)}</loc></url>`).join('\n'):'';
 await fs.writeFile(path.join(output,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${xml}\n</urlset>\n`);
