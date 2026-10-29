@@ -23,6 +23,7 @@ import "./automotive-industry.css";
 import "./industries-index.css";
 import "./mold-process.css";
 import "./how-we-work.css";
+import "./about.css";
 import "./manufacturing.css";
 import "./quality-control.css";
 

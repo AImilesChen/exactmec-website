@@ -211,7 +211,7 @@
       },
       {
         "label": "How We Work",
-        "href": "/how-we-work/"
+        "href": "/about/#how-we-work"
       },
       {
         "label": "Quotation Information",
@@ -543,7 +543,7 @@
       },
       {
         "label": "How We Work",
-        "href": "/how-we-work/"
+        "href": "/about/#how-we-work"
       }
     ],
     "final_cta": {
@@ -837,108 +837,70 @@
     "path": "/about/",
     "phase": "P0",
     "kind": "about",
-    "title": "About ExactMec | Custom Die Casting Mold Coordination",
-    "description": "Meet the business behind ExactMec. A China-based contact for custom die casting mold inquiries, design confirmation, trial samples and mold delivery.",
-    "primary_keyword": "about ExactMec",
+    "title": "About ExactMec | Custom Aluminum Die Casting Mold Supplier",
+    "description": "Meet ExactMec, your contact for custom aluminum die casting molds. Explore our manufacturing network, project responsibilities and mold development steps.",
+    "primary_keyword": "aluminum die casting mold supplier",
     "semantic_keywords": [
-      "die casting mold supplier China",
-      "mold project coordination"
+      "custom die casting molds China",
+      "mold manufacturing network",
+      "about ExactMec"
     ],
     "target_words": [
       450,
       750
     ],
     "eyebrow": "ABOUT EXACTMEC",
-    "h1": "A Clear Contact Point for Your Mold Project",
-    "intro": "ExactMec focuses on custom aluminum die casting molds. We coordinate project communication with manufacturing partners in China, from the initial part information through design confirmation, trial samples and mold delivery.",
-    "goal_cn": "如实说明外贸与伙伴制造模式；公司法定名与品牌区分，建立可联系信任而非空泛工厂实力故事。",
-    "hero_layout_cn": "左标题/介绍，右真实联系人或模具图；没有授权人像就用模具图，不造员工/团队合照。",
+    "h1": "Custom Mold Supply. One Clear Contact.",
+    "intro": "Custom aluminum die casting molds, from one set. One contact for your quotation, design approval, trial samples and mold delivery.",
+    "goal_cn": "说明品牌经营主体、模具供应能力、销售和生产分工，以及客户关键确认节点；单页帮助买家判断并发起询价。",
+    "hero_layout_cn": "浅色分栏；左侧明确价值和询价入口，右侧标注为示意的模具项目场景图。",
     "sections": [
       {
-        "id": "operator",
-        "heading": "Who Operates the Website",
-        "paragraphs": [
-          "The ExactMec website is operated by 台州巽风贸易有限公司, a company registered in mainland China. ExactMec is the website brand; the operator details and contact information are provided in our legal and contact pages.",
-          "The parties responsible for a specific mold order, payment and delivery must be clear in the project arrangements. A website inquiry is the start of a discussion, not an automatic order."
-        ],
-        "layout_cn": "公司资料说明2段＋隐私/Terms链接；不编英文注册名、成立年或资质。",
-        "visual_cn": ""
-      },
-      {
         "id": "focus",
-        "heading": "What We Focus On",
+        "heading": "Custom tooling for your component",
         "paragraphs": [
-          "Our current service is the mold itself. One mold set can be considered. The project begins with clear 2D or 3D part drawings or an assessable physical sample, rather than a standard part selected from stock.",
-          "Trial castings are used to help you evaluate the mold. We do not currently take continuing die casting parts production orders or independent CNC parts orders through this website."
-        ],
-        "layout_cn": "2列明确范围与有效项目输入，不堆大数字。",
-        "visual_cn": "",
-        "cta": {
-          "label": "View the Mold Service",
-          "href": "/aluminum-die-casting-molds/"
-        }
-      },
-      {
-        "id": "working",
-        "heading": "How the Communication Is Organized",
-        "paragraphs": [
-          "Start with a basic inquiry containing your contact details, component and drawing or sample status. We review the request and follow up about the information needed for quotation. Your record remains available even if you do not start a WhatsApp conversation.",
-          "After payment, the 3D mold design is sent for your confirmation. Manufacturing follows that confirmation. Trial samples are sent for your testing before the mold is shipped. Payment arrangements and project-specific conditions are discussed directly."
-        ],
-        "layout_cn": "左60%正文＋右40%客户触点图，不将制造细节重复成长页面。",
-        "visual_cn": "",
-        "cta": {
-          "label": "See How We Work",
-          "href": "/how-we-work/"
-        }
+          "ExactMec supplies custom aluminum die casting molds, starting from one mold set. Clear 2D or 3D part drawings, or an assessable physical sample, provide the basis for project review.",
+          "We supply molds, not continuing die casting parts mass production through this website."
+        ]
       },
       {
         "id": "partners",
-        "heading": "Manufacturing Resources, Represented Accurately",
+        "heading": "Manufacturing capability behind your mold",
         "paragraphs": [
-          "Manufacturing images and capability descriptions should identify the resources involved in the project without implying that every facility is owned by the website operator. The actual tooling requirements and resource match are discussed against your component.",
-          "A component illustration helps describe a possible mold application. It is not presented as a delivered customer project unless the image and supporting information are identified as such."
-        ],
-        "layout_cn": "真实授权制造图优先，来源说明可见；暂无图时保留短说明不造场景。",
-        "visual_cn": ""
+          "Our manufacturing network brings more than 10 years of mold-making experience, serves customers in 50+ countries, includes 500+ partner factories and production sites, covers 1000+ component types and reports 99% on-time delivery.",
+          "ExactMec handles sales and customer communication; production factories design, manufacture and trial the molds for the agreed project."
+        ]
       },
       {
-        "id": "buyers",
-        "heading": "For Buyers Planning Tooling Across Borders",
+        "id": "working",
+        "heading": "How we work",
         "paragraphs": [
-          "We welcome mold inquiries from industrial buyers, sourcing contacts and engineering teams around the world. Tell us where your company is based, what component needs tooling and how you prefer us to contact you.",
-          "A planned purchasing time or approximate per-mold budget can help frame the discussion, but neither is required to prove your interest. The practical next step is clear part information and a way to reach the person responsible for the project."
-        ],
-        "layout_cn": "简洁联系区，无未核实出口地图、国家旗帜和客户Logo。",
-        "visual_cn": ""
+          "After payment, your team reviews and approves the 3D mold design before manufacturing. The completed mold is trialed and sample parts are sent for your testing.",
+          "After you accept the trial samples, we arrange shipment of the finished mold."
+        ]
+      },
+      {
+        "id": "operator",
+        "heading": "Website operator",
+        "paragraphs": [
+          "ExactMec is the website brand operated by 台州巽风贸易有限公司 in Taizhou, Zhejiang, China.",
+          "Contact sales@exactmec.com about a mold project."
+        ]
       }
     ],
-    "faqs": [
-      {
-        "q": "Is ExactMec the legal company name?",
-        "a": "No. ExactMec is the website brand. The website operator is 台州巽风贸易有限公司; the parties for a mold order are identified in the project arrangements."
-      },
-      {
-        "q": "Do you own every manufacturing facility shown?",
-        "a": "Manufacturing resources are described with their actual relationship and source. The website does not present partner facilities as wholly owned by the operator."
-      },
-      {
-        "q": "Can you contact me if I do not use WhatsApp?",
-        "a": "Yes. Submit the inquiry with your email and contact choices. We can follow up about the project without requiring you to start a WhatsApp conversation."
-      }
-    ],
+    "faqs": [],
     "related_links": [
       {
-        "label": "Manufacturing Resources",
+        "label": "Mold Manufacturing",
         "href": "/manufacturing/"
       },
       {
-        "label": "Project Process",
-        "href": "/how-we-work/"
+        "label": "Mold Development Process",
+        "href": "/mold-development-process/"
       },
       {
-        "label": "Privacy Policy",
-        "href": "/privacy"
+        "label": "Project Questions",
+        "href": "/faq/"
       }
     ],
     "final_cta": {
@@ -948,7 +910,7 @@
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
-      "文案为完整可审核草稿；真实图片/授权与联系方式发布前补齐，不编造设备或交付案例。"
+      "用户确认的制造网络数据；生产工厂负责设计、制造与试模，ExactMec负责销售和客户沟通。示意图片不可表述为真实客户项目。"
     ],
     "source_urls": []
   },
@@ -1321,7 +1283,7 @@
       },
       {
         "label": "How We Work Together",
-        "href": "/how-we-work/"
+        "href": "/about/#how-we-work"
       },
       {
         "label": "Quotation Information Checklist",
@@ -1605,7 +1567,7 @@
       },
       {
         "label": "How We Work Together",
-        "href": "/how-we-work/"
+        "href": "/about/#how-we-work"
       }
     ],
     "final_cta": {
@@ -1705,7 +1667,7 @@
       },
       {
         "label": "Customer Cooperation Steps",
-        "href": "/how-we-work/"
+        "href": "/about/#how-we-work"
       },
       {
         "label": "Common Mold Project Questions",

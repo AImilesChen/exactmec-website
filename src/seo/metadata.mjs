@@ -45,8 +45,8 @@ export function getPageMeta(input, { origin = '', release = false, indexingEnabl
   const title = page?.title || (policy ? policy.title + ' | ExactMec' : system?.title || 'Page Not Found | ExactMec');
   const description = page?.description || policy?.summary || system?.intro || '';
   const indexing = release && indexingEnabled === true;
-  const indexable = !!(indexing && (pageOverride || contract && contract.kind !== 'legal' && contract.kind !== 'system' && contract.phase === 'P0'));
-  const canonical = base && (pageOverride || contract && contract.kind !== 'system') ? base + (pageOverride?.path || contract.path) : null;
+  const indexable = !!(path !== '/how-we-work/' && indexing && (pageOverride || contract && contract.kind !== 'legal' && contract.kind !== 'system' && contract.phase === 'P0'));
+  const canonical = path === '/how-we-work/' ? (base ? base + '/about/' : null) : base && (pageOverride || contract && contract.kind !== 'system') ? base + (pageOverride?.path || contract.path) : null;
   return {
     title, description,
     robots: !indexing ? 'noindex,nofollow' : indexable ? 'index,follow' : contract?.kind === 'legal' ? 'noindex,follow' : 'noindex,nofollow',

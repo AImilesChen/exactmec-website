@@ -120,10 +120,10 @@
       "copy_source": "pages/08-how-we-work.md",
       "data_source": "manufacturing.json",
       "public_now": false,
-      "index_when_released": true,
-      "include_in_p0_plan": true,
-      "p0_link_target": "/how-we-work/",
-      "canonical_template": "{SITE_ORIGIN}/how-we-work/"
+      "index_when_released": false,
+      "include_in_p0_plan": false,
+      "p0_link_target": "/about/#how-we-work",
+      "canonical_template": "{SITE_ORIGIN}/about/"
     },
     {
       "id": "industries",

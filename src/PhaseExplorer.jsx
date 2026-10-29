@@ -4,7 +4,7 @@ import {Link} from './Navigation.jsx';
 import {Media} from './Media.jsx';
 export const phases=[
  ['Product reference','Share Your Product Reference','Clear 2D or 3D part drawings, or an assessable physical sample, provide the basis for a formal quotation.','Identify the current product reference.','phase-reference-v1','/resources/die-casting-mold-quotation-requirements/'],
- ['Quotation & payment','Agree the Mold Project Scope','Discuss the mold quantity, requirements and commercial scope. Payment arrangements are confirmed during your project conversation.','Review the agreed scope and payment arrangements.','phase-scope-v1','/how-we-work/'],
+ ['Quotation & payment','Agree the Mold Project Scope','Discuss the mold quantity, requirements and commercial scope. Payment arrangements are confirmed during your project conversation.','Review the agreed scope and payment arrangements.','phase-scope-v1','/about/#how-we-work'],
  ['3D design approval','Confirm the 3D Mold Design','After payment, review and approve the 3D mold design before manufacturing starts.','Confirm the current design version.','phase-design-v1','/mold-design-review/'],
  ['Manufacturing & trial','Manufacture and Trial the Mold','After your design approval, the mold is made and trial samples are produced.','Keep the next milestone and any changes clear.','phase-manufacture-v1','/mold-development-process/#manufacture'],
  ['Samples & mold shipment','Test Samples Before Mold Shipment','Trial samples are sent for your testing. The completed mold is shipped after you approve the samples.','Test the samples against the agreed reference.','phase-sample-v1','/quality-control/']

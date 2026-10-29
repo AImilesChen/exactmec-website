@@ -125,6 +125,7 @@ export default {
       return finish(message('Inquiry API is not connected.', 503, { 'Retry-After': '3600', 'Cache-Control': 'no-store' }), options);
     }
     if (!['GET', 'HEAD'].includes(request.method)) return finish(message('Method Not Allowed', 405, { Allow: 'GET, HEAD' }), options);
+    if(path==='/how-we-work'||path==='/how-we-work/')return finish(new Response(null,{status:308,headers:{Location:'/about/#how-we-work'}}),options);
     // A scoped review exception for the owner's Site Audit project only.
     // Robots directives are crawl preferences, never authentication controls.
     if(path==='/robots.txt'&&!seoIndexing){

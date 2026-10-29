@@ -54,7 +54,7 @@ export function resolvePublishedContent(input, bundle = emptyPublicContent()) {
 }
 
 export function publishedSitemapPages(bundle) {
-  return baseline.filter(page => page.phase === 'P0' && !(bundle.withdrawn || []).includes(page.path))
+  return baseline.filter(page => page.phase === 'P0' && page.path !== '/how-we-work/' && !(bundle.withdrawn || []).includes(page.path))
     .map(page => bundle.pages.find(published => published.id === page.id) || page)
     .concat(bundle.pages.filter(page => page.phase !== 'P0'))
     .map(page => ({ path: page.path, ...(page.updatedAt ? { lastmod: page.updatedAt.slice(0, 10) } : {}) }));

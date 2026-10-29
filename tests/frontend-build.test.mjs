@@ -74,10 +74,11 @@ test('all static internal links reach a public page and an existing target ancho
 
 test('read-only Worker serves real built HTML, 308 aliases and hard 404 without private artifacts',async()=>{
  const env={RELEASE:'false',ASSETS:{async fetch(req){const p=new URL(req.url).pathname.slice(1);try{return new Response(await fs.readFile(path.join(root,p)),{headers:{'Content-Type':p.endsWith('.html')?'text/html':'application/octet-stream'}})}catch{return new Response('Missing',{status:404})}}}};
- for(const [pathname,status]of[['/',200],['/request-a-quote/',200],['/third-party-notices.txt',200],['/privacy-policy',308],['/products',308],['/unknown-path/',404],['/admin/leads/',404],['/design-system/',404],['/downloads/ExactMec-UI-v3.2.zip',404],['/api/inquiries',503]]){
+ for(const [pathname,status]of[['/',200],['/request-a-quote/',200],['/third-party-notices.txt',200],['/privacy-policy',308],['/products',308],['/how-we-work/',308],['/unknown-path/',404],['/admin/leads/',404],['/design-system/',404],['/downloads/ExactMec-UI-v3.2.zip',404],['/api/inquiries',503]]){
   const response=await worker.fetch(new Request('https://preview.invalid'+pathname),env);
   assert.equal(response.status,status,pathname);assert.equal(response.headers.get('X-Robots-Tag'),'noindex,nofollow');
   if(status===404)assert.match(await response.text(),/<h1/);
+  if(pathname==='/how-we-work/')assert.equal(response.headers.get('Location'),'/about/#how-we-work');
  }
  assert.equal(await exists('design-system'),false);assert.equal(await exists('downloads'),false);
  const robots=await read('robots.txt');

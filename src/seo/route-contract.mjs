@@ -30,6 +30,7 @@ export function resolvePublicRoute(input, { allowLegalDrafts = true } = {}) {
   const path = publicPath(input);
   if (!path) return result(typeof input === 'string' ? input.split(/[?#]/, 1)[0] : '/', 404);
   const withoutSlash = path.length > 1 ? path.replace(/\/$/, '') : path;
+  if (withoutSlash === '/how-we-work') return result(path, 308, '/about/#how-we-work', routes.get('/about/'));
   const alias = legalAliases.get(withoutSlash);
   if (alias) {
     const route = routes.get(alias);

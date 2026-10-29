@@ -7,6 +7,7 @@ import {ComposedSections} from './PageCompositions.jsx';
 import {Media,FullCopy,scenes,guideImage} from './Media.jsx';
 import {PhaseExplorer} from './PhaseExplorer.jsx';
 import {HowWeWorkPage} from './HowWeWorkPage.jsx';
+import {AboutPage} from './AboutPage.jsx';
 import {ManufacturingPage} from './ManufacturingPage.jsx';
 import {QualityControlPage} from './QualityControlPage.jsx';
 import {MoldHandoverPage} from './MoldHandoverPage.jsx';
@@ -421,6 +422,7 @@ function MoldProcessPage({page}){return <div className="mold-process-page">
  </div>}
 export function ContentPage({page:sourcePage}){
  const page=useCmsPage(sourcePage);
+ if(page.id==='about')return <CmsPageScope page={page}><AboutPage page={page} Action={Action}/></CmsPageScope>;
  if(page.id==='resource-development-process')return <CmsPageScope page={page}><BuyerPlanningPage page={page} fallbackPage={sourcePage} Action={Action} FAQList={FAQList}/></CmsPageScope>;
  if(page.id==='resource-mold-cost')return <CmsPageScope page={page}><CostGuidePage page={page} fallbackPage={sourcePage} Action={Action} FAQList={FAQList} Table={Table}/></CmsPageScope>;
  if(page.id==='resource-quotation-requirements')return <CmsPageScope page={page}><QuotationGuidePage page={page} fallbackPage={sourcePage} Action={Action} FAQList={FAQList}/></CmsPageScope>;
