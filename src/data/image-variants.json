@@ -77,6 +77,12 @@
     "small": "automotive-studio-v3-720.webp",
     "medium": "automotive-studio-v3-960.webp"
   },
+  "buyer-planning-final-v1.webp": {
+    "width": 1440,
+    "height": 960,
+    "small": "buyer-planning-final-v1-720.webp",
+    "medium": "buyer-planning-final-v1-960.webp"
+  },
   "buyer-planning-review-desk-v1.webp": {
     "width": 1536,
     "height": 1024,
@@ -1030,6 +1036,12 @@
     "height": 1086,
     "small": "products-electronics-example-v1-720.webp",
     "medium": "products-electronics-example-v1-960.webp"
+  },
+  "products-final-quote-v1.webp": {
+    "width": 1440,
+    "height": 960,
+    "small": "products-final-quote-v1-720.webp",
+    "medium": "products-final-quote-v1-960.webp"
   },
   "products-hero-v1.webp": {
     "width": 1536,
