@@ -16,6 +16,7 @@ import './products.css';
 import './core-mold.css';
 import './quotation-guide.css';
 import './cost-guide.css';
+import './buyer-planning.css';
 import './design-review.css';
 import './motor-industry.css';
 import './electronics-industry.css';

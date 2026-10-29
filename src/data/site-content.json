@@ -3447,9 +3447,9 @@
     "path": "/resources/die-casting-mold-development-process/",
     "phase": "P0",
     "kind": "article",
-    "title": "Die Casting Mold Development: Buyer's Guide | EXACTMEC",
-    "description": "Plan the buyer's decisions from product reference and quotation to 3D mold design approval, manufacturing, trial samples, customer testing and mold shipment.",
-    "primary_keyword": "die casting mold development process",
+    "title": "Die Casting Mold Project Planning & Approval Guide | EXACTMEC",
+    "description": "Plan your die casting mold project: prepare your product reference, carefully review the identified drawing version, approve the mold design, test samples and coordinate delivery.",
+    "primary_keyword": "die casting mold project planning",
     "semantic_keywords": [
       "mold design approval",
       "die casting mold project timeline",
@@ -3457,126 +3457,67 @@
       "custom mold purchasing process"
     ],
     "target_words": [
-      700,
-      1050
+      600,
+      950
     ],
     "eyebrow": "PROJECT PLANNING",
-    "h1": "Die Casting Mold Development: What Buyers Need to Plan",
-    "intro": "Buying a custom mold involves decisions as well as manufacturing. A product drawing, an approved mold design and an approved trial sample each answer a different question. This guide explains how to prepare your team for those decisions and avoid an unclear handover. It follows EXACTMEC's mold-only supply model: quotation from product drawings or a sample, design after payment, customer approval, manufacturing, trial samples and final mold shipment.",
-    "goal_cn": "搜索文章以采购者里程碑、决策责任和项目准备为主；服务页/mold-development-process/只做我方流程总览，两者不互抄。",
-    "hero_layout_cn": "文章页标题+摘要，下方一行关键决策标签Product reference / Design approval / Sample testing；目录放右侧，手机折叠。",
+    "h1": "Plan Your Die Casting Mold Project",
+    "intro": "Prepare your product reference, involve the right people and make time for drawing review and sample testing. Know what your team needs to confirm before the next project step.",
+    "goal_cn": "买方准备和确认指南，与全流程服务页区分。强化图纸版本、结构、关键尺寸和装配核对；客户明确批准模具设计后才生产。",
+    "hero_layout_cn": "独立工程沟通场景图首屏；四项准备卡片；审图示意与四项核对清单；红色确认提醒；样品测试图文；时间与变更卡片；FAQ与询价入口。",
     "sections": [
       {
         "id": "product-reference",
-        "heading": "1. Agree on the Product Reference Before Comparing Offers",
+        "heading": "Four preparations for a clearer project",
         "paragraphs": [
-          "Begin with the product the mold needs to make. Clear product 2D or 3D drawings, or an actual sample, provide the starting basis for an EXACTMEC quotation. Explain whether the reference is final and identify any changes still being considered.",
-          "Ask your purchasing and technical teams to use the same revision. If a sample is the reference, state which details must be reproduced and which need discussion. A simple list of open points helps prevent an early estimate being mistaken for agreement on an unfinished specification. Upload available drawings first, then provide project and contact details."
-        ],
-        "layout_cn": "编号H2+两段正文；侧注框提示产品图不是模具图。手机侧注移到段后。",
-        "visual_cn": "原创产品参考/项目要求/未定问题三格清单，不能冒充客户实物。"
-      },
-      {
-        "id": "scope",
-        "heading": "2. Turn the Quotation Into a Shared Project Scope",
-        "paragraphs": [
-          "Before payment, ask what the quotation covers and what still requires agreement. Confirm mold quantity, design work, trial arrangements, sample expectations and the proposed delivery sequence. Payment terms, freight and change-related costs are discussed for the individual project.",
-          "Separate the tool purchase from the production of finished cast parts. EXACTMEC accepts one mold set and does not currently accept die casting mass-production orders. If your own production team or another supplier will run the finished mold, involve them early enough to provide the relevant equipment and acceptance information. Do not assume that sending a mold drawing to an unrelated team at the end will resolve every interface question."
-        ],
-        "layout_cn": "主段落加Buyer action小框，列出需内部统一的采购范围。",
-        "visual_cn": "无需装饰图片；使用工具采购与零件量产的文本范围标签。"
+          "Agree the reference, scope and contact people early. This helps your purchasing, technical and receiving teams work toward the same mold project."
+        ]
       },
       {
         "id": "design-approval",
-        "heading": "3. Make Time for 3D Mold Design Approval",
+        "heading": "Review the drawing before you approve",
         "paragraphs": [
-          "After payment, we prepare the 3D mold design and send it to you for approval. Manufacturing begins only after you confirm that design. This is a separate stage from providing the product drawing used for quotation.",
-          "Decide who can approve the design and who needs to review it internally. Consolidate questions into a clear response rather than sending conflicting instructions from several contacts. If a point is unclear, ask for an explanation before approving it. Keep the approval record tied to an identifiable design version so purchasing, engineering and the project contact can refer to the same decision."
-        ],
-        "layout_cn": "左右对照：客户输入Product reference / 我方输出3D mold design，正文说明确认责任。手机先输入后输出。",
-        "visual_cn": "如后续使用设计截图必须真实且获授权；现阶段用带标签的示意框。"
-      },
-      {
-        "id": "schedule",
-        "heading": "4. Build a Schedule Around Decisions, Not One Date",
-        "paragraphs": [
-          "The general production estimate is approximately 30–40 days from payment. Design approval follows payment and is part of the project sequence. Confirm the covered milestones and exact timing for your project; the estimate does not guarantee a door-to-door delivery date.",
-          "Plan internal review time, trial work, sample transport, customer testing and final mold transport as distinct milestones. Tell us if your company has a fixed launch or equipment-installation date. Ask how an unresolved design decision or a later product change would affect the agreed plan before relying on the estimate for downstream commitments."
-        ],
-        "table": {
-          "columns": [
-            "Milestone",
-            "Buyer's preparation"
-          ],
-          "rows": [
-            [
-              "Design approval",
-              "Nominate the reviewer and record the approved version."
-            ],
-            [
-              "Sample receipt",
-              "Arrange the receiving contact and testing availability."
-            ],
-            [
-              "Sample feedback",
-              "Prepare clear checks and a consolidated response."
-            ],
-            [
-              "Mold shipment",
-              "Confirm shipping and receiving arrangements."
-            ]
-          ]
-        },
-        "layout_cn": "工期说明段和四行表格同区，30–40不做交付倒计时；手机表格转卡片。",
-        "visual_cn": "使用无比例里程碑图，不编写各环节天数，不暗示全部包含在30–40天。"
+          "Treat a drawing sent for review as a decision to make. Read the identified version, check it against your product needs and raise any question before confirming."
+        ]
       },
       {
         "id": "trial-feedback",
-        "heading": "5. Prepare for Trial Samples Before They Arrive",
+        "heading": "Test the samples, then tell us the result",
         "paragraphs": [
-          "After the mold is manufactured, we carry out a mold trial and send produced samples for your testing. Your team then checks the samples against the agreed requirements. This is a customer decision point before final mold shipment.",
-          "Prepare who will inspect the samples, what they will check and how the results will be recorded. Use the same agreed product reference. If you find a problem, provide specific observations and supporting information so the issue can be discussed. A later change to the product should be identified separately from feedback on whether a sample meets the existing requirement. Adjustment scope, cost and timing need project-specific agreement."
-        ],
-        "layout_cn": "两段正文后放Sample feedback三项卡：Reference / Observation / Supporting information；不展示伪造合格报告。",
-        "visual_cn": "可预留真实试模样品照片位，但没有素材时直接使用图标。"
+          "After mold manufacture and trial, we send sample parts to you. Your team tests them and confirms whether they meet the agreed product needs."
+        ]
       },
       {
-        "id": "shipment",
-        "heading": "6. Confirm Acceptance Before Final Mold Shipment",
+        "id": "schedule",
+        "heading": "About 30–40 days from payment",
         "paragraphs": [
-          "We arrange shipment of the finished mold after you test the samples and confirm there is no issue. Sample approval does not lead to a mass-production order with EXACTMEC; the next step in this supply model is the mold handover.",
-          "Before that handover, confirm the delivery destination, receiving contact and agreed shipping arrangements. Ask which project information accompanies the mold and resolve outstanding commercial details. Avoid assuming that a website process diagram settles packing costs, freight, import responsibilities or every document needed at the destination. Those details belong in the project agreement and shipping discussion."
-        ],
-        "layout_cn": "单栏正文加一个清晰终点框Finished mold shipment，不出现批量生产图标。",
-        "visual_cn": "未来可放真实模具包装照片；现阶段只写素材需求，不放虚构出货证据。"
+          "This is a typical project estimate from payment, with manufacturing beginning after mold design approval. Confirm the milestones for your project; it is not a guaranteed arrival date."
+        ]
       },
       {
         "id": "project-record",
-        "heading": "7. Keep a Short Decision Record Throughout the Project",
+        "heading": "Keep four points clear",
         "paragraphs": [
-          "A useful project record can be simple: current product revision, current mold design revision, open questions, approvals and next actions. Give each open question an owner. When your team changes a requirement, explain what changed instead of sending a new file without context.",
-          "This record supports continuity if purchasing, engineering or the receiving team joins at a different stage. It also helps distinguish confirmed scope from an idea discussed informally. Start your inquiry with the information already available, be clear about the gaps and use the follow-up conversation to resolve the next decision rather than attempting to settle everything in the first form."
-        ],
-        "layout_cn": "结尾用四行空白记录模板，之后相关指南与询价CTA。手机顺序保持正文→模板→链接→CTA。",
-        "visual_cn": "HTML轻量清单，避免提供未验证的正式工程验收表。"
+          "When you send a new file or request a change, identify what has changed so both teams can agree on the next step."
+        ]
       }
     ],
     "faqs": [
       {
-        "q": "When does mold manufacturing start?",
-        "a": "Manufacturing starts after you approve the 3D mold design. We prepare that design after payment and send it to you for confirmation."
+        "q": "Why should I carefully review a drawing sent for confirmation?",
+        "a": "The drawing is an important project reference. Check its version, product structure, critical dimensions and assembly interfaces. Ask about unclear points before approving. Receiving a file is not the same as giving explicit approval of the identified mold design version."
+      },
+      {
+        "q": "Does confirming the product drawing also approve the mold design?",
+        "a": "No. The product drawing defines the part. After payment, we prepare a separate 3D mold design and send it for your review. Manufacturing starts after your explicit approval of that mold design."
       },
       {
         "q": "When does the approximate 30–40-day estimate start?",
-        "a": "It starts from payment. Confirm the exact schedule and covered milestones for your project; it is not a guaranteed arrival date for the finished mold."
+        "a": "It starts from payment. Confirm the exact scope and milestones for your project, including review, testing and transport arrangements. It is not a guaranteed arrival date."
       },
       {
-        "q": "What happens after I approve the trial samples?",
-        "a": "We arrange shipment of the finished mold after you confirm the tested samples have no issue. We do not move into cast-part mass production."
-      },
-      {
-        "q": "Can I request changes during the project?",
-        "a": "You can discuss a change. Its scope, feasibility and possible cost or schedule effects need agreement; do not assume every change is included in the original quotation."
+        "q": "What if I find a concern when testing the samples?",
+        "a": "Tell us which sample or feature is involved and what you observed. Photos or measurements can help if available. We discuss the next action with you before mold shipment; the finished mold ships after you accept the trial samples."
       }
     ],
     "related_links": [
@@ -3594,15 +3535,17 @@
       }
     ],
     "final_cta": {
-      "heading": "Start With the Product You Need to Mold",
-      "text": "Tell us about the product, available drawings or sample, mold quantity and purchase plan. We will follow up to discuss your next project step.",
+      "heading": "Have a product drawing or a sample?",
+      "text": "Share what you have and tell us which custom mold you need. We will review the request and discuss the next project step.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
-      "全文是已确认业务流程与采购规划建议，不冒充工程标准。",
-      "严格保留付款起算、付款后模具设计、确认后生产、试模寄样测试后发模具的顺序。",
-      "未将自然日/工作日、样品数量、费用、验收技术标准与工期完整范围编成确定事实。"
+      "不公布用户提到的具体客户经历；将其转化为普适的认真核图提醒。",
+      "区分产品图与付款后模具设计图；明确具体版本批准后才制造，不以收图或沉默视为批准。",
+      "客户重点核对产品需求与装配，专业模具设计由相关技术人员审核，不转嫁全部设计责任。",
+      "不新增样品检验报告或预先提交检查要求；安排客户收样、测试和集中反馈。",
+      "工期从付款起约30–40天，设计确认后生产，样品认可后发模；不编各阶段天数。"
     ],
     "source_urls": []
   },
