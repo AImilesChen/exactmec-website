@@ -81,6 +81,17 @@ test('public routes load only their own page styles and responsive image candida
  }
 });
 
+test('shared navigation layout is bundled on every public route',async()=>{
+ const rendered=await pages();
+ const common=rendered[0].html.match(/href="(\/assets\/frontend-[^"]+\.css)"/)?.[1];
+ assert.ok(common,'missing shared stylesheet');
+ const css=await read(common.slice(1));
+ for(const selector of ['.nav-direct-group','.mega-header .nav-direct-link','.mega-header .nav-direct-toggle','.mega-header .nav-about-link','.mega-applications>.mega-applications-heading','.v3-nav.is-mobile-open>.v3-nav-item']){
+  assert.ok(css.includes(selector),`shared navigation selector missing: ${selector}`);
+ }
+ for(const page of rendered)assert.ok(page.html.includes(`href="${common}"`),page.path+': missing shared navigation stylesheet');
+});
+
 test('all static internal links reach a public page and an existing target anchor',async()=>{
  const lookup=new Map((await pages()).map(p=>[p.path,p.html]));
  for(const page of await pages())for(const [,href]of page.html.matchAll(/<a\b[^>]*href="([^"?]+)"/g)){

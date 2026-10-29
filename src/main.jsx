@@ -5,6 +5,7 @@ import "./styles.css";
 import "./redesign.css";
 import "./compositions.css";
 import "./v3.css";
+import "./header-shared.css";
 import "./home-v2.css";
 import "./products.css";
 import "./core-mold.css";

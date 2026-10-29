@@ -1,0 +1,23 @@
+/* The mega navigation appears on every public route. Keep its layout in the
+   shared bundle so a page-specific stylesheet cannot be required to align it. */
+.nav-direct-group{display:flex;align-items:center;gap:4px}
+.mega-header .nav-direct-link{font-size:14px;line-height:1.5;white-space:nowrap;color:var(--ink)}
+.mega-header .nav-direct-link:hover,.mega-header .nav-direct-link.is-open{color:var(--red)}
+.mega-header .nav-direct-toggle{width:24px;min-height:44px;justify-content:center;padding:0}
+.mega-header .nav-about-link{padding:22px 0}
+.mega-header .nav-about-link[aria-current=page]{color:var(--red)}
+.mega-applications>.mega-applications-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0}
+.mega-applications-heading h2{margin:0}
+.mega-applications-heading .text-link{font-size:15px;color:var(--red);white-space:nowrap}
+.mega-applications>div:nth-child(2){display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;margin-top:32px}
+@media(max-width:1100px){
+  .v3-nav.is-mobile-open>.v3-nav-item,.v3-nav.is-mobile-open>.mobile-menu-quote{flex-shrink:0}
+  .mega-header .nav-direct-link{font-size:17px}
+  .nav-direct-group{justify-content:space-between}
+  .mega-header .nav-direct-toggle{width:50px;padding:0!important;justify-content:center!important}
+  .mega-header .nav-about-link{display:flex;padding:22px 0}
+}
+@media(max-width:760px){
+  .mega-applications>.mega-applications-heading{align-items:flex-start;flex-direction:column;gap:10px}
+  .mega-applications>div:nth-child(2){grid-template-columns:1fr;gap:8px;margin-top:20px}
+}
