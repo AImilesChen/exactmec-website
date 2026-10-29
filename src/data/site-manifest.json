@@ -2,8 +2,8 @@
   "version": "0.1",
   "status": "NEEDS_REVIEW",
   "published": false,
-  "marketing_pages": 24,
-  "p0_marketing_pages": 19,
+  "marketing_pages": 25,
+  "p0_marketing_pages": 20,
   "prepared_industry_pages": 5,
   "legal_drafts": 4,
   "system_templates": 2,
@@ -98,6 +98,19 @@
       "include_in_p0_plan": true,
       "p0_link_target": "/quality-control/",
       "canonical_template": "{SITE_ORIGIN}/quality-control/"
+    },
+    {
+      "id": "mold-handover",
+      "path": "/mold-handover/",
+      "phase": "P0",
+      "kind": "service",
+      "copy_source": "pages/mold-handover.md",
+      "data_source": "manufacturing.json",
+      "public_now": false,
+      "index_when_released": true,
+      "include_in_p0_plan": true,
+      "p0_link_target": "/mold-handover/",
+      "canonical_template": "{SITE_ORIGIN}/mold-handover/"
     },
     {
       "id": "how-we-work",

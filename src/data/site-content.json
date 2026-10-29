@@ -3681,5 +3681,82 @@
       "未将自然日/工作日、样品数量、费用、验收技术标准与工期完整范围编成确定事实。"
     ],
     "source_urls": []
+  },
+  {
+    "id": "mold-handover",
+    "path": "/mold-handover/",
+    "phase": "P0",
+    "kind": "service",
+    "title": "Die Casting Mold Handover & Shipment | EXACTMEC",
+    "description": "Mold handover after trial sample approval. Confirm receiving details, protective packing and transport arrangements for your finished aluminum die casting mold.",
+    "primary_keyword": "die casting mold handover",
+    "semantic_keywords": [
+      "mold shipment",
+      "die casting mold packing",
+      "mold delivery after sample approval"
+    ],
+    "target_words": [
+      350,
+      650
+    ],
+    "eyebrow": "AFTER SAMPLE APPROVAL",
+    "h1": "Mold Handover & Shipment",
+    "intro": "Once you approve the trial samples, we confirm the delivery details and arrange shipment of your completed mold.",
+    "goal_cn": "专门说明样品认可后的包装、发运与收件沟通；不重复全流程或样品测试页。",
+    "hero_layout_cn": "左文右包装场景图，清楚展示独立交接主题；图片注明示意。",
+    "sections": [
+      {
+        "id": "packing",
+        "heading": "Prepare the finished mold for its journey",
+        "paragraphs": [
+          "We coordinate the packing and dispatch of the completed mold with our manufacturing partners. The arrangements depend on the mold and the agreed transport route."
+        ]
+      },
+      {
+        "id": "responsibilities",
+        "heading": "What we coordinate. What you confirm.",
+        "paragraphs": [
+          "Keep the receiving information and shipping decisions clear so both sides know what is being handed over."
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Will you ship the mold before I approve the samples?",
+        "a": "We arrange shipment of the finished mold after you confirm the trial samples are acceptable. If you report a concern, we discuss the next action before dispatch."
+      },
+      {
+        "q": "How is the shipping method decided?",
+        "a": "We discuss the delivery destination and transport arrangements directly with you. The method, cost and responsibilities are confirmed for the individual project."
+      },
+      {
+        "q": "Is mold shipping included in the quotation?",
+        "a": "Confirm the quotation scope and transport charges with us. Do not assume that every project uses the same shipping arrangement."
+      },
+      {
+        "q": "When will I receive the mold?",
+        "a": "Dispatch and transit timing depend on sample approval, the destination and the agreed transport. The typical 30–40-day mold project estimate from payment is not a shipping transit time or a guaranteed arrival date."
+      }
+    ],
+    "related_links": [
+      {
+        "label": "Trial & Sample Approval",
+        "href": "/quality-control/"
+      },
+      {
+        "label": "Full Mold Development Process",
+        "href": "/mold-development-process/"
+      }
+    ],
+    "final_cta": {
+      "heading": "Discuss your mold project",
+      "text": "Contact us about your existing project or share drawings for a new mold.",
+      "label": "Request a Mold Quote",
+      "href": "/request-a-quote/"
+    },
+    "evidence_notes_cn": [
+      "包装图为生成示意图，不代表真实订单或标准包装保证。运输方式、费用、责任、时效均按项目沟通。"
+    ],
+    "source_urls": []
   }
 ]

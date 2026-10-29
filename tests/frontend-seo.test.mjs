@@ -5,9 +5,9 @@ import manifest from '../src/data/site-manifest.json' with { type: 'json' };
 import { getPageMeta } from '../src/seo/metadata.mjs';
 import { PUBLIC_ROUTES, resolvePublicRoute } from '../src/seo/route-contract.mjs';
 
-test('public contract contains twenty-four P0 marketing pages, four legal contracts and two systems', () => {
-  assert.equal(PUBLIC_ROUTES.length, 30);
-  assert.equal(PUBLIC_ROUTES.filter(route => !['legal', 'system'].includes(route.kind)).length, 24);
+test('public contract contains twenty-five P0 marketing pages, four legal contracts and two systems', () => {
+  assert.equal(PUBLIC_ROUTES.length, 31);
+  assert.equal(PUBLIC_ROUTES.filter(route => !['legal', 'system'].includes(route.kind)).length, 25);
   assert.equal(PUBLIC_ROUTES.filter(route => route.kind === 'legal').length, 4);
   assert.equal(PUBLIC_ROUTES.filter(route => route.kind === 'system').length, 2);
   for (const route of PUBLIC_ROUTES) assert.equal(resolvePublicRoute(route.path).status, route.id === '404' ? 404 : 200);

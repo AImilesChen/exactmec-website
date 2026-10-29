@@ -24,7 +24,18 @@ test('actual customer build is a separate private entry with working assets, nev
 const fileFor=route=>route.id==='404'?'404.html':route.path==='/'?'index.html':route.path.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
 const pages=async()=>Promise.all(PUBLIC_ROUTES.map(async route=>({...route,html:await read(fileFor(route))})));
 
-test('actual static build has one H1/title/robots and substantive HTML on all 30 routes',async()=>{
+test('mold handover has a dedicated document and direct navigation rather than the full-process hero',async()=>{
+ const handover=await read('mold-handover/index.html');
+ assert.match(handover,/<h1>Mold Handover &amp; Shipment<\/h1>/);
+ assert.doesNotMatch(handover,/<h1>Aluminum Die Casting Mold Development Process<\/h1>/);
+ assert.match(handover,/handover-protective-packing-v1.webp/);
+ assert.doesNotMatch(handover,/href="\/mold-development-process\/#mold-handover"/);
+ const process=await read('mold-development-process/index.html');
+ assert.match(process,/href="\/mold-handover\/"[^>]*>Explore Mold Handover/);
+ assert.doesNotMatch(process,/process-handover-packing-v1.webp/);
+});
+
+test('actual static build has one H1/title/robots and substantive HTML on all public routes',async()=>{
  const titles=new Set();
  const indexingEnabled=(await read('robots.txt')).includes('Allow: /\n');
  for(const page of await pages()){
@@ -39,7 +50,7 @@ test('actual static build has one H1/title/robots and substantive HTML on all 30
   if(page.kind!=='system')assert.ok(page.html.includes('href="https://exactmec.com'+page.path+'"'),page.path);
   titles.add(page.html.match(/<title>(.*?)<\/title>/)[1]);
  }
- assert.equal(titles.size,30);
+ assert.equal(titles.size,PUBLIC_ROUTES.length);
 });
 
 test('every rendered local image/style/script and CSS background is packaged',async()=>{
