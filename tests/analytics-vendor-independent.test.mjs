@@ -14,6 +14,21 @@ function environment({ href = 'https://exactmec.com/about/', referrer = '', enab
   return { adapter, window, document, scripts, requests, deleted, attributes };
 }
 
+test('navigation stays in the app until an external analytics SDK starts', () => {
+  const app = environment();
+  const controller = createMeasurementController({ externalEnabled: true, vendors: app.adapter, window: app.window });
+  assert.equal(controller.requiresDocumentNavigation(), false);
+  controller.setConsent(false);
+  assert.equal(controller.requiresDocumentNavigation(), false);
+  controller.setConsent(true);
+  assert.equal(controller.requiresDocumentNavigation(), true);
+  const privatePage = environment({ href: 'https://exactmec.com/request-a-quote/' });
+  const privateController = createMeasurementController({ externalEnabled: true, vendors: privatePage.adapter, window: privatePage.window });
+  privateController.setConsent(true);
+  assert.equal(privatePage.adapter.hasStarted(), false);
+  assert.equal(privateController.requiresDocumentNavigation(), true);
+});
+
 test('external vendors do nothing before a fresh affirmative choice, including legacy allow or read-only stored allow', () => {
   const app = environment();
   app.adapter.track('pageview', { route: '/about/' });
@@ -150,3 +165,4 @@ test('hard-navigation helper decides fragment reload before Location.assign sync
   assert.equal(navigateForExternalMeasurement(window, 'https://other.example/private'), false);
   assert.equal(assignments, 2, 'helper does not intercept cross-origin links');
 });
+

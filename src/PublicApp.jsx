@@ -55,7 +55,7 @@ export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults,cmsBundl
  const measurementEnabled=config.analyticsEnabled||config.externalAnalyticsEnabled===true;
  useEffect(()=>()=>analytics.destroy(),[analytics]);
  useEffect(()=>bindSiteAnalytics(document,analytics),[analytics]);
- useEffect(()=>{const change=()=>{if(config.externalAnalyticsEnabled){location.reload();return;}setUrl(location.pathname+location.search+location.hash);};addEventListener('popstate',change);return()=>removeEventListener('popstate',change)},[config.externalAnalyticsEnabled]);
+ useEffect(()=>{const change=()=>{if(analytics.requiresDocumentNavigation()){location.reload();return;}setUrl(location.pathname+location.search+location.hash);};addEventListener('popstate',change);return()=>removeEventListener('popstate',change)},[analytics]);
  useEffect(()=>{
   applyMetadata(getPageMeta(path,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled,whatsappNumber:config.whatsappNumber,pageOverride:mapped}));
   analytics.track('pageview',{route:path});
@@ -67,7 +67,7 @@ export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults,cmsBundl
   const custom=cmsBundle?.pages?.find(p=>p.path===next.pathname||p.path===next.pathname+'/');
   const resolved=custom?{redirect:null}:resolvePublicRoute(next.pathname,{allowLegalDrafts:!config.release||config.legalApproved});
   const target=resolved.redirect||next.pathname+next.search+next.hash;
-  if(config.externalAnalyticsEnabled){
+  if(analytics.requiresDocumentNavigation()){
    navigateForExternalMeasurement(window,target);return;
   }
   history.pushState({},'',target);setUrl(location.pathname+location.search+location.hash);
@@ -77,3 +77,4 @@ export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults,cmsBundl
  const body=resolution.status===404?<SystemPage notFound/>:path==='/request-a-quote/'?<Inquiry key={path} heading={mapped&&mapped.h1!==sourcePage?.h1?mapped.h1:undefined} intro={mapped&&mapped.intro!==sourcePage?.intro?mapped.intro:undefined} reviewMode={false} initialData={inquiryDefaults} startAtMaterials={config.localSynthetic===true} getSourceSnapshot={()=>sourceTracker.snapshot()} sourceKnownPaths={sourceKnownPaths} submitEnabled={config.inquiryEnabled} endpoint={config.inquiryEndpoint} whatsappNumber={config.whatsappNumber} onEvent={(name,payload={})=>analytics.track(name,{route:path,...payload})}/>:path==='/'?<LightHome/>:policy?<LegalPage page={policy} reviewMode={!config.release||!config.legalApproved}/>:path==='/inquiry-received/'?<SystemPage/>:page?<ContentPage page={page}/>:<SystemPage notFound/>;
  return <CmsProvider value={cmsBundle}><Route.Provider value={go}><a className="skip-link" href="#main-content">Skip to content</a><MegaHeader url={url} compactHome={path==='/'}/><main id="main-content">{body}</main><SiteFooter reviewMode={false} config={config} compactHome={path==='/'}/><MeasurementChoices enabled={measurementEnabled} analytics={analytics} route={path}/></Route.Provider></CmsProvider>;
 }
+

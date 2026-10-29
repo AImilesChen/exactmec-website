@@ -15,6 +15,7 @@ export function createMeasurementController({firstPartyEnabled=false,externalEna
  const core=createAnalytics({enabled:firstPartyEnabled,adapter:firstPartyTransport});
  let destroyed=false,permitted=false;
  return Object.freeze({
+  requiresDocumentNavigation(){return externalEnabled&&(permitted||vendors?.hasStarted()===true);},
   track(name,payload){
    const firstParty=core.track(name,payload);
    let external=false;
@@ -39,3 +40,4 @@ export function createMeasurementController({firstPartyEnabled=false,externalEna
   destroy(){if(destroyed)return;destroyed=true;permitted=false;core.destroy();vendors?.destroy();},
  });
 }
+
