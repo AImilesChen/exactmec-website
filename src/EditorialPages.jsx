@@ -11,6 +11,7 @@ import {ManufacturingPage} from './ManufacturingPage.jsx';
 import {QualityControlPage} from './QualityControlPage.jsx';
 import {MoldHandoverPage} from './MoldHandoverPage.jsx';
 import {QuotationGuidePage} from './QuotationGuidePage.jsx';
+import {CostGuidePage} from './CostGuidePage.jsx';
 export {pages};
 export const quotePath='/request-a-quote/';
 export function Action({href=quotePath,children='Request a Mold Quote',secondary=false}){return <Link className={secondary?'text-link':'button primary'} href={href}>{children}{secondary&&<ArrowRight size={19} aria-hidden="true"/>}</Link>}
@@ -419,6 +420,7 @@ function MoldProcessPage({page}){return <div className="mold-process-page">
  </div>}
 export function ContentPage({page:sourcePage}){
  const page=useCmsPage(sourcePage);
+ if(page.id==='resource-mold-cost')return <CmsPageScope page={page}><CostGuidePage page={page} fallbackPage={sourcePage} Action={Action} FAQList={FAQList} Table={Table}/></CmsPageScope>;
  if(page.id==='resource-quotation-requirements')return <CmsPageScope page={page}><QuotationGuidePage page={page} fallbackPage={sourcePage} Action={Action} FAQList={FAQList}/></CmsPageScope>;
  if(page.id==='mold-handover')return <CmsPageScope page={page}><MoldHandoverPage page={page} Action={Action} FAQList={FAQList}/></CmsPageScope>;
  if(page.id==='manufacturing')return <CmsPageScope page={page}><ManufacturingPage page={page} Action={Action} FAQList={FAQList}/></CmsPageScope>;

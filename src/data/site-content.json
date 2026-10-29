@@ -3190,7 +3190,7 @@
     "phase": "P0",
     "kind": "article",
     "title": "Die Casting Mold Cost: A Buyer's Guide | EXACTMEC",
-    "description": "Understand what to clarify before comparing aluminum die casting mold quotes, from product drawings and tooling scope to trials, samples and delivery.",
+    "description": "Learn what affects aluminum die casting mold cost and how to compare tooling quotes: part geometry, mold structure, material, trials, changes and delivery scope.",
     "primary_keyword": "die casting mold cost",
     "semantic_keywords": [
       "aluminum die casting mold price",
@@ -3198,119 +3198,95 @@
       "custom mold quotation checklist"
     ],
     "target_words": [
-      700,
-      1050
+      500,
+      850
     ],
     "eyebrow": "BUYER'S GUIDE",
-    "h1": "How to Compare Die Casting Mold Costs",
-    "intro": "A useful mold price answers more than how much the tool costs. It explains which product revision it covers, what work is included and what happens before shipment. This guide helps you prepare a clearer request and compare quotations on the same basis. EXACTMEC supplies custom aluminum die casting molds, starting from one mold set. We do not currently accept die casting mass-production orders.",
+    "h1": "What Affects Aluminum Die Casting Mold Cost?",
+    "intro": "Understand the tooling requirements behind a mold price, then compare quotations against the same product and project scope.",
     "goal_cn": "承接模具费用与比价搜索；不虚构美元区间，通过报价范围比较框架筛选有实际图纸或样品的采购者。",
-    "hero_layout_cn": "桌面采用左侧文章标题与摘要、右侧紧凑目录；标题下显示Buyer’s guide，不放伪造阅读量/日期。手机先标题摘要再折叠目录，正文单栏。",
+    "hero_layout_cn": "紧凑图文首屏带询价按钮；四项成本图标卡、两种内部结构示意、报价范围表格和三张计划卡，移动端报价表转逐项卡片。",
     "sections": [
       {
-        "id": "price-needs-context",
-        "heading": "Why a Product Photo Is Not a Reliable Price Basis",
+        "id": "cost-discussion",
+        "heading": "Four areas to clarify before pricing",
         "paragraphs": [
-          "A photo may show the application, but it rarely communicates the complete product geometry, dimensions or requirements. Two parts with a similar appearance can lead to different tooling discussions. Asking several suppliers to quote from different assumptions makes the resulting prices difficult to compare.",
-          "For an EXACTMEC quotation, provide clear product 2D or 3D drawings, or an actual sample. Identify the revision you want to make. If you only have photos, start a discussion and explain what additional information is available; a photo alone is not our basis for a formal mold quotation."
-        ],
-        "layout_cn": "H2下两段窄栏正文，桌面正文宽约760px；段后加一句报价资料提示，避免旁侧销售卡打断阅读。",
-        "visual_cn": "规划一张原创说明图：产品照片与带尺寸产品图的资料类型对比，明确示意，不能用虚构客户图纸。"
+          "A custom mold quotation needs a shared technical reference. Discuss these requirements with your supplier so the price relates to the tool you actually need."
+        ]
       },
       {
-        "id": "cost-discussion",
-        "heading": "Clarify the Tooling Requirements Before Comparing Prices",
+        "id": "price-needs-context",
+        "heading": "Similar outside. Different details to review.",
         "paragraphs": [
-          "The North American Die Casting Association identifies tool material and operating conditions among the factors affecting tooling cost and life. This is one reason a generic price per mold is a poor starting point. A quotation needs to relate to the specific product and the intended tool.",
-          "Tell us which requirements are already fixed and which need discussion. Examples include product features, the intended casting material, required mold sets and the machine on which the finished mold will be used. Do not guess missing equipment information. Identify the gap so it can be resolved before the relevant design decision."
-        ],
-        "layout_cn": "单栏正文，来源标注紧跟技术背景段。可将已确认与待讨论做两列摘要，手机纵排。",
-        "visual_cn": "不需要工业渲染；采用简洁清单图标，区分产品、模具、设备三类输入。"
+          "A product photo may not reveal internal geometry or tooling requirements. Compare the actual drawings or sample rather than assuming similar-looking parts need the same mold."
+        ]
       },
       {
         "id": "comparison-table",
-        "heading": "Compare the Scope, Not Just the Total",
+        "heading": "Compare quotes on the same product and scope",
         "paragraphs": [
-          "Ask each supplier to state inclusions and exclusions in writing. A lower total may cover a different package. This table is a discussion checklist, not a statement that every item is included in an EXACTMEC price. Payment arrangements, freight and any change-related charges are agreed for the individual project."
+          "Ask what each quotation includes. Use the same drawing revision or sample, then confirm the work and delivery arrangements covered."
         ],
         "table": {
           "columns": [
-            "Item",
-            "Question to resolve"
+            "Check this item",
+            "Question to confirm"
           ],
           "rows": [
             [
               "Product reference",
-              "Do all quotations use the same drawing revision or sample?"
+              "Are the drawing revision, sample and number of mold sets the same?"
             ],
             [
-              "Design work",
-              "Which mold design work and approval steps are included?"
+              "Design & mold making",
+              "What design work, mold material and manufacturing scope are covered?"
             ],
             [
-              "Trial and samples",
-              "Which trials and sample quantities are covered?"
+              "Trial & samples",
+              "Which trial work, sample quantities and sample shipment arrangements are covered?"
             ],
             [
-              "Changes",
-              "How are product changes and tool adjustments handled?"
+              "Changes & adjustments",
+              "How will product revisions or mold adjustments affect cost and timing?"
             ],
             [
-              "Delivery",
-              "What packing, freight and destination assumptions apply?"
+              "Packing & transport",
+              "Which packing, freight, destination and responsibilities are included or excluded?"
             ],
             [
-              "Acceptance",
-              "What will the customer check before mold shipment?"
+              "Customer acceptance",
+              "How are sample acceptance and mold shipment confirmed?"
             ]
           ]
-        },
-        "layout_cn": "桌面两列表格，全宽置于正文内；手机转为逐项卡片，项目名称置顶、问题置下，不横向裁切文字。",
-        "visual_cn": "表格本身承担信息可视化，不加装饰图片。"
+        }
       },
       {
         "id": "budget",
-        "heading": "Use Your Budget to Explain Priorities",
+        "heading": "Share a budget if useful",
         "paragraphs": [
-          "An approximate budget helps explain your expectations, but you do not need an approved budget to start a conversation. If you share one, include the currency and say whether it is for a single mold set. Separate the tooling budget from any broader product-launch spending.",
-          "If you do not know the likely cost, say so. Explain what matters most in the purchase: the intended application, a confirmed product design, a target purchase date or compatibility with existing equipment. A clear brief is more useful than an unsupported target price. We review the project rather than treating a high budget as proof of a genuine buyer."
-        ],
-        "layout_cn": "两段正文后可加入预算填写小示例框，只显示币种、单套范围和可选属性，不给预设低价。",
-        "visual_cn": "使用文字示例框，不生成带美元价格的宣传图。"
-      },
-      {
-        "id": "schedule",
-        "heading": "Check What the Quoted Schedule Actually Covers",
-        "paragraphs": [
-          "EXACTMEC's general production estimate is approximately 30–40 days from payment. After payment, we prepare the 3D mold design for your approval; manufacturing starts after approval. The scope and milestones of the project schedule need to be confirmed in your quotation.",
-          "Do not treat this estimate as a guaranteed arrival date. Trial work, sample transport, your testing and final mold transport all need attention when planning a launch. Ask for a sequence of milestones and explain your required purchase date separately from the date you hope to receive the mold."
-        ],
-        "layout_cn": "浅底时间范围提示框+正文，30–40 days不做巨大数字卖点；起算点和范围限制同框呈现。",
-        "visual_cn": "仅使用标明not to scale的步骤线，避免按天数比例虚构工期分配。"
+          "Budget is optional. If you share an amount, include the currency and say whether it is for one mold set or a wider project. You can request a quotation before setting a budget."
+        ]
       },
       {
         "id": "changes",
-        "heading": "Keep Product Changes Visible During Quotation",
+        "heading": "Make changes visible",
         "paragraphs": [
-          "A price based on one product revision should not silently become a price for another. If the design is still changing, list the open decisions and tell us when you expect to finalize them. Give revised files clear names and identify what has changed.",
-          "After the quotation, record any agreed scope change together with its possible cost and schedule effects. The same principle applies to a change in mold quantity, intended equipment or acceptance requirements. A written comparison trail helps your purchasing and engineering teams understand why two quotation versions differ."
-        ],
-        "layout_cn": "正文配一个三行修订记录示例，示例不使用真实客户信息；手机直接纵排。",
-        "visual_cn": "规划空白模板式Revision/Change/Status图表，供开发用HTML呈现。"
+          "Identify the product revision and any open decisions. If the part, mold quantity or requirements change, ask us to confirm the updated quotation and schedule."
+        ]
+      },
+      {
+        "id": "schedule",
+        "heading": "About 30–40 days",
+        "paragraphs": [
+          "Typical project estimate from payment. Manufacturing begins after your 3D mold design approval. Confirm milestones and transport separately; this is not a guaranteed arrival date."
+        ]
       },
       {
         "id": "request",
-        "heading": "Prepare a Quote Request You Can Follow Up",
+        "heading": "Get a quotation for your actual part",
         "paragraphs": [
-          "Start with your name, company, country and city, email and a usable contact number. Describe the product, tell us whether you have 2D drawings, 3D drawings or a physical sample, and give the number of mold sets required. Add your planned purchase timing and an approximate budget if available.",
-          "Start by uploading available product drawings or choosing the sample or no-drawings path. Then provide your project and contact details. You can continue through WhatsApp after submission; your inquiry remains recorded even if you do not start a chat."
-        ],
-        "layout_cn": "正文末尾放一枚主CTA，旁边小字解释先填基本信息再沟通资料；不在文章中嵌完整长表单。",
-        "visual_cn": "不需要图片，CTA以品牌强调色呈现。",
-        "cta": {
-          "label": "Start a Mold Quote Request",
-          "href": "/request-a-quote/"
-        }
+          "Upload clear product drawings or discuss a physical sample. Add basic project and contact details so we can review the mold scope."
+        ]
       }
     ],
     "faqs": [
@@ -3346,15 +3322,16 @@
       }
     ],
     "final_cta": {
-      "heading": "Compare a Quote Built Around Your Product",
-      "text": "Tell us what the mold will produce and which drawings or samples are available. We will discuss the information needed to evaluate your project.",
+      "heading": "Get a quotation for your actual part",
+      "text": "Share clear product drawings or tell us about a physical sample. We will review the mold scope and follow up with you.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
-      "正文NADCA背景段需在成品页面显示来源链接；其余为本项目已确认流程和采购建议。",
-      "未给出价格区间、最低收费、运费包含、付款比例或改模次数；不得后续擅自添加。",
-      "工期为付款起约30–40天，具体覆盖范围仍由项目报价确认，不等同到货承诺。"
+      "NADCA工具成本页面已通过内置浏览器复核；材料与使用条件的技术背景保留明确来源。",
+      "结构比较为原生矢量示意，不代表真实报价或成本涨幅；首屏图为生成示意。",
+      "不提供未经确认的美元区间、固定包含项目、付款比例、改模次数或运费保证；预算保持选填。",
+      "工期从付款起约30–40天，设计确认后制造，不等同运输时效或到货承诺。"
     ],
     "source_urls": [
       "https://www.diecastingdesign.org/tooling-costs"

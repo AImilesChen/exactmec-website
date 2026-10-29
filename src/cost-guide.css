@@ -1,0 +1,67 @@
+.cost-guide{color:var(--ink)}
+.cost-guide h1,.cost-guide h2,.cost-guide h3{font-family:Manrope,Arial,sans-serif;letter-spacing:-.03em}
+.cost-guide .eyebrow{font-size:12px;letter-spacing:.1em;font-weight:700;color:var(--red);margin:0 0 16px}
+.cost-guide h2{font-size:clamp(30px,2.8vw,42px);line-height:1.23;margin:0}
+.cost-guide h3{font-size:21px;line-height:1.35;margin:0}
+.cost-guide .text-link{color:var(--red)}
+.cost-guide [id]{scroll-margin-top:90px}
+.cost-guide-hero{padding:27px 0 60px;background:#eff5f9}
+.cost-guide-hero .breadcrumbs{margin-bottom:34px}
+.cost-guide-hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(36px,5vw,76px);align-items:center}
+.cost-guide h1{font-size:clamp(38px,3.6vw,55px);line-height:1.14;margin:0;max-width:16ch}
+.cost-guide-hero-grid>div>p:not(.eyebrow){font-size:18px;color:var(--muted);line-height:1.7;max-width:46ch;margin:23px 0 28px}
+.cost-guide-hero small{display:block;font-size:12px;color:var(--muted);margin-top:14px}
+.cost-guide .v3-media{margin:0;min-width:0}
+.cost-guide .v3-media img{width:100%;display:block;aspect-ratio:1.45;object-fit:cover;border-radius:5px}
+.cost-guide .v3-media figcaption{font-size:11px;line-height:1.5;color:#65788a;text-align:right;padding-top:8px}
+.cost-guide-nav{display:flex;flex-wrap:wrap;gap:10px 28px;padding-block:24px;border-bottom:1px solid #d9e4ec}
+.cost-guide-nav a{display:flex;align-items:center;gap:10px;min-height:36px;font-size:14px;color:#34546b;text-decoration:none}
+.cost-guide-nav a:hover,.cost-guide-nav a:focus-visible{color:var(--red);text-decoration:underline;text-underline-offset:4px}
+.cost-guide-nav svg{color:var(--red)}
+.cost-guide-section{padding-block:68px 76px}
+.cost-guide-heading{max-width:790px;margin-bottom:32px}
+.cost-guide-heading>p:not(.eyebrow){font-size:17px;line-height:1.7;color:var(--muted);margin:18px 0 0}
+.cost-factor-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.cost-factor-grid article{padding:25px 23px 27px;border:1px solid #d8e4ec;border-top:3px solid #91b0c4;border-radius:4px;background:#f8fbfd}
+.cost-factor-grid article>div{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px;color:var(--red)}
+.cost-factor-grid article>div>span{font:700 17px/1.3 Manrope,Arial,sans-serif}
+.cost-factor-grid h3{font-size:20px;min-height:54px}
+.cost-factor-grid p{font-size:15px;line-height:1.65;color:var(--muted);margin:13px 0 0}
+.cost-guide-source{font-size:12px;line-height:1.7;color:var(--muted);margin:22px 0 0;max-width:105ch}
+.cost-guide-source a{color:#365e78;text-underline-offset:3px}
+.cost-guide-source svg{display:inline;vertical-align:middle}
+.cost-guide-details{padding:65px 0 72px;background:#edf4f9}
+.cost-housing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.cost-housing-grid article{background:white;border:1px solid #d9e4ec;border-radius:5px;overflow:hidden}
+.cost-housing-grid svg{display:block;width:100%;height:auto;max-height:310px;background:#edf4f8}
+.cost-housing-grid article>div{padding:23px 28px 26px}
+.cost-housing-grid article>div>span{display:block;font-size:11px;letter-spacing:.06em;color:var(--red);font-weight:700;margin-bottom:12px}
+.cost-housing-grid p{font-size:16px;line-height:1.65;color:var(--muted);margin:12px 0 0}
+.cost-diagram-caption{font-size:11px;color:#65788a;margin:12px 0 0}
+.cost-reference-note{display:flex;align-items:center;gap:19px;padding:20px 24px;background:#fff;border-left:3px solid var(--red);margin-top:26px}
+.cost-reference-note>svg{color:var(--red);flex:none}
+.cost-reference-note p{font-size:15px;line-height:1.65;color:var(--muted);margin:0;flex:1}
+.cost-reference-note .text-link{white-space:nowrap;font-size:14px}
+.cost-guide-table .data-table{width:100%;min-width:0;table-layout:fixed}
+.cost-guide-table .data-table th:first-child{width:29%}
+.cost-guide-table .data-table tbody th{font:700 16px/1.5 Manrope,Arial,sans-serif;color:#b8352c}
+.cost-guide-table .data-table td{font-size:16px;line-height:1.6}
+.cost-guide-table .data-table td,.cost-guide-table .data-table th{padding:20px 24px}
+.cost-table-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:22px;font-size:13px;color:var(--muted)}
+.cost-table-footer .text-link{font-size:14px}
+.cost-guide-planning{background:#f1f6fa;padding:65px 0 72px}
+.cost-planning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.cost-planning-grid article{padding:27px;background:#fff;border:1px solid #d9e4ec;border-radius:4px;display:flex;flex-direction:column}
+.cost-planning-grid article>span{font-size:11px;letter-spacing:.05em;font-weight:700;color:var(--red);margin-bottom:16px}
+.cost-planning-grid p{font-size:15px;line-height:1.7;color:var(--muted);margin:16px 0 23px}
+.cost-planning-grid small{font-size:12px;color:#64798c;line-height:1.6;margin-top:auto}
+.cost-planning-grid .text-link{font-size:13px;margin-top:auto}
+.cost-guide-faq{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(38px,6vw,88px);padding-block:67px 74px}
+.cost-guide-faq>div>p:not(.eyebrow){font-size:16px;line-height:1.7;color:var(--muted);margin-top:20px}
+.cost-guide-final{background:#edf4f9;padding:58px 0 65px}
+.cost-guide-final>.container{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:55px}
+.cost-guide-final>.container>div:first-child{max-width:760px}
+.cost-guide-final p:not(.eyebrow){font-size:17px;line-height:1.7;color:var(--muted);margin:20px 0 0}
+.cost-guide-final>.container>div:last-child{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+@media(max-width:1000px){.cost-factor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cost-factor-grid h3{min-height:0}.cost-planning-grid{gap:15px}.cost-planning-grid article{padding:23px}.cost-guide-final>.container{grid-template-columns:1fr;gap:27px}.cost-guide-final>.container>div:last-child{flex-direction:row;flex-wrap:wrap;align-items:center;gap:25px}}
+@media(max-width:700px){.cost-guide-hero{padding:23px 0 40px}.cost-guide-hero .breadcrumbs{margin-bottom:28px}.cost-guide-hero-grid,.cost-housing-grid,.cost-planning-grid,.cost-guide-faq{grid-template-columns:1fr;gap:25px}.cost-guide h1{font-size:36px;max-width:18ch}.cost-guide-hero-grid>div>p:not(.eyebrow){font-size:16px;margin:20px 0 24px}.cost-guide-nav{gap:6px 21px;padding-block:18px}.cost-guide-nav a{font-size:13px;min-height:34px}.cost-guide h2{font-size:29px}.cost-guide-section{padding-block:49px 56px}.cost-guide-heading>p:not(.eyebrow){font-size:16px}.cost-factor-grid{grid-template-columns:1fr;gap:15px}.cost-factor-grid article{padding:23px}.cost-factor-grid article>div{margin-bottom:17px}.cost-guide-details,.cost-guide-planning{padding-block:49px 56px}.cost-housing-grid article>div{padding:22px}.cost-reference-note{flex-wrap:wrap;align-items:start;padding:18px;gap:13px}.cost-reference-note .text-link{margin-left:39px}.cost-table-footer{align-items:start;flex-direction:column;gap:15px}.cost-guide-table .data-table-wrap{overflow:visible;border:0}.cost-guide-table table,.cost-guide-table tbody{display:block}.cost-guide-table thead{display:none}.cost-guide-table tr{display:block;border:1px solid #d8e4ec;border-radius:4px;margin:0 0 12px;padding:19px 21px;background:#f8fbfd}.cost-guide-table .data-table tbody th,.cost-guide-table .data-table td{display:block;width:auto;padding:0;border:0;text-align:left}.cost-guide-table .data-table td{font-size:15px;margin-top:10px}.cost-guide-table .data-table td:before{display:none}.cost-guide-faq{padding-block:49px 56px}.cost-guide-final{padding-block:49px 55px}.cost-guide-final p:not(.eyebrow){font-size:16px}}
