@@ -75,7 +75,7 @@ export function LightHome() {
  };
  return <CmsHome page={page} className="light-home home-v2">
   <section className="home-v2-hero" aria-labelledby="home-v2-title">
-   <picture className="home-v2-hero-picture">{hero.src==='/assets/home-v2-hero.webp'&&<source media="(max-width:900px)" srcSet="/assets/home-v2-hero-mobile-720.webp 720w, /assets/home-v2-hero-mobile.webp 1364w" sizes="100vw"/>}<CmsImage className="home-v2-hero-image" src={hero.src} alt={hero.alt} width="1912" height="823" sizes="100vw" loading="eager" fetchPriority="high"/></picture>
+   <picture className="home-v2-hero-picture">{hero.src==='/assets/home-v2-hero.webp'&&<source media="(max-width:900px)" srcSet="/assets/home-v2-hero-mobile-720.webp 720w, /assets/home-v2-hero-mobile-960.webp 960w" sizes="100vw"/>}<CmsImage className="home-v2-hero-image" src={hero.src} alt={hero.alt} width="1912" height="823" sizes="100vw" loading="eager" fetchPriority="high"/></picture>
    <div className="container"><div className="home-v2-hero-copy">
     <p className="home-v2-eyebrow">Custom aluminum die casting molds</p>
     <h1 id="home-v2-title">{page.h1===source.h1?<>Custom <span>Die Casting<br/>Molds</span> for Your Part</>:page.h1}</h1>

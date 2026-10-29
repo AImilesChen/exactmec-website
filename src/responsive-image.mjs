@@ -8,6 +8,6 @@ export function responsiveImageProps(src,sizes='(max-width: 760px) 100vw, 50vw')
   width:record.width,
   height:record.height,
   decoding:'async',
-  ...(record.small?{srcSet:`/assets/${record.small} 720w, ${src} ${record.width}w`,sizes}:{}),
+  ...(record.small?{srcSet:[`/assets/${record.small} 720w`,record.medium&&`/assets/${record.medium} 960w`,`${src} ${record.width}w`].filter(Boolean).join(', '),sizes}:{}),
  };
 }

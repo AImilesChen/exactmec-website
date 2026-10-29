@@ -6,7 +6,7 @@ import sharp from 'sharp';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const assets=path.join(root,'public/assets');
 const variants={};
-for(const name of (await fs.readdir(assets)).filter(name=>name.endsWith('.webp')&&!name.endsWith('-720.webp')).sort()){
+for(const name of (await fs.readdir(assets)).filter(name=>name.endsWith('.webp')&&!/-(720|960)\.webp$/.test(name)).sort()){
  const input=path.join(assets,name);
  const info=await sharp(input).metadata();
  if(!info.width||!info.height)continue;
@@ -16,7 +16,12 @@ for(const name of (await fs.readdir(assets)).filter(name=>name.endsWith('.webp')
   await sharp(input).resize({width:720,withoutEnlargement:true}).webp({quality:78,effort:4}).toFile(path.join(assets,small));
   record.small=small;
  }
+ if(info.width>1100){
+  const medium=name.replace(/\.webp$/,'-960.webp');
+  await sharp(input).resize({width:960,withoutEnlargement:true}).webp({quality:76,effort:4}).toFile(path.join(assets,medium));
+  record.medium=medium;
+ }
  variants[name]=record;
 }
 await fs.writeFile(path.join(root,'src/data/image-variants.json'),JSON.stringify(variants,null,2)+'\n');
-console.log(`Prepared ${Object.keys(variants).length} image records and ${Object.values(variants).filter(value=>value.small).length} mobile variants.`);
+console.log(`Prepared ${Object.keys(variants).length} image records, ${Object.values(variants).filter(value=>value.small).length} small and ${Object.values(variants).filter(value=>value.medium).length} medium variants.`);

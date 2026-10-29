@@ -59,7 +59,7 @@ const generated=[];
 for(const route of PUBLIC_ROUTES){
  const meta=getPageMeta(route.path,{origin:config.origin,release:config.release,indexingEnabled:config.seoIndexingEnabled});
  let html=shell.replace(/<title>.*?<\/title>/s,'').replace(/<meta name="robots"[^>]*\/>/,'');
- const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/home-v2-hero-mobile.webp" imagesrcset="/assets/home-v2-hero-mobile-720.webp 720w, /assets/home-v2-hero-mobile.webp 1364w" imagesizes="100vw" media="(max-width:900px)" fetchpriority="high"/><link rel="preload" as="image" href="/assets/home-v2-hero.webp" imagesrcset="/assets/home-v2-hero-720.webp 720w, /assets/home-v2-hero.webp 1912w" imagesizes="100vw" media="(min-width:901px)" fetchpriority="high"/>':'';
+ const hero=route.path==='/'?'<link rel="preload" as="image" href="/assets/home-v2-hero-mobile-960.webp" imagesrcset="/assets/home-v2-hero-mobile-720.webp 720w, /assets/home-v2-hero-mobile-960.webp 960w" imagesizes="100vw" media="(max-width:900px)" fetchpriority="high"/><link rel="preload" as="image" href="/assets/home-v2-hero.webp" imagesrcset="/assets/home-v2-hero-720.webp 720w, /assets/home-v2-hero-960.webp 960w, /assets/home-v2-hero.webp 1912w" imagesizes="100vw" media="(min-width:901px)" fetchpriority="high"/>':'';
  const pageStyles=routeStylesFor(route.path,PUBLIC_ROUTES,routeStyleUrls).map(href=>`<link rel="stylesheet" href="${href}"/>`).join('');
  html=html.replace('</head>',head(meta)+'\n'+hero+pageStyles+styleManifest+'\n</head>').replace('<div id="root"></div>','<!--exactmec:root:start--><div id="root">'+render(route.path,config)+'</div><!--exactmec:root:end-->');
  const filename=route.id==='404'?'404.html':route.path==='/'?'index.html':route.path.replace(/^\//,'').replace(/\/$/,'')+'/index.html';
@@ -86,7 +86,7 @@ for(const file of ['MegaHeader.jsx','PhaseExplorer.jsx']){const text=await fs.re
 // ProductFigure converts legacy PNG references into runtime WebP names.
 for(const name of [...needed])if(name.endsWith('.png')){needed.delete(name);needed.add(name.replace(/\.png$/,'.webp'));}
 for(const row of generated){const html=await fs.readFile(path.join(output,row.file),'utf8');for(const match of html.matchAll(/<img\b[^>]*src="\/assets\/([A-Za-z0-9_.-]+)"/g))needed.add(match[1]);}
-for(const name of [...needed])if(imageVariants[name]?.small)needed.add(imageVariants[name].small);
+for(const name of [...needed])for(const variant of [imageVariants[name]?.small,imageVariants[name]?.medium])if(variant)needed.add(variant);
 for(const name of needed)await fs.copyFile(path.join(publicDir,'assets',name),path.join(output,'assets',name));
 const xml=config.seoIndexingEnabled?generated.filter(r=>r.robots==='index,follow').map(r=>`  <url><loc>${escape(config.origin+r.path)}</loc></url>`).join('\n'):'';
 await fs.writeFile(path.join(output,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${xml}\n</urlset>\n`);
