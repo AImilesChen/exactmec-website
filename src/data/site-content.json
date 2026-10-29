@@ -3375,102 +3375,49 @@
       "mold quote from sample"
     ],
     "target_words": [
-      700,
-      1050
+      500,
+      800
     ],
     "eyebrow": "QUOTATION CHECKLIST",
-    "h1": "What You Need for an Aluminum Die Casting Mold Quote",
-    "intro": "Start with a clear 2D product drawing, a 3D part model or an assessable physical sample. You do not need to design the mold yourself. This guide shows which project details help us review your request, and how product information differs from the 3D mold design prepared after payment.",
+    "h1": "What to Prepare for a Die Casting Mold Quote",
+    "intro": "Start your aluminum die casting mold quotation with clear product drawings or a physical sample. Add the project and contact details we need to follow up.",
     "goal_cn": "承接铝压铸模具报价资料搜索并降低误填。讲清客户提供产品图或样品，不需自行设计模具；询价表优先上传图纸，也提供样品与无图纸初步沟通路径。",
-    "hero_layout_cn": "首屏突出三种产品参考资料与询价按钮；专用示意图表现2D图纸、3D产品模型和实物样品。正文用资料卡、检查清单及流程图，桌面目录与手机折叠目录保持。",
+    "hero_layout_cn": "保留专用首屏图；下接五个短目录链接。3D模型与2D图纸采用原生矢量示意图，样品用独立示意照片；图纸标注图、双栏清单、阶段对比、提交步骤与FAQ构成正文。",
     "sections": [
       {
         "id": "minimum-reference",
-        "heading": "Start With One Clear Product Reference",
+        "heading": "Choose the reference you already have",
         "paragraphs": [
-          "Clear 2D drawings, 3D drawings or an actual sample give us a basis for evaluating the mold request. If you have more than one type, tell us which information is current and whether the files describe the same product. Make the units and revision clear.",
-          "An image of a drawing may be difficult to interpret when dimensions or notes are blurred. Check readability before uploading files. If you only have a sample, explain whether it represents the exact product you want or a reference that needs changes. We can then discuss the next assessment steps."
-        ],
-        "cards": [
-          {
-            "title": "2D product drawing",
-            "text": "Provide a readable current drawing with the dimensions and notes you already have."
-          },
-          {
-            "title": "3D part model",
-            "text": "Upload the current product model, preferably STEP or STP, and identify its revision."
-          },
-          {
-            "title": "Physical sample",
-            "text": "Describe the sample and discuss sending arrangements before shipping it."
-          }
-        ],
-        "layout_cn": "两段正文+三列卡片，移动端卡片逐项堆叠；产品图与模具图使用不同标签。",
-        "visual_cn": "用原创线稿图标表示2D、3D与样品，非虚构已完成项目照片。"
+          "A clear 3D part model, a dimensioned 2D product drawing or an assessable sample can be the starting point. If you provide more than one, tell us which version to quote."
+        ]
       },
       {
-        "id": "brief",
-        "heading": "Add a Short Product Brief",
+        "id": "drawing-check",
+        "heading": "A useful drawing is clear, complete and current",
         "paragraphs": [
-          "Tell us what the product does and where it will be used. A motor housing, lighting enclosure and mounting component may need different questions during the conversation, even when all are aluminum die casting applications. Describe the intended part rather than selecting an industry name alone.",
-          "List requirements your own team has already identified. These might include the intended aluminum material, important mating features, appearance areas or a required customer specification. Treat these as requests for assessment, not capabilities automatically confirmed by a website example. If a requirement is unknown, mark it as unknown rather than copying a value from another product."
-        ],
-        "layout_cn": "单栏正文后设置四项简短brief checklist，手机保留原顺序。",
-        "visual_cn": "可用产品用途/现有要求/未定问题的三格笔记式HTML图，不需要产品图片。"
+          "Check these three details before you upload. The example illustrates how to identify information; it is not a manufacturing specification."
+        ]
       },
       {
-        "id": "mold-not-parts",
-        "heading": "Describe the Mold Order, Not a Cast-Part Order",
+        "id": "preparation-checklist",
+        "heading": "What else should you tell us?",
         "paragraphs": [
-          "EXACTMEC currently supplies custom aluminum die casting molds. We do not accept mass-production orders for the cast parts. One mold set can be ordered, so you do not need to invent a large part quantity to make an inquiry worthwhile.",
-          "State how many mold sets you need and where the finished mold will be used. If you already have casting equipment, tell us that equipment information is available and arrange to share the relevant details during technical discussion. If another production partner will operate the mold, involve that team when equipment compatibility and acceptance requirements are being agreed."
-        ],
-        "layout_cn": "信息提示条突出Mold supply / One set accepted，随后正文，不能使用零件购物卡或单价。",
-        "visual_cn": "一张模具与目标零件的概念关系图，标注零件仅为应用示意。"
-      },
-      {
-        "id": "company-contact",
-        "heading": "Provide Company Details We Can Follow Up",
-        "paragraphs": [
-          "Include your name, company, country, city, email and a reachable phone or WhatsApp number. A company website is useful if available. These details help us understand the inquiry and contact the appropriate person about the project.",
-          "Use an email address you monitor and check the spelling before submission. If your company is new or you use a personal business email, explain the project briefly; those facts alone do not make an inquiry unsuitable. If you are requesting the mold for another company, state your role so communication and technical questions reach the right people."
-        ],
-        "layout_cn": "正文配简洁联系资料核对清单，不嵌真实人员示例，不要求详细住宅地址。",
-        "visual_cn": "文字清单即可。"
-      },
-      {
-        "id": "timing-budget",
-        "heading": "Separate Purchase Timing, Budget and Delivery Needs",
-        "paragraphs": [
-          "Your planned purchase date tells us how ready the project is to proceed. Your required delivery date tells us about the wider schedule. They are different questions. Explain whether you are ready to buy, collecting quotations, finishing a product design or researching a future project.",
-          "An approximate per-mold budget is optional. If you share it, include the currency and clarify whether it covers tooling alone. You can also say that the budget is undecided. Our general production estimate is approximately 30–40 days from payment; the exact project scope and timing need confirmation, and this estimate is not a guaranteed arrival date."
-        ],
-        "layout_cn": "三张小卡分别Purchase timing/Budget/Delivery need，再接一段工期口径；手机竖排。",
-        "visual_cn": "不使用倒计时和未经证实的限时供应文案。"
-      },
-      {
-        "id": "submission",
-        "heading": "Choose Your Reference, Then Add Project Details",
-        "paragraphs": [
-          "The inquiry begins with product drawing upload, a physical-sample route or a no-drawings route. It then records your project and contact details. After reviewing the inquiry, we contact you using the details provided to discuss the project and arrange the appropriate information exchange.",
-          "Keep the original files available and avoid sending different revisions through several conversations without explanation. For a physical sample, discuss the receiving details and shipping arrangements first. You may continue through WhatsApp when appropriate, but a WhatsApp chat is not required to preserve the inquiry. We can follow up by email."
-        ],
-        "layout_cn": "三步横排：选择图纸或样品 → 填项目与联系资料 → 提交后跟进；手机改纵向，不嵌外部聊天浮窗。",
-        "visual_cn": "开发用HTML步骤图，链接到唯一正式询价页。",
-        "cta": {
-          "label": "Complete the Basic Inquiry",
-          "href": "/request-a-quote/"
-        }
+          "A short description of the part and accurate contact details help us review your request. Share any known requirements and leave undecided details open for discussion."
+        ]
       },
       {
         "id": "final-check",
-        "heading": "Check for Gaps Before You Ask for a Final Quote",
+        "heading": "Product drawings are not the mold design",
         "paragraphs": [
-          "Before a final quotation, confirm that the product reference, requested mold quantity and known requirements agree. List open points instead of assuming they are included. Ask what the quotation covers for design, trial work, samples and delivery, and how later changes will be handled.",
-          "The mold's 3D design comes after payment and is sent to you for approval before manufacturing. That approval stage does not replace the need for a clear product reference at quotation. Keeping these two stages distinct helps both teams discuss the same product and the same scope."
-        ],
-        "layout_cn": "结尾勾选清单，产品资料与后续模具设计两个阶段用对照边框强调。",
-        "visual_cn": "无额外图片，提供读者可复制的简短检查项。"
+          "You do not need to design the mold yourself. The product reference helps us assess the quotation; the mold design is prepared later."
+        ]
+      },
+      {
+        "id": "submission",
+        "heading": "Share your reference, then add the details",
+        "paragraphs": [
+          "The inquiry form starts with drawing upload or the sample route. Add project and contact details, then submit without creating an account."
+        ]
       }
     ],
     "faqs": [
@@ -3506,15 +3453,15 @@
       }
     ],
     "final_cta": {
-      "heading": "Have Drawings or a Sample? Tell Us About the Mold",
-      "text": "Upload clear product drawings, choose the sample route or start a preliminary discussion. Add your project details and we will follow up about anything still needed.",
-      "label": "Request a Mold Quote",
+      "heading": "Have a drawing or a sample? Start here.",
+      "text": "Share your product reference and project details. We will review the custom mold request and contact you about the next step.",
+      "label": "Start Your Mold Inquiry",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
-      "只基于已确认业务规则和采购沟通建议，无外部技术数据。",
-      "不列尚未确认的软件格式、附件上限、邮箱地址或收件地址。",
-      "实体样品寄送、文件传输渠道、样品数量和费用由后续沟通确认。"
+      "图纸、模型和样品均为示意，不代表真实客户项目。标注尺寸不构成制造规格。",
+      "图纸或可评估样品用于正式报价，产品照片只能先沟通；付款后设计模具并由客户确认后生产。",
+      "预算和购买时间保持选填；实体样品寄送安排先沟通确认。"
     ],
     "source_urls": []
   },

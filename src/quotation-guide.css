@@ -68,3 +68,82 @@
  .page-resource-quotation-requirements .reading-layout .intro-continuation{padding:17px 18px}
  .guide-scope-note{padding:19px;gap:12px}
 }
+
+/* Dedicated visual quotation guide. */
+.quote-prep{color:var(--ink)}
+.quote-prep h1,.quote-prep h2,.quote-prep h3{font-family:Manrope,Arial,sans-serif;letter-spacing:-.03em}
+.quote-prep .eyebrow{font-size:12px;letter-spacing:.1em;font-weight:700;color:var(--red);margin:0 0 16px}
+.quote-prep h2{font-size:clamp(29px,2.7vw,40px);line-height:1.23;margin:0}
+.quote-prep h3{font-size:21px;line-height:1.35;margin:0}
+.quote-prep .text-link{color:var(--red)}
+.quote-prep section,.quote-prep [id]{scroll-margin-top:90px}
+.quote-prep-hero{background:#f0f6fa;padding:27px 0 56px}
+.quote-prep-hero .breadcrumbs{margin-bottom:34px}
+.quote-prep-hero-grid{display:grid;grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);gap:clamp(38px,5vw,72px);align-items:center}
+.quote-prep h1{font-size:clamp(37px,3.6vw,54px);line-height:1.15;margin:0;max-width:17ch}
+.quote-prep-hero-grid>div>p:not(.eyebrow){font-size:18px;line-height:1.65;color:var(--muted);margin:24px 0 28px;max-width:45ch}
+.quote-prep-hero small{display:block;font-size:12px;line-height:1.5;color:var(--muted);margin-top:14px}
+.quote-prep .v3-media{margin:0;min-width:0}
+.quote-prep .v3-media img{display:block;width:100%;aspect-ratio:1.5;object-fit:cover;border-radius:4px}
+.quote-prep figcaption{font-size:11px;line-height:1.4;color:#65788a;margin-top:8px;text-align:right}
+.quote-prep-nav{display:flex;gap:10px 25px;flex-wrap:wrap;padding-block:25px;border-bottom:1px solid #dce6ed}
+.quote-prep-nav a{display:flex;align-items:center;gap:9px;min-height:36px;font-size:14px;color:#34546c;text-decoration:none}
+.quote-prep-nav a:hover,.quote-prep-nav a:focus-visible{color:var(--red);text-decoration:underline;text-underline-offset:4px}
+.quote-prep-nav svg{color:var(--red)}
+.quote-prep-section{padding-block:68px 76px}
+.quote-prep-heading{max-width:780px;margin-bottom:30px}
+.quote-prep-heading>p:not(.eyebrow){font-size:17px;line-height:1.7;color:var(--muted);margin:18px 0 0}
+.quote-prep-reference-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.quote-prep-reference-grid article{min-width:0;border:1px solid #d8e4eb;border-radius:5px;overflow:hidden;background:#fff}
+.quote-prep-reference-grid .quote-prep-preferred{border-color:#d69590;border-top:3px solid var(--red)}
+.quote-prep-reference-grid figure{margin:0}
+.quote-prep-reference-grid figure>svg{display:block;width:100%;aspect-ratio:1.5;height:auto;background:#edf4f9}
+.quote-prep-reference-grid .v3-media img{border-radius:0}
+.quote-prep-reference-grid figcaption{font-size:10px;text-align:left;margin:0;padding:8px 15px;border-bottom:1px solid #e5ecf1}
+.quote-prep-card-copy{padding:23px 24px 26px}
+.quote-prep-format{display:block;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--red);margin-bottom:12px}
+.quote-prep-card-copy p{font-size:15px;line-height:1.65;color:var(--muted);margin:12px 0 0}
+.quote-prep-reference-note{font-size:14px;line-height:1.6;color:var(--muted);margin:22px 0 0;max-width:85ch}
+.quote-prep-drawing{background:#edf4f9;padding:64px 0 70px}
+.quote-prep-drawing-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(36px,5vw,70px);align-items:center}
+.quote-prep-drawing figure{margin:0;min-width:0}
+.quote-prep-drawing figure>svg{display:block;width:100%;height:auto}
+.quote-prep-drawing ol{list-style:none;padding:0;margin:0;display:grid;gap:25px}
+.quote-prep-drawing li{display:flex;gap:18px}
+.quote-prep-drawing li>span{font:700 18px/1.5 Manrope,Arial,sans-serif;color:var(--red)}
+.quote-prep-drawing h3{font-size:20px}
+.quote-prep-drawing li p{font-size:15px;line-height:1.6;color:var(--muted);margin:9px 0 0}
+.quote-prep-checklists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.quote-prep-checklists article{padding:28px 30px;border:1px solid #d8e4eb;border-radius:4px}
+.quote-prep-checklists article:first-child{background:#f4f8fb}
+.quote-prep-tag{display:block;font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--red);margin-bottom:14px}
+.quote-prep-checklists ul{padding:0;margin:22px 0 0;list-style:none;display:grid;gap:15px}
+.quote-prep-checklists li{position:relative;padding-left:24px;font-size:16px;line-height:1.6;color:var(--muted)}
+.quote-prep-checklists li:before{content:'✓';position:absolute;left:0;color:var(--red);font-weight:700}
+.quote-prep-checklists small{display:block;font-size:13px;line-height:1.6;color:var(--muted);margin-top:23px}
+.quote-prep-scope{display:flex;gap:16px;align-items:center;background:#f6fafc;border-left:3px solid var(--red);padding:18px 22px;margin-top:24px}
+.quote-prep-scope svg{color:var(--red);flex:none}
+.quote-prep-scope p{font-size:14px;line-height:1.6;color:var(--muted);margin:0}
+.quote-prep-scope strong{color:var(--ink)}
+.quote-prep-comparison{padding:64px 0 70px;background:#f1f6fa}
+.quote-prep-compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-bottom:24px}
+.quote-prep-compare-grid article{position:relative;background:#fff;border:1px solid #d8e4eb;padding:28px 30px 30px 81px;border-radius:4px}
+.quote-prep-compare-grid svg{position:absolute;left:28px;top:29px;color:var(--red)}
+.quote-prep-compare-grid span{display:block;color:var(--red);font-size:11px;font-weight:700;letter-spacing:.07em;margin-bottom:13px}
+.quote-prep-compare-grid p{font-size:16px;line-height:1.65;color:var(--muted);margin:14px 0 0}
+.quote-prep-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px;list-style:none;padding:0;margin:0;counter-reset:none}
+.quote-prep-flow li{border-top:2px solid #cbdde8;padding:23px 0 0}
+.quote-prep-flow li>span{display:block;color:var(--red);font:700 20px/1.3 Manrope,Arial,sans-serif;margin-bottom:17px}
+.quote-prep-flow p{font-size:16px;line-height:1.65;color:var(--muted);margin:13px 0 0}
+.quote-prep-faq{background:#f7fafc;padding:62px 0 68px}
+.quote-prep-faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(36px,6vw,88px)}
+.quote-prep-faq-grid>div>p:not(.eyebrow){color:var(--muted);font-size:16px;line-height:1.7;margin-top:22px}
+.quote-prep-faq-grid a{color:var(--red);text-underline-offset:4px}
+.quote-prep-final{display:flex;align-items:start;gap:23px;padding-block:62px 70px}
+.quote-prep-final>svg{color:var(--red);flex:none;margin-top:3px}
+.quote-prep-final>div{max-width:900px}
+.quote-prep-final p{font-size:17px;line-height:1.7;color:var(--muted);margin:19px 0 26px}
+.quote-prep-final>div>div{display:flex;flex-wrap:wrap;align-items:center;gap:20px 26px}
+.quote-prep-preliminary{font-size:13px;color:var(--muted);text-underline-offset:4px;max-width:38ch;line-height:1.6}
+@media(max-width:1000px){.quote-prep-reference-grid{gap:15px}.quote-prep-card-copy{padding:20px}.quote-prep-nav{gap:8px 18px}.quote-prep-checklists article{padding:25px}}
+@media(max-width:700px){.quote-prep-hero{padding:23px 0 40px}.quote-prep-hero .breadcrumbs{margin-bottom:28px}.quote-prep-hero-grid,.quote-prep-reference-grid,.quote-prep-drawing-grid,.quote-prep-checklists,.quote-prep-compare-grid,.quote-prep-flow,.quote-prep-faq-grid{grid-template-columns:1fr;gap:25px}.quote-prep h1{font-size:36px;max-width:19ch}.quote-prep-hero-grid>div>p:not(.eyebrow){font-size:16px;margin:20px 0 24px}.quote-prep-hero small{font-size:11px}.quote-prep-nav{padding-block:18px;gap:5px 19px}.quote-prep-nav a{font-size:12px;min-height:34px}.quote-prep-section{padding-block:49px 56px}.quote-prep h2{font-size:29px}.quote-prep-heading>p:not(.eyebrow){font-size:16px}.quote-prep-card-copy{padding:22px}.quote-prep-drawing,.quote-prep-comparison,.quote-prep-faq{padding-block:49px 55px}.quote-prep-drawing li{gap:16px}.quote-prep-checklists article{padding:23px}.quote-prep-scope{align-items:start;padding:17px;gap:12px}.quote-prep-compare-grid article{padding:24px 24px 25px 70px}.quote-prep-compare-grid svg{left:22px;top:25px}.quote-prep-compare-grid h3{font-size:20px}.quote-prep-flow{gap:26px}.quote-prep-flow li{padding-top:18px}.quote-prep-flow li>span{margin-bottom:12px}.quote-prep-final{padding-block:49px 55px;gap:14px}.quote-prep-final>svg{width:27px;height:27px}.quote-prep-final h2{font-size:27px}.quote-prep-final p{font-size:16px}.quote-prep-final>div>div{gap:18px}}
