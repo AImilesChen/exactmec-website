@@ -6,7 +6,7 @@ const Q='/request-a-quote/';
 const manufacturing=[
  {name:'Design confirmation',heading:'Before Manufacturing',image:'menu-design-v1',alt:'Illustrative product drawings and prototype at a design review table',links:[['Mold Design Approval','/mold-design-review/','Review the 3D mold design before manufacturing.'],['Mold Development Process','/mold-development-process/','From product reference to mold handover.'],['How We Work','/how-we-work/','A clear contact point for your project.']]},
  {name:'Manufacturing',heading:'Making Your Mold',image:'menu-manufacturing-v1',alt:'Illustrative wire EDM machining a steel mold insert',links:[['Manufacturing Overview','/manufacturing/','Custom tooling through manufacturing partners in China.'],['Custom Die Casting Molds','/aluminum-die-casting-molds/','Explore the mold project scope.']]},
- {name:'Trial & handover',heading:'Before Mold Shipment',image:'menu-trial-v1',alt:'Illustrative aluminum trial sample on a measurement bench',links:[['Trial & Sample Approval','/quality-control/','Test the trial samples before the mold is shipped.'],['Development & Delivery','/mold-development-process/#acceptance','Your approval is a project checkpoint.']]}
+ {name:'Trial & handover',heading:'Before Mold Shipment',image:'menu-trial-v1',alt:'Illustrative aluminum trial sample on a measurement bench',links:[['Trial & Sample Approval','/quality-control/','Test the trial samples before the mold is shipped.'],['Trial to Mold Shipment','/mold-development-process/#process-handover','See trial, sample testing and shipment in the full process.']]}
 ];
 const applications=[
  ['LED Lighting','/industries/led-lighting/',Lightbulb,'menu-led-v1'],
