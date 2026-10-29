@@ -22,6 +22,7 @@ import "./industries-index.css";
 import "./mold-process.css";
 import "./how-we-work.css";
 import "./manufacturing.css";
+import "./quality-control.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

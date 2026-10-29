@@ -8,6 +8,7 @@ import {Media,FullCopy,scenes,guideImage} from './Media.jsx';
 import {PhaseExplorer} from './PhaseExplorer.jsx';
 import {HowWeWorkPage} from './HowWeWorkPage.jsx';
 import {ManufacturingPage} from './ManufacturingPage.jsx';
+import {QualityControlPage} from './QualityControlPage.jsx';
 export {pages};
 export const quotePath='/request-a-quote/';
 export function Action({href=quotePath,children='Request a Mold Quote',secondary=false}){return <Link className={secondary?'text-link':'button primary'} href={href}>{children}{secondary&&<ArrowRight size={19} aria-hidden="true"/>}</Link>}
@@ -416,6 +417,7 @@ function MoldProcessPage({page}){return <div className="mold-process-page">
 export function ContentPage({page:sourcePage}){
  const page=useCmsPage(sourcePage);
  if(page.id==='manufacturing')return <CmsPageScope page={page}><ManufacturingPage page={page} Action={Action} FAQList={FAQList}/></CmsPageScope>;
+ if(page.id==='quality-control')return <CmsPageScope page={page}><QualityControlPage page={page} Action={Action} FAQList={FAQList}/></CmsPageScope>;
  if(page.id==='how-we-work')return <CmsPageScope page={page}><HowWeWorkPage page={page} Action={Action} FAQList={FAQList}/></CmsPageScope>;
  if(page.id==='mold-development-process')return <CmsPageScope page={page}><MoldProcessPage page={page}/></CmsPageScope>;
  if(page.id==='industries')return <CmsPageScope page={page}><IndustriesPage page={page}/></CmsPageScope>;

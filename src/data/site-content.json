@@ -1625,8 +1625,8 @@
     "path": "/quality-control/",
     "phase": "P0",
     "kind": "service",
-    "title": "Mold Trials, Sample Testing and Acceptance | EXACTMEC",
-    "description": "See how EXACTMEC mold trials and customer sample testing fit into acceptance, with completed mold shipment after your sample confirmation.",
+    "title": "Mold Trial Samples and Customer Approval | EXACTMEC",
+    "description": "After your custom die casting mold is made, we trial it and send sample parts for your testing. Your mold ships after you accept the samples.",
     "primary_keyword": "die casting mold trial and sample approval",
     "semantic_keywords": [
       "mold sample testing",
@@ -1638,74 +1638,46 @@
       450,
       750
     ],
-    "eyebrow": "TRIAL AND ACCEPTANCE",
-    "h1": "Test the trial samples before the mold is shipped",
-    "intro": "For a custom aluminum die casting mold, the trial sample stage gives your team an opportunity to test what the mold produces. After manufacturing, we trial the mold, send samples to you, and arrange mold shipment once you confirm that those samples are acceptable.",
-    "goal_cn": "以已确认的试模、寄样、客户测试、认可后发模替代虚构认证或精度保证，帮助买家理解验收角色与反馈要求。",
-    "hero_layout_cn": "左侧标题与介绍，右侧预留真实试模样品和模具同框照片；无素材时用三阶段流程图。手机先文案与CTA再视觉。",
+    "eyebrow": "MOLD TRIAL & SAMPLE APPROVAL",
+    "h1": "Test trial samples before your mold ships",
+    "intro": "After your custom aluminum die casting mold is made, we trial it and send sample parts to you. Your team tests the samples and confirms acceptance before we ship the finished mold.",
+    "goal_cn": "直接说明模具完成、试模制样、寄样、客户测试反馈、认可后发模；不增加事前样品检查要求步骤。",
+    "hero_layout_cn": "左文右示意样品图，首屏有询价 CTA，随后展示五步流程。所有生成图片标明非真实客户项目。",
     "sections": [
       {
-        "id": "requirements",
-        "heading": "Begin with requirements that both sides understand",
-        "paragraphs": [
-          "Quality review starts with a clear product reference and an agreed mold project. Give us the product drawings or physical sample used for quotation, and explain the requirements your team will use when reviewing trial samples.",
-          "A product photograph can help explain an application, but it does not communicate every requirement. If fit, appearance or another product feature is important to your decision, bring it into the project discussion. Inspection and acceptance expectations should not first appear after the sample arrives."
-        ],
-        "layout_cn": "左侧两段说明，右侧用“产品参考、关键要求、验收反馈”三项卡；手机堆叠。",
-        "visual_cn": "图纸与样品要求采用抽象示意，不编造检测报告、证书或标准公差。"
-      },
-      {
-        "id": "design-stage",
-        "heading": "Confirm the mold design before it is made",
-        "paragraphs": [
-          "Following payment, we prepare the 3D mold design and send it for your confirmation. Manufacturing begins after that approval. This gives the project an agreed design reference before mold manufacture proceeds.",
-          "Design approval and sample approval have different purposes. The first confirms the design to be manufactured. The second follows the mold trial and your testing of the resulting samples. Keep both decisions linked to the relevant project information."
-        ],
-        "layout_cn": "两张并排卡，分别解释设计批准和样品批准；中间连接制造节点。手机按先后顺序。",
-        "visual_cn": "可复用双审批流程图，避免给出未核实的检测设备图片。",
-        "cta": {
-          "label": "Understand Mold Design Approval",
-          "href": "/mold-design-review/"
-        }
-      },
-      {
         "id": "trial",
-        "heading": "Trial the completed mold and produce samples",
+        "heading": "Trial the completed mold",
         "paragraphs": [
-          "Once mold manufacture is complete, the mold is trialed to produce samples for customer testing. These samples relate to the custom mold project; they are not an offer to supply ongoing production quantities.",
-          "Sample quantities, sample delivery and specific review needs are discussed for the order. If your team needs particular information alongside the samples, raise that requirement during quotation and project communication so it can be reviewed within the scope."
-        ],
-        "layout_cn": "左侧试模说明，右侧样品说明，底部小字强调非量产服务；手机单列。",
-        "visual_cn": "预留真实试模过程或试模零件照片；图片需授权，不用生成图证明质量。"
+          "Once the custom mold is complete, it is trialed to produce sample parts. We prepare those samples for your testing."
+        ]
+      },
+      {
+        "id": "sample-shipment",
+        "heading": "Receive samples for your own testing",
+        "paragraphs": [
+          "We send the trial samples to you. Your team can then test the parts in the way that matters for your product."
+        ]
+      },
+      {
+        "id": "customer-testing",
+        "heading": "Test the samples and tell us the result",
+        "paragraphs": [
+          "Your team tests whether the trial samples meet your product needs and tells us the result. The review depends on your component and project."
+        ]
       },
       {
         "id": "feedback",
-        "heading": "Use your testing to give clear sample feedback",
+        "heading": "Tell us what needs to change",
         "paragraphs": [
-          "After receiving the samples, test them against the requirements agreed for the project. Your team is responsible for communicating the result and identifying any concern that prevents acceptance. Share clear observations rather than a general statement that something is wrong.",
-          "Reference the relevant sample, product drawing and feature when explaining a concern. Measurements, annotated photos or a short description of the test can help the discussion when available. We discuss the issue and the next action with you; changes and their implications are handled for the individual order."
-        ],
-        "bullets": [
-          "Identify which sample and feature you are discussing.",
-          "Explain the expected requirement and observed result.",
-          "Keep sample feedback separate from new product design requests."
-        ],
-        "layout_cn": "正文下方三点反馈清单，右侧预留匿名标注样例。手机先说明再清单。",
-        "visual_cn": "如需示例用明确标为流程示意的注释图，不能伪装真实客户测试记录。"
+          "If a sample does not meet your needs, describe the issue and the sample concerned. We will discuss the next action with you before the mold is shipped."
+        ]
       },
       {
         "id": "release",
-        "heading": "Release the mold after sample acceptance",
+        "heading": "Your sample acceptance comes before mold shipment",
         "paragraphs": [
-          "When you confirm that the samples are acceptable, we arrange shipment of the completed mold. Share your acceptance clearly so both sides understand that the project can move to mold delivery.",
-          "Transport details and the documents required for the shipment are discussed directly. The typical project estimate of about 30–40 days starts after payment. It does not by itself guarantee the date of sample arrival, customer testing completion or mold delivery at your site."
-        ],
-        "layout_cn": "整宽尾段，明确样品认可→模具发运；交期说明独立提示，避免被误读为保证。",
-        "visual_cn": "可规划真实模具包装照片，未提供时用发运图标。",
-        "cta": {
-          "label": "See All Project Milestones",
-          "href": "/mold-development-process/"
-        }
+          "We arrange shipment of the finished mold after you confirm the trial samples are acceptable. Transport details are discussed directly for your order."
+        ]
       }
     ],
     "faqs": [
@@ -1719,7 +1691,7 @@
       },
       {
         "q": "What should I do if a sample has a problem?",
-        "a": "Share clear feedback with us, including the relevant sample, feature and requirement. We will discuss the concern and the next action for the project."
+        "a": "Tell us which sample has the issue and what you observed. Photos, measurements or other context can help when available. We will discuss the next action with you before mold shipment."
       },
       {
         "q": "Are trial samples a volume production order?",
@@ -1741,14 +1713,14 @@
       }
     ],
     "final_cta": {
-      "heading": "Make your acceptance needs part of the conversation",
-      "text": "Describe the product you need to make and the requirements that matter for your sample review. Start with a basic inquiry, then discuss the supporting drawings or physical sample with us.",
+      "heading": "Tell us about the part you need to make",
+      "text": "Share your product drawings or discuss a physical sample. We will review the custom mold project with you.",
       "label": "Request a Mold Quote",
       "href": "/request-a-quote/"
     },
     "evidence_notes_cn": [
-      "未确认检测设备、第三方报告、检验项目或认证，不能在设计或开发阶段自行添加徽章和量化指标。",
-      "样品异常的修改次数、费用、责任规则待项目确认，页面仅解释反馈方式。"
+      "不增加事前统一样品检查要求，不暗示网站提供固定检测项目；客户收到试模样品后自行测试。",
+      "未确认检测设备、第三方报告、检验项目或认证，不添加徽章和量化指标。样品异常的修改次数、费用、责任规则按项目沟通。"
     ],
     "source_urls": []
   },
