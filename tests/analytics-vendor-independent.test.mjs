@@ -165,4 +165,3 @@ test('hard-navigation helper decides fragment reload before Location.assign sync
   assert.equal(navigateForExternalMeasurement(window, 'https://other.example/private'), false);
   assert.equal(assignments, 2, 'helper does not intercept cross-origin links');
 });
-

@@ -40,4 +40,3 @@ export function createMeasurementController({firstPartyEnabled=false,externalEna
   destroy(){if(destroyed)return;destroyed=true;permitted=false;core.destroy();vendors?.destroy();},
  });
 }
-
