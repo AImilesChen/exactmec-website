@@ -35,3 +35,4 @@ createRoot(document.getElementById("root")).render(
 );
 
 import './mold-handover.css';
+import './footer.css';
