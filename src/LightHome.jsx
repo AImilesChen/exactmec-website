@@ -131,7 +131,7 @@ export function LightHome() {
   </div></section>
   <section className="home-v2-faq container" id="home-faq"><div><p className="home-v2-eyebrow">COMMON QUESTIONS</p><h2>Before You Request a Mold Quote</h2><TextLink href="/faq/">View all FAQs</TextLink></div><FAQList faqs={page.faqs||source.faqs}/></section>
   <section className="home-v2-contact" id="start-your-project">
-   <CmsImage src="/assets/home-v2-cta.webp" alt="" aria-hidden="true" width="1440" height="360" loading="lazy"/>
+   <CmsImage src="/assets/home-v2-cta.webp" alt="" aria-hidden="true" width="1440" height="360" sizes="100vw" loading="lazy"/>
    <div className="container"><h2>{page.final_cta?.heading!==source.final_cta?.heading?page.final_cta?.heading:'Ready to Discuss Your Mold?'}</h2><p className="home-v2-section-intro">Tell us about your part and the drawings or sample you have available.</p>
     <div className="home-v2-actions"><QuoteButton/><a href={'https://wa.me/'+business.whatsappNumber} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" className="home-v2-link home-v2-whatsapp"><WhatsappLogo size={27} weight="fill" aria-hidden="true"/>Chat on WhatsApp<ArrowRight size={21} aria-hidden="true"/></a></div>
    </div>
