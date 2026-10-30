@@ -68,7 +68,7 @@ test('portal gates stay closed in review; bypass works only on explicit loopback
   assert.ok(anonymous.reference, 'anonymous inquiry did not require a customer cookie or login');
 });
 
-test('known and unknown emails get identical generic challenges; only existing inquiry addresses receive OTP', async () => {
+test('valid emails can sign in before an inquiry and see an empty account', async () => {
   const owner = await seed(); const unknown = email();
   const before = messages.length;
   await issue('  ' + owner.email.toUpperCase() + '  ');
@@ -77,10 +77,15 @@ test('known and unknown emails get identical generic challenges; only existing i
   assert.match(messages.at(-1).code, /^\d{6}$/);
   assert.equal(messages.at(-1).expiresMinutes, 10);
   const challenge = await issue(unknown);
-  assert.equal(messages.length, before + 1);
+  assert.equal(messages.length, before + 2);
+  assert.equal(messages.at(-1).email, unknown);
   assert.equal((await call('/auth/verify-code', 'POST', { challenge, code: '000000' })).status, 400);
   const data = await (await call('/auth/verify-code', 'POST', { challenge, code: '000000' })).json();
   assert.deepEqual(data, { error: 'invalid_code' });
+  const auth = await login(email());
+  const list = await call('/inquiries', 'GET', undefined, { Cookie: auth.cookie });
+  assert.equal(list.status, 200);
+  assert.deepEqual((await list.json()).items, []);
 });
 
 test('verification rotates a random hashed session with isolated cookie and signed session-bound CSRF', async () => {
@@ -258,16 +263,16 @@ test('supplements are immutable, optimistic, scoped and withdrawal leaves origin
   assert.ok(history.results.filter(item => item.action.startsWith('customer_')).every(item => item.note === ''));
 });
 
-test('owner deletion cascades customer records, cannot resurrect a lead and removes sessions with no remaining inquiries', async () => {
+test('owner deletion cascades inquiry data but the verified account remains available', async () => {
   const owner = await seed(); const auth = await login(owner.email);
   const headers = { Cookie: auth.cookie, 'X-CSRF-Token': auth.data.csrfToken };
   const path = '/inquiries/' + owner.reference;
   assert.equal((await call(path + '/supplements', 'POST', { revision: 1, note: 'Delete cascade synthetic note' }, headers)).status, 201);
   await db.prepare('DELETE FROM leads WHERE reference=?').bind(owner.reference).run();
   for (const table of ['customer_supplements', 'customer_inquiry_state']) assert.equal((await db.prepare(`SELECT count(*) AS n FROM ${table} WHERE reference=?`).bind(owner.reference).first()).n, 0);
-  assert.equal((await call(path + '/supplements', 'POST', { revision: 2, note: 'Must not resurrect' }, headers)).status, 401);
+  assert.equal((await call(path + '/supplements', 'POST', { revision: 2, note: 'Must not resurrect' }, headers)).status, 404);
   assert.equal((await db.prepare('SELECT count(*) AS n FROM leads WHERE reference=?').bind(owner.reference).first()).n, 0);
-  assert.equal((await call('/session', 'GET', undefined, headers)).status, 401);
+  assert.equal((await call('/session', 'GET', undefined, headers)).status, 200);
 });
 
 test('supplement cap bounds detail responses atomically while list omits note bodies and withdrawal still works', async () => {

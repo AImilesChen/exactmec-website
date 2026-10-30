@@ -46,7 +46,7 @@ All writes are same-origin JSON and require an exact `Origin`, not `cross-site` 
 
 Common failures: `503 portal_unavailable` when feature/config gates close; `503 service_unavailable` for backend failure; `401 unauthorized` for absent/expired/invalid session; `403 origin_denied` or `csrf_required`; `404 not_found` for absent or another customer's reference; `409 revision_conflict`, `withdrawn` or `supplement_limit`; `422 invalid_request` for mutation validation. No exception/raw SQL/PII is returned. Rate failures include bounded numeric `Retry-After`, except code issuance deliberately stays generic202.
 
-Clients must not describe generic202 as proof an email was sent. Use: “If that email has matching inquiries, a code will arrive shortly.” After an ambiguous mutation, reload rather than automatically retrying.
+Clients must not describe generic202 as proof an email was sent. Valid email addresses may sign in before submitting an inquiry; their list is empty until they submit one with that address. After an ambiguous mutation, reload rather than automatically retrying.
 
 ## Identity, code and session boundaries
 

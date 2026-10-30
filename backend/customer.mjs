@@ -42,16 +42,15 @@ async function requestCode(request, input, env, context, config) {
     customerRate(env, 'issue-email', emailHash, { limit: 3, seconds: 900 }),
   ]);
   if (!ipRate.allowed || !emailRate.allowed || !await customerReserveEmail(env, emailHash)) return accepted();
-  const existing = email ? await stmt(env.DB, 'SELECT 1 AS found FROM leads WHERE email_hash=? LIMIT 1', emailHash).first() : null;
   const code = customerRandomCode();
   const challengeHash = await customerAuthHash(env, 'customer-challenge', `${config.origin}:${challenge}`);
   const codeHash = await customerAuthHash(env, 'customer-code', `${config.origin}:${challenge}:${code}`);
   const current = Date.now();
   await env.DB.batch([
     stmt(env.DB, 'UPDATE customer_auth_challenges SET consumed_at=? WHERE email_hash=? AND consumed_at IS NULL', current, emailHash),
-    stmt(env.DB, 'INSERT INTO customer_auth_challenges(challenge_hash,email_hash,code_hash,eligible,delivery_state,attempts,created_at,expires_at) VALUES(?,?,?,?,\'pending\',0,?,?)', challengeHash, emailHash, codeHash, existing ? 1 : 0, current, current + CUSTOMER_CODE_MINUTES * 60000),
+    stmt(env.DB, 'INSERT INTO customer_auth_challenges(challenge_hash,email_hash,code_hash,eligible,delivery_state,attempts,created_at,expires_at) VALUES(?,?,?,?,\'pending\',0,?,?)', challengeHash, emailHash, codeHash, email ? 1 : 0, current, current + CUSTOMER_CODE_MINUTES * 60000),
   ]);
-  if (existing) {
+  if (email) {
     const delivery = Promise.resolve().then(async () => {
       try {
         const result = await context.sendCode({ email, code, expiresMinutes: CUSTOMER_CODE_MINUTES });
@@ -81,7 +80,7 @@ async function verifyCode(request, input, env, config) {
   const oldHash = oldToken ? await customerAuthHash(env, 'customer-session', `${config.origin}:${oldToken}`) : null;
   const statements = [
     stmt(env.DB, 'UPDATE customer_auth_challenges SET attempts=attempts+1,consumed_at=CASE WHEN code_hash=? OR attempts+1>=5 THEN ? ELSE NULL END,mutation_id=? WHERE challenge_hash=? AND expires_at>? AND consumed_at IS NULL AND attempts<5 AND delivery_state=\'accepted\' RETURNING challenge_hash', codeHash, current, mutation, challengeHash, current),
-    stmt(env.DB, 'INSERT INTO customer_sessions(token_hash,email_hash,created_at,expires_at) SELECT ?,email_hash,?,? FROM customer_auth_challenges WHERE challenge_hash=? AND mutation_id=? AND consumed_at=? AND code_hash=? AND eligible=1 AND delivery_state=\'accepted\' AND EXISTS(SELECT 1 FROM leads WHERE leads.email_hash=customer_auth_challenges.email_hash) RETURNING token_hash,email_hash,created_at,expires_at', tokenHash, current, expiresAt, challengeHash, mutation, current, codeHash),
+    stmt(env.DB, 'INSERT INTO customer_sessions(token_hash,email_hash,created_at,expires_at) SELECT ?,email_hash,?,? FROM customer_auth_challenges WHERE challenge_hash=? AND mutation_id=? AND consumed_at=? AND code_hash=? AND eligible=1 AND delivery_state=\'accepted\' RETURNING token_hash,email_hash,created_at,expires_at', tokenHash, current, expiresAt, challengeHash, mutation, current, codeHash),
   ];
   if (oldHash) statements.push(stmt(env.DB, 'DELETE FROM customer_sessions WHERE token_hash=? AND EXISTS(SELECT 1 FROM customer_sessions WHERE token_hash=?)', oldHash, tokenHash));
   const result = await env.DB.batch(statements);

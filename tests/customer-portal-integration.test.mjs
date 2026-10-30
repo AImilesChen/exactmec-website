@@ -83,7 +83,7 @@ test('challenge response is generic for lead-owning and new email addresses and 
   const unknown = await challenge(emailB);
   assert.notEqual(existing.challenge, unknown.challenge);
   assert.match(existing.code, /^\d{6}$/);
-  assert.equal(deliveries.length, count, 'unknown email does not cause a login email');
+  assert.equal(deliveries.length, count + 1, 'new email can receive a login code');
   const tables = (await DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'customer_%'").all()).results;
   for (const { name } of tables) {
     const rows = (await DB.prepare('SELECT * FROM "' + name + '"').all()).results;

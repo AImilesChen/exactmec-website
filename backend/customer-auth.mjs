@@ -65,14 +65,14 @@ export async function customerReadSession(request, env, config) {
   const token = customerCookieToken(request, config);
   if (!token) return null;
   const tokenHash = await customerAuthHash(env, 'customer-session', `${config.origin}:${token}`);
-  return stmt(env.DB, 'SELECT token_hash,email_hash,created_at,expires_at FROM customer_sessions WHERE token_hash=? AND expires_at>? AND EXISTS(SELECT 1 FROM leads WHERE leads.email_hash=customer_sessions.email_hash)', tokenHash, Date.now()).first();
+  return stmt(env.DB, 'SELECT token_hash,email_hash,created_at,expires_at FROM customer_sessions WHERE token_hash=? AND expires_at>?', tokenHash, Date.now()).first();
 }
 export async function customerCleanup(env) {
   const current = Date.now();
   await env.DB.batch([
     stmt(env.DB, 'DELETE FROM customer_rate_buckets WHERE expires_at<=?', current),
     stmt(env.DB, 'DELETE FROM customer_auth_challenges WHERE expires_at<=?', current),
-    stmt(env.DB, 'DELETE FROM customer_sessions WHERE expires_at<=? OR NOT EXISTS(SELECT 1 FROM leads WHERE leads.email_hash=customer_sessions.email_hash)', current),
+    stmt(env.DB, 'DELETE FROM customer_sessions WHERE expires_at<=?', current),
   ]);
 }
 export async function customerRate(env, purpose, value, { limit, seconds }) {
