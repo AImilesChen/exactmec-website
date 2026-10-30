@@ -2,10 +2,9 @@
 export const business = Object.freeze({
   brand: 'EXACTMEC',
   siteOrigin: 'https://exactmec.com',
-  operator: '台州巽风贸易有限公司',
+  operator: 'Taizhou Xunfeng Trading Co., Ltd.',
   contactEmail: 'sales@exactmec.com',
   correspondenceAddress: 'No. 46 Jinqing Avenue, Luqiao, Taizhou, Zhejiang, China',
-  correspondenceAddressNative: '中国浙江台州路桥金清大道46号',
   whatsappNumber: '8615990661727',
   whatsappDisplay: '+86 159 9066 1727',
 });

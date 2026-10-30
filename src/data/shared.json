@@ -33,7 +33,7 @@
   },
   "footer": {
     "description": "Custom aluminum die casting molds, from part information to design confirmation, trial samples and mold delivery. One mold set accepted.",
-    "operator_label": "Website operator: 台州巽风贸易有限公司, China.",
+    "operator_label": "Website operator: Taizhou Xunfeng Trading Co., Ltd., China.",
     "links": [
       {
         "label": "Frequently Asked Questions",
@@ -53,7 +53,7 @@
         "release_condition_cn": "实际Cookie/服务配置确认并发布该政策后显示。"
       }
     ],
-    "copyright_template": "© {CURRENT_YEAR} ExactMec. Website operated by 台州巽风贸易有限公司."
+    "copyright_template": "© {CURRENT_YEAR} ExactMec. Website operated by Taizhou Xunfeng Trading Co., Ltd."
   },
   "asset_captions": {
     "ai_example": "Illustrative component example. Shown to explain a potential mold application; this is not a delivered project.",

@@ -15,7 +15,7 @@ export function confirmedOrigin(value = '') {
 function schema(page, origin) {
   const pageUrl = origin + page.path;
   const graph = [
-    { '@type': 'Organization', '@id': origin + '/#operator', name: '台州巽风贸易有限公司', url: origin },
+    { '@type': 'Organization', '@id': origin + '/#operator', name: 'Taizhou Xunfeng Trading Co., Ltd.', url: origin },
     { '@type': 'WebSite', '@id': origin + '/#website', name: 'ExactMec', url: origin + '/', publisher: { '@id': origin + '/#operator' } },
     { '@type': schemaTypes[page.kind] || 'WebPage', '@id': pageUrl + '#page', url: pageUrl, name: page.title,
       headline: page.id === 'rfq' ? 'Tell Us About Your Mold Project' : page.h1,

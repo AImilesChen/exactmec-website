@@ -65,7 +65,7 @@ test('release metadata indexes exactly the twenty-four marketing routes, with co
       assert.ok(meta.jsonLd['@graph'].some(node => node.url === meta.canonical));
       assert.ok(!serialized.includes('SITE_ORIGIN'));
       for (const forbidden of ['telephone', 'address', 'aggregateRating', 'Offer', 'sameAs', 'datePublished']) assert.ok(!serialized.includes('"' + forbidden + '"'));
-      assert.equal(meta.jsonLd['@graph'][0].name, '台州巽风贸易有限公司');
+      assert.equal(meta.jsonLd['@graph'][0].name, 'Taizhou Xunfeng Trading Co., Ltd.');
     } else assert.equal(meta.jsonLd, null);
   }
   assert.equal(getPageMeta('/request-a-quote/', { release: true, indexingEnabled: true, origin }).jsonLd['@graph'][2].headline, 'Tell Us About Your Mold Project');

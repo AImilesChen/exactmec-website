@@ -185,15 +185,15 @@
     }
   ],
   "drawing_note": "Your selected product drawings will be sent with this inquiry for review. We will confirm the next quotation steps after assessing them.",
-  "notice": "Your inquiry is handled by 台州巽风贸易有限公司, the operator of ExactMec. We use your contact and project details, any product drawings or photos you upload, and available page and campaign source information to review your mold request and follow up. Please see our Privacy Policy for how we handle your information. Budget and purchase timing are optional. Clear 2D or 3D part drawings, or a physical sample, are needed before a formal quotation.",
+  "notice": "Your inquiry is handled by Taizhou Xunfeng Trading Co., Ltd., the operator of ExactMec. We use your contact and project details, any product drawings or photos you upload, and available page and campaign source information to review your mold request and follow up. Please see our Privacy Policy for how we handle your information. Budget and purchase timing are optional. Clear 2D or 3D part drawings, or a physical sample, are needed before a formal quotation.",
   "processing_checkbox": {
     "default": false,
-    "label": "I agree to 台州巽风贸易有限公司 using the information I provide to assess and respond to this mold inquiry as described in the Privacy Policy. I can withdraw my consent using the contact details in that policy."
+    "label": "I agree to Taizhou Xunfeng Trading Co., Ltd. using the information I provide to assess and respond to this mold inquiry as described in the Privacy Policy. I can withdraw my consent using the contact details in that policy."
   },
   "whatsapp_checkbox": {
     "default": false,
     "required": false,
-    "label": "Yes, 台州巽风贸易有限公司 (ExactMec) may message me on WhatsApp at the number I provide about this mold inquiry and its progress. I can ask you to stop at any time.",
+    "label": "Yes, Taizhou Xunfeng Trading Co., Ltd. (ExactMec) may message me on WhatsApp at the number I provide about this mold inquiry and its progress. I can ask you to stop at any time.",
     "helper": "Optional. You can submit without choosing WhatsApp; we can respond by email. This choice does not sign you up for marketing or authorize WhatsApp calls."
   },
   "submit": "Send My Mold Inquiry"
