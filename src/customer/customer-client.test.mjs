@@ -92,3 +92,12 @@ test('backend CSRF-required and note-limit codes have safe distinct states',asyn
   if(expected==='csrf'){await assert.rejects(client.withdraw(reference,{revision:1}),kind('csrf'));assert.equal(calls,2);}
  }
 });
+
+test('supplemental drawing uses bounded multipart and preserves the server-projected file list',async()=>{
+ const calls=[];const id='123e4567-e89b-42d3-a456-426614174000';
+ const client=createCustomerClient({fetchImpl:async(url,init)=>{calls.push({url,init});return url.endsWith('/session')?json(session()):json({inquiry:inquiry({revision:2,extra_files:[{id,name:'revision.step',size:5,extension:'step',created_at:now(),internal_note:'SECRET'}]})},201);}});
+ await client.session();const saved=await client.uploadFile(reference,{revision:1,file:new File(['hello'],'revision.step')});
+ assert.equal(saved.extra_files[0].name,'revision.step');assert.equal(saved.extra_files[0].internal_note,undefined);
+ assert.equal(calls[1].url,`/api/customer/inquiries/${reference}/files`);assert.equal(calls[1].init.headers['Content-Type'],undefined);assert.equal(calls[1].init.headers['X-CSRF-Token'],'synthetic-customer-csrf');assert.equal(calls[1].init.body.get('revision'),'1');
+ await assert.rejects(client.uploadFile(reference,{revision:2,file:new File(['hello'],'bad'.repeat(60)+'.step')}),kind('invalid'));
+});

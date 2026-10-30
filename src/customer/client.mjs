@@ -10,6 +10,7 @@ const messages = Object.freeze({
   conflict: 'This inquiry has changed. Reload it before making another update.',
   withdrawn: 'This inquiry has been withdrawn. Reload it to see its current status.',
   supplement_limit: 'This inquiry has reached the limit for added notes. Your information is still available. Continue the project discussion by email or WhatsApp.',
+  file_limit: 'This inquiry has reached its supplemental file limit. Continue by email or WhatsApp.',
   network: 'The connection failed. The result could not be confirmed. Reload before trying again.',
   timeout: 'The request timed out. The result could not be confirmed. Reload before trying again.',
   invalid_response: 'The result could not be confirmed. Reload before trying again.',
@@ -46,7 +47,17 @@ export function customerInquiry(input) {
     if (!isObject(entry) || typeof entry.id !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(entry.id) || typeof entry.note !== 'string' || !entry.note.trim() || entry.note.length > 4000 || !validDate(entry.created_at)) throw new CustomerApiError('invalid_response');
     return { id: entry.id, note: entry.note, created_at: entry.created_at };
   });
-  return { reference: input.reference, revision: input.revision, created_at: input.created_at, updated_at: input.updated_at, status: input.status, submitted, supplements, withdrawn: input.withdrawn, withdrawn_at: input.withdrawn_at ?? null };
+  const files = (input.files || []).map((file, position) => {
+    if (!isObject(file) || file.index !== position || typeof file.name !== 'string' || !file.name || file.name.length > 150 || /[\\/\u0000-\u001f\u007f]/.test(file.name) || !Number.isSafeInteger(file.size) || file.size < 1 || file.size > 20 * 1024 * 1024 || typeof file.extension !== 'string' || !/^[a-z0-9_]{2,10}$/.test(file.extension)) throw new CustomerApiError('invalid_response');
+    return { index: position, name: file.name, size: file.size, extension: file.extension };
+  });
+  if (files.length > 5) throw new CustomerApiError('invalid_response');
+  const extraFiles = (input.extra_files || []).map(file => {
+    if (!isObject(file) || typeof file.id !== 'string' || !/^[a-f0-9-]{36}$/.test(file.id) || typeof file.name !== 'string' || !file.name || file.name.length > 150 || /[\\/\u0000-\u001f\u007f]/.test(file.name) || !Number.isSafeInteger(file.size) || file.size < 1 || file.size > 20 * 1024 * 1024 || typeof file.extension !== 'string' || !/^[a-z0-9_]{2,10}$/.test(file.extension) || !validDate(file.created_at)) throw new CustomerApiError('invalid_response');
+    return { id: file.id, name: file.name, size: file.size, extension: file.extension, created_at: file.created_at };
+  });
+  if (extraFiles.length > 5) throw new CustomerApiError('invalid_response');
+  return { reference: input.reference, revision: input.revision, created_at: input.created_at, updated_at: input.updated_at, status: input.status, submitted, files, extra_files: extraFiles, supplements, withdrawn: input.withdrawn, withdrawn_at: input.withdrawn_at ?? null };
 }
 
 /** Challenge and CSRF credentials exist only in this closure. No persistent drafts or URL parameters. */
@@ -60,12 +71,13 @@ export function createCustomerClient({ fetchImpl = globalThis.fetch?.bind(global
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
       const headers = { Accept: 'application/json' };
-      if (method !== 'GET') { headers['Content-Type'] = 'application/json'; if (!anonymous) headers['X-CSRF-Token'] = csrfToken; }
-      const response = await fetchImpl(path, { method, headers, ...(body !== undefined ? { body: JSON.stringify(body) } : {}), credentials: 'same-origin', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer', signal: controller.signal });
+      const multipart = typeof FormData !== 'undefined' && body instanceof FormData;
+      if (method !== 'GET') { if (!multipart) headers['Content-Type'] = 'application/json'; if (!anonymous) headers['X-CSRF-Token'] = csrfToken; }
+      const response = await fetchImpl(path, { method, headers, ...(body !== undefined ? { body: multipart ? body : JSON.stringify(body) } : {}), credentials: 'same-origin', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer', signal: controller.signal });
       if (!response.ok) {
         let code = '';
         if (response.headers.get('content-type')?.includes('application/json')) try { const data = await response.json(); code = typeof data?.error === 'string' ? data.error : ''; } catch { /* Keep fixed safe messages. */ }
-        const kind = response.status === 503 ? 'unavailable' : response.status === 429 ? 'rate_limit' : response.status === 401 ? 'expired' : response.status === 403 ? (code === 'csrf' || code === 'invalid_csrf' || code === 'csrf_required' ? 'csrf' : 'forbidden') : response.status === 404 ? 'not_found' : response.status === 409 ? (code === 'withdrawn' ? 'withdrawn' : code === 'supplement_limit' ? 'supplement_limit' : 'conflict') : response.status === 400 || response.status === 422 ? (code === 'invalid_code' ? 'invalid_code' : 'invalid') : 'failed';
+        const kind = response.status === 503 ? 'unavailable' : response.status === 429 ? 'rate_limit' : response.status === 401 ? 'expired' : response.status === 403 ? (code === 'csrf' || code === 'invalid_csrf' || code === 'csrf_required' ? 'csrf' : 'forbidden') : response.status === 404 ? 'not_found' : response.status === 409 ? (code === 'withdrawn' ? 'withdrawn' : code === 'supplement_limit' ? 'supplement_limit' : code === 'file_limit' ? 'file_limit' : 'conflict') : response.status === 400 || response.status === 422 ? (code === 'invalid_code' ? 'invalid_code' : 'invalid') : 'failed';
         if (['expired','csrf'].includes(kind)) csrfToken = null;
         const seconds = Number(response.headers.get('Retry-After'));
         throw new CustomerApiError(kind, response.status, kind === 'rate_limit' ? Number.isFinite(seconds) && seconds > 0 ? Math.min(3600, Math.ceil(seconds)) : 60 : 0);
@@ -122,6 +134,12 @@ export function createCustomerClient({ fetchImpl = globalThis.fetch?.bind(global
       const path = referencePath(reference), currentRevision = revision(input?.revision), note = input?.note;
       if (typeof note !== 'string' || !note.trim() || note.length > 4000 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(note)) invalid();
       return write(async () => { const { status, data } = await request(path + '/supplements', { method: 'POST', body: { revision: currentRevision, note: note.trim() } }); if (status !== 201) throw new CustomerApiError('invalid_response'); return inquiryResult(data.inquiry, reference); });
+    },
+    async uploadFile(reference, input) {
+      const path = referencePath(reference), currentRevision = revision(input?.revision), file = input?.file;
+      if (!file || typeof file.name !== 'string' || file.name.length < 3 || file.name.length > 150 || /[\\/\u0000-\u001f\u007f]/.test(file.name) || !/\.(?:pdf|dwg|dxf|step|stp|igs|iges|x_t|sat|sldprt|prt|jpg|jpeg|png|webp)$/i.test(file.name) || !Number.isSafeInteger(file.size) || file.size < 1 || file.size > 20 * 1024 * 1024) invalid();
+      const form = new FormData(); form.set('revision', String(currentRevision)); form.set('file', file);
+      return write(async () => { const { status, data } = await request(path + '/files', { method: 'POST', body: form }); if (status !== 201) throw new CustomerApiError('invalid_response'); return inquiryResult(data.inquiry, reference); });
     },
     async withdraw(reference, input) {
       const path = referencePath(reference), currentRevision = revision(input?.revision);

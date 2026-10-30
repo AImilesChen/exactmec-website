@@ -156,6 +156,8 @@ async function item(env, row, detail = false) {
     if(detail){
       const supplements=await stmt(db,'SELECT id,note,created_at FROM customer_supplements WHERE reference=? ORDER BY created_at,id',row.reference).all();
       result.customer.supplements=supplements.results;
+      const files=await stmt(db,'SELECT id,name,size,extension,created_at FROM customer_inquiry_files WHERE reference=? ORDER BY created_at,id LIMIT 5',row.reference).all();
+      result.customer.files=files.results;
     }
   }
   if (detail) {
@@ -225,14 +227,15 @@ async function leadAction(request, env, context, reference, action) {
   const timestamp = now(); const mutation = uuid(); const hash = await actorHash(env, context.actor);
   if (request.method === 'DELETE' && !action) {
     if (input.confirmation !== reference) return error('confirmation_required', 422);
+    const additionalFiles=enabled(env.CUSTOMER_SCHEMA_READY)?await stmt(env.DB,'SELECT id FROM customer_inquiry_files WHERE reference=?',reference).all():{results:[]};
     const batch = await env.DB.batch([
       stmt(env.DB, 'INSERT INTO audit_events(id,action,reference,actor_hash,metadata_json,created_at) SELECT ?,\'deleted\',reference,?,\'{}\',? FROM leads WHERE reference=? AND revision=?', uuid(), hash, timestamp, reference, input.revision),
       stmt(env.DB, 'DELETE FROM leads WHERE reference=? AND revision=? RETURNING reference', reference, input.revision)
     ]);
     if(batch[1].results?.length!==1)return error('revision_conflict',409);
     const fileCount=Array.isArray(JSON.parse(row.payload_json).files)?JSON.parse(row.payload_json).files.length:0;
-    if(fileCount&&env.INQUIRY_FILES){
-      const cleanup=removeInquiryFiles(env.INQUIRY_FILES,reference,fileCount);
+    if(env.INQUIRY_FILES&&(fileCount||additionalFiles.results.length)){
+      const cleanup=Promise.all([removeInquiryFiles(env.INQUIRY_FILES,reference,fileCount),...additionalFiles.results.map(file=>env.INQUIRY_FILES.delete(`inquiries/${reference}/customer/${file.id}`))]);
       if(typeof context.waitUntil==='function')context.waitUntil(cleanup);else await cleanup;
     }
     return new Response(null, { status: 204, headers });
@@ -281,6 +284,16 @@ export async function handleBusiness(request, env, context = {}) {
       const fallback=`drawing-${index+1}.${files[index].extension}`;
       const name=typeof files[index].name==='string'?files[index].name:fallback;
       return new Response(object.body,{headers:{'Content-Type':'application/octet-stream','Content-Disposition':`attachment; filename="${fallback}"; filename*=UTF-8''${encodeURIComponent(name)}`,'Content-Length':String(object.size),'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer'}});
+    }
+    const extraFileMatch=/^\/api\/admin\/leads\/([^/]+)\/customer-files\/([a-f0-9-]{36})$/.exec(path);
+    if(extraFileMatch){
+      if(request.method!=='GET'||!validReference(extraFileMatch[1])||!enabled(env.CUSTOMER_SCHEMA_READY)||!env.INQUIRY_FILES)return error('not_found',404);
+      const file=await stmt(env.DB,'SELECT customer_inquiry_files.id,customer_inquiry_files.name,customer_inquiry_files.extension FROM customer_inquiry_files JOIN leads ON leads.reference=customer_inquiry_files.reference WHERE customer_inquiry_files.reference=? AND customer_inquiry_files.id=?',extraFileMatch[1],extraFileMatch[2]).first();
+      if(!file)return error('not_found',404);
+      const object=await env.INQUIRY_FILES.get(`inquiries/${extraFileMatch[1]}/customer/${file.id}`);
+      if(!object)return error('not_found',404);
+      await audit(env,context.actor,'customer_file_downloaded',extraFileMatch[1],{id:file.id});
+      return new Response(object.body,{headers:{'Content-Type':'application/octet-stream','Content-Disposition':`attachment; filename="drawing.${file.extension}"; filename*=UTF-8''${encodeURIComponent(file.name)}`,'Content-Length':String(object.size),'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Robots-Tag':'noindex,nofollow','Referrer-Policy':'no-referrer'}});
     }
     const match = /^\/api\/admin\/leads\/([^/]+)(?:\/(opt-out|retry-notification))?$/.exec(path);
     if (!match || !validReference(match[1])) return error('not_found', 404);

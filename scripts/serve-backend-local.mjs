@@ -51,7 +51,7 @@ const server=http.createServer(async(req,res)=>{
   const url=new URL(req.url,origin);
   if(url.pathname.startsWith('/api/')){
    const chunks=[];let size=0;
-   const limit=url.pathname==='/api/inquiries'&&/^multipart\/form-data/i.test(req.headers['content-type']||'')?MAX_MULTIPART_BYTES:65536;
+   const limit=(url.pathname==='/api/inquiries'||/^\/api\/customer\/inquiries\/[A-Za-z0-9_-]+\/files$/.test(url.pathname))&&/^multipart\/form-data/i.test(req.headers['content-type']||'')?MAX_MULTIPART_BYTES:65536;
    for await(const chunk of req){size+=chunk.length;if(size>limit){res.writeHead(413,{'Content-Type':'application/json'});res.end('{"error":"body_too_large"}');return;}chunks.push(chunk);}
    const headers=new Headers(Object.entries(req.headers).filter(([,v])=>typeof v==='string'));
    headers.set('CF-Connecting-IP',req.socket.remoteAddress||'127.0.0.1');

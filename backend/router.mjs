@@ -63,7 +63,7 @@ export function createApiHandler({authenticate=authenticateAccess,localSynthetic
    if(request.method!=='GET'){
     if(!writeOriginAllowed(request,env,{localSynthetic}))return secureApi(json({error:'origin_denied'},403));
     if(admin&&!await verifyCsrf(request.headers.get('X-CSRF-Token'),actor,env))return secureApi(json({error:'csrf_required'},403));
-    const multipart=path==='/api/inquiries'&&/^multipart\/form-data(?:\s*;|$)/i.test(request.headers.get('Content-Type')||'');
+    const multipart=(path==='/api/inquiries'||/^\/api\/customer\/inquiries\/[A-Za-z0-9_-]+\/files$/.test(path))&&/^multipart\/form-data(?:\s*;|$)/i.test(request.headers.get('Content-Type')||'');
     const body=multipart?await boundedInquiryMultipart(request):await boundedJsonRequest(request);if(body.error)return secureApi(body.error);request=body.request;
     if(localSynthetic&&path==='/api/inquiries'){
      const fixture=multipart?JSON.parse((await request.clone().formData()).get('payload')):await request.clone().json();

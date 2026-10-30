@@ -44,7 +44,7 @@ async function login(address, options = {}) {
 before(async () => {
   mf = new Miniflare(convertV4MiniflareOptions({ modules: true, script: 'export default {fetch(){return new Response("synthetic-only")}}', compatibilityDate: '2026-10-01', d1Databases: { DB: 'synthetic-customer-tests' } }));
   db = await mf.getD1Database('DB');
-  for (const file of ['0001_inquiries.sql', '0006_customer_portal.sql']) {
+  for (const file of ['0001_inquiries.sql', '0006_customer_portal.sql', '0007_customer_files.sql']) {
     const migration = readFileSync(new URL('../migrations/' + file, import.meta.url), 'utf8');
     await db.batch(migration.split(';').map(sql => sql.trim()).filter(Boolean).map(sql => db.prepare(sql)));
   }
@@ -140,6 +140,47 @@ test('customers see only their own safe submitted fields/status and cannot read 
   assert.equal((await call('/inquiries/' + other.reference + '/supplements', 'POST', { revision: 1, note: 'Unauthorized' }, headers)).status, 404);
   assert.equal((await call('/inquiries/' + other.reference + '/withdraw', 'POST', { revision: 1 }, headers)).status, 404);
   assert.equal((await db.prepare('SELECT count(*) AS n FROM customer_supplements WHERE reference=?').bind(other.reference).first()).n, 0);
+});
+
+test('customer drawings stay private; supplemental uploads are immutable and visible to the owner', async () => {
+  const owner = await seed(), stranger = await seed();
+  const auth = await login(owner.email), otherAuth = await login(stranger.email);
+  const stored = new Map();
+  env.INQUIRY_FILES = {
+    put: async (key, bytes) => { stored.set(key, new Uint8Array(bytes)); },
+    get: async key => stored.has(key) ? { body: new Blob([stored.get(key)]).stream(), size: stored.get(key).byteLength } : null,
+    delete: async key => { stored.delete(key); },
+  };
+  const original = { name: 'original.step', size: 8, extension: 'step' };
+  const payload = { ...owner.payload, files: [original] };
+  await db.prepare('UPDATE leads SET payload_json=? WHERE reference=?').bind(JSON.stringify(payload), owner.reference).run();
+  await env.INQUIRY_FILES.put(`inquiries/${owner.reference}/0`, new TextEncoder().encode('original').buffer);
+  const headers = { Cookie: auth.cookie, 'X-CSRF-Token': auth.data.csrfToken };
+  const ownOriginal = await call(`/inquiries/${owner.reference}/files/0`, 'GET', undefined, { Cookie: auth.cookie });
+  assert.equal(ownOriginal.status, 200); assert.equal(await ownOriginal.text(), 'original');
+  assert.equal((await call(`/inquiries/${owner.reference}/files/0`, 'GET', undefined, { Cookie: otherAuth.cookie })).status, 404);
+  const form = new FormData(); form.set('revision', '1'); form.set('file', new File(['new drawing'], 'revision.stp'));
+  const request = new Request(`${origin}/api/customer/inquiries/${owner.reference}/files`, { method: 'POST', headers: { Origin: origin, ...headers }, body: form });
+  const upload = await handleCustomer(request, env, context);
+  assert.equal(upload.status, 201, await upload.clone().text());
+  const result = (await upload.json()).inquiry;
+  assert.equal(result.files[0].name, 'original.step');
+  assert.equal(result.extra_files.length, 1);
+  assert.equal(result.extra_files[0].name, 'revision.stp');
+  const filePath = `/inquiries/${owner.reference}/supplemental-files/${result.extra_files[0].id}`;
+  assert.equal((await call(filePath, 'GET', undefined, { Cookie: otherAuth.cookie })).status, 404);
+  const ownExtra = await call(filePath, 'GET', undefined, { Cookie: auth.cookie });
+  assert.equal(ownExtra.status, 200); assert.equal(await ownExtra.text(), 'new drawing');
+  env.CUSTOMER_SCHEMA_READY = 'true';
+  const admin = await handleBusiness(new Request(`${origin}/api/admin/leads/${owner.reference}`, { headers: {} }), env, { actor: { id: 'synthetic-admin' } });
+  assert.equal(admin.status, 200); assert.equal((await admin.json()).lead.customer.files[0].name, 'revision.stp');
+  const stale = new FormData(); stale.set('revision', '1'); stale.set('file', new File(['stale'], 'stale.step'));
+  assert.equal((await handleCustomer(new Request(`${origin}/api/customer/inquiries/${owner.reference}/files`, { method: 'POST', headers: { Origin: origin, ...headers }, body: stale }), env, context)).status, 409);
+  const removal = await handleBusiness(new Request(`${origin}/api/admin/leads/${owner.reference}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ revision: 1, confirmation: owner.reference }) }), env, { actor: { id: 'synthetic-admin' } });
+  assert.equal(removal.status, 204);
+  assert.equal(stored.size, 0);
+  delete env.INQUIRY_FILES;
+  delete env.CUSTOMER_SCHEMA_READY;
 });
 
 test('writes require exact origin and session-bound CSRF; spoofed headers and duplicate cookies are rejected', async () => {

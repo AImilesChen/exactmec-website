@@ -45,7 +45,7 @@ async function login(email = emailA) {
 before(async () => {
   mf = new Miniflare(convertV4MiniflareOptions({ modules: true, script: 'export default {fetch(){return new Response("synthetic-only")}}', compatibilityDate: '2026-10-01', d1Databases: { DB: 'customer-independent-integration' } }));
   DB = await mf.getD1Database('DB');
-  for (const filename of ['0001_inquiries.sql', '0006_customer_portal.sql']) {
+  for (const filename of ['0001_inquiries.sql', '0006_customer_portal.sql', '0007_customer_files.sql']) {
     const sql = await fs.readFile(new URL('../migrations/' + filename, import.meta.url), 'utf8');
     await DB.batch(sql.split(';').map(value => value.trim()).filter(Boolean).map(value => DB.prepare(value)));
   }
