@@ -10,9 +10,9 @@ const topics=['All topics','Mold fundamentals','Part design','Melt flow & coolin
 
 const blogPhotos={
  hero:{src:'/assets/blog-hero-machining-v1.webp',alt:'CNC machining of a die casting mold cavity in a toolmaking workshop'},
- anatomy:{src:'/assets/blog-mold-anatomy-v1.webp',alt:'Open steel die casting mold halves on an inspection table'},
- parting:{src:'/assets/blog-parting-review-v1.webp',alt:'Technician inspecting the parting edge and drafted wall of a mold cavity'},
- flow:{src:'/assets/blog-gates-cooling-v1.webp',alt:'Machined mold cavity showing runner and gate channels with cooling connections'},
+ anatomy:{src:'/assets/blog-mold-anatomy-v2.webp',alt:'Complete open steel die casting mold with its two halves and a sample component'},
+ parting:{src:'/assets/blog-parting-review-v2.webp',alt:'Complete die casting mold with a technician checking its parting seam'},
+ flow:{src:'/assets/blog-gates-cooling-v2.webp',alt:'Complete open die casting mold with runner channels and cooling hose connections'},
 };
 
 function BlogPhoto({type,decorative=false,loading='lazy',sizes}){
