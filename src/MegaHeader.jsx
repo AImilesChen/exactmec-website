@@ -18,7 +18,7 @@ const applications=[
  ['Industrial Equipment','/industries/industrial-automation/',Factory,'menu-industrial-v1'],
  ['Tools & Appliances','/industries/power-tools-home-appliances/',Wrench,'menu-tools-v1']
 ];
-const guides=[['Quotation Preparation','/resources/die-casting-mold-quotation-requirements/','menu-guide-quotation-v1'],['Mold Cost Factors','/resources/die-casting-mold-cost/','menu-guide-cost-v1'],['Buyer Project Guide','/resources/die-casting-mold-development-process/','menu-guide-process-v1']];
+const guides=[['Mold Knowledge Blog','/blog/','menu-molds-v1'],['Quotation Preparation','/resources/die-casting-mold-quotation-requirements/','menu-guide-quotation-v1'],['Mold Cost Factors','/resources/die-casting-mold-cost/','menu-guide-cost-v1']];
 const names=['Die Casting Molds','Manufacturing','Applications','Resources','About'];
 function ArrowLink({href,children,onClick}){return <Link href={href} className="text-link" onClick={onClick}>{children}<ArrowRight size={18}/></Link>}
 export function MegaHeader({url,compactHome=false}){

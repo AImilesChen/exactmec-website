@@ -1,0 +1,160 @@
+[
+  {
+    "id": "blog-die-casting-mold-anatomy",
+    "path": "/blog/die-casting-mold-anatomy/",
+    "phase": "P0",
+    "kind": "article",
+    "title": "Anatomy of an Aluminum Die Casting Mold | EXACTMEC Blog",
+    "description": "Explore the cover half, ejector half, cavity, runners, gates, vents, cooling channels and moving cores in an aluminum die casting mold.",
+    "eyebrow": "MOLD FUNDAMENTALS",
+    "category": "Mold fundamentals",
+    "h1": "Anatomy of an Aluminum Die Casting Mold",
+    "intro": "What is inside the steel tool that shapes an aluminum casting? Start with the two die halves, then follow the metal and the finished part through the mold.",
+    "takeaway": "A mold is a system: cavity shape, metal entry, air escape, heat removal and part release must work together.",
+    "diagram": "anatomy",
+    "readTime": 5,
+    "publishedAt": "2026-10-31",
+    "sections": [
+      {
+        "id": "two-halves",
+        "heading": "The two halves and the cavity",
+        "paragraphs": [
+          "A typical high-pressure die casting tool has a stationary cover half and a moving ejector half. When they close, their shaped surfaces form the cavity that defines the casting. The dividing surface between them is the parting line. Its position affects both the shape of the mold and where a seam may appear on the part.",
+          "The tool also needs alignment and support. Guide elements help the two halves meet consistently, while the surrounding steel carries the forces of repeated closing and filling. A part drawing shows the intended casting; the mold design determines how that shape is made and released."
+        ],
+        "points": ["Cover half: the stationary side of the die.", "Ejector half: the moving side that helps release the casting.", "Cavity: the negative space that gives the casting its shape."]
+      },
+      {
+        "id": "metal-path",
+        "heading": "How molten metal reaches the cavity",
+        "paragraphs": [
+          "Molten aluminum enters through the shot system, moves through runners and passes through one or more gates into the cavity. Gate location and geometry influence the filling pattern. The engineer considers how fronts meet, where air can be trapped and which surfaces should avoid visible gate marks.",
+          "Air already inside the cavity must leave as metal arrives. Vents and overflow features are part of this flow system; they are planned together with the runner and gate, rather than added as decoration. The layout for one housing may be unsuitable for another, even when the outside dimensions look similar."
+        ]
+      },
+      {
+        "id": "temperature-and-release",
+        "heading": "Heat control and part release",
+        "paragraphs": [
+          "A die is heated and cooled repeatedly. Cooling channels remove heat from the steel and help control the thermal balance of the tool. Their position matters because thick and thin areas of a casting do not cool in the same way.",
+          "After the metal solidifies enough for opening, ejector pins help push the casting out. Side cores or slides may be needed for features that cannot pull straight out in the main opening direction. These moving features increase the number of interfaces that must align and operate reliably."
+        ]
+      },
+      {
+        "id": "review",
+        "heading": "What to look at in a 3D mold review",
+        "paragraphs": [
+          "The customer should confirm that the proposed tool reflects the intended part: major geometry, assembly faces, holes, openings and any critical surfaces. The tooling team reviews engineering details such as parting, gate and vent positions, cooling and ejection. A shared review helps catch a mismatch before steel is cut.",
+          "This article is an overview, not a fixed specification for every mold. Actual design choices depend on the component, alloy, equipment and agreed project requirements."
+        ]
+      }
+    ],
+    "sources": [{"label":"North American Die Casting Association — FAQ: die design and construction","url":"https://www.diecasting.org/Web/Die_Casting/FAQ/Web/About/web/Directories/Web/Resources/Directories.aspx"}],
+    "related_links": [{"label":"Mold design review","href":"/mold-design-review/"}]
+  },
+  {
+    "id": "blog-parting-line-draft-undercuts",
+    "path": "/blog/parting-line-draft-undercuts/",
+    "phase": "P0",
+    "kind": "article",
+    "title": "Parting Lines, Draft and Undercuts in Die Casting | EXACTMEC Blog",
+    "description": "Understand how parting lines, draft and undercuts affect aluminum die casting mold layout and why these features deserve attention during design review.",
+    "eyebrow": "PART DESIGN",
+    "category": "Part design",
+    "h1": "Parting Lines, Draft and Undercuts: Why They Matter",
+    "intro": "Three small-looking design choices can change how a casting leaves its mold. Here is how to recognize them on a product drawing or 3D model.",
+    "takeaway": "A feature that looks simple on the finished part may require a different opening direction, a moving core or a change to the parting surface.",
+    "diagram": "parting",
+    "readTime": 5,
+    "publishedAt": "2026-10-31",
+    "sections": [
+      {
+        "id": "parting-line",
+        "heading": "The parting line is a manufacturing decision",
+        "paragraphs": [
+          "The parting line is where the cover and ejector halves of the die meet. Moving it changes which features belong to each side of the tool. It can also affect the visibility of a seam and the way the casting is supported as the mold opens.",
+          "For a visible enclosure or a component with a critical sealing face, the parting line should be discussed early. The aim is not to hide every line; it is to place the line where it is compatible with the part's function and appearance."
+        ]
+      },
+      {
+        "id": "draft",
+        "heading": "Draft lets the part release",
+        "paragraphs": [
+          "Draft is the slight taper on surfaces parallel to the die's opening direction. Without enough release clearance, the casting can grip the steel as the halves separate. The needed draft depends on the feature, depth, surface condition and mold layout; there is no single angle that fits all components.",
+          "During a 3D review, check deep walls, ribs, bosses and text or texture where release might be difficult. If a straight wall is functionally necessary, tell the tooling team which surface must stay that way so the trade-off can be evaluated."
+        ]
+      },
+      {
+        "id": "undercuts",
+        "heading": "An undercut may need a moving feature",
+        "paragraphs": [
+          "An undercut is a feature that blocks straight removal in the main opening direction. Side holes, recesses and some hooks are common examples. A slide or moving core can form such geometry, but it also adds motion, alignment and maintenance considerations to the tool.",
+          "Sometimes a small change to the component can avoid a side action. At other times, the feature is essential and the tooling approach must accommodate it. The right answer comes from the functional requirements of the part, not from a generic mold checklist."
+        ]
+      },
+      {
+        "id": "review-checklist",
+        "heading": "A useful review conversation",
+        "paragraphs": [
+          "When reviewing a proposed 3D mold, mark the surfaces that matter for assembly, sealing, appearance or later machining. Confirm the direction in which the casting leaves the die, and ask where the parting line and any side cores will sit. Record any required change in the approved drawing revision.",
+          "Customers confirm the product requirements and approved design; the manufacturing team remains responsible for the technical mold design. Explicit approval is particularly important before manufacturing begins."
+        ],
+        "points": ["Identify critical faces and openings.", "Check the planned parting location and release direction.", "Confirm how side features will be formed."]
+      }
+    ],
+    "sources": [{"label":"North American Die Casting Association — FAQ: part design practices","url":"https://www.diecasting.org/Web/Die_Casting/FAQ/Web/About/web/Directories/Web/Resources/Directories.aspx"}],
+    "related_links": [{"label":"How design approval works","href":"/mold-design-review/"}]
+  },
+  {
+    "id": "blog-gates-vents-cooling",
+    "path": "/blog/gates-vents-cooling/",
+    "phase": "P0",
+    "kind": "article",
+    "title": "Gates, Vents and Cooling in Aluminum Die Casting Molds | EXACTMEC Blog",
+    "description": "Learn how gates, vents and cooling channels work together in an aluminum die casting mold and what trial samples can reveal about the design.",
+    "eyebrow": "MELT FLOW & COOLING",
+    "category": "Melt flow & cooling",
+    "h1": "Gates, Vents and Cooling: Three Connected Mold Systems",
+    "intro": "Metal must enter, air must leave and heat must be removed. Those three paths help explain many of the choices seen in a die casting mold layout.",
+    "takeaway": "Gating, venting and cooling are connected design decisions; evaluating one without the others can miss a filling or quality problem.",
+    "diagram": "flow",
+    "readTime": 6,
+    "publishedAt": "2026-10-31",
+    "sections": [
+      {
+        "id": "gates",
+        "heading": "The gate shapes the start of filling",
+        "paragraphs": [
+          "The runner brings molten aluminum toward the cavity. The gate is the inlet where it enters the part shape. Its location, area and relationship to the runner influence how the cavity fills and where flow fronts meet.",
+          "A gate also leaves a connection that must be removed from the casting. That is why functional or cosmetic surfaces should be identified before a gate position is finalized. A different component geometry can require a different filling strategy even when the casting machine is the same."
+        ]
+      },
+      {
+        "id": "vents",
+        "heading": "Air needs an exit route",
+        "paragraphs": [
+          "As the cavity fills, the incoming metal pushes air ahead of it. Vent features give that air a route out of the die. Overflow areas can also help manage the end of filling. These features are placed with the expected metal flow in mind.",
+          "A trapped pocket of gas can contribute to porosity or incomplete filling, but a visible defect has more than one possible cause. It is unsafe to conclude that every pore means a vent was missing. Part geometry, melt handling, fill conditions and the tool itself all deserve review."
+        ]
+      },
+      {
+        "id": "cooling",
+        "heading": "Cooling changes the thermal balance",
+        "paragraphs": [
+          "Cooling channels carry heat away from the die steel. Their layout aims to manage different thermal loads across the tool. A thicker section may retain heat differently from a thin wall, so uniform channel spacing alone does not guarantee uniform behavior.",
+          "Cooling must also fit around cavity details, structural steel, moving parts and the other systems in the tool. That makes it a design problem that is solved for the specific mold, rather than a standard diagram copied from one project to another."
+        ]
+      },
+      {
+        "id": "trial",
+        "heading": "Why trial samples matter",
+        "paragraphs": [
+          "Trial casting gives both sides a physical result to examine. The customer can test the sample against its intended fit and function; the tooling team can review the observations alongside the mold and process conditions. A trial sample does not prove that every future casting will be identical, but it is an essential checkpoint before mold handover.",
+          "If something is wrong, describe the location and behavior of the problem and share photographs or measurements where possible. That makes the next technical review more useful than a general statement that the sample looks imperfect."
+        ]
+      }
+    ],
+    "sources": [{"label":"North American Die Casting Association — FAQ: metal flow, venting and cooling","url":"https://www.diecasting.org/Web/Die_Casting/FAQ/Web/About/web/Directories/Web/Resources/Directories.aspx"},{"label":"North American Die Casting Association — PQ² and Gating Webinar Series","url":"https://www.diecasting.org/web/News___Announcements/PQ_Gating_Webinar_Series.aspx"}],
+    "related_links": [{"label":"Trial and sample approval","href":"/quality-control/"}]
+  }
+]

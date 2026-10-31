@@ -21,10 +21,16 @@ function schema(page, origin) {
       headline: page.id === 'rfq' ? 'Tell Us About Your Mold Project' : page.h1,
       description: page.description, inLanguage: 'en', isPartOf: { '@id': origin + '/#website' } },
   ];
+  if (page.path.startsWith('/blog/') && page.kind === 'article') {
+    graph[2].author = { '@type': 'Organization', name: 'EXACTMEC Editorial' };
+    graph[2].publisher = { '@id': origin + '/#operator' };
+    if (page.publishedAt) graph[2].datePublished = page.publishedAt;
+    if (page.updatedAt) graph[2].dateModified = page.updatedAt.slice(0, 10);
+  }
   if (page.path !== '/') {
     const crumbs = [{ name: 'Home', item: origin + '/' }];
     if (page.kind === 'industry') crumbs.push({ name: 'Applications', item: origin + '/industries/' });
-    if (page.kind === 'article') crumbs.push({ name: 'Resources', item: origin + '/resources/' });
+    if (page.kind === 'article') crumbs.push(page.path.startsWith('/blog/') ? { name: 'Blog', item: origin + '/blog/' } : { name: 'Resources', item: origin + '/resources/' });
     crumbs.push({ name: graph[2].headline, item: pageUrl });
     graph.push({ '@type': 'BreadcrumbList', '@id': pageUrl + '#breadcrumbs', itemListElement: crumbs.map((crumb, i) => ({ '@type': 'ListItem', position: i + 1, ...crumb })) });
   }

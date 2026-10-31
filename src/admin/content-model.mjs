@@ -16,7 +16,7 @@ export function createContentForm(detail) {
       id: section.id, heading: section.heading || '',
       ...(Array.isArray(section.paragraphs) ? { paragraphsText: section.paragraphs.join('\n\n') } : {}),
       ...(Array.isArray(section.bullets) ? { bulletsText: section.bullets.join('\n') } : {}),
-      ...(section.cards ? { cardsText: JSON.stringify(section.cards, null, 2) } : {}),
+      ...(section.cards?.every(card => Object.keys(card).every(key => ['title', 'text', 'href', 'anchor'].includes(key))) ? { cardsText: JSON.stringify(section.cards, null, 2) } : {}),
       ...(section.table ? { tableText: JSON.stringify(section.table, null, 2) } : {}),
       ...(section.cta ? { cta: { ...section.cta } } : {}),
     })),

@@ -87,7 +87,7 @@ test('form conversion preserves editable cards, CTA and relationships and produc
 
 test('every actual baseline page opens as a valid form without changing source objects', () => {
   const before = JSON.stringify(pages);
-  assert.equal(pages.length, 24);
+  assert.equal(pages.length, 29);
   for (const baseline of pages) assert.ok(buildContentPatch(createContentForm({ page: baseline, draft: null })), baseline.id);
   assert.equal(JSON.stringify(pages), before);
 });

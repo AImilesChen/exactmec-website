@@ -22,6 +22,10 @@ export const routeStyleFiles = Object.freeze({
   'resource-quotation-requirements': ['quotation-guide.css'],
   'resource-development-process': ['buyer-planning.css'],
   about: ['about.css'],
+  blog: ['blog.css'],
+  'blog-die-casting-mold-anatomy': ['blog.css'],
+  'blog-parting-line-draft-undercuts': ['blog.css'],
+  'blog-gates-vents-cooling': ['blog.css'],
 });
 
 export function routeStylesFor(path, routes, assetUrls) {

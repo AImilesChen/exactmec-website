@@ -15,6 +15,9 @@ function publicationPage(row, source) {
 }
 function anchors(page) {
   const ids = ['main-content'];
+  // About uses a bespoke composition whose visible work section has this
+  // public anchor in addition to the source section identifiers.
+  if (page.id === 'about') ids.push('how-we-work');
   // The RFQ uses its own form, not the generic content sections.
   if (page.id !== 'rfq') ids.push(...page.sections.flatMap(section => [section.id, ...(section.cards || []).map(card => card.anchor).filter(Boolean)]));
   if (page.faqs?.length && !['home', 'rfq', 'faq'].includes(page.id)) ids.push('questions');

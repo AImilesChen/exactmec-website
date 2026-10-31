@@ -10,6 +10,7 @@
     "test:sites": "node --test tests/sites-worker.test.mjs",
     "build:frontend": "node scripts/build-frontend.mjs",
     "images:optimize": "node scripts/optimize-images.mjs",
+    "blog:sync": "node scripts/sync-blog-articles.mjs",
     "build:release": "node scripts/build-frontend.mjs --release",
     "preview:frontend": "node scripts/serve-frontend.mjs",
     "test:frontend": "node --test tests/frontend-*.test.mjs tests/inquiry-*.test.mjs tests/analytics-*.test.mjs tests/cloudflare-*.test.mjs src/customer/*.test.mjs",

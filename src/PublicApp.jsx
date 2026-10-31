@@ -21,17 +21,19 @@ import './delivery.css';
 // Eager on the server so every URL retains complete crawlable HTML; loaded by
 // route in the browser so a visitor does not download every page's UI at once.
 const pageModules=import.meta.env.SSR
- ? import.meta.glob(['./LightHome.jsx','./EditorialPages.jsx','./SitePages.jsx','./inquiry/Inquiry.jsx'],{eager:true})
+ ? import.meta.glob(['./LightHome.jsx','./EditorialPages.jsx','./BlogPages.jsx','./SitePages.jsx','./inquiry/Inquiry.jsx'],{eager:true})
  : {};
 const pageLoaders=import.meta.env.SSR
  ? {}
- : import.meta.glob(['./LightHome.jsx','./EditorialPages.jsx','./SitePages.jsx','./inquiry/Inquiry.jsx']);
+ : import.meta.glob(['./LightHome.jsx','./EditorialPages.jsx','./BlogPages.jsx','./SitePages.jsx','./inquiry/Inquiry.jsx']);
 function pageComponent(path,name){
  if(import.meta.env.SSR)return pageModules[path][name];
  return React.lazy(()=>pageLoaders[path]().then(module=>({default:module[name]})));
 }
 const LightHome=pageComponent('./LightHome.jsx','LightHome');
 const ContentPage=pageComponent('./EditorialPages.jsx','ContentPage');
+const BlogIndex=pageComponent('./BlogPages.jsx','BlogIndex');
+const BlogArticle=pageComponent('./BlogPages.jsx','BlogArticle');
 const LegalPage=pageComponent('./SitePages.jsx','LegalPage');
 const SystemPage=pageComponent('./SitePages.jsx','SystemPage');
 const Inquiry=pageComponent('./inquiry/Inquiry.jsx','Inquiry');
@@ -98,6 +100,6 @@ export function PublicApp({initialUrl,config=siteConfig,inquiryDefaults,cmsBundl
   });
  }
  const sourcePage=pages.find(p=>p.path===path),page=mapped||sourcePage,policy=legal.find(p=>p.path===path);
- const body=resolution.status===404?<SystemPage notFound/>:path==='/request-a-quote/'?<Inquiry key={path} heading={mapped&&mapped.h1!==sourcePage?.h1?mapped.h1:undefined} intro={mapped&&mapped.intro!==sourcePage?.intro?mapped.intro:undefined} reviewMode={false} initialData={inquiryDefaults} startAtMaterials={config.localSynthetic===true} getSourceSnapshot={()=>sourceTracker.snapshot()} sourceKnownPaths={sourceKnownPaths} submitEnabled={config.inquiryEnabled} endpoint={config.inquiryEndpoint} whatsappNumber={config.whatsappNumber} onEvent={(name,payload={})=>analytics.track(name,{route:path,...payload})}/>:path==='/'?<LightHome/>:policy?<LegalPage page={policy} reviewMode={!config.release||!config.legalApproved}/>:path==='/inquiry-received/'?<SystemPage/>:page?<ContentPage page={page}/>:<SystemPage notFound/>;
+ const body=resolution.status===404?<SystemPage notFound/>:path==='/request-a-quote/'?<Inquiry key={path} heading={mapped&&mapped.h1!==sourcePage?.h1?mapped.h1:undefined} intro={mapped&&mapped.intro!==sourcePage?.intro?mapped.intro:undefined} reviewMode={false} initialData={inquiryDefaults} startAtMaterials={config.localSynthetic===true} getSourceSnapshot={()=>sourceTracker.snapshot()} sourceKnownPaths={sourceKnownPaths} submitEnabled={config.inquiryEnabled} endpoint={config.inquiryEndpoint} whatsappNumber={config.whatsappNumber} onEvent={(name,payload={})=>analytics.track(name,{route:path,...payload})}/>:path==='/'?<LightHome/>:policy?<LegalPage page={policy} reviewMode={!config.release||!config.legalApproved}/>:path==='/inquiry-received/'?<SystemPage/>:page?.id==='blog'?<BlogIndex page={page}/>:page?.id.startsWith('blog-')?<BlogArticle page={page}/>:page?<ContentPage page={page}/>:<SystemPage notFound/>;
  return <CmsProvider value={cmsBundle}><Route.Provider value={go}><a className="skip-link" href="#main-content">Skip to content</a><MegaHeader url={url} compactHome={path==='/'}/><main id="main-content"><React.Suspense fallback={<p className="container" role="status">Loading page…</p>}>{body}</React.Suspense></main><SiteFooter reviewMode={false} config={config}/><MeasurementChoices enabled={measurementEnabled} analytics={analytics} route={path}/></Route.Provider></CmsProvider>;
 }
