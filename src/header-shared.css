@@ -12,7 +12,7 @@
 .mega-header .header-account-trigger{display:inline-flex;align-items:center;justify-content:center;width:27px;min-height:44px;padding:0;border:0;background:transparent;color:var(--ink);cursor:pointer}
 .mega-header .header-account-link:hover,.mega-header .header-account-link:focus-visible,.mega-header .header-account-trigger:hover,.mega-header .header-account-trigger:focus-visible,.mega-header .header-account-trigger[aria-expanded=true]{color:var(--red)}
 .mega-header .header-account-link:focus-visible,.mega-header .header-account-trigger:focus-visible,.mega-header .header-account-menu a:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-.mega-header .header-account-menu{position:absolute;right:0;top:calc(100% + 10px);z-index:60;min-width:240px;padding:10px;background:#fff;border:1px solid #d7e2e9;border-radius:8px;box-shadow:0 18px 38px #152b3b24}
+.mega-header .header-account-menu{position:absolute;left:50%;top:calc(100% + 24px);transform:translateX(-50%);z-index:60;width:200px;padding:8px;background:#fff;border:1px solid #d7e2e9;border-radius:8px;box-shadow:0 18px 38px #152b3b24}
 .mega-header .header-account-menu a{display:flex;align-items:center;gap:12px;min-height:50px;padding:12px 15px;border-radius:5px;color:var(--ink);font-size:16px;line-height:1.4;font-weight:600;text-decoration:none;white-space:nowrap}
 .mega-header .header-account-menu a:hover{background:#f4f7f9;color:var(--red)}
 .mega-header .header-account-menu svg{color:var(--red);flex-shrink:0}
@@ -46,7 +46,9 @@
 }
 @media(min-width:1101px) and (max-width:1200px){.site-header.mega-header .header-inner{width:calc(100% - 48px)}.site-header.mega-header.home-v2-header .header-inner{width:calc(100% - 48px)}.site-header.mega-header .brand-lockup,.site-header.mega-header.home-v2-header .brand-lockup{width:160px!important}.site-header.mega-header .v3-nav{gap:8px}.site-header.mega-header .header-quote{font-size:12px;padding-inline:10px}}
 @media(min-width:1101px) and (max-width:1200px){.site-header.mega-header .header-account-link{font-size:15px}}
-@media(max-width:479px){.mega-header .header-account-link{font-size:0}.mega-header .header-account-link svg{width:23px;height:23px}.mega-header .header-account-trigger{width:22px}}
+@media(max-width:479px){.mega-header .header-account-link{font-size:0}.mega-header .header-account-link svg{width:23px;height:23px}.mega-header .header-account-trigger{width:22px}.mega-header .header-account-menu{left:auto;right:0;transform:none}}
+@media(max-width:1100px){.mega-header .header-account-menu{top:calc(100% + 16px)}}
+@media(max-width:650px){.mega-header .header-account-menu{top:calc(100% + 12px)}}
 .mega-applications>.mega-applications-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0}
 .mega-applications-heading h2{margin:0}
 .mega-applications-heading .text-link{font-size:15px;color:var(--red);white-space:nowrap}
