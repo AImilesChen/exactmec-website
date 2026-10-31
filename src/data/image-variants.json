@@ -77,6 +77,30 @@
     "small": "automotive-studio-v3-720.webp",
     "medium": "automotive-studio-v3-960.webp"
   },
+  "blog-gates-cooling-v1.webp": {
+    "width": 1600,
+    "height": 900,
+    "small": "blog-gates-cooling-v1-720.webp",
+    "medium": "blog-gates-cooling-v1-960.webp"
+  },
+  "blog-hero-machining-v1.webp": {
+    "width": 1600,
+    "height": 900,
+    "small": "blog-hero-machining-v1-720.webp",
+    "medium": "blog-hero-machining-v1-960.webp"
+  },
+  "blog-mold-anatomy-v1.webp": {
+    "width": 1600,
+    "height": 900,
+    "small": "blog-mold-anatomy-v1-720.webp",
+    "medium": "blog-mold-anatomy-v1-960.webp"
+  },
+  "blog-parting-review-v1.webp": {
+    "width": 1600,
+    "height": 900,
+    "small": "blog-parting-review-v1-720.webp",
+    "medium": "blog-parting-review-v1-960.webp"
+  },
   "buyer-planning-final-v1.webp": {
     "width": 1440,
     "height": 960,
