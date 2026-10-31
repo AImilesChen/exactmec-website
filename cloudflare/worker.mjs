@@ -7,16 +7,22 @@ import {loadContentPreview} from '../backend/content.mjs';
 import {renderPublishedHtml} from './cms-response.mjs';
 import {administratorLoginPage} from './login-page.mjs';
 import {resolveCustomerRoute} from '../src/customer-routes.mjs';
-import {customerCleanup,customerPortalConfiguration} from '../backend/customer-auth.mjs';
+import {customerCleanup,customerGoogleAdminActor,customerPortalConfiguration} from '../backend/customer-auth.mjs';
 import {customerEmailAvailable,sendCustomerLoginCode} from '../backend/portal-email.mjs';
+import {validGoogleClientId} from '../backend/google-identity.mjs';
 import {isVendorMarketingRoute} from '../src/analytics/vendors.mjs';
 const handleApi=createApiHandler();
+const googleAdminActor=(request,env)=>{
+  const config=customerPortalConfiguration(env,{sendCode:customerEmailAvailable(env)?input=>sendCustomerLoginCode(env,input):undefined});
+  return config&&validGoogleClientId(env.GOOGLE_CLIENT_ID)?customerGoogleAdminActor(request,env,config):null;
+};
+const handleGoogleAdminApi=createApiHandler({authenticate:googleAdminActor});
 
 const rootAssets = new Set(['/favicon.ico', '/favicon.svg', '/favicon-16x16.png', '/favicon-32x32.png', '/favicon-48x48.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og-image.png', '/site.webmanifest', '/robots.txt', '/sitemap.xml','/third-party-notices.txt']);
 const truthy = value => value === true || value === 'true';
 const isAsset = path => rootAssets.has(path) || /^\/(?:assets|brand)\/[a-zA-Z0-9_./-]+\.(?:css|js|mjs|woff2?|ttf|otf|png|webp|jpe?g|gif|svg|ico|avif)$/i.test(path);
 
-function finish(response, { status = response.status, robots = 'noindex,nofollow', head = false, staging = true,externalAnalytics=false,noReferrer=false } = {}) {
+function finish(response, { status = response.status, robots = 'noindex,nofollow', head = false, staging = true,externalAnalytics=false,noReferrer=false,googleSignIn=false } = {}) {
   const headers = new Headers(response.headers);
   headers.set('X-Robots-Tag', robots);
   headers.set('X-Content-Type-Options', 'nosniff');
@@ -27,7 +33,8 @@ function finish(response, { status = response.status, robots = 'noindex,nofollow
   const script=externalAnalytics?' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms https://analytics.ahrefs.com':'';
   const image=externalAnalytics?' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms https://c.bing.com':'';
   const connect=externalAnalytics?' https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com https://*.clarity.ms https://plausible.shipsolo.io https://analytics.ahrefs.com':'';
-  headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'"+script+"; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:"+image+"; font-src 'self' data:; connect-src 'self'"+connect+"; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
+  headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'"+script+(googleSignIn?' https://accounts.google.com/gsi/client':'')+"; style-src 'self' 'unsafe-inline'"+(googleSignIn?' https://accounts.google.com/gsi/style':'')+"; img-src 'self' data: blob:"+image+"; font-src 'self' data:; connect-src 'self'"+connect+(googleSignIn?' https://accounts.google.com/gsi/':'')+"; frame-src "+(googleSignIn?'https://accounts.google.com/gsi/':"'none'")+"; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
+  if(googleSignIn)headers.set('Cross-Origin-Opener-Policy','same-origin-allow-popups');
   if (staging) headers.set('Cache-Control', 'no-store');
   else if (headers.get('Content-Type')?.includes('text/html')) headers.set('Cache-Control', 'no-cache');
   // A public asset must never acquire a cookie through the read-only adapter.
@@ -57,6 +64,19 @@ async function notFound(env, request) {
   return message('Page Not Found', 404);
 }
 
+async function protectedContentPreview(env,request,pageId,options){
+  try{
+    const draft=await loadContentPreview(env,pageId);
+    if(!draft)return finish(message('Saved draft unavailable. Reload the editor.',409),options);
+    const original=draft.originalPath==='/'?'/index.html':draft.originalPath.replace(/\/$/,'')+'/index.html';
+    let shell=await asset(env,request,original);if(shell.status!==200)shell=await asset(env,request,'/about/index.html');
+    const rendered=renderPublishedHtml(await shell.text(),draft.page.path,env,draft.bundle,draft.page,draft.originalPath);
+    const response=finish(rendered,options),headers=new Headers(response.headers);
+    headers.set('X-Frame-Options','SAMEORIGIN');headers.set('Content-Security-Policy',headers.get('Content-Security-Policy').replace("frame-ancestors 'none'","frame-ancestors 'self'"));
+    return new Response(response.body,{status:response.status,headers});
+  }catch{return finish(message('Preview temporarily unavailable.',503),options);}
+}
+
 export default {
   async fetch(request, env = {}, execution = {}) {
     const url = new URL(request.url);
@@ -77,6 +97,10 @@ export default {
         return finish(new Response(null,{status:308,headers:{Location:target.href}}),options);
       }
     }
+    if(path?.startsWith('/api/manage/')){
+      const rewritten=new URL(request.url);rewritten.pathname=path.replace(/^\/api\/manage\//,'/api/admin/');
+      return handleGoogleAdminApi(new Request(rewritten,request),env,execution);
+    }
     if(path?.startsWith('/api/'))return handleApi(request,env,execution);
     if(path==='/admin/login'||path==='/admin/login/'){
       if(!['GET','HEAD'].includes(request.method))return finish(message('Method Not Allowed',405),{...options,staging:true});
@@ -93,10 +117,22 @@ export default {
       if(customer.status!==200)return finish(await notFound(env,request),{...privateOptions,status:404});
       const shell=await asset(env,request,'/account/index.html');
       const available=Boolean(customerPortalConfiguration(env,{sendCode:customerEmailAvailable(env)?input=>sendCustomerLoginCode(env,input):undefined}));
-      const html=(await shell.text()).replace('</head>','<script type="application/json" id="customer-config">'+JSON.stringify({available})+'</script></head>');
-      const response=finish(new Response(html,{status:shell.status,headers:shell.headers}),privateOptions),headers=new Headers(response.headers);
-      headers.set('Referrer-Policy','no-referrer');
+      const googleClientId=available&&validGoogleClientId(env.GOOGLE_CLIENT_ID)?env.GOOGLE_CLIENT_ID:'';
+      const html=(await shell.text()).replace('</head>','<script type="application/json" id="customer-config">'+JSON.stringify({available,googleClientId})+'</script></head>');
+      const response=finish(new Response(html,{status:shell.status,headers:shell.headers}),{...privateOptions,googleSignIn:!!googleClientId}),headers=new Headers(response.headers);
+      if(!googleClientId)headers.set('Referrer-Policy','no-referrer');
       return new Response(response.body,{status:response.status,headers});
+    }
+    if(path==='/manage'||path?.startsWith('/manage/')){
+      const manageOptions={...options,staging:true,noReferrer:true};
+      if(!['GET','HEAD'].includes(request.method))return finish(message('Method Not Allowed',405),manageOptions);
+      const actor=await googleAdminActor(request,env);
+      if(!actor)return finish(message('Administrator sign-in required.',403),manageOptions);
+      const preview=path.match(/^\/manage\/content\/([a-z0-9]+(?:-[a-z0-9]+)*)\/preview\/?$/);
+      if(preview)return protectedContentPreview(env,request,preview[1],manageOptions);
+      if(path==='/manage')return finish(new Response(null,{status:308,headers:{Location:'/manage/leads/'}}),manageOptions);
+      if(!/^\/manage\/leads(?:\/[A-Za-z0-9_-]{8,128})?\/?$/.test(path))return finish(await notFound(env,request),{...manageOptions,status:404});
+      return finish(await asset(env,request,'/admin/index.html'),manageOptions);
     }
     if(path==='/admin'||path?.startsWith('/admin/')){
       const adminOptions={...options,staging:true};
@@ -105,18 +141,7 @@ export default {
       if(!actor)return finish(message('Administrator sign-in required.',403),adminOptions);
       if(!['GET','HEAD'].includes(request.method))return finish(message('Method Not Allowed',405),adminOptions);
       const preview=path.match(/^\/admin\/content\/([a-z0-9]+(?:-[a-z0-9]+)*)\/preview\/?$/);
-      if(preview){
-        try{
-          const draft=await loadContentPreview(env,preview[1]);
-          if(!draft)return finish(message('Saved draft unavailable. Reload the editor.',409),adminOptions);
-          const original=draft.originalPath==='/'?'/index.html':draft.originalPath.replace(/\/$/,'')+'/index.html';
-          let shell=await asset(env,request,original);if(shell.status!==200)shell=await asset(env,request,'/about/index.html');
-          const rendered=renderPublishedHtml(await shell.text(),draft.page.path,env,draft.bundle,draft.page,draft.originalPath);
-          const response=finish(rendered,adminOptions),headers=new Headers(response.headers);
-          headers.set('X-Frame-Options','SAMEORIGIN');headers.set('Content-Security-Policy',headers.get('Content-Security-Policy').replace("frame-ancestors 'none'","frame-ancestors 'self'"));
-          return new Response(response.body,{status:response.status,headers});
-        }catch{return finish(message('Preview temporarily unavailable.',503),adminOptions);}
-      }
+      if(preview)return protectedContentPreview(env,request,preview[1],adminOptions);
       if(path==='/admin')return finish(new Response(null,{status:308,headers:{Location:'/admin/leads/'}}),adminOptions);
       if(!/^\/admin\/leads(?:\/[A-Za-z0-9_-]{8,128})?\/?$/.test(path))return finish(await notFound(env,request),{...adminOptions,status:404});
       return finish(await asset(env,request,'/admin/index.html'),adminOptions);

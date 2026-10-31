@@ -65,7 +65,19 @@ export async function customerReadSession(request, env, config) {
   const token = customerCookieToken(request, config);
   if (!token) return null;
   const tokenHash = await customerAuthHash(env, 'customer-session', `${config.origin}:${token}`);
-  return stmt(env.DB, 'SELECT token_hash,email_hash,created_at,expires_at FROM customer_sessions WHERE token_hash=? AND expires_at>?', tokenHash, Date.now()).first();
+  return stmt(env.DB, 'SELECT token_hash,email_hash,auth_provider,google_subject_hash,created_at,expires_at FROM customer_sessions WHERE token_hash=? AND expires_at>?', tokenHash, Date.now()).first();
+}
+
+/** An email-code session is never an administrator, even for the same address. */
+export async function customerGoogleAdminActor(request, env, config) {
+  const adminEmail = typeof env.GOOGLE_ADMIN_EMAIL === 'string' ? env.GOOGLE_ADMIN_EMAIL.trim().toLowerCase() : '';
+  if (adminEmail !== 'veryhappygou@gmail.com') return null;
+  const session = await customerReadSession(request, env, config);
+  if (!session || session.auth_provider !== 'google' || !session.google_subject_hash) return null;
+  const adminHash = await customerEmailHash(env, adminEmail);
+  if (session.email_hash !== adminHash) return null;
+  const identity = await stmt(env.DB, 'SELECT subject_hash FROM customer_google_identities WHERE subject_hash=? AND email_hash=?', session.google_subject_hash, adminHash).first();
+  return identity ? Object.freeze({ id: `google:${identity.subject_hash}`, email: adminEmail }) : null;
 }
 export async function customerCleanup(env) {
   const current = Date.now();

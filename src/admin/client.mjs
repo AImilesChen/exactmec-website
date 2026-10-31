@@ -1,5 +1,6 @@
 import { budgetOptions, defaultFilters, drawingOptions, isReference, moldTypeOptions, reviewOptions, timingOptions } from './model.mjs';
 import { isContentId, isSourceHash, validateContentPatch } from './content-model.mjs';
+import { adminApiPath } from './api-path.mjs';
 
 const messages = Object.freeze({
   auth_required: '登录已失效，请重新验证访问权限。', forbidden: '当前账户没有访问权限。', csrf: '安全凭据已失效，请重新验证后再操作。',
@@ -78,7 +79,7 @@ export function createAdminClient({ fetchImpl = globalThis.fetch?.bind(globalThi
       // redirecting this protected fetch to an HTML sign-in page.
       const headers = { Accept: csv ? 'text/csv' : 'application/json', 'X-Requested-With': 'XMLHttpRequest' };
       if (method !== 'GET') { headers['Content-Type'] = 'application/json'; headers['X-CSRF-Token'] = csrfToken; }
-      const response = await fetchImpl(path, {
+      const response = await fetchImpl(adminApiPath(path), {
         method, headers, ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
         credentials: 'same-origin', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer', signal: controller.signal,
       });

@@ -18,11 +18,35 @@ function Arrow({ back = false }) { return <svg width="18" height="18" viewBox="0
 function Notice({ error, children }) { return <div className={`customer-notice${error ? ' is-error' : ''}`} role={error ? 'alert' : 'status'}>{children}</div>; }
 function Status({ value }) { return <span className={`customer-status status-${value}`}>{statusLabels[value] || 'Status unavailable'}</span>; }
 
-function Login({ client, onSignIn, unavailable, onRetry, busySession }) {
+function Login({ client, onSignIn, unavailable, onRetry, busySession, googleClientId }) {
   const [email, setEmail] = useState(''), [code, setCode] = useState(''), [requested, setRequested] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState(null), [cooldown, setCooldown] = useState(0);
-  const alive = useRef(true), codeInput = useRef(null);
+  const alive = useRef(true), codeInput = useRef(null), googleButton = useRef(null);
   useEffect(() => { alive.current = true; return () => { alive.current = false; client.resetChallenge(); }; }, []);
   useEffect(() => { if (!cooldown) return; const timer = setInterval(() => setCooldown(value => Math.max(0, value - 1)), 1000); return () => clearInterval(timer); }, [cooldown > 0]);
+  useEffect(() => {
+    if (unavailable || !googleClientId || !googleButton.current) return;
+    let active = true;
+    const render = () => {
+      if (!active || !window.google?.accounts?.id || !googleButton.current) return;
+      window.google.accounts.id.initialize({ client_id: googleClientId, ux_mode: 'popup', auto_select: false, callback: async response => {
+        if (!active || !response?.credential) return;
+        setBusy(true); setError(null);
+        try { const session = await client.googleSignIn(response.credential); if (active && alive.current) onSignIn(session); }
+        catch (cause) { if (active && alive.current) setError(safeError(cause)); }
+        finally { if (active && alive.current) setBusy(false); }
+      } });
+      window.google.accounts.id.renderButton(googleButton.current, { type: 'standard', theme: 'outline', size: 'large', text: 'signin_with', shape: 'rectangular', width: Math.min(360, googleButton.current.clientWidth || 320) });
+    };
+    if (window.google?.accounts?.id) render();
+    else {
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client'; script.async = true; script.onload = render;
+      script.onerror = () => { if (active && alive.current) setError(new CustomerApiError('network')); };
+      document.head.append(script);
+      return () => { active = false; script.remove(); };
+    }
+    return () => { active = false; };
+  }, [googleClientId, unavailable]);
   async function requestCode(event) {
     event?.preventDefault(); if (busy || unavailable || cooldown > 0) return;
     setBusy(true); setError(null); setCode('');
@@ -39,9 +63,11 @@ function Login({ client, onSignIn, unavailable, onRetry, busySession }) {
   }
   return <section className="customer-login-grid">
     <div className="customer-login-intro"><p className="customer-eyebrow">OPTIONAL CUSTOMER ACCESS</p><h1>Your mold inquiry,<br/>in one place.</h1><p>Review what you submitted, add project details, and check your inquiry status.</p><a className="customer-text-link" href={quotePath}>Submit an inquiry without signing in <Arrow/></a></div>
-    <div className="customer-login-card"><div className="customer-lock-symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><rect x="6" y="12" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M10 12V8a4 4 0 0 1 8 0v4M14 17v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg></div><h2>Sign in to your inquiries</h2><p>Enter your email to receive a sign-in code. You can sign in before submitting your first inquiry.</p>
+    <div className="customer-login-card"><div className="customer-lock-symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><rect x="6" y="12" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M10 12V8a4 4 0 0 1 8 0v4M14 17v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg></div><h2>Sign in to your inquiries</h2><p>Use Google or receive a sign-in code by email. You can sign in before submitting your first inquiry.</p>
       {unavailable ? <><Notice>Customer sign-in is not open yet. You can still submit a mold inquiry without signing in.</Notice><div className="customer-disabled-login"><label className="customer-field"><span>Inquiry email</span><input type="email" placeholder="you@company.com" disabled aria-describedby="customer-review-availability"/></label><button className="customer-button primary" type="button" disabled>Continue with email <Arrow/></button><p className="customer-help" id="customer-review-availability">Email codes are unavailable while customer access is closed.</p></div><a className="customer-button secondary" href={quotePath}>Start a mold inquiry <Arrow/></a>{onRetry&&<button type="button" className="customer-link-button" disabled={busySession} onClick={onRetry}>{busySession ? 'Checking…' : 'Check sign-in availability'}</button>}</> : <>
         {error && <Notice error>{error.message}</Notice>}
+        {googleClientId && <div className="customer-google-signin" ref={googleButton} aria-label="Sign in with Google"/>}
+        {googleClientId && <div className="customer-login-divider"><span>or use email</span></div>}
         {!requested ? <form onSubmit={requestCode} autoComplete="off"><label className="customer-field"><span>Inquiry email</span><input type="email" autoComplete="email" maxLength={254} required value={email} onChange={event => setEmail(event.target.value)} disabled={busy || busySession} placeholder="you@company.com"/></label><button className="customer-button primary" type="submit" disabled={busy || busySession || cooldown > 0}>{busy ? 'Requesting code…' : cooldown ? `Try again in ${cooldown}s` : 'Continue with email'}<Arrow/></button></form> : <>
           <Notice>If your email is valid and sending succeeds, a code will arrive shortly. Check your inbox and spam folder, then enter the six-digit code.</Notice>
           <form onSubmit={verify} autoComplete="off"><label className="customer-field"><span>Email code</span><input ref={codeInput} className="customer-code-input" type="text" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required value={code} onChange={event => setCode(event.target.value.replace(/\D/g, '').slice(0, 6))} disabled={busy} aria-describedby="customer-code-help"/></label><p className="customer-help" id="customer-code-help">Codes expire after 10 minutes and can only be used once.</p><button className="customer-button primary" type="submit" disabled={busy || code.length !== 6}>{busy ? 'Checking code…' : 'Sign in'}<Arrow/></button></form>
@@ -103,7 +129,7 @@ function InquiryDetail({ inquiry, loading, busy, requiresReload, onReload, onSup
   </>;
 }
 
-export function CustomerPortal({ initialPath = '/account/login/', client: suppliedClient, available = true }) {
+export function CustomerPortal({ initialPath = '/account/login/', client: suppliedClient, available = true, googleClientId = '' }) {
   const clientRef = useRef(null); if (!clientRef.current) clientRef.current = suppliedClient || createCustomerClient();
   const client = clientRef.current, alive = useRef(true), sequence = useRef(0), sessionSequence = useRef(0);
   const [path, setPath] = useState(() => portalPath(initialPath)), [session, setSession] = useState(null), [checking, setChecking] = useState(available !== false), [unavailable, setUnavailable] = useState(available === false), [error, setError] = useState(null), [success, setSuccess] = useState('');
@@ -142,9 +168,9 @@ export function CustomerPortal({ initialPath = '/account/login/', client: suppli
     finally { if (alive.current) setBusy(false); }
   }
   const authenticated = available !== false && session?.authenticated === true, reference = path.match(/^\/account\/inquiries\/([^/]+)\/$/)?.[1];
-  return <div className="customer-portal"><a className="customer-skip-link" href="#customer-main">Skip to content</a><header className="customer-header"><a href="/" className="customer-brand" aria-label="EXACTMEC home"><img src="/brand/horizontal-web.webp" alt="EXACTMEC" width="178" height="48"/></a><span className="customer-header-label">Customer workspace</span><nav aria-label="Customer navigation">{authenticated && <><a href="/account/inquiries/" onClick={event => navigate(event, '/account/inquiries/')}>Your inquiries</a><button className="customer-link-button" type="button" disabled={busy} onClick={logout}>{busy ? 'Please wait…' : 'Sign out'}</button></>}<a href={quotePath} className="customer-header-quote">Submit an inquiry <Arrow/></a></nav></header>
+  return <div className="customer-portal"><a className="customer-skip-link" href="#customer-main">Skip to content</a><header className="customer-header"><a href="/" className="customer-brand" aria-label="EXACTMEC home"><img src="/brand/horizontal-web.webp" alt="EXACTMEC" width="178" height="48"/></a><span className="customer-header-label">Customer workspace</span><nav aria-label="Customer navigation">{authenticated && <>{session.canManage && <a href="/manage/leads/">Management</a>}<a href="/account/inquiries/" onClick={event => navigate(event, '/account/inquiries/')}>Your inquiries</a><button className="customer-link-button" type="button" disabled={busy} onClick={logout}>{busy ? 'Please wait…' : 'Sign out'}</button></>}<a href={quotePath} className="customer-header-quote">Submit an inquiry <Arrow/></a></nav></header>
     <main id="customer-main" className={`customer-main${authenticated ? ' customer-main-workspace' : ''}`}>{error && !unavailable && <Notice error>{error.message}</Notice>}{success && <Notice>{success}</Notice>}
-      {available !== false && checking && session === null ? <div className="customer-loading" role="status"><span className="customer-loading-dot"/>Checking customer access…<a href={quotePath}>Submit an inquiry without signing in</a></div> : !authenticated ? <Login key={path+(available===false?'-closed':'-available')} client={client} unavailable={available===false||unavailable} busySession={available===false?false:checking} onRetry={available===false?undefined:checkSession} onSignIn={value => { setLoading(true); setSession(value); setError(null); setUnavailable(false); if (path === '/account/login/') go('/account/inquiries/', true); }}/ > : <div className="customer-workspace-layout"><WorkspaceNavigation navigate={navigate}/><div className="customer-workspace-content">{reference ? <InquiryDetail key={reference} inquiry={inquiry} loading={loading} busy={busy} requiresReload={requiresReload} onReload={() => setRefresh(value => value + 1)} navigate={navigate} onSupplement={note => mutate(() => client.supplement(inquiry.reference, { revision: inquiry.revision, note }))} onUploadFile={file => mutate(() => client.uploadFile(inquiry.reference, { revision: inquiry.revision, file }))} onWithdraw={() => mutate(() => client.withdraw(inquiry.reference, { revision: inquiry.revision }))}/> : <InquiryList result={result} loading={loading} onReload={() => setRefresh(value => value + 1)} navigate={navigate}/ >}</div></div>}
+      {available !== false && checking && session === null ? <div className="customer-loading" role="status"><span className="customer-loading-dot"/>Checking customer access…<a href={quotePath}>Submit an inquiry without signing in</a></div> : !authenticated ? <Login key={path+(available===false?'-closed':'-available')} client={client} googleClientId={googleClientId} unavailable={available===false||unavailable} busySession={available===false?false:checking} onRetry={available===false?undefined:checkSession} onSignIn={value => { setLoading(true); setSession(value); setError(null); setUnavailable(false); if (path === '/account/login/') go('/account/inquiries/', true); }}/ > : <div className="customer-workspace-layout"><WorkspaceNavigation navigate={navigate}/><div className="customer-workspace-content">{reference ? <InquiryDetail key={reference} inquiry={inquiry} loading={loading} busy={busy} requiresReload={requiresReload} onReload={() => setRefresh(value => value + 1)} navigate={navigate} onSupplement={note => mutate(() => client.supplement(inquiry.reference, { revision: inquiry.revision, note }))} onUploadFile={file => mutate(() => client.uploadFile(inquiry.reference, { revision: inquiry.revision, file }))} onWithdraw={() => mutate(() => client.withdraw(inquiry.reference, { revision: inquiry.revision }))}/> : <InquiryList result={result} loading={loading} onReload={() => setRefresh(value => value + 1)} navigate={navigate}/ >}</div></div>}
     </main><footer className="customer-footer"><p>EXACTMEC · Custom aluminum die casting molds</p><nav aria-label="Customer footer"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="mailto:sales@exactmec.com">Contact us</a></nav><p className="customer-footer-note">Customer access is optional. No sign-in is needed to submit a mold inquiry.</p></footer>
   </div>;
 }

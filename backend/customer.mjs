@@ -1,6 +1,7 @@
 import { validReference, validRevision } from './domain.mjs';
 import { fileExtension, fileKey, MAX_FILE_BYTES, MAX_TOTAL_BYTES } from './inquiry-files.mjs';
-import { CUSTOMER_CODE_MINUTES, CUSTOMER_SESSION_SECONDS, customerAuthHash, customerChallengeValid, customerCleanup, customerCookieToken, customerEmailHash, customerIssueCsrf, customerPortalConfiguration, customerRandomCode, customerRandomToken, customerRate, customerReadSession, customerReserveEmail, customerSessionCookie, customerVerifyCsrf } from './customer-auth.mjs';
+import { CUSTOMER_CODE_MINUTES, CUSTOMER_SESSION_SECONDS, customerAuthHash, customerChallengeValid, customerCleanup, customerCookieToken, customerEmailHash, customerGoogleAdminActor, customerIssueCsrf, customerPortalConfiguration, customerRandomCode, customerRandomToken, customerRate, customerReadSession, customerReserveEmail, customerSessionCookie, customerVerifyCsrf } from './customer-auth.mjs';
+import { googleEmailAuthoritative, validGoogleClientId, verifyGoogleIdToken } from './google-identity.mjs';
 
 export { customerPortalConfiguration } from './customer-auth.mjs';
 const stmt = (db, sql, ...args) => db.prepare(sql).bind(...args);
@@ -87,6 +88,39 @@ async function verifyCode(request, input, env, config) {
   const session = result[1]?.results?.[0];
   if (!session) return fail('invalid_code', 400);
   return json({ authenticated: true, csrfToken: await customerIssueCsrf(session, env, config), expiresAt: new Date(session.expires_at).toISOString() }, 200, { 'Set-Cookie': customerSessionCookie(config, token) });
+}
+
+async function signInWithGoogle(request, input, env, context, config) {
+  if (!validGoogleClientId(env.GOOGLE_CLIENT_ID)) return fail('google_unavailable', 503);
+  if (!exactKeys(input, ['credential']) || typeof input.credential !== 'string' || input.credential.length < 100 || input.credential.length > 8192) return fail('invalid_credential', 400);
+  const rate = await customerRate(env, 'google-ip', ip(request), { limit: 20, seconds: 900 });
+  if (!rate.allowed) return fail('rate_limited', 429, { 'Retry-After': String(rate.retryAfter) });
+  let identity;
+  try {
+    identity = await (context.localSynthetic && context.verifyGoogleIdToken || verifyGoogleIdToken)(input.credential, env.GOOGLE_CLIENT_ID);
+  } catch { return fail('invalid_credential', 401); }
+  const email = normalizeEmail(identity?.email);
+  if (!email || typeof identity?.sub !== 'string' || !/^\d{1,32}$/.test(identity.sub)) return fail('invalid_credential', 401);
+  if (!googleEmailAuthoritative(identity, email)) return fail('email_code_required', 403);
+  const subjectHash = await customerAuthHash(env, 'google-subject', identity.sub);
+  const emailHash = await customerEmailHash(env, email);
+  const current = Date.now();
+  await stmt(env.DB, 'INSERT OR IGNORE INTO customer_google_identities(subject_hash,email_hash,created_at,last_used_at) VALUES(?,?,?,?)', subjectHash, emailHash, current, current).run();
+  const linked = await stmt(env.DB, 'SELECT email_hash FROM customer_google_identities WHERE subject_hash=?', subjectHash).first();
+  if (linked?.email_hash !== emailHash) return fail('email_code_required', 403);
+  await stmt(env.DB, 'UPDATE customer_google_identities SET last_used_at=? WHERE subject_hash=?', current, subjectHash).run();
+  const token = customerRandomToken();
+  const tokenHash = await customerAuthHash(env, 'customer-session', `${config.origin}:${token}`);
+  const expiresAt = current + CUSTOMER_SESSION_SECONDS * 1000;
+  await stmt(env.DB, "INSERT INTO customer_sessions(token_hash,email_hash,auth_provider,google_subject_hash,created_at,expires_at) VALUES(?,?,'google',?,?,?)", tokenHash, emailHash, subjectHash, current, expiresAt).run();
+  const oldToken = customerCookieToken(request, config);
+  if (oldToken) {
+    const oldHash = await customerAuthHash(env, 'customer-session', `${config.origin}:${oldToken}`);
+    await stmt(env.DB, 'DELETE FROM customer_sessions WHERE token_hash=?', oldHash).run();
+  }
+  const session = { token_hash: tokenHash, email_hash: emailHash, auth_provider: 'google', google_subject_hash: subjectHash, expires_at: expiresAt };
+  const adminEmail = typeof env.GOOGLE_ADMIN_EMAIL === 'string' ? env.GOOGLE_ADMIN_EMAIL.trim().toLowerCase() : '';
+  return json({ authenticated: true, canManage: adminEmail === 'veryhappygou@gmail.com' && email === adminEmail, csrfToken: await customerIssueCsrf(session, env, config), expiresAt: new Date(expiresAt).toISOString() }, 200, { 'Set-Cookie': customerSessionCookie(config, token) });
 }
 
 const textFields = ['mold_type', 'name', 'company', 'email', 'phone', 'country', 'city', 'website', 'component', 'description', 'drawing_status', 'industry', 'requirements', 'purchase_timing', 'budget_status', 'currency', 'budget_basis'];
@@ -180,11 +214,12 @@ export async function handleCustomer(request, env = {}, context = {}) {
     await customerCleanup(env);
     if (url.pathname === '/api/customer/auth/request-code') return request.method === 'POST' ? await requestCode(request, input, env, context, config) : fail('method_not_allowed', 405);
     if (url.pathname === '/api/customer/auth/verify-code') return request.method === 'POST' ? await verifyCode(request, input, env, config) : fail('method_not_allowed', 405);
+    if (url.pathname === '/api/customer/auth/google') return request.method === 'POST' ? await signInWithGoogle(request, input, env, context, config) : fail('method_not_allowed', 405);
     const session = await customerReadSession(request, env, config);
     if (!session) return fail('unauthorized', 401);
     if (request.method === 'POST' && !await customerVerifyCsrf(request.headers.get('X-CSRF-Token'), session, env, config)) return fail('csrf_required', 403);
     if (uploadMatch) return request.method === 'POST' && validReference(uploadMatch[1]) ? uploadCustomerFile(request, env, session, uploadMatch[1]) : fail('not_found', 404);
-    if (url.pathname === '/api/customer/session') return request.method === 'GET' ? json({ authenticated: true, csrfToken: await customerIssueCsrf(session, env, config), expiresAt: new Date(session.expires_at).toISOString() }) : fail('method_not_allowed', 405);
+    if (url.pathname === '/api/customer/session') return request.method === 'GET' ? json({ authenticated: true, canManage: !!await customerGoogleAdminActor(request, env, config), csrfToken: await customerIssueCsrf(session, env, config), expiresAt: new Date(session.expires_at).toISOString() }) : fail('method_not_allowed', 405);
     if (url.pathname === '/api/customer/logout') {
       if (request.method !== 'POST') return fail('method_not_allowed', 405);
       if (!exactKeys(input, [])) return fail('invalid_request', 400);

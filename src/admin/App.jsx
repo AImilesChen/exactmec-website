@@ -4,6 +4,7 @@ import { budgetOptions, canContact, contactDestination, dateText, defaultFilters
 import { ContentWorkspace } from './ContentWorkspace.jsx';
 import { TrafficDashboard } from './TrafficDashboard.jsx';
 import {formatFileSize} from '../inquiry/file-size.mjs';
+import {adminApiPath,adminPagePath} from './api-path.mjs';
 
 const fieldLabels = { status: '跟进状态', authenticity: '信息核验', fit: '业务匹配', readiness: '资料准备', qualification: '审核结论', priority: '跟进优先级' };
 const originalFields = [
@@ -94,8 +95,8 @@ function LeadDetail({ lead, busy, locked, requiresRefresh, onReload, onUpdate, o
     {lead.customer&&<section className="admin-section"><h3>客户自助更新</h3>{lead.customer.withdrawn&&<Notice>客户已于{dateText(lead.customer.withdrawn_at)}撤回本条询价。请核对已有邮件和WhatsApp中的项目跟进，后台不会替你删除外部对话。</Notice>}{!lead.customer.supplements?.length?<p className="admin-muted">暂无客户补充说明。</p>:<ol className="admin-history">{lead.customer.supplements.map(item=><li key={item.id}><time>{dateText(item.created_at)}</time><p>{display(item.note)}</p></li>)}</ol>}<p className="admin-help">补充说明单独保存，原始询价与内部审核保持可追溯。客户看不到内部备注和筛选结果。</p></section>}
     <details className="admin-section admin-disclosure"><summary>询价来源快照</summary><p className="admin-help">仅保留可用的公开页面、来源网站和活动标签。未知来源显示未提供；这些是浏览器提供的参考，不代表身份核验或确定的广告归因。首次来源仅限本次页面会话，不跨刷新追踪。</p>{[['first', '首次可用来源'], ['submission', '提交时来源']].map(([touch, heading]) => <section key={touch}><h4>{heading}</h4><dl className="admin-facts">{sourceFields.map(([key, label]) => <div key={key}><dt>{label}</dt><dd>{display(lead.payload?.source?.[touch]?.[key])}</dd></div>)}</dl></section>)}</details>
     <section className="admin-section"><h3>客户原始项目资料</h3><p className="admin-help">以下保留客户提交内容。自述资料和上传文件均需人工核对。</p><dl className="admin-facts">{originalFields.map(([key, label]) => <div className={['description', 'requirements'].includes(key) ? 'full' : ''} key={key}><dt>{label}</dt><dd>{key === 'budget_basis' && lead.payload?.[key] === 'per_mold_set' ? '每套模具' : display(lead.payload?.[key])}</dd></div>)}</dl></section>
-    <section className="admin-section"><h3>客户上传的图纸与照片</h3>{!lead.payload?.files?.length?<p className="admin-muted">本条询价未上传文件。实体样品需另外沟通寄送。</p>:<ul className="admin-file-list">{lead.payload.files.map((file,index)=><li key={`${file.name}-${index}`}><span>{file.name} · {formatFileSize(file.size)}</span><a className="admin-button secondary" href={`/api/admin/leads/${encodeURIComponent(lead.reference)}/files/${index}`} download={file.name} rel="noreferrer">下载文件</a></li>)}</ul>}</section>
-    {!!lead.customer?.files?.length&&<section className="admin-section"><h3>客户后续补充的文件</h3><ul className="admin-file-list">{lead.customer.files.map(file=><li key={file.id}><span>{file.name} · {formatFileSize(file.size)} · {dateText(file.created_at)}</span><a className="admin-button secondary" href={`/api/admin/leads/${encodeURIComponent(lead.reference)}/customer-files/${file.id}`} download={file.name} rel="noreferrer">下载文件</a></li>)}</ul></section>}
+    <section className="admin-section"><h3>客户上传的图纸与照片</h3>{!lead.payload?.files?.length?<p className="admin-muted">本条询价未上传文件。实体样品需另外沟通寄送。</p>:<ul className="admin-file-list">{lead.payload.files.map((file,index)=><li key={`${file.name}-${index}`}><span>{file.name} · {formatFileSize(file.size)}</span><a className="admin-button secondary" href={adminApiPath(`/api/admin/leads/${encodeURIComponent(lead.reference)}/files/${index}`)} download={file.name} rel="noreferrer">下载文件</a></li>)}</ul>}</section>
+    {!!lead.customer?.files?.length&&<section className="admin-section"><h3>客户后续补充的文件</h3><ul className="admin-file-list">{lead.customer.files.map(file=><li key={file.id}><span>{file.name} · {formatFileSize(file.size)} · {dateText(file.created_at)}</span><a className="admin-button secondary" href={adminApiPath(`/api/admin/leads/${encodeURIComponent(lead.reference)}/customer-files/${file.id}`)} download={file.name} rel="noreferrer">下载文件</a></li>)}</ul></section>}
     <section className="admin-section"><h3>审核与跟进</h3><p className="admin-help">按观察事实判断。单套模具、2D 图纸 / 样品、免费邮箱、缺少预算或未选 WhatsApp 都不应自动降级。</p>
       <form onSubmit={event => { event.preventDefault(); onUpdate({ revision: lead.revision, review, note }); }} autoComplete="off">
         <fieldset className="admin-review-grid" disabled={busy || locked || requiresRefresh}><legend className="admin-sr-only">审核字段</legend>{Object.keys(reviewOptions).map(key => <OptionSelect key={key} name={key} value={review[key]} onChange={value => changeReview(key, value)} />)}<label className="admin-field"><span>负责人</span><input maxLength={120} value={review.owner || ''} onChange={event => changeReview('owner', event.target.value)} /></label><label className="admin-field"><span>下次跟进日期</span><input type="date" value={review.next_follow_up || ''} onChange={event => changeReview('next_follow_up', event.target.value)} /></label><label className="admin-field full"><span>本次跟进备注（选填）</span><textarea rows={4} maxLength={4000} value={note} onChange={event => setNote(event.target.value)} placeholder="记录客观核验、项目进展或客户请求" /></label></fieldset>
@@ -110,7 +111,7 @@ function LeadDetail({ lead, busy, locked, requiresRefresh, onReload, onUpdate, o
 }
 
 export function AdminAccessPanel({loading=false,onRetry}) {
-  return <section className="admin-auth-panel"><div className="admin-lock-symbol" aria-hidden="true">◎</div><h2>{loading ? '正在验证访问权限' : '需要授权访问'}</h2><p>{loading ? '验证完成后加载受保护的后台资料。' : '请先完成已配置的访问验证，再重新载入。本页不会使用示例记录替代接口结果。'}</p>{!loading && <><a className="admin-button" href="/admin/leads/">前往安全登录</a>{' '}<button className="admin-button secondary" type="button" onClick={onRetry}>重新验证并加载</button></>}</section>;
+  return <section className="admin-auth-panel"><div className="admin-lock-symbol" aria-hidden="true">◎</div><h2>{loading ? '正在验证访问权限' : '需要授权访问'}</h2><p>{loading ? '验证完成后加载受保护的后台资料。' : '请先完成已配置的访问验证，再重新载入。本页不会使用示例记录替代接口结果。'}</p>{!loading && <><a className="admin-button" href={adminPagePath('/admin/leads/')}>前往安全登录</a>{' '}<button className="admin-button secondary" type="button" onClick={onRetry}>重新验证并加载</button></>}</section>;
 }
 
 export function AdminApp() {
@@ -168,7 +169,7 @@ export function AdminApp() {
       if (!alive.current) return;
       setSession(nextSession); setCredentialExpired(false);
       await loadList({ ...defaultFilters(), ...draftFilters, page: 1 });
-      const linked=window.location.pathname.match(/^\/admin\/leads\/([^/]+)\/?$/)?.[1];
+      const linked=window.location.pathname.match(/^\/(?:admin|manage)\/leads\/([^/]+)\/?$/)?.[1];
       if(alive.current&&isReference(linked))await selectLead(linked);
     } catch (cause) { fail(cause); }
     finally { if (alive.current) setAuthLoading(false); }
@@ -184,7 +185,7 @@ export function AdminApp() {
       const result = await client.get(reference);
       if (alive.current && sequence === detailSequence.current) {
         setLead(result);
-        window.history.replaceState(null,'','/admin/leads/'+encodeURIComponent(reference)+'/');
+        window.history.replaceState(null,'',adminPagePath('/admin/leads/'+encodeURIComponent(reference)+'/'));
         if (window.matchMedia('(max-width:760px)').matches) requestAnimationFrame(() => detailPane.current?.scrollIntoView({ block: 'start', behavior: 'auto' }));
       }
     } catch (cause) { if (sequence === detailSequence.current) fail(cause); }

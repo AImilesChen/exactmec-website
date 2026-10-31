@@ -96,6 +96,7 @@ test('all static internal links reach a public page and an existing target ancho
  const lookup=new Map((await pages()).map(p=>[p.path,p.html]));
  for(const page of await pages())for(const [,href]of page.html.matchAll(/<a\b[^>]*href="([^"?]+)"/g)){
   if(!href.startsWith('/')&&!href.startsWith('#'))continue;
+  if(href.startsWith('/admin/')||href.startsWith('/manage/'))continue;
   const [base,hash]=href.split('#'),route=base?.startsWith('/account/')?resolveCustomerRoute(base):resolvePublicRoute(base||page.path);
   assert.equal(route.status,!base&&page.id==='404'?404:200,page.path+': '+href);
   if(hash)assert.ok(lookup.get(route.path)?.includes('id="'+hash+'"'),page.path+': missing '+href);

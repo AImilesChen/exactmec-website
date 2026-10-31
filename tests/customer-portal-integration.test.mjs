@@ -45,7 +45,7 @@ async function login(email = emailA) {
 before(async () => {
   mf = new Miniflare(convertV4MiniflareOptions({ modules: true, script: 'export default {fetch(){return new Response("synthetic-only")}}', compatibilityDate: '2026-10-01', d1Databases: { DB: 'customer-independent-integration' } }));
   DB = await mf.getD1Database('DB');
-  for (const filename of ['0001_inquiries.sql', '0006_customer_portal.sql', '0007_customer_files.sql']) {
+  for (const filename of ['0001_inquiries.sql', '0006_customer_portal.sql', '0007_customer_files.sql', '0008_customer_google_identities.sql']) {
     const sql = await fs.readFile(new URL('../migrations/' + filename, import.meta.url), 'utf8');
     await DB.batch(sql.split(';').map(value => value.trim()).filter(Boolean).map(value => DB.prepare(value)));
   }
@@ -301,7 +301,7 @@ test('actual Worker isolates customer routes and admin login from marketing and 
       const html = await response.text();
       const bootstrap = html.match(/<script type="application\/json" id="customer-config">([\s\S]*?)<\/script>/)?.[1];
       assert.ok(bootstrap, 'private HTML exposes only its actual availability, not fake auth');
-      assert.deepEqual(JSON.parse(bootstrap), { available: false });
+      assert.deepEqual(JSON.parse(bootstrap), { available: false, googleClientId: '' });
     }
   }
   const publicResponse = await worker.fetch(new Request('https://exactmec.com/'), configuration);

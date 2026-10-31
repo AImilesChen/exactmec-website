@@ -4,10 +4,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import { handleCustomer, customerPortalConfiguration } from '../backend/customer.mjs';
-import { CUSTOMER_COOKIE, CUSTOMER_LOCAL_COOKIE, customerAuthHash, customerEmailHash } from '../backend/customer-auth.mjs';
+import { CUSTOMER_COOKIE, CUSTOMER_LOCAL_COOKIE, customerAuthHash, customerEmailHash, customerGoogleAdminActor } from '../backend/customer-auth.mjs';
 import { handleBusiness } from '../backend/business.mjs';
 import { hmac } from '../backend/domain.mjs';
 import { buildInquiryPayload, initialValues } from '../src/inquiry/model.mjs';
+import worker from '../cloudflare/worker.mjs';
 
 const origin = 'http://127.0.0.1:4181';
 let mf; let db; let env; let count = 0; let requests = 0;
@@ -44,7 +45,7 @@ async function login(address, options = {}) {
 before(async () => {
   mf = new Miniflare(convertV4MiniflareOptions({ modules: true, script: 'export default {fetch(){return new Response("synthetic-only")}}', compatibilityDate: '2026-10-01', d1Databases: { DB: 'synthetic-customer-tests' } }));
   db = await mf.getD1Database('DB');
-  for (const file of ['0001_inquiries.sql', '0006_customer_portal.sql', '0007_customer_files.sql']) {
+  for (const file of ['0001_inquiries.sql', '0006_customer_portal.sql', '0007_customer_files.sql', '0008_customer_google_identities.sql']) {
     const migration = readFileSync(new URL('../migrations/' + file, import.meta.url), 'utf8');
     await db.batch(migration.split(';').map(sql => sql.trim()).filter(Boolean).map(sql => db.prepare(sql)));
   }
@@ -86,6 +87,50 @@ test('valid emails can sign in before an inquiry and see an empty account', asyn
   const list = await call('/inquiries', 'GET', undefined, { Cookie: auth.cookie });
   assert.equal(list.status, 200);
   assert.deepEqual((await list.json()).items, []);
+});
+
+test('Google sign-in grants management only to the confirmed Google account, while email codes and other users remain customers', async () => {
+  const googleEnv = { ...env, GOOGLE_CLIENT_ID: '468310030627-p3bp0m6vrk7r28m9v18ert436nrho8pr.apps.googleusercontent.com', GOOGLE_ADMIN_EMAIL: 'veryhappygou@gmail.com' };
+  const credential = 'synthetic-google-credential-' + 'x'.repeat(120);
+  const googleContext = address => ({ ...context, verifyGoogleIdToken: async () => ({ sub: address === 'veryhappygou@gmail.com' ? '123456789012345678901' : '987654321098765432109', email: address, email_verified: true }) });
+  const admin = await call('/auth/google', 'POST', { credential }, {}, { env: googleEnv, context: googleContext('veryhappygou@gmail.com') });
+  assert.equal(admin.status, 200, await admin.clone().text());
+  assert.equal((await admin.clone().json()).canManage, true);
+  const adminCookie = admin.headers.get('Set-Cookie').split(';')[0];
+  const config = customerPortalConfiguration(googleEnv, context);
+  assert.equal((await customerGoogleAdminActor(req('/manage/leads/', 'GET', undefined, { Cookie: adminCookie }), googleEnv, config))?.email, 'veryhappygou@gmail.com');
+  const customer = await call('/auth/google', 'POST', { credential }, {}, { env: googleEnv, context: googleContext('other@gmail.com') });
+  assert.equal(customer.status, 200);
+  assert.equal((await customer.clone().json()).canManage, false);
+  assert.equal(await customerGoogleAdminActor(req('/manage/leads/', 'GET', undefined, { Cookie: customer.headers.get('Set-Cookie').split(';')[0] }), googleEnv, config), null);
+  const emailCode = await login('veryhappygou@gmail.com', { env: googleEnv });
+  assert.equal(await customerGoogleAdminActor(req('/manage/leads/', 'GET', undefined, { Cookie: emailCode.cookie }), googleEnv, config), null);
+  const session = await call('/session', 'GET', undefined, { Cookie: adminCookie }, { env: googleEnv });
+  assert.equal((await session.json()).canManage, true);
+  const unsafeExternal = await call('/auth/google', 'POST', { credential }, {}, { env: googleEnv, context: googleContext('outside@example.com') });
+  assert.equal(unsafeExternal.status, 403);
+  const forged = await call('/auth/google', 'POST', { credential }, {}, { env: googleEnv, context: { ...context, verifyGoogleIdToken: async () => { throw Error('invalid'); } } });
+  assert.equal(forged.status, 401);
+});
+
+test('Google management page and API require the designated session without opening the Access-only admin path', async () => {
+  const production = { ...env, SITE_ORIGIN: 'https://exactmec.com', RELEASE: 'true', LEGAL_APPROVED: 'true', CUSTOMER_PORTAL_ENABLED: 'true', CUSTOMER_EMAIL_ENABLED: 'true', CUSTOMER_EMAIL_FROM: 'sales@exactmec.com', CUSTOMER_EMAIL: { send: async () => ({ messageId: 'synthetic' }) }, GOOGLE_CLIENT_ID: '468310030627-p3bp0m6vrk7r28m9v18ert436nrho8pr.apps.googleusercontent.com', GOOGLE_ADMIN_EMAIL: 'veryhappygou@gmail.com', ADMIN_CSRF_SECRET: 'synthetic-admin-csrf-secret-minimum-32-characters', ASSETS: { fetch: async () => new Response('<html>Admin shell</html>', { headers: { 'Content-Type': 'text/html' } }) } };
+  const raw = 'x'.repeat(43), cookie = `__Host-exactmec_customer=${raw}`;
+  const subjectHash = await customerAuthHash(production, 'google-subject', '123456789012345678901');
+  const emailHash = await customerEmailHash(production, 'veryhappygou@gmail.com');
+  const tokenHash = await customerAuthHash(production, 'customer-session', `${production.SITE_ORIGIN}:${raw}`);
+  const now = Date.now();
+  await db.prepare('INSERT OR IGNORE INTO customer_google_identities(subject_hash,email_hash,created_at,last_used_at) VALUES(?,?,?,?)').bind(subjectHash,emailHash,now,now).run();
+  await db.prepare("INSERT INTO customer_sessions(token_hash,email_hash,auth_provider,google_subject_hash,created_at,expires_at) VALUES(?,?,'google',?,?,?)").bind(tokenHash,emailHash,subjectHash,now,now+600000).run();
+  const site = 'https://exactmec.com';
+  const read = (path, headers = {}) => worker.fetch(new Request(site+path,{headers}),production);
+  assert.equal((await read('/manage/leads/')).status,403);
+  assert.equal((await read('/api/manage/session')).status,403);
+  assert.equal((await read('/manage/leads/',{Cookie:cookie})).status,200);
+  const session = await read('/api/manage/session',{Cookie:cookie});
+  assert.equal(session.status,200,await session.clone().text());
+  assert.equal((await session.json()).user.email,'veryhappygou@gmail.com');
+  assert.equal((await read('/admin/leads/',{Cookie:cookie})).status,404);
 });
 
 test('verification rotates a random hashed session with isolated cookie and signed session-bound CSRF', async () => {

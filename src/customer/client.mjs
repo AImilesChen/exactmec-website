@@ -1,6 +1,8 @@
 const messages = Object.freeze({
   invalid: 'Please check the information and try again.',
   invalid_code: 'That code could not be verified. Check the code or request a new one.',
+  invalid_credential: 'Google sign-in could not be verified. Please try again or use an email code.',
+  email_code_required: 'Please use an email code for this address to access your inquiries.',
   expired: 'Your session has ended. Sign in again to view your inquiries.',
   forbidden: 'This action is not available. Refresh your session and try again.',
   csrf: 'Your session needs to be refreshed. Sign in again before making changes.',
@@ -77,7 +79,7 @@ export function createCustomerClient({ fetchImpl = globalThis.fetch?.bind(global
       if (!response.ok) {
         let code = '';
         if (response.headers.get('content-type')?.includes('application/json')) try { const data = await response.json(); code = typeof data?.error === 'string' ? data.error : ''; } catch { /* Keep fixed safe messages. */ }
-        const kind = response.status === 503 ? 'unavailable' : response.status === 429 ? 'rate_limit' : response.status === 401 ? 'expired' : response.status === 403 ? (code === 'csrf' || code === 'invalid_csrf' || code === 'csrf_required' ? 'csrf' : 'forbidden') : response.status === 404 ? 'not_found' : response.status === 409 ? (code === 'withdrawn' ? 'withdrawn' : code === 'supplement_limit' ? 'supplement_limit' : code === 'file_limit' ? 'file_limit' : 'conflict') : response.status === 400 || response.status === 422 ? (code === 'invalid_code' ? 'invalid_code' : 'invalid') : 'failed';
+        const kind = response.status === 503 ? 'unavailable' : response.status === 429 ? 'rate_limit' : response.status === 401 ? (code === 'invalid_credential' ? 'invalid_credential' : 'expired') : response.status === 403 ? (code === 'email_code_required' ? 'email_code_required' : code === 'csrf' || code === 'invalid_csrf' || code === 'csrf_required' ? 'csrf' : 'forbidden') : response.status === 404 ? 'not_found' : response.status === 409 ? (code === 'withdrawn' ? 'withdrawn' : code === 'supplement_limit' ? 'supplement_limit' : code === 'file_limit' ? 'file_limit' : 'conflict') : response.status === 400 || response.status === 422 ? (code === 'invalid_code' ? 'invalid_code' : code === 'invalid_credential' ? 'invalid_credential' : 'invalid') : 'failed';
         if (['expired','csrf'].includes(kind)) csrfToken = null;
         const seconds = Number(response.headers.get('Retry-After'));
         throw new CustomerApiError(kind, response.status, kind === 'rate_limit' ? Number.isFinite(seconds) && seconds > 0 ? Math.min(3600, Math.ceil(seconds)) : 60 : 0);
@@ -94,10 +96,10 @@ export function createCustomerClient({ fetchImpl = globalThis.fetch?.bind(global
   }
   async function write(operation) { if (writing) throw new CustomerApiError('busy'); writing = true; try { return await operation(); } finally { writing = false; } }
   function sessionResult(data) {
-    if (data.authenticated !== true || typeof data.csrfToken !== 'string' || !data.csrfToken || data.csrfToken.length > 2048 || !validDate(data.expiresAt) || Date.parse(data.expiresAt) <= Date.now()) throw new CustomerApiError('invalid_response');
+    if (data.authenticated !== true || typeof data.csrfToken !== 'string' || !data.csrfToken || data.csrfToken.length > 2048 || !validDate(data.expiresAt) || Date.parse(data.expiresAt) <= Date.now() || data.canManage !== undefined && typeof data.canManage !== 'boolean') throw new CustomerApiError('invalid_response');
     if (destroyed) throw new CustomerApiError('unavailable');
     csrfToken = data.csrfToken;
-    return { authenticated: true, expiresAt: data.expiresAt };
+    return { authenticated: true, expiresAt: data.expiresAt, canManage: data.canManage === true };
   }
   const inquiryResult = (input, reference) => { const result = customerInquiry(input); if (result.reference !== reference) throw new CustomerApiError('invalid_response'); return result; };
   const referencePath = reference => { if (!isInquiryReference(reference)) invalid(); return `/api/customer/inquiries/${reference}`; };
@@ -121,6 +123,15 @@ export function createCustomerClient({ fetchImpl = globalThis.fetch?.bind(global
       if (!challenge || typeof code !== 'string' || !/^\d{6}$/.test(code.trim())) invalid();
       const generation = challengeGeneration, activeChallenge = challenge;
       return write(async () => { const { status, data } = await request('/api/customer/auth/verify-code', { method: 'POST', anonymous: true, body: { challenge: activeChallenge, code: code.trim() } }); if (status !== 200) throw new CustomerApiError('invalid_response'); if (generation !== challengeGeneration) throw new CustomerApiError('invalid_code'); const result = sessionResult(data); challenge = null; return result; });
+    },
+    async googleSignIn(credential) {
+      if (typeof credential !== 'string' || credential.length < 100 || credential.length > 8192) invalid();
+      return write(async () => {
+        const { status, data } = await request('/api/customer/auth/google', { method: 'POST', anonymous: true, body: { credential } });
+        if (status !== 200) throw new CustomerApiError('invalid_response');
+        challenge = null; challengeGeneration++;
+        return sessionResult(data);
+      });
     },
     resetChallenge() { challenge = null; challengeGeneration++; },
     forgetSession() { csrfToken = null; challenge = null; challengeGeneration++; },

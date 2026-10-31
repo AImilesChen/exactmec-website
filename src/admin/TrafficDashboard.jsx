@@ -1,5 +1,6 @@
 import React,{useEffect,useMemo,useState} from 'react';
 import {isMarketingRoute} from '../analytics/index.mjs';
+import {adminApiPath} from './api-path.mjs';
 
 const format=n=>new Intl.NumberFormat('zh-CN').format(n||0);
 const countryNames=new Intl.DisplayNames(['zh-CN'],{type:'region'});
@@ -10,7 +11,7 @@ const dayOffset=n=>new Date(Date.now()-n*86400000).toISOString().slice(0,10);
 export function TrafficDashboard(){
  const [report,setReport]=useState(null),[error,setError]=useState(false),[period,setPeriod]=useState(7),[refreshed,setRefreshed]=useState(0);
  useEffect(()=>{const controller=new AbortController();setError(false);
-  fetch('/api/admin/metrics',{headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},credentials:'same-origin',cache:'no-store',redirect:'error',referrerPolicy:'no-referrer',signal:controller.signal})
+  fetch(adminApiPath('/api/admin/metrics'),{headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},credentials:'same-origin',cache:'no-store',redirect:'error',referrerPolicy:'no-referrer',signal:controller.signal})
    .then(response=>{if(!response.ok)throw Error();return response.json();}).then(setReport).catch(cause=>{if(cause.name!=='AbortError')setError(true);});
   return()=>controller.abort();
  },[refreshed]);

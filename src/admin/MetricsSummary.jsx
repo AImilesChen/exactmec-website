@@ -1,7 +1,8 @@
 import React,{useEffect,useState} from 'react';
+import {adminApiPath} from './api-path.mjs';
 export function MetricsSummary(){
  const [data,setData]=useState(null),[error,setError]=useState(false);
- useEffect(()=>{const controller=new AbortController();fetch('/api/admin/metrics',{headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},credentials:'same-origin',cache:'no-store',redirect:'error',referrerPolicy:'no-referrer',signal:controller.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(setData).catch(e=>{if(e.name!=='AbortError')setError(true);});return()=>controller.abort();},[]);
+ useEffect(()=>{const controller=new AbortController();fetch(adminApiPath('/api/admin/metrics'),{headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},credentials:'same-origin',cache:'no-store',redirect:'error',referrerPolicy:'no-referrer',signal:controller.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(setData).catch(e=>{if(e.name!=='AbortError')setError(true);});return()=>controller.abort();},[]);
  if(error)return <p role="status">访问统计暂不可用，不影响询盘管理。</p>;
  if(!data)return <p role="status">正在读取统计…</p>;
  const totals=new Map();for(const row of data.items||[])totals.set(row.event,(totals.get(row.event)||0)+row.count);
