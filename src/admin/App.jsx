@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AdminApiError, createAdminClient } from './client.mjs';
 import { budgetOptions, canContact, contactDestination, dateText, defaultFilters, display, drawingOptions, emptyReview, isReference, labels, moldTypeOptions, reviewOptions, timingOptions } from './model.mjs';
 import { ContentWorkspace } from './ContentWorkspace.jsx';
-import { MetricsSummary } from './MetricsSummary.jsx';
+import { TrafficDashboard } from './TrafficDashboard.jsx';
 import {formatFileSize} from '../inquiry/file-size.mjs';
 
 const fieldLabels = { status: '跟进状态', authenticity: '信息核验', fit: '业务匹配', readiness: '资料准备', qualification: '审核结论', priority: '跟进优先级' };
@@ -120,7 +120,7 @@ export function AdminApp() {
   const listSequence = useRef(0);
   const detailPane = useRef(null);
   const [session, setSession] = useState(null);
-  const [view, setView] = useState('leads');
+  const [view, setView] = useState(() => /^\/admin\/leads\/[^/]+\/?$/.test(globalThis.location?.pathname||'') ? 'leads' : 'traffic');
   const [authLoading, setAuthLoading] = useState(true);
   const [credentialExpired, setCredentialExpired] = useState(false);
   const [draftFilters, setDraftFilters] = useState(defaultFilters);
@@ -177,6 +177,7 @@ export function AdminApp() {
   useEffect(() => { authenticate(); return () => { alive.current = false; client.destroy(); }; }, []);
 
   async function selectLead(reference) {
+    setView('leads');
     const sequence = ++detailSequence.current;
     setDetailLoading(true); setLead(null); setRequiresRefresh(false); setError(null); setSuccess('');
     try {
@@ -251,13 +252,12 @@ export function AdminApp() {
   const totalPages = Math.max(1, Math.ceil(list.total / list.pageSize));
 
   return <div className="admin-app"><a className="admin-skip-link" href="#admin-main">跳转到管理内容</a><header className="admin-header"><a className="admin-brand" href="/" aria-label="返回 ExactMec 网站"><img src="/brand/horizontal-web.webp?v=2" alt="ExactMec" /></a><span className="admin-header-divider" /><span className="admin-workspace-name">运营工作台</span><div className="admin-account">{session && <span>{session.user.email}</span>}<button type="button" className="admin-button secondary small" onClick={authenticate} disabled={authLoading || busy}>{authLoading ? '验证中…' : '重新验证'}</button></div></header>
-    <nav className="admin-workspace-tabs" aria-label="后台功能"><button type="button" aria-current={view === 'leads' ? 'page' : undefined} disabled={busy || !session} onClick={() => { setView('leads'); setError(null); setSuccess(''); }}>询价管理</button><button type="button" aria-current={view === 'content' ? 'page' : undefined} disabled={busy || !session} onClick={() => { setView('content'); setError(null); setSuccess(''); }}>内容与发布</button></nav>
-    <main id="admin-main" className="admin-main"><div className="admin-page-heading"><div><p className="admin-eyebrow">EXACTMEC · {view === 'leads' ? 'INQUIRIES' : 'CONTENT & PUBLISHING'}</p><h1>{view === 'leads' ? '询盘与项目跟进' : '网站内容与发布'}</h1><p>{view === 'leads' ? '审核客户资料，记录项目进度，按许可安排联系。' : '编辑页面与素材，预览保存的草稿，确认后发布或撤回。'}</p></div>{session && view === 'leads' && <button type="button" className="admin-button secondary" disabled={busy || credentialExpired || listLoading} onClick={() => setDialog({ type: 'export' })}>导出当前结果</button>}</div>
+    <nav className="admin-workspace-tabs" aria-label="后台功能"><button type="button" aria-current={view === 'traffic' ? 'page' : undefined} disabled={busy || !session} onClick={() => { setView('traffic'); setError(null); setSuccess(''); }}>访问概览</button><button type="button" aria-current={view === 'leads' ? 'page' : undefined} disabled={busy || !session} onClick={() => { setView('leads'); setError(null); setSuccess(''); }}>询价管理</button><button type="button" aria-current={view === 'content' ? 'page' : undefined} disabled={busy || !session} onClick={() => { setView('content'); setError(null); setSuccess(''); }}>内容与发布</button></nav>
+    <main id="admin-main" className="admin-main"><div className="admin-page-heading"><div><p className="admin-eyebrow">EXACTMEC · {view === 'leads' ? 'INQUIRIES' : view === 'traffic' ? 'VISITORS & INQUIRIES' : 'CONTENT & PUBLISHING'}</p><h1>{view === 'leads' ? '询盘与项目跟进' : view === 'traffic' ? '访问与询价概览' : '网站内容与发布'}</h1><p>{view === 'leads' ? '审核客户资料，记录项目进度，按许可安排联系。' : view === 'traffic' ? '查看每日访问、地区分布和已保存的询价数量。' : '编辑页面与素材，预览保存的草稿，确认后发布或撤回。'}</p></div>{session && view === 'leads' && <button type="button" className="admin-button secondary" disabled={busy || credentialExpired || listLoading} onClick={() => setDialog({ type: 'export' })}>导出当前结果</button>}</div>
       {session?.localSynthetic === true && <Notice>本机联调环境 · 仅使用合成测试记录。此处的会话和操作不代表生产访问权限或真实通知服务已启用。</Notice>}
       {error && <Notice error>{error.message}{credentialExpired && ' 使用页面右上角的“重新验证”刷新凭据。'}</Notice>}
       {success && view === 'leads' && <Notice>{success}</Notice>}
-      {session && view === 'leads' && <MetricsSummary/>}
-      {!session ? <AdminAccessPanel loading={authLoading} onRetry={authenticate}/> : view === 'content' ? <ContentWorkspace client={client} locked={credentialExpired} onAccessError={fail} onBusyChange={setBusy} /> : <>
+      {!session ? <AdminAccessPanel loading={authLoading} onRetry={authenticate}/> : view === 'traffic' ? <TrafficDashboard/> : view === 'content' ? <ContentWorkspace client={client} locked={credentialExpired} onAccessError={fail} onBusyChange={setBusy} /> : <>
         <form className="admin-filter-panel" onSubmit={event => { event.preventDefault(); loadList({ ...draftFilters, page: 1 }); }} autoComplete="off"><div className="admin-search-row"><label className="admin-field admin-search"><span>搜索询盘</span><input type="search" placeholder="公司、联系人、邮箱或项目关键词" maxLength={120} value={draftFilters.search} onChange={event => updateFilter('search', event.target.value)} disabled={credentialExpired} /></label><OptionSelect name="status" value={draftFilters.status} all onChange={value => updateFilter('status', value)} disabled={credentialExpired} /><button className="admin-button" type="submit" disabled={listLoading || credentialExpired || busy}>查询</button><button className="admin-text-button" type="button" disabled={listLoading || credentialExpired || busy} onClick={() => { const fresh = defaultFilters(); setDraftFilters(fresh); loadList(fresh); }}>重置</button></div>
           <details className="admin-filter-more"><summary>更多筛选</summary><div className="admin-filter-grid">
             {['authenticity', 'fit', 'readiness', 'qualification', 'priority'].map(key => <OptionSelect key={key} name={key} value={draftFilters[key]} all onChange={value => updateFilter(key, value)} disabled={credentialExpired} />)}

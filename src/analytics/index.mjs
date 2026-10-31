@@ -18,6 +18,8 @@ const statuses = new Set(ANALYTICS_STATUSES);
 const siteRoutes = new Map(manifest.routes.filter(route => route.include_in_p0_plan).flatMap(({ path }) => [
   [path, path], [path === '/' ? '/' : path.endsWith('/') ? path.slice(0, -1) : path + '/', path],
 ]));
+const marketingRoutes = new Set(manifest.routes.filter(route => route.include_in_p0_plan && !['legal','system'].includes(route.kind) && route.id !== 'rfq').map(route => route.path));
+export const isMarketingRoute = route => marketingRoutes.has(route);
 
 /** Accept only registered site paths. Never forward an origin, query, hash or unknown path. */
 export function sanitizeAnalyticsRoute(value) {

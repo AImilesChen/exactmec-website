@@ -12,7 +12,7 @@ before(async()=>{
  await writeFile(fixture,result.outputFiles[0].text);({applyMeasurementChoice,MeasurementPanel,MeasurementChoices}=await import(fixture.href));
 });
 after(async()=>{await unlink(fixture).catch(()=>{});});
-const key='exactmec_measurement_choice_v3';
+const key='exactmec_measurement_choice_v4';
 function memoryStorage(log=[]){const values=new Map();return{getItem:key=>values.get(key)??null,setItem:(key,value)=>{log.push({action:'save',key,value});values.set(key,value);},removeItem:key=>values.delete(key)};}
 
 test('rejection persists the v3 refusal before the controller may stop and reload',()=>{

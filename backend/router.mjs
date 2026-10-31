@@ -60,6 +60,7 @@ export function createApiHandler({authenticate=authenticateAccess,localSynthetic
    if(!['GET','POST','PATCH','DELETE'].includes(request.method))return secureApi(json({error:'method_not_allowed'},405,{Allow:'GET, POST, PATCH, DELETE'}));
    const admin=path.startsWith('/api/admin/');let actor=null;
    if(admin){actor=await authenticate(request,env);if(!actor)return secureApi(json({error:'unauthorized'},403));}
+   const requestGeo=request.cf ? {country:request.cf.country,city:request.cf.city} : null;
    if(request.method!=='GET'){
     if(!writeOriginAllowed(request,env,{localSynthetic}))return secureApi(json({error:'origin_denied'},403));
     if(admin&&!await verifyCsrf(request.headers.get('X-CSRF-Token'),actor,env))return secureApi(json({error:'csrf_required'},403));
@@ -80,7 +81,7 @@ export function createApiHandler({authenticate=authenticateAccess,localSynthetic
     return secureApi(response||json({error:'not_found'},404),{customerCookie:true});
    }
    const notify=reference=>deliverNotification(env,reference);
-   const context={actor,localSynthetic,notify,waitUntil:execution.waitUntil?.bind(execution)};
+   const context={actor,localSynthetic,notify,geo:requestGeo,waitUntil:execution.waitUntil?.bind(execution)};
    const response=path==='/api/events'||path==='/api/admin/metrics'?await handleMetrics(request,env,context):path.startsWith('/api/admin/content')?await handleContent(request,env,context):await handleBusiness(request,env,context);
    return secureApi(response||json({error:'not_found'},404));
   }catch{return secureApi(json({error:'service_unavailable'},503));}

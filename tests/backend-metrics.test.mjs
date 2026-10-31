@@ -33,3 +33,15 @@ test('production metrics require release, configured anti-abuse secret and limit
  await DB.prepare('UPDATE rate_buckets SET attempts=120').run();
  assert.equal((await handleMetrics(request(),env)).status,429);
 });
+test('consented page views aggregate approximate geography without storing identifiers',async()=>{
+ const env={DB,METRICS_ENABLED:true};
+ assert.equal((await handleMetrics(req(event),env,{localSynthetic:true,geo:{country:'US',city:'New York'}})).status,204);
+ assert.equal((await handleMetrics(req(event),env,{localSynthetic:true,geo:{country:'US',city:'New York'}})).status,204);
+ const rows=(await DB.prepare("SELECT placement AS country,status AS city,count AS views FROM metric_counts WHERE event='geo_pageview'").all()).results;
+ assert.deepEqual(rows,[{country:'US',city:'New York',views:2}]);
+ assert.equal((await handleMetrics(req({...event,payload:{route:'/request-a-quote/'}}),env,{localSynthetic:true,geo:{country:'GB',city:'London'}})).status,204);
+ assert.equal((await DB.prepare("SELECT count(*) AS n FROM metric_counts WHERE event='geo_pageview'").first()).n,1);
+ const report=await(await handleMetrics(new Request('https://exactmec.com/api/admin/metrics'),env,{actor:{id:'synthetic'}})).json();
+ assert.equal(report.locations[0].views,2);
+ assert.deepEqual(report.inquiries,[]);
+});

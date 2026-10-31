@@ -11,7 +11,7 @@ function fixture({href='https://exactmec.com/',referrer=''}={}){
  return {api,scripts,events,window,tag:()=>scripts.find(s=>s.id==='exactmec-ahrefs'),load(){window.AhrefsAnalytics={sendEvent:(...args)=>events.push(args)};this.tag()?.onload();}};
 }
 test('new Ahrefs service requires the v3 notice instead of silently reusing the three-provider allowance',()=>{
- assert.equal(MEASUREMENT_CHOICE_KEY,'exactmec_measurement_choice_v3');
+ assert.equal(MEASUREMENT_CHOICE_KEY,'exactmec_measurement_choice_v4');
  assert.equal(readSavedMeasurementChoice({getItem:key=>key==='exactmec_measurement_choice_v2'?'allow':null}),null);
  const f=fixture();assert.equal(f.tag(),undefined);f.api.setConsent(false);assert.equal(f.tag(),undefined);
 });

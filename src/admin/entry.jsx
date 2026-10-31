@@ -5,6 +5,7 @@ import '@fontsource/manrope/latin-700.css';
 import '@fontsource/ibm-plex-sans/latin-400.css';
 import '@fontsource/ibm-plex-sans/latin-500.css';
 import './styles.css';
+import './traffic.css';
 import { AdminApp } from './App.jsx';
 
 createRoot(document.getElementById('admin-root')).render(<AdminApp />);

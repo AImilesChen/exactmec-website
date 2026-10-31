@@ -1,4 +1,4 @@
-export const MEASUREMENT_CHOICE_KEY='exactmec_measurement_choice_v3';
+export const MEASUREMENT_CHOICE_KEY='exactmec_measurement_choice_v4';
 export const MEASUREMENT_WITHDRAWAL_HASH='#measurement-declined';
 const probe='exactmec_measurement_storage_check';
 export function browserStorage(){try{return globalThis.localStorage;}catch{return null;}}
