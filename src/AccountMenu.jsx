@@ -29,9 +29,8 @@ export function AccountMenu() {
   return <div className="header-account" ref={root} onKeyDown={event => {
     if (event.key === 'Escape' && open) { event.stopPropagation(); setOpen(false); trigger.current?.focus(); }
   }}>
-    <button ref={trigger} type="button" className="header-account-trigger" aria-label="Personal center" aria-expanded={open} aria-controls="header-account-menu" onClick={() => setOpen(value => !value)}>
-      <UserCircle size={21} aria-hidden="true"/><span>My Account</span><CaretDown size={13} aria-hidden="true"/>
-    </button>
+    <a className="header-account-link" href="/account/login/"><UserCircle size={21} aria-hidden="true"/>My Account</a>
+    <button ref={trigger} type="button" className="header-account-trigger" aria-label="Show account menu" aria-expanded={open} aria-controls="header-account-menu" onClick={() => setOpen(value => !value)}><CaretDown size={13} aria-hidden="true"/></button>
     {open && <nav id="header-account-menu" className="header-account-menu" aria-label="Personal center">
       <a href="/account/login/" onClick={() => setOpen(false)}><UserCircle size={19} aria-hidden="true"/>My inquiries</a>
       {canManage && <a href="/manage/leads/" onClick={() => setOpen(false)}><SquaresFour size={19} aria-hidden="true"/>Management</a>}
