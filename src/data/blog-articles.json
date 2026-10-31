@@ -5,14 +5,14 @@
     "phase": "P0",
     "kind": "article",
     "title": "Anatomy of an Aluminum Die Casting Mold | EXACTMEC Blog",
-    "description": "Explore the cover half, ejector half, cavity, runners, gates, vents, cooling channels and moving cores in an aluminum die casting mold.",
+    "description": "Understand the cover and ejector halves, metal and air paths, temperature control and part release in an aluminum die casting mold, with a labeled system diagram.",
     "eyebrow": "MOLD FUNDAMENTALS",
     "category": "Mold fundamentals",
     "h1": "Anatomy of an Aluminum Die Casting Mold",
-    "intro": "What is inside the steel tool that shapes an aluminum casting? Start with the two die halves, then follow the metal and the finished part through the mold.",
+    "intro": "What does each part of the steel tool do? Follow the casting from the closed die through filling, heat control and release, then review an illustrative motor housing.",
     "takeaway": "A mold is a system: cavity shape, metal entry, air escape, heat removal and part release must work together.",
     "diagram": "anatomy",
-    "readTime": 5,
+    "readTime": 9,
     "publishedAt": "2026-10-31",
     "sections": [
       {
@@ -49,7 +49,7 @@
         ]
       }
     ],
-    "sources": [{"label":"North American Die Casting Association — FAQ: die design and construction","url":"https://www.diecasting.org/Web/Die_Casting/FAQ/Web/About/web/Directories/Web/Resources/Directories.aspx"}],
+    "sources": [{"label":"NADCA — Die Design and Construction FAQ","url":"https://www.diecasting.org/faq/"},{"label":"NADCA — Parting Line","url":"https://www.diecastingdesign.org/parting-line"},{"label":"NADCA — Draft","url":"https://www.diecastingdesign.org/draft"},{"label":"NADCA — Overflow Design Case","url":"https://www.diecastingdesign.org/studies/case4/HS17.htm"},{"label":"NADCA — Gating and Process Planning Series","url":"https://www.diecasting.org/web/news/web/news___announcements/determine_optimally_sized_gates_while_taking_into_consideration_pq2_analysis.aspx"}],
     "related_links": [{"label":"Mold design review","href":"/mold-design-review/"}]
   },
   {
@@ -111,14 +111,14 @@
     "phase": "P0",
     "kind": "article",
     "title": "Gates, Vents and Cooling in Aluminum Die Casting Molds | EXACTMEC Blog",
-    "description": "Learn how gates, vents and cooling channels work together in an aluminum die casting mold and what trial samples can reveal about the design.",
+    "description": "Trace metal entry, air escape and heat removal through an aluminum die casting mold, with an illustrative housing, trial-sample checks and common diagnostic mistakes.",
     "eyebrow": "MELT FLOW & COOLING",
     "category": "Melt flow & cooling",
     "h1": "Gates, Vents and Cooling: Three Connected Mold Systems",
-    "intro": "Metal must enter, air must leave and heat must be removed. Those three paths help explain many of the choices seen in a die casting mold layout.",
+    "intro": "Follow metal in, air out and heat away from a mold. An illustrative lighting housing shows why gates, vents and cooling must be evaluated together.",
     "takeaway": "Gating, venting and cooling are connected design decisions; evaluating one without the others can miss a filling or quality problem.",
     "diagram": "flow",
-    "readTime": 6,
+    "readTime": 9,
     "publishedAt": "2026-10-31",
     "sections": [
       {
@@ -154,7 +154,7 @@
         ]
       }
     ],
-    "sources": [{"label":"North American Die Casting Association — FAQ: metal flow, venting and cooling","url":"https://www.diecasting.org/Web/Die_Casting/FAQ/Web/About/web/Directories/Web/Resources/Directories.aspx"},{"label":"North American Die Casting Association — PQ² and Gating Webinar Series","url":"https://www.diecasting.org/web/News___Announcements/PQ_Gating_Webinar_Series.aspx"}],
+    "sources": [{"label":"NADCA — Die Design FAQ","url":"https://www.diecasting.org/faq/"},{"label":"NADCA — Overflow Design Case","url":"https://www.diecastingdesign.org/studies/case4/HS17.htm"},{"label":"NADCA — Gating and Process Planning Series","url":"https://www.diecasting.org/web/news/web/news___announcements/determine_optimally_sized_gates_while_taking_into_consideration_pq2_analysis.aspx"}],
     "related_links": [{"label":"Trial and sample approval","href":"/quality-control/"}]
   }
 ]

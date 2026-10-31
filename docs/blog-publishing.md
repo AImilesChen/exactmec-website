@@ -12,4 +12,4 @@ The blog covers aluminum die casting mold engineering. It should answer a techni
 
 The current admin content editor can revise and withdraw registered articles. Creating a new URL still requires adding the article source and deploying a build; the admin editor does not create new routes.
 
-The deep sample at `/blog/parting-line-draft-undercuts/` is a special long-form article. Its body is maintained in `src/data/blog-parting-longform.md` and rendered by `src/BlogLongform.jsx`; the blog JSON supplies its listing, metadata and sources. The admin editor can withdraw the page, but body edits in the editor do not change this long-form article. Edit the Markdown and deploy a new build for body changes.
+The three launch articles are long-form articles. Their bodies are maintained in `src/data/blog-anatomy-longform.md`, `src/data/blog-parting-longform.md` and `src/data/blog-flow-longform.md`, and rendered by `src/BlogLongform.jsx`; the blog JSON supplies listing, metadata and sources. The admin editor can withdraw these pages, but body edits in the editor do not change their long-form text. Edit the Markdown and deploy a new build for body changes.
