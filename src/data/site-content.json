@@ -3673,15 +3673,15 @@
     "path": "/blog/parting-line-draft-undercuts/",
     "phase": "P0",
     "kind": "article",
-    "title": "Parting Lines, Draft and Undercuts in Die Casting | EXACTMEC Blog",
-    "description": "Understand how parting lines, draft and undercuts affect aluminum die casting mold layout and why these features deserve attention during design review.",
+    "title": "Parting Lines, Draft and Undercuts in Aluminum Die Casting | EXACTMEC",
+    "description": "A practical guide to parting lines, draft and undercuts in aluminum die casting molds, with a motor housing example and a design approval checklist.",
     "eyebrow": "PART DESIGN",
     "category": "Part design",
-    "h1": "Parting Lines, Draft and Undercuts: Why They Matter",
-    "intro": "Three small-looking design choices can change how a casting leaves its mold. Here is how to recognize them on a product drawing or 3D model.",
+    "h1": "Parting Lines, Draft and Undercuts in Aluminum Die Casting",
+    "intro": "How does a casting leave its mold? Follow the opening direction through a motor housing example to review the parting line, draft and trapped features before tooling approval.",
     "takeaway": "A feature that looks simple on the finished part may require a different opening direction, a moving core or a change to the parting surface.",
     "diagram": "parting",
-    "readTime": 5,
+    "readTime": 12,
     "publishedAt": "2026-10-31",
     "sections": [
       {
@@ -3724,8 +3724,24 @@
     ],
     "sources": [
       {
-        "label": "North American Die Casting Association — FAQ: part design practices",
-        "url": "https://www.diecasting.org/Web/Die_Casting/FAQ/Web/About/web/Directories/Web/Resources/Directories.aspx"
+        "label": "NADCA — Parting Line",
+        "url": "https://www.diecastingdesign.org/parting-line"
+      },
+      {
+        "label": "NADCA — Draft",
+        "url": "https://www.diecastingdesign.org/draft"
+      },
+      {
+        "label": "NADCA — Holes and Windows",
+        "url": "https://www.diecastingdesign.org/holes-windows"
+      },
+      {
+        "label": "NADCA — CAD Feature Order",
+        "url": "https://www.diecastingdesign.org/cad"
+      },
+      {
+        "label": "NADCA — Die Design and Construction FAQ",
+        "url": "https://www.diecasting.org/faq/"
       }
     ],
     "related_links": [
